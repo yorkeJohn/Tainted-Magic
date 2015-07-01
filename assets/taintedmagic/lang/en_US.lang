@@ -1,0 +1,269 @@
+#=========MISC=========================
+
+death.attack.eldritch=%1$s was overtaken by The Eldritch
+death.attack.eldritch.player=%1$s was overtaken by %2$s using dark matter.
+
+itemGroup.TaintedMagic=Tainted Magic
+
+text.1=§5You are suddenly filled with complete and utter clarity...
+
+text.particles.1=§3[Tainted Magic] §7Particles enabled for §9Boots of the Voidwalker
+text.particles.2=§3[Tainted Magic] §7Particles disabled for §9Boots of the Voidwalker
+
+key.categories.taintedmagic=Tainted Magic
+key.armor=Toggle Armor Particles
+
+text.voidtouched=Voidtouched
+
+text.boots.1=From the time of creation, when there was no light.
+text.boots.2=You wander the void, darker than night.
+
+text.shard=It echos with ancient lore...
+
+text.mode=Mode
+text.efficiency=Efficiency
+
+text.disassembler.normal=normal
+text.disassembler.fast=fast
+text.disassembler.slow=slow
+text.disassembler.off=off
+text.modeToggle=Mode toggled to
+
+#=========FOCAL UPGRADES==============
+
+focus.upgrade.tainturgist.name=Tainturgist
+focus.upgrade.tainturgist.text=This upgrade will stop the bubbles from infecting you with Flux Flu.
+
+focus.upgrade.corrosive.name=Corrosive
+focus.upgrade.corrosive.text=This upgrade will cause the focus to inflict a Wither effect upon contact.
+
+focus.upgrade.sanity.name=Sanity
+focus.upgrade.sanity.text=This upgrade will stop the orbs from inflicting warp upon you.
+
+#=========BLOCK NAMES==================
+
+tile.OreShadow.name=Shadow Ore
+tile.WarpWood.name=Warpwood
+tile.WarpSap.name=Warpwood Sapling
+tile.WarpLeaves.name=Warped Leaves
+tile.DenseWarpwood.name=Dense Warpwood
+tile.WarpSapAwakened.name=Awakened Warpwood Sapling
+
+#=========ITEM NAMES===================
+
+item.EldritchShard.name=Shard of Creation
+item.VoidEssence.name=Void Essence
+item.BootsVoidwalker.name=Boots of the Voidwalker
+item.WarpedGoggles.name=Warped Goggles of Revealing
+item.WarpedPraetorArmorHelm.name=Warped Praetor Helm
+item.WarpedPraetorArmorChest.name=Warped Praetor Chestplate
+item.WarpedPraetorArmorLegs.name=Warped Praetor Greaves
+item.ShadowGem.name=Shadow Gem
+item.CrimsonFabric.name=Crimson Fabric
+item.HelmetVoidFortress.name=Void Fortress Helm
+item.ChestplateVoidFortress.name=Void Fortress Cuirass
+item.LeggingsVoidFortress.name=Void Fortress Thigh Guards
+item.CrimsonPlating.name=Crimson Plating
+item.ShadowMetal.name=Shadowmetal
+item.HardenedDiamond.name=Hardened Diamond
+item.HardenedShadowMetal.name=Hardened Shadowmetal
+item.ShadowCloth.name=Shadow Cloth
+item.ShadowDust.name=Shadow Dust
+item.WarpedShard.name=Warped Shard
+item.FluxShard.name=Flux Shard
+item.CrimsonVoidHelm.name=Crimson Cult Hood
+item.CrimsonVoidChest.name=Crimson Cult Robe
+item.CrimsonVoidLegs.name=Crimson Cult Leggings
+item.CrimsonVoidBoots.name=Crimson Cult Boots
+item.CrimsonPlateVoidHelm.name=Crimson Cult Helm
+item.CrimsonPlateVoidChest.name=Crimson Cult Chestplate
+item.CrimsonPlateVoidLegs.name=Crimson Cult Greaves
+item.CrimsonLeaderVoidHelm.name=Crimson Praetor Helm
+item.CrimsonLeaderVoidChest.name=Crimson Praetor Chestplate
+item.CrimsonLeaderVoidLegs.name=Crimson Praetor Greaves
+item.ThaumicDisassembler.name=Thaumic Disassembler
+item.FocusWeather.name=Wand Focus: Weather
+item.FocusTime.name=Wand Focus: Time
+item.ThaumicAlloy.name=Thaumic Alloy
+
+#===========WAND NAMES===================
+
+item.FocusTaint.name=Wand Focus: Tainted Storm
+item.FocusEldritch.name=Wand Focus: Eldritch
+item.WarpRod.name=Warpwood Rod
+item.ShadowCap.name=Shadowmetal Cap
+item.Wand.SHADOW.cap=Shadow Embellished
+item.Wand.WARP.rod=Warpwood
+item.WarpStaffCore.name=Warpwood Staff Core
+
+#===========RESEARCH CATEGORY============
+
+tc.research_category.TM=Tainted Magic
+
+#===========THAUMONOMOCON TEXT===========
+
+#TAINTEDMAGIC
+
+tm.name.TAINTEDMAGIC=Evil Magic
+tm.tag.TAINTEDMAGIC=I'm scared
+tm.text.TAINTEDMAGIC.1=On your travels through the world you came across a ripped page from another thaumaturge's thaumonomicon (see right).<BR>From what you could decipher, it speaks of taking a darker approach on thaumaturgy.<BR>The idea intrigues you, but it seems very dangerous; although only the weak would be afraid to adventure into the unknown!<BR>The page is still quite unclear, and in runic scribbles, but one day, you will decipher this page and master the art of dark magic... One day!
+tm.text.TAINTEDMAGIC.2=<IMG>taintedmagic:textures/misc/BACKTAINT.png:0:255:255:255:.5</IMG>
+
+#SHADOWMETAL
+
+tm.name.SHADOWMETAL=Shadowmetal
+tm.tag.SHADOWMETAL=An ancient substance
+tm.text.SHADOWMETAL.1=While mining, you have came across a rather interesting substance. Physically, it is blackish purple in color, and quite heavy. But who knows what power it could posess. This metal seems promising and might prove useful for something in the future - although, the purification process is somewhat tedious.<BR>You think you will need to obtain more warp before it will become useable, maybe the Eldritch can give you more information... But who knows.<BR>§oA relic of the past, the sediments of creation... All that was left behind - a metal made from darkness.
+
+#CAP_SHADOW
+
+tm.name.CAP_SHADOW=Shadowmetal Wand Caps
+tm.tag.CAP_SHADOW=Shikamaru...?
+tm.text.CAP_SHADOW.1=With the discovery of void metal wandcaps you wondered if you could improve the performance of the void caps even further. You tested this theory by infusing the caps with more void metal, and some shadowmetal, as well as the primal aspects of a primordial pearl, and it proved very sucessful.<BR>The Shadowmetal Caps seem to be extremely efficient at channeling vis, and will grant a heavy discount of 30% for all primal aspects.<BR>The Primordial Pearl is not consumed during the crafting process.
+
+#ROD_WARP
+
+tm.name.ROD_WARP=Warpwood Wand Rod
+tm.tag.ROD_WARP=Primordial energy evolved
+tm.text.ROD_WARP.1=Your discovery of warpwood left you wondering if this wonderful wood could be crafted into a wand.<BR>Since the wood is made from warp, you think it's only logical to use a zombie brain as a place to store the insanity.<BR>Using the power of the primordial pearl (not consumed during crafting), and void metal you seem to have opened a rift to the void, storing huge amounts of vis.<BR>The wand seems to also self recharge, but you don't understand why. The more warp you amass, the faster it recharges. (Continued)
+tm.text.ROD_WARP.2=§oYour wand has been whispering strangly to you. As your insane mind grows stronger, the wand seems to whisper to you more and more. Calling you in... Echos from the void.<BR>As the very cells of your brain become almost completely corrupted by your warp; almost to match that of the wand itself, a long crack started down the side of the wand, breaking open a tiny slit to the void.<BR>The power could not have been more incredible. The wand keeps pushing more and more power from the void - more than you can possibly believe.<BR>You fear the consequences, but this power surging through your veins - it's too great to dismiss.
+
+#ROD_WARP_staff
+
+tm.name.ROD_WARP_staff=Warpwood Staff Core
+tm.tag.ROD_WARP_staff=A relic of creation
+tm.text.ROD_WARP_staff.1=After seeing the power of the warpwood wand core, you wondered what would happen if you were to make a staff.<BR>Unlike most staves, simply adding a primal charm did not allow for the creation of a staff core, it took the use of the primordial pearl.<BR>The same auto recharging abilities seem to apply as well, and on top of all of that this staff core offers a huge amount of storage - 500 primal vis, that is.<BR>The Primordial Pearl is not consumed during the crafting process. (Continued)
+
+#EVILSHARDS
+
+tm.name.EVILSHARDS=Evil Shards
+tm.tag.EVILSHARDS=Congealed evil
+tm.text.EVILSHARDS.1=By applying certain aspects to a balanced shard, it caused some rather interesting effects. The results are warped shards, and flux shards. You're sure you will be able to use them for lots of things.
+
+#CRIMSONROBES
+
+tm.name.CRIMSONROBES=Crimson Seamstry
+tm.tag.CRIMSONROBES=Knockoff cultist
+tm.text.CRIMSONROBES.1=After fighting the Crimson Cult countless times, you have noticed one thing; all of their clothing is made from a deep red fabric. You have obtained some of this rich cloth after killing the cultists, and you have realised it is quite simple to make, and it should be quite easy to replicate their robes.<BR>Using Crimson Fabric (see right) you are able to make all of the robe pieces. Their recipes are written on the following pages.
+
+#VOIDFORTRESS
+
+tm.name.VOIDFORTRESS=Void Fortress Armor
+tm.tag.VOIDFORTRESS=Nothing is getting out
+tm.text.VOIDFORTRESS.1=This is a simple improvement on the concepts laid down by the discovery of fortress armor. By using Void Metal instead of Thaumium you are not only increasing the effectiveness of the armor, but also it's durability.<BR>Of course some people claim that wearing such a large amount of Void metal is probably not good, but there will always be doubters and they should be ignored. You find the dull ache that settles into your bones as you wear it comforting.<BR>Like normal fortress armor this armor can be enhanced by various different faceplates and modifications. 
+
+#WARPEDGOGGLES
+
+tm.name.WARPEDGOGGLES=Warped Goggles Of Revealing
+tm.tag.WARPEDGOGGLES=You look a bit warped
+tm.text.WARPEDGOGGLES.1=By infusing your Goggles of Revealing with Shadowmetal you have solved an everlasting problem.<BR>A thaumaturge like yourself must choose between function and protection. By using Shadowmetal to strengthen your goggles, you have gained a few extra armor points - but at a cost.<BR>It seems that one of the lenses became clouded with warp - causing you to have strange visions at times. But no problem, it could be worse, right?
+
+#TAINTFOCUS
+
+tm.name.TAINTFOCUS=Wand Focus: Tainted Storm
+tm.tag.TAINTFOCUS=Warning: may leave a sticky residue
+tm.text.TAINTFOCUS.1=After having seen the destructive power of flux you thought it would be interesting to make a wand focus that attacks using it. The result is the Tainted Storm focus.<BR>This focus will blast an AoE attack of Tainted Bubbles with a range of 10 metres, inflicting a poison effect on contact, and causing a fair amount of damage - leaving your enemies corpses infected to the bone with flux.<BR>The only downside of this focus is that when using it there is a chance you will get affected with Flux Flu, but thats only the consequence of handling such a large amount of flux.
+
+#ELDRITCHFOCUS
+
+tm.name.ELDRITCHFOCUS=Wand Focus: Eldritch
+tm.tag.ELDRITCHFOCUS=Eldritch arts
+tm.text.ELDRITCHFOCUS.1=After having payed a visit to the voidscape known as the Outerlands, the race known as the Eldritch have sparked your interest. You are very intrigued by the Eldritch Guardians, and especially the orbs of dark matter that they hurl at you.<BR>After having made contact with this dark matter, you have thought it might be worth it to take a shot at the Eldritch's magic.<BR>By using Shadowmetal and the eyes of the Eldritch Guardians, you have managed to summon these orbs of dark matter opon command.<BR>(Continued)
+tm.text.ELDRITCHFOCUS.2=Because this focus is infused with the awakened power of The Shard of Creation, the orbs have turned out to be a bit stronger than the ones the guardians fire at you. They deal 10 hearts of damage, and inflict a weakness potion upon contact.<BR>However, there are some small downsides to using this focus.<BR>Every time you cast the focus, and summon an orb, there is a chance the orb will cause you to gain a small amount of sticky warp... But a little warp never hurt anyone right?<BR>§oAs the Eldritch roam their twisted world, you are making progress. One day, you will annihilate the race with their own magic!
+
+#KNIGHTROBES
+
+tm.name.KNIGHTROBES=Crimson Armor
+tm.tag.KNIGHTROBES=With extra reinforcements
+tm.text.KNIGHTROBES.1=Now that you have found a way to sew Crimson Cultist Robes, you ask yourself if it would be possible to create Crimson Knight Armor.<BR>After having discovered the Crimson Cloth, you don't think it will be hard to create the Knight Armor. Using a new invention called Crimson Plating, you were able to reinforce the Crimson Cultist robes, creating Knight Armor.
+
+#VOIDCRIMSON
+
+tm.name.VOIDCRIMSON=Voidtouched Crimson Armor
+tm.tag.VOIDCRIMSON=Preserving your clothing
+tm.text.VOIDCRIMSON.1=After finding your own method to make Crimson Cult armor, there is still one problem.<BR>The armor will break after a short amount of time.<BR>Using Void metal, you have made the Crimson Cult armor auto-repair itself. This effect can be applied to any piece of Crimson Cultist Robes, or Crimson Knight Armor.<BR>§oBy improving their armor, the Crimson Cult have began to respect you greatly. Maybe you will join their ranks some day.
+
+#VOIDPRAETOR
+
+tm.name.VOIDPRAETOR=Voidtouched Praetor Armor
+tm.tag.VOIDPRAETOR=It feels heavy
+tm.text.VOIDPRAETOR.1=After discovering the Voidtouched Crimson Armor, you tried to apply this to the Praetor Armor, but it didnt quite work.<BR>The Praetor Armor is so thick and heavy that 4 measly pieces of voidmetal was not enough to make the Praetor Armor auto-repair.<BR>By adding even more Void metal to the infusion you were able to apply the Voidtouched attribute to the Crimson Praetor Armor as well.
+
+#PRAETORARMOR
+
+tm.name.PRAETORARMOR=Crimson Praetor Armor
+tm.tag.PRAETORARMOR=This should be simple... Not
+tm.text.PRAETORARMOR.1=Strange whispers have been talking to you more than usual... They have spoke of the leader of the Crimson Cult - and you hope to be the one to defeat him. The other Thaumaturges showed you sketches of his armor.<BR>After having discovered Crimson Fabric and Crimson Plating, you don't think it will be hard to create some Praetor Armor; but you were wrong. You thought it would be easy enough, but apparently it is not. You had to use quite a bit more plating and cloth than expected, but you have managed to construct the armor.
+
+#WARPTREE
+
+tm.name.WARPTREE=Warpwood Tree
+tm.tag.WARPTREE=From Orochimaru's garden
+tm.text.WARPTREE.1=When studying the magical trees of the Tainted Biome, you have noticed just how rich with magic they are. Although they are too unstable and messy for your uses, you think it will be useful to create a tree that is infused with warp.<BR>The warped tree is just that, a tree infused with nothing but warp. You don't know what you will ever use this for, but maybe it will be useful somehow.<BR>For some reason the leaves never decay... Probably because they're already as dead as dead can be.
+
+#SHADOWCLOTH
+
+tm.name.SHADOWCLOTH=Shadow Cloth
+tm.tag.SHADOWCLOTH=It's disturbingly soft...
+tm.text.SHADOWCLOTH.1=When you discovered Shadowmetal you ran a few experiments using it. This is one of many results.<BR>A seemingly useless type of cloth that is quite dark in colour, and rather rich with magic.<BR>Shadow Cloth is a simple invention, it's a type of fabric, except it is somewhat strengthened with Shadowmetal.<BR>§oYou wonder what it will be used for.
+
+#VOIDWALKERBOOTS
+
+tm.name.VOIDWALKERBOOTS=Boots of the Voidwalker
+tm.tag.VOIDWALKERBOOTS=Wandering the shadows
+tm.text.VOIDWALKERBOOTS.1=You have been searching, searching very hard for something to complete your Void Thaumaturge Robes. After a long night of researching, you finally found the perfect pair of boots to complete your set.<BR>The Boots of the Voidwalker offer outstanding protection, as well as an enormus speed boost while walking or flying. They also create particles as you walk, just like the Eldritch Guardians, and they will neglate all fall damage.<BR>If you wish to disable the particles from spawning while you walk, simply press the "Toggle Armor Particles" key (default P).
+
+#CREATIONSHARD
+
+tm.name.CREATIONSHARD=Shard of Creation
+tm.tag.CREATIONSHARD=Power corrupts
+tm.text.CREATIONSHARD.1=You have finally found it... Something to challenge the creation magic of the Eldritch.<BR>The Shard of Creation. This shard of condensed power is the ultimate fuel source for your magic. The creation and the destruction, all combined into one shard.<BR>This shard might be the opening to the discovery of how it all came to be, this is what you were always looking for.<BR>§oThis shard - as you lay your hands on it, a sensation of pure clarity fills your twisted mind for the first time in centuries.
+
+#CREATION
+
+tm.name.CREATION=Creation
+tm.tag.CREATION=It's suddenly clear...
+tm.text.CREATION.1=The moment you touched this new shard, a substance forged of power you barely understand, you felt something. You felt as if the entire universe had shifted.<BR>Your body went stiff, and for the first time since you opened the Thaumonomicon, the voices... They §lstopped.§r<BR>You saw through what the voices have always kept hidden. You saw through the lies. Through the insanity. Through the veil between worlds. You saw... §lCreation.§r<BR>Aeons ago, when the world you know was yet to exist, the formation of another universe began.
+
+tm.text.CREATION.2=The primal energies, in the form of vis, flowing from beyond reality clashed, combined, and, given time, created.<BR>A blank universe, exploding from nothing, into existence.<BR>The energies which created this world, however, did not leave. They stayed, they twisted, and became a part of this new place, just as water or air are in your world.<BR>If enough time is given to any universe, it will eventually develop life, and this universe was no exception. A race of beings, warped by power and twisted by magic. Every reference to them you've ever read always names them... The Eldritch.
+
+tm.text.CREATION.3=Time passed, as time is prone to do, and the Eldritch developed magic. They practiced it, refined it, and it became quite similar to the thaumaturgy you practice - except for one difference.<BR>Warp was in every word they wrote. Twisting, fluxing, and tainting. Their magic couldn't do anything without a far greater than equal reaction.<BR>So, they decided they would break the rules. They decided to create a new universe. A universe without their limits, without the warp their universe underwent.<BR>They began to manipulate primal energy, clashing it into the forms that would spark and create.
+
+tm.text.CREATION.4=However, right before this universe was created, they split the forces in two.<BR>All the power of creation was shoved into one half, and the matter created into another.<BR>They ended up with two worlds... A neverending voidscape, and the Overworld.<BR>Nonetheless, the veil between these two worlds was weak, and the power contained within the voidscape was too dangerous to let the untrained hold.<BR>So, the Eldritch constructed a trap. They laid out mazes upon mazes, each centered around a piece of creation... The Primordial Pearls.
+
+tm.text.CREATION.5=To protect the Pearls, they created the guardians, this ensured the weak could not obtain this power, as it could be devastating if a fool were to use it incorrectly.<BR>Aeons later, here you stand; one who has marched into eternity and emerged triumphant.<BR>You hold a piece of the power used to create the world... The Pearl.<BR>With this piece of creation, you have forged the final piece of the puzzle - The Shard of Creation.<BR>The limits you once were bound by have been cast aside, just as the Eldritch cast aside theirs. With this, even the gods will flee before you.
+
+tm.text.CREATION.6=<BR><BR><IMG>taintedmagic:textures/misc/creation2.png:0:255:255:255:.5</IMG>
+
+#AWAKENEDWARPTREE
+
+tm.name.AWAKENEDWARPTREE=Awakened Warpwood Tree
+
+tm.tag.AWAKENEDWARPTREE=It's raining seeds!
+
+tm.text.AWAKENEDWARPTREE.1=Void Metal is extremely useful, but it is created in the crucible, so it has tedious written all over it. You need a better source of Void Seeds.<BR>By adding a few Void Seeds to the Warpwood Sapling, the tree seems to... propogate them.<BR>The tree is essentially the same, except for one thing - when the tree grows, a Log of Dense Warpwood will form at the heart of the tree. Upon breaking this log, a few void seeds will drop (anywhere between 4 and 10). The tree will drop regular warpwood saplings.<BR>§oGoodbye crucible!
+
+#THAUMICDISASSEMBLER
+
+tm.name.THAUMICDISASSEMBLER=Thaumic Disassembler
+
+tm.tag.THAUMICDISASSEMBLER=Copyright Mekanism
+
+tm.text.THAUMICDISASSEMBLER.1=It is said that there was once a man named Aidan Brady who created the perfect tool. The Atomic Disassembler.<BR>However, you are a thaumaturge, and you shun technology in favor of magic, but you still want this tool.<BR>Using the basic principals that the Atomic Disassembler lays down, you were able to make a tool called the Thaumic Disassembler.<BR>(Continued)
+tm.text.THAUMICDISASSEMBLER.2=The Thaumic Disassembler is very similar to the Atomic Disassembler - even in looks. Except there are a few changes.<BR>There is no longer a vein mining funcion like the Atomic Disassembler, nor is there a hoe function.<BR>But, because the Thaumic Disassembler is powered with Void Metal, it will never break, and will quickly repair itself. Due to the amount of Void Metal used, the Thaumic Disassembler will repair itself much faster than normal Void Metal tools or armor.<BR>Thus, there is no need to charge the Thaumic Disassembler like you do the Atomic Disassembler.<BR>Shift + Right Click to change modes.
+
+#FOCUSTIME
+
+tm.name.FOCUSTIME=Wand Focus: Time
+
+tm.tag.FOCUSTIME=When the daylight, comes I'll have to go...
+
+tm.text.FOCUSTIME.1=Using the basic principals of creation, you have created a focus to modify the world slightly.<BR>The Time focus is simple. Using the Shard of Creation to tap into the world's creational formula, you are able to shift the time from night to day and vice versa.<BR>The only downside of using creational magic is the immensly long cooldown time - 30 seconds, that is.<BR>This focus will not accept upgrades from the Focal Manipulator.
+
+#FOCUSWEATHER
+
+tm.name.FOCUSWEATHER=Wand Focus: Weather
+
+tm.tag.FOCUSWEATHER=And the sky opened up...
+
+tm.text.FOCUSWEATHER.1=Using the basic principals of creation, it wasn't hard to create a focus to modify the current weather in the world.<BR>The weather focus will stop a storm if one exists, and start one if one dosen't. The focus will stop / start rain.<BR>This focus uses creational magic, meaning there is a rather long cooldown, 30 seconds for this focus.<BR>This focus will not accept upgrades from the Focal Manipulator.
