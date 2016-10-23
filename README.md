@@ -1,5 +1,5 @@
 # Tainted Magic
-![](https://www.dropbox.com/s/tps62h5yx0p9xt7/TaintedMagicLOGO%20%282%29.png?dl=0)
+![](https://www.dropbox.com/s/tps62h5yx0p9xt7/TaintedMagicLOGO%20%282%29.png?dl=1)
 This is the GitHub repo for Tainted Magic. 
 Tainted Magic is an addon to Thaumcraft 4. This addon builds upon the dark side of Thaumcraft, setting new goals for even the most experienced Thaumaturges.
 
