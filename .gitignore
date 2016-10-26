@@ -1,0 +1,11 @@
+##Ignored stuff
+
+/gradle
+/.gradle
+/build
+/.settings
+/.metadata
+/.classpath
+/.project
+/eclipse
+/bin

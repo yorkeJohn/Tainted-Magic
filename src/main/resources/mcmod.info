@@ -1,0 +1,16 @@
+[
+{
+  "modid": "TaintedMagic",
+  "name": "Tainted Magic",
+  "description": "A TC4 addon that brings you to the dark side of Thaumaturgy...",
+  "version": "r7.0",
+  "mcversion": "1.7.10",
+  "url": "http://bitly.com/1HV2VSK",
+  "updateUrl": "",
+  "authorList": ["John Yorke (yorkeMC)"],
+  "credits": "John Yorke (yorkeMC), and special thanks to FastieTheWolf and RapidMelons",
+  "logoFile": "TaintedMagic.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
