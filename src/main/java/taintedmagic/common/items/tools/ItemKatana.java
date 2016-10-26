@@ -3,6 +3,7 @@ package taintedmagic.common.items.tools;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -134,6 +135,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 		return 0;
 	}
 
+	@SideOnly (Side.CLIENT)
 	@SubscribeEvent
 	public void onPlayerRender (RenderPlayerEvent.Specials.Post event)
 	{
@@ -146,6 +148,15 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 			if (p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() == this)
 			{
 				ItemStack s = p.inventory.getStackInSlot(i);
+
+				GL11.glPushMatrix();
+
+				int light = p.getBrightnessForRender(0);
+				int lightmapX = light % 65536;
+				int lightmapY = light / 65536;
+				OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lightmapX, lightmapY);
+				
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 				if (p.getHeldItem() == null || p.getHeldItem().getItem() != this)
 				{
@@ -173,6 +184,8 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(s));
 				saya.render(0.0625F);
+
+				GL11.glPopMatrix();
 
 				GL11.glPopMatrix();
 

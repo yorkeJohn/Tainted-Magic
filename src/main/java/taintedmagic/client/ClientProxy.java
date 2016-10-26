@@ -14,6 +14,7 @@ import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.entities.EntityEldritchOrbAttack;
 import taintedmagic.common.entities.EntityTaintBubble;
 import taintedmagic.common.helper.Vector3;
+import taintedmagic.common.items.tools.ItemKatana;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWisp;
@@ -57,8 +58,8 @@ public class ClientProxy extends CommonProxy
 		{
 			for (int j = 0; j < 5; j++)
 			{
-				xp = (Math.cos(i * Math.PI / 180F)) * 1;
-				zp = (Math.sin(i * Math.PI / 180F)) * 1;
+				xp = (Math.cos(i * Math.PI / 180F));
+				zp = (Math.sin(i * Math.PI / 180F));
 
 				float red = (0.05F + p.worldObj.rand.nextFloat() * 0.1F);
 				float blue = (0.1F + p.worldObj.rand.nextFloat() * 0.1F);
@@ -69,7 +70,7 @@ public class ClientProxy extends CommonProxy
 				ef.setGravity(0.0F);
 				ef.shrink = true;
 				ef.noClip = true;
-				Vector3 movement = getDistanceBetween(ef, p);
+				Vector3 movement = getDistanceVectorBetween(ef, p);
 				ef.addVelocity(movement.x * 2.5, 0, movement.z * 2.5);
 
 				ParticleEngine.instance.addEffect(w, ef);
@@ -77,12 +78,12 @@ public class ClientProxy extends CommonProxy
 		}
 	}
 
-	public static Vector3 getDistanceBetween (Entity e, Entity target)
+	public static Vector3 getDistanceVectorBetween (Entity e, Entity target)
 	{
 		Vector3 fromPosition = new Vector3(e.posX, e.posY, e.posZ);
 		Vector3 toPosition = new Vector3(target.posX, target.posY, target.posZ);
-		Vector3 var3 = fromPosition.sub(toPosition);
-		var3.normalize();
-		return var3;
+		Vector3 dist = fromPosition.sub(toPosition);
+		dist.normalize();
+		return dist;
 	}
 }
