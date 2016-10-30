@@ -295,5 +295,10 @@ public class ResearchRegistry
 		new TaintedMagicResearchItem("INSCRIPTIONWIND", TM, new AspectList().add(Aspect.AIR, 8).add(Aspect.MOTION, 4).add(Aspect.METAL, 6), 8, 3, 0, new ResourceLocation("taintedmagic:textures/misc/IconINSCRIPTIONWIND.png")).setParents("THAUMIUMKATANA").setConcealed().setPages(new ResearchPage[]{
 				new ResearchPage("1"),
 				new ResearchPage((InfusionRecipe) recipes.get("ItemKatanaThaumium:inscription2")) }).setSecondary().registerResearchItem();
+
+		new TaintedMagicResearchItem("VOIDGOGGLES", TM, new AspectList().add(Aspect.VOID, 8).add(Aspect.DARKNESS, 4).add(Aspect.MAGIC, 6).add(Aspect.SENSES, 12).add(Aspect.CRYSTAL, 2), 3, 5, 0, new ItemStack(ItemRegistry.ItemVoidmetalGoggles)).setParents("WARPEDGOGGLES").setParentsHidden("VOIDMETAL").setConcealed().setPages(new ResearchPage[]{
+				new ResearchPage("1"),
+				new ResearchPage((InfusionRecipe) recipes.get("ItemVoidmetalGoggles")) }).setSecondary().registerResearchItem();
+		ThaumcraftApi.addWarpToResearch("VOIDGOGGLES", 2);
 	}
 }

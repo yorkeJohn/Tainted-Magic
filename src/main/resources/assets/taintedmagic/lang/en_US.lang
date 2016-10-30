@@ -67,6 +67,7 @@ text.sash.mode=Speed boost:
 item.ItemVoidwalkerBoots.name=Boots of the Voidwalker
 
 item.ItemWarpedGoggles.name=Warped Goggles of Revealing
+item.ItemVoidmetalGoggles.name=Voidmetal Goggles of Revealing
 
 item.ItemKatana.0.name=Thaumium Fortress Blade
 item.ItemKatana.1.name=Voidmetal Fortress Blade
@@ -361,13 +362,13 @@ tm.text.THAUMIUMKATANA.1=Using a design similar to Thaumium Fortress Armor, you 
 
 tm.name.VOIDMETALKATANA=Voidmetal Fortress Blade
 tm.tag.VOIDMETALKATANA=Void samurai
-tm.text.VOIDMETALKATANA.1=By using the same construction process as the Thaumium Fortress blade, but substituting the material for Voidmetal, you have created a Fortress Blade that is even more powerful.<BR>The Voidmetal Fortress Blade is not only sharper and stronger than its Thaumium counterpart, but also possesses the Greater Sapping effect which will weaken anything you hit.<BR>They do say that this much Voidmetal is not healthy for ones body, but you care not.
+tm.text.VOIDMETALKATANA.1=By using the same construction process as the Thaumium Fortress blade, but substituting the material for Voidmetal, you have created a Fortress Blade that is even more powerful.<BR>The Voidmetal Fortress Blade is not only sharper and stronger than its Thaumium counterpart, but also possesses the Greater Sapping effect which will weaken anything you hit.<BR>They do say that this much Voidmetal is not healthy for ones body, but you care not.<BR>Like a Thaumium Fortress blade, this blade can be enhanced with various inscriptions.
 
 #SHADOWMETALKATANA
 
 tm.name.SHADOWMETALKATANA=Shadowmetal Fortress Blade
 tm.tag.SHADOWMETALKATANA=Chakra blades
-tm.text.SHADOWMETALKATANA.1=After having discovered Shadowmetal Fortress Armor, you were certain that you could make a Fortress Blade from Shadowmetal as well.<BR>The results were astounding. By following the same construction process as the Thaumium and Voidmetal Fortress Blades, you have created the strongest, and sharpest Fortress Blade you have ever laid eyes upon.<BR>This blade is not only sharper and stronger than its counterparts, it will also inflict a slowing effect while simultaneously blurring the vision of whatever you hit.
+tm.text.SHADOWMETALKATANA.1=After having discovered Shadowmetal Fortress Armor, you were certain that you could make a Fortress Blade from Shadowmetal as well.<BR>The results were astounding. By following the same construction process as the Thaumium and Voidmetal Fortress Blades, you have created the strongest, and sharpest Fortress Blade you have ever laid eyes upon.<BR>The blade will also inflict a slowing effect while simultaneously blurring the vision of whatever you hit.<BR>Like a Thaumium Fortress blade, this blade can be enhanced with various inscriptions.
 
 #INSCRIPTIONFIRE
 
@@ -386,3 +387,9 @@ tm.text.INSCRIPTIONTAINT.1=You have upgraded your Fortress Blade by inscribing r
 tm.name.INSCRIPTIONWIND=Stormbound Inscription
 tm.tag.INSCRIPTIONWIND=Thaumium Fortress Blade upgrade
 tm.text.INSCRIPTIONWIND.1=You have upgraded your Fortress Blade by inscribing runes upon it.<BR>This inscription will allow you to deal wind damage, which bypasses armor. Your target will also gain a withering effect.<BR>Incidentally, when releasing a fully charged strike, a burst of charged air will be shot in all directions, knocking back and damaging all nearby enemies. One would hold down shift to cancel this effect and release a normal strike.
+
+#VOIDGOGGLES
+
+tm.name.VOIDGOGGLES=Voidmetal Goggles of Revealing
+tm.tag.VOIDGOGGLES=Who needs 20/20 vision anyway?
+tm.text.VOIDGOGGLES.1=By infusing your Warped Goggles of Revealing with Voidmetal, you have created a pair of goggles that repair themselves, and have an extremely high vis discount.<BR>Sadly, they offer inferior protection to the original Warped Goggles of Revealing.<BR>Your vision might become distorted and warped while wearing these goggles, but that's okay...warp is not a bad thing, right?

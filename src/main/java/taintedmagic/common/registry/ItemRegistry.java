@@ -1,6 +1,7 @@
 package taintedmagic.common.registry;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
@@ -14,6 +15,7 @@ import taintedmagic.common.items.ItemMaterial;
 import taintedmagic.common.items.ItemVoidsentBlood;
 import taintedmagic.common.items.equipment.ItemShadowFortressArmor;
 import taintedmagic.common.items.equipment.ItemVoidFortressArmor;
+import taintedmagic.common.items.equipment.ItemVoidmetalGoggles;
 import taintedmagic.common.items.equipment.ItemVoidwalkerBoots;
 import taintedmagic.common.items.equipment.ItemVoidwalkerSash;
 import taintedmagic.common.items.equipment.ItemWarpedGoggles;
@@ -80,6 +82,9 @@ public class ItemRegistry
 
 		ItemShadowFortressLeggings = new ItemShadowFortressArmor(LibToolMaterials.armorMatShadowFortress, 4, 2).setUnlocalizedName("ItemShadowFortressLeggings");
 		GameRegistry.registerItem(ItemShadowFortressLeggings, "ItemShadowFortressLeggings");
+
+		ItemVoidmetalGoggles = new ItemVoidmetalGoggles(ArmorMaterial.IRON, 4, 0);
+		GameRegistry.registerItem(ItemVoidmetalGoggles, "ItemVoidmetalGoggles");
 
 		// Wands and Staves
 		ItemWandRod = new ItemWandRod();
@@ -195,6 +200,7 @@ public class ItemRegistry
 
 	// Armor and Baubles
 	public static Item ItemWarpedGoggles;
+	public static Item ItemVoidmetalGoggles;
 
 	public static Item ItemVoidwalkerBoots;
 	public static Item ItemVoidwalkerSash;

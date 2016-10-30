@@ -156,10 +156,10 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	}
 
 	@SideOnly (Side.CLIENT)
-	public void getSubItems (Item item, CreativeTabs c, List l)
+	public void getSubItems (Item i, CreativeTabs c, List l)
 	{
-		for (int i = 0; i < SUBTYPES; i++)
-			l.add(new ItemStack(this, 1, i));
+		for (int a = 0; a < SUBTYPES; a++)
+			l.add(new ItemStack(this, 1, a));
 	}
 
 	public String getUnlocalizedName (ItemStack s)

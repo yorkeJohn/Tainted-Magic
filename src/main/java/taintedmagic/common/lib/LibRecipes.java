@@ -473,7 +473,7 @@ public class LibRecipes
 				ItemApi.getItem("itemShard", 6),
 				new ItemStack(Blocks.tnt),
 				ItemApi.getItem("itemWispEssence", 0) }));
-		
+
 		ResearchRegistry.recipes.put("ItemKatana:inscription0", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONFIRE", new Object[]{
 				"inscription",
 				new NBTTagInt(0) }, 8, new AspectList().add(Aspect.FIRE, 64).add(Aspect.LIGHT, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 32767), new ItemStack[]{
@@ -503,6 +503,13 @@ public class LibRecipes
 				ItemApi.getItem("itemShard", 6),
 				new ItemStack(Blocks.tnt),
 				ItemApi.getItem("itemWispEssence", 0) }));
+
+		ResearchRegistry.recipes.put("ItemVoidmetalGoggles", ThaumcraftApi.addInfusionCraftingRecipe("VOIDGOGGLES", new ItemStack(ItemRegistry.ItemVoidmetalGoggles), 5, new AspectList().add(Aspect.VOID, 42).add(Aspect.SENSES, 38).add(Aspect.DARKNESS, 16).add(Aspect.CRYSTAL, 6).add(Aspect.ARMOR, 24), new ItemStack(ItemRegistry.ItemWarpedGoggles, 1, 32767), new ItemStack[]{
+				new ItemStack(ConfigItems.itemResource, 1, 16),
+				new ItemStack(ConfigItems.itemResource, 1, 16),
+				new ItemStack(ConfigItems.itemResource, 1, 7),
+				new ItemStack(ConfigItems.itemResource, 1, 7),
+				new ItemStack(ConfigItems.itemShard, 1, 6) }));
 	}
 
 	public static void initArcane ()

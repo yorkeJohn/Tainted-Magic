@@ -15,7 +15,7 @@ public class LibToolMaterials
 			8,
 			6,
 			2 }, 25);
-	public static ArmorMaterial armorMatSpecial = EnumHelper.addArmorMaterial("SPECIAL", 250, new int[]{
+	public static ArmorMaterial armorMatSpecial = EnumHelper.addArmorMaterial("SPECIAL", 500, new int[]{
 			4,
 			6,
 			6,
