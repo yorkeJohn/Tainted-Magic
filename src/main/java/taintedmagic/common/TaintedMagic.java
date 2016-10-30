@@ -20,6 +20,7 @@ import taintedmagic.common.handler.UpdateHandler;
 import taintedmagic.common.lib.LibCreativeTab;
 import taintedmagic.common.lib.LibRecipes;
 import taintedmagic.common.lib.LibStrings;
+import taintedmagic.common.network.PacketHandler;
 import taintedmagic.common.registry.BlockRegistry;
 import taintedmagic.common.registry.ItemRegistry;
 import taintedmagic.common.registry.ModEntityRegistry;
@@ -63,6 +64,7 @@ public class TaintedMagic
 
 		proxy.registerClientHandlers();
 
+		PacketHandler.init();
 		ItemRegistry.init();
 		BlockRegistry.init();
 		ModEntityRegistry.init();

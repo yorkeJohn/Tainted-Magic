@@ -33,22 +33,21 @@ public class RenderTaintBubble extends Render
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 		GL11.glDepthMask(true);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 
-		int p = (int) (8.0F * (bubble.ticksExisted / bubble.duration));
+		int p = (int) (7.0F * ((float) bubble.ticksExisted / (float) bubble.duration));
 		float f2 = 0;
 		float f3 = 1;
-		float f4 = (6 + p) / 16F;
-		float f5 = f4 + 0.125F;
+		float f4 = p / 8.0F;
+		float f5 = (p + 1) / 8.0F;
 
 		float f6 = 1.0F;
 		float f7 = 0.5F;
 		float f8 = 0.5F;
 
-		float fc = bubble.ticksExisted / bubble.duration;
-
-		float s = 0.25F + fc;
+		float s = 0.5F;
 
 		GL11.glScalef(s, s, s);
 
@@ -56,9 +55,9 @@ public class RenderTaintBubble extends Render
 		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 
 		t.startDrawingQuads();
-		t.setBrightness(220);
+		t.setBrightness(240);
 		t.setNormal(0.0F, 1.0F, 0.0F);
-		t.setColorRGBA_F(0.3F, 0.0F, 0.3F, 1F);
+		t.setColorRGBA_F(1.0F, 1.0F, 1.0F, 0.9F);
 
 		t.addVertexWithUV(-f7, -f8, 0.0D, f2, f5);
 		t.addVertexWithUV(f6 - f7, -f8, 0.0D, f3, f5);
@@ -68,7 +67,7 @@ public class RenderTaintBubble extends Render
 		t.draw();
 
 		GL11.glDisable(GL11.GL_BLEND);
-
+		GL11.glDisable(32826);
 		GL11.glPopMatrix();
 	}
 

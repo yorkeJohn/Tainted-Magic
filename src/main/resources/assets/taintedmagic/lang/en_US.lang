@@ -17,8 +17,8 @@ text.bloodlust=Bloodlust
 
 #=========FOCAL UPGRADES==============
 
-focus.upgrade.tainturgist.name=Tainturgist
-focus.upgrade.tainturgist.text=This upgrade will stop the bubbles from infecting you with Flux Flu.
+focus.upgrade.tainturgy.name=Tainturgy
+focus.upgrade.tainturgy.text=This upgrade will stop the bubbles from infecting you with Flux Flu.
 
 focus.upgrade.corrosive.name=Corrosive
 focus.upgrade.corrosive.text=This upgrade will cause the focus to inflict a Wither effect upon contact.
@@ -71,6 +71,9 @@ item.ItemWarpedGoggles.name=Warped Goggles of Revealing
 item.ItemKatana.0.name=Thaumium Fortress Blade
 item.ItemKatana.1.name=Voidmetal Fortress Blade
 item.ItemKatana.2.name=Shadowmetal Fortress Blade
+text.katana.inscription.0=Volcanic Inscription
+text.katana.inscription.1=Tainted Inscription
+text.katana.inscription.2=Stormbound Inscription
 
 item.ItemVoidFortressHelmet.name=Void Fortress Helm
 item.ItemVoidFortressChestplate.name=Void Fortress Cuirass
@@ -79,10 +82,10 @@ item.ItemVoidFortressLeggings.name=Void Fortress Thigh Guards
 item.ItemThaumicDisassembler.name=Thaumic Disassembler
 text.mode=Mode
 text.efficiency=Efficiency
-text.disassembler.normal=normal
-text.disassembler.fast=fast
-text.disassembler.slow=slow
-text.disassembler.off=off
+text.disassembler.normal=Normal
+text.disassembler.fast=Fast
+text.disassembler.slow=Slow
+text.disassembler.off=Off
 text.modeToggle=Mode toggled to
 
 item.ItemShadowmetalPick.name=Shadowmetal Pickaxe
@@ -140,7 +143,7 @@ tm.text.TAINTEDMAGIC.2=<IMG>taintedmagic:textures/misc/PageTAINTEDMAGIC.png:0:25
 
 tm.name.SHADOWMETAL=Shadowmetal
 tm.tag.SHADOWMETAL=I have seen the truth
-tm.text.SHADOWMETAL.1=Once upon a time you were doing some crucible work. After having made a mess of the wrong aspects, you ran to grab a cloth to clean up the flux. Just as you ran by the crucible, a chunk of stone slipped out of your bag, landing in the bubbling mess...<BR>When you returned there was nothing less than a shining block of Shadow Ore floating above your crucible.<BR>This metal seems promising, all it takes is a mundane furnace to smelt it, resulting in a Shadowmetal Ingot. You think you will need to obtain more warp before it will become usable, maybe the whispers can give you more information, but who knows.
+tm.text.SHADOWMETAL.1=Once upon a time you were doing some crucible work. You accidentally dropped a block of stone into a bubbling mess and the result was Shadowmetal Ore.<BR>This metal seems promising, all it takes is a mundane furnace to smelt it, resulting in a Shadowmetal Ingot. It is extremely hard and has a very high durability. You think you will need to research some more before it is usable, maybe the whispers can give you more information... but who knows.
 
 #CAP_shadowmetal
 
@@ -304,7 +307,7 @@ tm.text.CRIMSONBLADE.1=This seems to be the conclusion of your studies on the Cr
 
 tm.name.SHADOWFORTRESSARMOR=Shadow Fortress Armor
 tm.tag.SHADOWFORTRESSARMOR=If you wear robes, you are weak
-tm.text.SHADOWFORTRESSARMOR.1=After having discovered Thaumium and Void Fortress Armor, you thought to yourself that Shadowmetal would be the perfect candidate to be made into Fortress Armor.<BR>It worked perfectly. By replacing the preceding material with Blocks of Shadowmetal, you have created an extremely powerful suit of armor that will drastically reduce damage taken. Also, during the night, the armor will become charged by the moon, and become even more powerful, reducing even more damage.<BR>Like normal fortress armor, this armor can be enhanced by various different faceplates and modifications.
+tm.text.SHADOWFORTRESSARMOR.1=After having discovered Thaumium and Void Fortress Armor, you thought to yourself that Shadowmetal would be the perfect candidate to be made into Fortress Armor.<BR>It worked perfectly. While this suit of armor did not inherit the auto-repair ability, it is drastically more protective than the Void Fortress Armor. It also seems that wearing multiple pieces of this armor will increase its protection significantly.<BR>Like normal fortress armor, this armor can be enhanced by various different faceplates and modifications.
 
 #CAP_cloth
 
@@ -352,16 +355,34 @@ tm.text.VOIDSENTBLOOD.1=While you love Crimson Cult robes, they are inferior to 
 
 tm.name.THAUMIUMKATANA=Thaumium Fortress Blade
 tm.tag.THAUMIUMKATANA=Nothing will survive
-tm.text.THAUMIUMKATANA.1=Using a design similar to Thaumium Fortress Armor, you have designed a blade that will fit the set perfectly.<BR>By improving the construction process of a Thaumium Sword, you have not only increased the damage it will deal, but its durability as well. The Thaumium Fortress Blade is a high damage sword that is so strong, it will never take damage from use.<BR>The blade will remain sheathed at your hip when it is not in use as long as it's in your inventory.
+tm.text.THAUMIUMKATANA.1=Using a design similar to Thaumium Fortress Armor, you have designed a blade that will fit the set perfectly.<BR>By improving the construction process of a Thaumium Sword, you have increased the damage it will deal. This blade will also never take damage from use.<BR>Furthermore, you can charge your blade by holding down right click. Upon releasing, a strike will be delivered with increased damage based on how charged the blade is. At full charge, the blade has the potential to deal up to 2 times its attack damage. The blade will remain sheathed at your hip when it is not in use.
 
 #VOIDMETALKATANA
 
 tm.name.VOIDMETALKATANA=Voidmetal Fortress Blade
 tm.tag.VOIDMETALKATANA=Void samurai
-tm.text.VOIDMETALKATANA.1=By using the same construction process as the Thaumium Fortress blade, but substituting the material for Voidmetal, you have created a Fortress Blade that is even more powerful. The Voidmetal Fortress Blade is not only sharper and stronger than its Thaumium counterpart, but also possesses the Greater Sapping effect which will weaken anything you hit.<BR>They do say that this much Voidmetal is not healthy for ones body, but you care not.
+tm.text.VOIDMETALKATANA.1=By using the same construction process as the Thaumium Fortress blade, but substituting the material for Voidmetal, you have created a Fortress Blade that is even more powerful.<BR>The Voidmetal Fortress Blade is not only sharper and stronger than its Thaumium counterpart, but also possesses the Greater Sapping effect which will weaken anything you hit.<BR>They do say that this much Voidmetal is not healthy for ones body, but you care not.
 
 #SHADOWMETALKATANA
 
 tm.name.SHADOWMETALKATANA=Shadowmetal Fortress Blade
 tm.tag.SHADOWMETALKATANA=Chakra blades
-tm.text.SHADOWMETALKATANA.1=After having discovered Shadowmetal Fortress Armor, you were certain that you could make a Fortress Blade from Shadowmetal as well.<BR>The results were astounding. By following the same construction process as the Thaumium and Voidmetal Fortress Blades, you have created the strongest, and sharpest Fortress Blade you have ever laid eyes upon.<BR>This blade is not only sharper and stronger than its counterparts, it will also inflict a withering effect while simultaneously blurring the vision of whatever you hit.
+tm.text.SHADOWMETALKATANA.1=After having discovered Shadowmetal Fortress Armor, you were certain that you could make a Fortress Blade from Shadowmetal as well.<BR>The results were astounding. By following the same construction process as the Thaumium and Voidmetal Fortress Blades, you have created the strongest, and sharpest Fortress Blade you have ever laid eyes upon.<BR>This blade is not only sharper and stronger than its counterparts, it will also inflict a slowing effect while simultaneously blurring the vision of whatever you hit.
+
+#INSCRIPTIONFIRE
+
+tm.name.INSCRIPTIONFIRE=Volcanic Inscription
+tm.tag.INSCRIPTIONFIRE=Thaumium Fortress Blade upgrade
+tm.text.INSCRIPTIONFIRE.1=You have upgraded your Fortress Blade by inscribing runes upon it.<BR>This inscription will convert damage dealt into fire damage, which will bypass armor. Any target hit will be set aflame.<BR>Furthermore, when releasing a fully charged strike, a cloud of fire will be emit from your blade. One would hold down shift to cancel this effect and release a normal strike.
+
+#INSCRIPTIONTAINT
+
+tm.name.INSCRIPTIONTAINT=Tainted Inscription
+tm.tag.INSCRIPTIONTAINT=Thaumium Fortress Blade upgrade
+tm.text.INSCRIPTIONTAINT.1=You have upgraded your Fortress Blade by inscribing runes upon it.<BR>This inscription will cause your blade to deal magic damage, bypassing armor. Anything you hit will also be inflicted with Taint Poison.<BR>Moreover, if you release a fully charged strike, a cloud of taint will be emit from your blade. One would hold down shift to cancel this effect and release a normal strike.
+
+#INSCRIPTIONWIND
+
+tm.name.INSCRIPTIONWIND=Stormbound Inscription
+tm.tag.INSCRIPTIONWIND=Thaumium Fortress Blade upgrade
+tm.text.INSCRIPTIONWIND.1=You have upgraded your Fortress Blade by inscribing runes upon it.<BR>This inscription will allow you to deal wind damage, which bypasses armor. Your target will also gain a withering effect.<BR>Incidentally, when releasing a fully charged strike, a burst of charged air will be shot in all directions, knocking back and damaging all nearby enemies. One would hold down shift to cancel this effect and release a normal strike.

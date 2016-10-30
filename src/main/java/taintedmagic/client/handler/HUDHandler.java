@@ -1,9 +1,11 @@
 package taintedmagic.client.handler;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import taintedmagic.common.items.tools.ItemKatana;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class HUDHandler
@@ -14,7 +16,14 @@ public class HUDHandler
 		if (event.type == ElementType.ALL)
 		{
 			Minecraft mc = Minecraft.getMinecraft();
-			ItemStack equippedStack = mc.thePlayer.getCurrentEquippedItem();
+			EntityPlayer p = mc.thePlayer;
+			ScaledResolution r = event.resolution;
+			float pt = event.partialTicks;
+
+			if (mc.currentScreen == null)
+			{
+				ItemKatana.renderHUD(r, p, pt);
+			}
 		}
 	}
 }

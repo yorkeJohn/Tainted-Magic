@@ -79,7 +79,7 @@ public class ItemFocusTaint extends ItemFocusBasic
 
 	public ItemFocusBasic.WandFocusAnimation getAnimation (ItemStack s)
 	{
-		return ItemFocusBasic.WandFocusAnimation.WAVE;
+		return ItemFocusBasic.WandFocusAnimation.CHARGE;
 	}
 
 	public ItemStack onFocusRightClick (ItemStack s, World w, EntityPlayer p, MovingObjectPosition mop)
@@ -100,7 +100,7 @@ public class ItemFocusTaint extends ItemFocusBasic
 		}
 		int range = 8;
 		Vec3 vec3d = p.getLook(range);
-		if (!p.worldObj.isRemote && p.ticksExisted % 20 == 0) p.worldObj.playSoundAtEntity(p, "thaumcraft:bubble", 0.33F, 2.0F);
+		if (!p.worldObj.isRemote && p.ticksExisted % 5 == 0) p.worldObj.playSoundAtEntity(p, "thaumcraft:bubble", 0.33F, 2F * (float)Math.random());
 
 		int potency = wand.getFocusPotency(s);
 		if ( (!p.worldObj.isRemote) && (wand.consumeAllVis(s, p, getVisCost(s), true, false)))

@@ -10,9 +10,9 @@ import net.minecraft.client.model.ModelRenderer;
  */
 public class ModelKatana extends ModelBase
 {
-	ModelRenderer blade;
-	ModelRenderer grip1;
-	ModelRenderer grip2;
+	public ModelRenderer blade;
+	public ModelRenderer grip1;
+	public ModelRenderer grip2;
 
 	public ModelKatana ()
 	{

@@ -443,6 +443,66 @@ public class LibRecipes
 				new ItemStack(Items.emerald),
 				new ItemStack(Items.iron_ingot),
 				new ItemStack(ItemRegistry.ItemMaterial, 1, 0) }));
+
+		ResearchRegistry.recipes.put("ItemKatanaThaumium:inscription0", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONFIRE", new Object[]{
+				"inscription",
+				new NBTTagInt(0) }, 8, new AspectList().add(Aspect.FIRE, 64).add(Aspect.LIGHT, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 0), new ItemStack[]{
+				ItemApi.getItem("itemFocusFire", 0),
+				new ItemStack(Items.coal),
+				new ItemStack(Blocks.netherrack),
+				new ItemStack(Items.fire_charge),
+				new ItemStack(Items.blaze_powder),
+				ItemApi.getItem("itemResource", 1) }));
+
+		ResearchRegistry.recipes.put("ItemKatanaThaumium:inscription1", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONTAINT", new Object[]{
+				"inscription",
+				new NBTTagInt(1) }, 8, new AspectList().add(Aspect.TAINT, 64).add(Aspect.FLESH, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 0), new ItemStack[]{
+				new ItemStack(ItemRegistry.ItemFocusTaint),
+				new ItemStack(ItemRegistry.ItemMaterial, 1, 4),
+				ItemApi.getBlock("blockJar", 1),
+				ItemApi.getBlock("blockCustomPlant", 5),
+				ItemApi.getItem("itemBottleTaint", 0),
+				ItemApi.getItem("itemResource", 11) }));
+
+		ResearchRegistry.recipes.put("ItemKatanaThaumium:inscription2", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONWIND", new Object[]{
+				"inscription",
+				new NBTTagInt(2) }, 8, new AspectList().add(Aspect.AIR, 64).add(Aspect.FLIGHT, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 0), new ItemStack[]{
+				ItemApi.getItem("itemShard", 0),
+				ItemApi.getItem("itemResource", 6),
+				new ItemStack(Items.feather),
+				ItemApi.getItem("itemShard", 6),
+				new ItemStack(Blocks.tnt),
+				ItemApi.getItem("itemWispEssence", 0) }));
+		
+		ResearchRegistry.recipes.put("ItemKatana:inscription0", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONFIRE", new Object[]{
+				"inscription",
+				new NBTTagInt(0) }, 8, new AspectList().add(Aspect.FIRE, 64).add(Aspect.LIGHT, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 32767), new ItemStack[]{
+				ItemApi.getItem("itemFocusFire", 0),
+				new ItemStack(Items.coal),
+				new ItemStack(Blocks.netherrack),
+				new ItemStack(Items.fire_charge),
+				new ItemStack(Items.blaze_powder),
+				ItemApi.getItem("itemResource", 1) }));
+
+		ResearchRegistry.recipes.put("ItemKatana:inscription1", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONTAINT", new Object[]{
+				"inscription",
+				new NBTTagInt(1) }, 8, new AspectList().add(Aspect.TAINT, 64).add(Aspect.FLESH, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 32767), new ItemStack[]{
+				new ItemStack(ItemRegistry.ItemFocusTaint),
+				new ItemStack(ItemRegistry.ItemMaterial, 1, 4),
+				ItemApi.getBlock("blockJar", 1),
+				ItemApi.getBlock("blockCustomPlant", 5),
+				ItemApi.getItem("itemBottleTaint", 0),
+				ItemApi.getItem("itemResource", 11) }));
+
+		ResearchRegistry.recipes.put("ItemKatana:inscription2", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONWIND", new Object[]{
+				"inscription",
+				new NBTTagInt(2) }, 8, new AspectList().add(Aspect.AIR, 64).add(Aspect.FLIGHT, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 32767), new ItemStack[]{
+				ItemApi.getItem("itemShard", 0),
+				ItemApi.getItem("itemResource", 6),
+				new ItemStack(Items.feather),
+				ItemApi.getItem("itemShard", 6),
+				new ItemStack(Blocks.tnt),
+				ItemApi.getItem("itemWispEssence", 0) }));
 	}
 
 	public static void initArcane ()
@@ -470,7 +530,6 @@ public class LibRecipes
 		ResearchRegistry.recipes.put("ItemHelmetCultistRobe", ThaumcraftApi.addArcaneCraftingRecipe("CRIMSONROBES", ItemApi.getItem("itemHelmetCultistRobe", 0), new AspectList().add(Aspect.ORDER, 5).add(Aspect.WATER, 5).add(Aspect.EARTH, 5).add(Aspect.AIR, 5).add(Aspect.FIRE, 5).add(Aspect.ENTROPY, 5), new Object[]{
 				"AAA",
 				"ABA",
-				"   ",
 				Character.valueOf('A'),
 				new ItemStack(ItemRegistry.ItemMaterial, 1, 2),
 				Character.valueOf('B'),
@@ -548,7 +607,7 @@ public class LibRecipes
 
 		ResearchRegistry.recipes.put("ItemMagicFunguar", ThaumcraftApi.addShapelessArcaneCraftingRecipe("MAGICFUNGUAR", new ItemStack(ItemRegistry.ItemMagicFunguar), new AspectList().add(Aspect.ORDER, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.AIR, 1).add(Aspect.FIRE, 1).add(Aspect.ENTROPY, 1), new Object[]{
 				new ItemStack(ConfigBlocks.blockCustomPlant, 1, 5),
-				ItemApi.getItem("itemShard", 32767),
+				new ItemStack(ConfigItems.itemShard, 32767),
 				new ItemStack(Blocks.brown_mushroom),
 				new ItemStack(Blocks.red_mushroom),
 				new ItemStack(Items.blaze_powder) }));

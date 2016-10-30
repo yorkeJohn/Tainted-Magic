@@ -1,7 +1,6 @@
 package taintedmagic.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -10,11 +9,10 @@ import taintedmagic.client.handler.HUDHandler;
 import taintedmagic.client.renderer.RenderItemKatana;
 import taintedmagic.client.renderer.RenderTaintBubble;
 import taintedmagic.common.CommonProxy;
-import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.entities.EntityEldritchOrbAttack;
 import taintedmagic.common.entities.EntityTaintBubble;
+import taintedmagic.common.helper.TaintedMagicHelper;
 import taintedmagic.common.helper.Vector3;
-import taintedmagic.common.items.tools.ItemKatana;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWisp;
@@ -70,7 +68,7 @@ public class ClientProxy extends CommonProxy
 				ef.setGravity(0.0F);
 				ef.shrink = true;
 				ef.noClip = true;
-				Vector3 movement = getDistanceVectorBetween(ef, p);
+				Vector3 movement = TaintedMagicHelper.getDistanceBetween(ef, p);
 				ef.addVelocity(movement.x * 2.5, 0, movement.z * 2.5);
 
 				ParticleEngine.instance.addEffect(w, ef);
@@ -78,12 +76,30 @@ public class ClientProxy extends CommonProxy
 		}
 	}
 
-	public static Vector3 getDistanceVectorBetween (Entity e, Entity target)
+	@Override
+	public void spawnWindParticles (World w)
 	{
-		Vector3 fromPosition = new Vector3(e.posX, e.posY, e.posZ);
-		Vector3 toPosition = new Vector3(target.posX, target.posY, target.posZ);
-		Vector3 dist = fromPosition.sub(toPosition);
-		dist.normalize();
-		return dist;
+		EntityPlayer p = getClientPlayer();
+
+		for (int i = 1; i < 150; i++)
+		{
+			double xp = (-Math.random() * 5.0F) + (Math.random() * 5.0F);
+			double zp = (-Math.random() * 5.0F) + (Math.random() * 5.0F);
+			double yp = (-Math.random() * 5.0F) + (Math.random() * 5.0F);
+			double off = Math.random() * 0.1;
+
+			float red = (0.8F + p.worldObj.rand.nextFloat() * 0.5F);
+			float green = (0.8F + p.worldObj.rand.nextFloat() * 0.5F);
+			float blue = (0.6F + p.worldObj.rand.nextFloat() * 0.5F);
+
+			FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY + yp + off, p.posZ + zp + off, 0.25F + ((float) Math.random() * 0.25F), red, green, blue);
+			ef.setGravity(0.0F);
+			ef.shrink = true;
+			ef.noClip = true;
+			Vector3 movement = TaintedMagicHelper.getDistanceBetween(ef, p);
+			ef.addVelocity(movement.x * 0.5, 0, movement.z * 0.5);
+
+			ParticleEngine.instance.addEffect(w, ef);
+		}
 	}
 }

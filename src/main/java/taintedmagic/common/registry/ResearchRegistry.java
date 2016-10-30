@@ -244,7 +244,7 @@ public class ResearchRegistry
 				new ResearchPage((InfusionRecipe) recipes.get("ItemShadowFortressLeggings")) }).registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("SHADOWFORTRESSARMOR", 3);
 
-		new TaintedMagicResearchItem("CAP_cloth", TM, new AspectList().add(Aspect.MAGIC, 4).add(Aspect.CLOTH, 4), 7, 1, 0, new ItemStack(ItemRegistry.ItemWandCap, 1, 1)).setParentsHidden("CAP_gold", "ENCHFABRIC").setConcealed().setSecondary().setPages(new ResearchPage[]{
+		new TaintedMagicResearchItem("CAP_cloth", TM, new AspectList().add(Aspect.MAGIC, 4).add(Aspect.CLOTH, 4), 5, -3, 0, new ItemStack(ItemRegistry.ItemWandCap, 1, 1)).setParentsHidden("CAP_gold", "ENCHFABRIC").setConcealed().setSecondary().setPages(new ResearchPage[]{
 				new ResearchPage("1"),
 				new ResearchPage((IArcaneRecipe) recipes.get("ItemWandCap:1")) }).registerResearchItem();
 
@@ -269,7 +269,7 @@ public class ResearchRegistry
 
 		new TaintedMagicResearchItem("BLOODLUSTUPGRADE", TM, new AspectList().add(Aspect.MAGIC, 4).add(Aspect.HEAL, 8).add(Aspect.WEAPON, 8), 1, -4, 0, new ResourceLocation("taintedmagic:textures/foci/IconBloodlust.png")).setParentsHidden("MACEFOCUS", "FOCALMANIPULATION").setConcealed().setParents("CRYSTALDAGGER").setSecondary().setPages(new ResearchPage[]{ new ResearchPage("1") }).registerResearchItem();
 
-		new TaintedMagicResearchItem("THAUMIUMKATANA", TM, new AspectList().add(Aspect.METAL, 8).add(Aspect.MAGIC, 4).add(Aspect.WEAPON, 6), 8, 1, 0, new ItemStack(ItemRegistry.ItemKatana, 1, 0)).setParentsHidden("ARMORFORTRESS").setConcealed().setSecondary().setPages(new ResearchPage[]{
+		new TaintedMagicResearchItem("THAUMIUMKATANA", TM, new AspectList().add(Aspect.METAL, 8).add(Aspect.MAGIC, 4).add(Aspect.WEAPON, 6), 7, 1, 0, new ItemStack(ItemRegistry.ItemKatana, 1, 0)).setParentsHidden("ARMORFORTRESS").setConcealed().setPages(new ResearchPage[]{
 				new ResearchPage("1"),
 				new ResearchPage((InfusionRecipe) recipes.get("ItemKatana:0")) }).registerResearchItem();
 
@@ -282,5 +282,18 @@ public class ResearchRegistry
 				new ResearchPage("1"),
 				new ResearchPage((InfusionRecipe) recipes.get("ItemKatana:2")) }).registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("SHADOWMETALKATANA", 6);
+
+		new TaintedMagicResearchItem("INSCRIPTIONFIRE", TM, new AspectList().add(Aspect.FIRE, 8).add(Aspect.LIGHT, 4).add(Aspect.METAL, 6), 9, 1, 0, new ResourceLocation("taintedmagic:textures/misc/IconINSCRIPTIONFIRE.png")).setParents("THAUMIUMKATANA").setParentsHidden("FOCUSFIRE").setConcealed().setPages(new ResearchPage[]{
+				new ResearchPage("1"),
+				new ResearchPage((InfusionRecipe) recipes.get("ItemKatanaThaumium:inscription0")) }).setSecondary().registerResearchItem();
+
+		new TaintedMagicResearchItem("INSCRIPTIONTAINT", TM, new AspectList().add(Aspect.TAINT, 8).add(Aspect.FLESH, 4).add(Aspect.METAL, 6), 9, 2, 0, new ResourceLocation("taintedmagic:textures/misc/IconINSCRIPTIONTAINT.png")).setParents("THAUMIUMKATANA").setParentsHidden("TAINTFOCUS").setConcealed().setPages(new ResearchPage[]{
+				new ResearchPage("1"),
+				new ResearchPage((InfusionRecipe) recipes.get("ItemKatanaThaumium:inscription1")) }).setSecondary().registerResearchItem();
+		ThaumcraftApi.addWarpToResearch("INSCRIPTIONTAINT", 4);
+
+		new TaintedMagicResearchItem("INSCRIPTIONWIND", TM, new AspectList().add(Aspect.AIR, 8).add(Aspect.MOTION, 4).add(Aspect.METAL, 6), 8, 3, 0, new ResourceLocation("taintedmagic:textures/misc/IconINSCRIPTIONWIND.png")).setParents("THAUMIUMKATANA").setConcealed().setPages(new ResearchPage[]{
+				new ResearchPage("1"),
+				new ResearchPage((InfusionRecipe) recipes.get("ItemKatanaThaumium:inscription2")) }).setSecondary().registerResearchItem();
 	}
 }

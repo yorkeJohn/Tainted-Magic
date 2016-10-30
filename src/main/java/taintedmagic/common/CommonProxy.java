@@ -30,4 +30,8 @@ public class CommonProxy
 	public void spawnShockwaveParticles (World w)
 	{
 	}
+
+	public void spawnWindParticles (World w)
+	{
+	}
 }

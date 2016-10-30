@@ -45,10 +45,10 @@ public class ItemThaumicDisassembler extends Item
 	{
 		super.addInformation(s, p, l, b);
 
-		l.add(StatCollector.translateToLocal("text.mode") + ": " + EnumChatFormatting.BLUE + getModeName(s));
-		l.add(StatCollector.translateToLocal("text.efficiency") + ": " + EnumChatFormatting.BLUE + getEfficiency(s));
+		l.add("\u00A78" + StatCollector.translateToLocal("text.mode") + ": " + getModeName(s));
+		l.add("\u00A78" + StatCollector.translateToLocal("text.efficiency") + ": " + (getMode(s) == 3 ? "\u00A7c" : "\u00A7a") + getEfficiency(s));
 		l.add(" ");
-		l.add(EnumChatFormatting.BLUE + "+20 " + StatCollector.translateToLocal("text.attackdamage"));
+		l.add("\u00A79" + "+20 " + StatCollector.translateToLocal("text.attackdamage"));
 	}
 
 	@Override
@@ -144,13 +144,13 @@ public class ItemThaumicDisassembler extends Item
 		switch (mode)
 		{
 		case 0 :
-			return StatCollector.translateToLocal("text.disassembler.normal");
+			return "\u00A7a" + StatCollector.translateToLocal("text.disassembler.normal");
 		case 1 :
-			return StatCollector.translateToLocal("text.disassembler.slow");
+			return "\u00A7a" + StatCollector.translateToLocal("text.disassembler.slow");
 		case 2 :
-			return StatCollector.translateToLocal("text.disassembler.fast");
+			return "\u00A7a" + StatCollector.translateToLocal("text.disassembler.fast");
 		case 3 :
-			return StatCollector.translateToLocal("text.disassembler.off");
+			return "\u00A7c" + StatCollector.translateToLocal("text.disassembler.off");
 		}
 		return null;
 	}

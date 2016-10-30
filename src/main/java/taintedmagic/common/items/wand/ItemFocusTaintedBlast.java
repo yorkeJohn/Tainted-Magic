@@ -2,11 +2,7 @@ package taintedmagic.common.items.wand;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,28 +11,19 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.entities.EntityEldritchOrbAttack;
+import taintedmagic.common.helper.TaintedMagicHelper;
 import taintedmagic.common.helper.Vector3;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.FocusUpgradeType;
 import thaumcraft.api.wands.ItemFocusBasic;
-import thaumcraft.client.fx.ParticleEngine;
-import thaumcraft.client.fx.particles.FXWisp;
-import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.entities.projectile.EntityPrimalOrb;
 import thaumcraft.common.items.wands.ItemWandCasting;
-import thaumcraft.common.items.wands.WandManager;
-import thaumcraft.common.lib.network.PacketHandler;
-import thaumcraft.common.lib.network.fx.PacketFXSonic;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemFocusTaintedBlast extends ItemFocusBasic
 {
@@ -125,13 +112,13 @@ public class ItemFocusTaintedBlast extends ItemFocusBasic
 				{
 					if (eo.isEntityAlive() && !eo.isEntityInvulnerable())
 					{
-						double d = getDistanceTo(eo.posX, eo.posY, eo.posZ, p);
+						double d = TaintedMagicHelper.getDistanceTo(eo.posX, eo.posY, eo.posZ, p);
 						if (d < 7.0D)
 						{
 							eo.attackEntityFrom(DamageSource.magic, 2.0F);
 						}
 					}
-					Vector3 movement = getDistanceBetween(eo, p);
+					Vector3 movement = TaintedMagicHelper.getDistanceBetween(eo, p);
 					eo.addVelocity(movement.x * 3, 0.8, movement.z * 3);
 				}
 			}
@@ -140,24 +127,6 @@ public class ItemFocusTaintedBlast extends ItemFocusBasic
 			return s;
 		}
 		return null;
-	}
-
-	public static Vector3 getDistanceBetween (Entity e, Entity e2)
-	{
-		Vector3 fromPosition = new Vector3(e.posX, e.posY, e.posZ);
-		Vector3 toPosition = new Vector3(e2.posX, e2.posY, e2.posZ);
-		Vector3 dist = fromPosition.sub(toPosition);
-		dist.normalize();
-		return dist;
-
-	}
-
-	public static double getDistanceTo (double x, double y, double z, EntityPlayer p)
-	{
-		double var7 = p.posX + 0.5D - x;
-		double var9 = p.posY + 0.5D - y;
-		double var11 = p.posZ + 0.5D - z;
-		return var7 * var7 + var9 * var9 + var11 * var11;
 	}
 
 	public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack s, int rank)
