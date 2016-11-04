@@ -1,10 +1,10 @@
 package taintedmagic.common.items.wand;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -96,30 +96,28 @@ public class ItemFocusTaintedBlast extends ItemFocusBasic
 
 	public ItemStack onFocusRightClick (ItemStack s, World w, EntityPlayer p, MovingObjectPosition mop)
 	{
-		Iterator i$;
 		ItemWandCasting wand = (ItemWandCasting) s.getItem();
 
-		int potency = wand.getFocusPotency(s);
+		int pot = wand.getFocusPotency(s);
 		if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
 		{
-			List entities = p.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(p.posX, p.posY, p.posZ, p.posX + 1, p.posY + 1, p.posZ + 1).expand(15.0D + this.getUpgradeLevel(s, FocusUpgradeType.enlarge), 15.0D + this.getUpgradeLevel(s, FocusUpgradeType.enlarge), 15.0D + this.getUpgradeLevel(s, FocusUpgradeType.enlarge)));
-			if ( (entities != null) && (entities.size() > 0)) for (i$ = entities.iterator(); i$.hasNext();)
+			List<EntityLivingBase> ents = w.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(p.posX, p.posY, p.posZ, p.posX + 1, p.posY + 1, p.posZ + 1).expand(15.0D + this.getUpgradeLevel(s, FocusUpgradeType.enlarge), 15.0D + this.getUpgradeLevel(s, FocusUpgradeType.enlarge), 15.0D + this.getUpgradeLevel(s, FocusUpgradeType.enlarge)));
+			if (ents != null && ents.size() > 0)
 			{
-				Object ent = i$.next();
-				Entity eo = (Entity) ent;
-
-				if (eo != p)
+				for (int a = 0; a < ents.size(); a++)
 				{
-					if (eo.isEntityAlive() && !eo.isEntityInvulnerable())
+					Entity e = ents.get(a);
+
+					if (e != p && e.isEntityAlive() && !e.isEntityInvulnerable())
 					{
-						double d = TaintedMagicHelper.getDistanceTo(eo.posX, eo.posY, eo.posZ, p);
-						if (d < 7.0D)
+						double dist = TaintedMagicHelper.getDistanceTo(e.posX, e.posY, e.posZ, p);
+						if (dist < 7.0D)
 						{
-							eo.attackEntityFrom(DamageSource.magic, 2.0F);
+							e.attackEntityFrom(DamageSource.magic, 2.0F);
 						}
+						Vector3 movement = TaintedMagicHelper.getDistanceBetween(e, p);
+						e.addVelocity(movement.x * 3, 0.8, movement.z * 3);
 					}
-					Vector3 movement = TaintedMagicHelper.getDistanceBetween(eo, p);
-					eo.addVelocity(movement.x * 3, 0.8, movement.z * 3);
 				}
 			}
 			w.playSoundAtEntity(p, "taintedmagic:shockwave", 5.0F, 1.0F * (float) Math.random());
