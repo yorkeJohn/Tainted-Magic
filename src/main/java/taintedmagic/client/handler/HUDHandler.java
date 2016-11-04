@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import taintedmagic.common.items.tools.ItemKatana;
+import taintedmagic.common.items.tools.ItemThaumicDisassembler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class HUDHandler
@@ -23,6 +24,7 @@ public class HUDHandler
 			if (mc.currentScreen == null)
 			{
 				ItemKatana.renderHUD(r, p, pt);
+				ItemThaumicDisassembler.renderHUD(r, p, pt);
 			}
 		}
 	}

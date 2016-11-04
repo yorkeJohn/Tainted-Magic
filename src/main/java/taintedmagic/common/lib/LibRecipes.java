@@ -614,7 +614,7 @@ public class LibRecipes
 
 		ResearchRegistry.recipes.put("ItemMagicFunguar", ThaumcraftApi.addShapelessArcaneCraftingRecipe("MAGICFUNGUAR", new ItemStack(ItemRegistry.ItemMagicFunguar), new AspectList().add(Aspect.ORDER, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.AIR, 1).add(Aspect.FIRE, 1).add(Aspect.ENTROPY, 1), new Object[]{
 				new ItemStack(ConfigBlocks.blockCustomPlant, 1, 5),
-				new ItemStack(ConfigItems.itemShard, 32767),
+				new ItemStack(ConfigItems.itemShard, 1, 32767),
 				new ItemStack(Blocks.brown_mushroom),
 				new ItemStack(Blocks.red_mushroom),
 				new ItemStack(Items.blaze_powder) }));

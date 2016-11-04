@@ -1,6 +1,9 @@
 package taintedmagic.client;
 
+import java.util.Random;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -18,6 +21,7 @@ import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWisp;
 import thaumcraft.client.renderers.entity.RenderEldritchOrb;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ClientProxy extends CommonProxy
 {
@@ -80,24 +84,36 @@ public class ClientProxy extends CommonProxy
 	public void spawnWindParticles (World w)
 	{
 		EntityPlayer p = getClientPlayer();
+		Random r = new Random();
 
-		for (int i = 1; i < 150; i++)
+		for (int i = 1; i < 200; i++)
 		{
-			double xp = (-Math.random() * 5.0F) + (Math.random() * 5.0F);
-			double zp = (-Math.random() * 5.0F) + (Math.random() * 5.0F);
-			double yp = (-Math.random() * 5.0F) + (Math.random() * 5.0F);
+			double xp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
+			double zp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
+			double yp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
 			double off = Math.random() * 0.1;
 
 			float red = (0.8F + p.worldObj.rand.nextFloat() * 0.5F);
 			float green = (0.8F + p.worldObj.rand.nextFloat() * 0.5F);
 			float blue = (0.6F + p.worldObj.rand.nextFloat() * 0.5F);
 
-			FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY + yp + off, p.posZ + zp + off, 0.25F + ((float) Math.random() * 0.25F), red, green, blue);
+			FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY + yp + off, p.posZ + zp + off, 0.5F + ((float) Math.random() * 0.25F), red, green, blue);
 			ef.setGravity(0.0F);
 			ef.shrink = true;
 			ef.noClip = true;
+			
+			int age = 30 + r.nextInt(50);
+			
+			try
+			{
+				ReflectionHelper.setPrivateValue(EntityFX.class, ef, age, "particleMaxAge");
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 			Vector3 movement = TaintedMagicHelper.getDistanceBetween(ef, p);
-			ef.addVelocity(movement.x * 0.5, 0, movement.z * 0.5);
+			ef.addVelocity(movement.x * 0.5, movement.y * 0.5, movement.z * 0.5);
 
 			ParticleEngine.instance.addEffect(w, ef);
 		}

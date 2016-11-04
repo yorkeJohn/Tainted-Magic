@@ -3,6 +3,9 @@ package taintedmagic.common.items.tools;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,15 +14,19 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.items.wands.WandManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemThaumicDisassembler extends Item
 {
@@ -82,10 +89,7 @@ public class ItemThaumicDisassembler extends Item
 			Block block = p.worldObj.getBlock(x, y, z);
 			int meta = p.worldObj.getBlockMetadata(x, y, z);
 
-			if (block == Blocks.lit_redstone_ore)
-			{
-				block = Blocks.redstone_ore;
-			}
+			if (block == Blocks.lit_redstone_ore) block = Blocks.redstone_ore;
 
 			ItemStack stack = new ItemStack(block, 1, meta);
 		}
@@ -112,7 +116,7 @@ public class ItemThaumicDisassembler extends Item
 		return s;
 	}
 
-	public int getEfficiency (ItemStack s)
+	public static int getEfficiency (ItemStack s)
 	{
 		switch (getMode(s))
 		{
@@ -128,16 +132,13 @@ public class ItemThaumicDisassembler extends Item
 		return 0;
 	}
 
-	public int getMode (ItemStack s)
+	public static int getMode (ItemStack s)
 	{
-		if (s.stackTagCompound == null)
-		{
-			return 0;
-		}
+		if (s.stackTagCompound == null) return 0;
 		return s.stackTagCompound.getInteger(TAG_MODE);
 	}
 
-	public String getModeName (ItemStack s)
+	public static String getModeName (ItemStack s)
 	{
 		int mode = getMode(s);
 
@@ -158,7 +159,6 @@ public class ItemThaumicDisassembler extends Item
 	public void toggleMode (ItemStack s)
 	{
 		if (s.stackTagCompound == null) s.setTagCompound(new NBTTagCompound());
-
 		s.stackTagCompound.setInteger(TAG_MODE, getMode(s) < 3 ? getMode(s) + 1 : 0);
 	}
 
@@ -168,13 +168,38 @@ public class ItemThaumicDisassembler extends Item
 		if (e instanceof EntityPlayer)
 		{
 			EntityPlayer p = (EntityPlayer) e;
-			if ( (!w.isRemote) && (s.isItemDamaged()) && (e.ticksExisted % 20 == 0))
+			if (!w.isRemote && s.isItemDamaged() && e.ticksExisted % 20 == 0)
 			{
-				if (WandManager.consumeVisFromInventory(p, new AspectList().add(Aspect.ENTROPY, 5)))
-				{
-					s.damageItem(-1, (EntityLivingBase) e);
-				}
+				if (WandManager.consumeVisFromInventory(p, new AspectList().add(Aspect.ENTROPY, 5))) s.damageItem(-1, (EntityLivingBase) e);
 			}
+		}
+	}
+
+	@SideOnly (Side.CLIENT)
+	public static void renderHUD (ScaledResolution resolution, EntityPlayer player, float partialTicks)
+	{
+		Minecraft mc = Minecraft.getMinecraft();
+		EntityPlayer p = TaintedMagic.proxy.getClientPlayer();
+		ItemStack s = mc.thePlayer.getCurrentEquippedItem();
+		FontRenderer f = mc.fontRenderer;
+
+		if (s != null && s.getItem() instanceof ItemThaumicDisassembler)
+		{
+			String str = "\u00A78" + StatCollector.translateToLocal("text.mode") + ": " + getModeName(s) + (getMode(s) == 3 ? "\u00A7c" : "\u00A7a") + " (" + getEfficiency(s) + ")";
+
+			GL11.glPushMatrix();
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GL11.glTranslated(0, -15, 0);
+
+			GL11.glScalef(0.8F, 0.8F, 0.8F);
+
+			f.drawStringWithShadow(str, resolution.getScaledWidth() / 2 + 100, resolution.getScaledHeight() / 2 + 212, 0xFFFFFF);
+
+			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+			GL11.glPopMatrix();
 		}
 	}
 }

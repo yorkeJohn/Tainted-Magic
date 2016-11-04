@@ -39,10 +39,7 @@ public class PacketAttackEntityFromClient implements IMessage, IMessageHandler<P
 		Entity e = w.getEntityByID(message.entityID);
 		Entity p = w.getEntityByID(message.playerID);
 
-		if (e != null && e instanceof EntityLivingBase && p != null && p instanceof EntityPlayer)
-		{
-			e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(p, e), message.dmg);
-		}
+		if (e != null && e instanceof EntityLivingBase && p != null && p instanceof EntityPlayer) e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(p, e), message.dmg);
 
 		return null;
 	}

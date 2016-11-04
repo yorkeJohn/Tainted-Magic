@@ -44,6 +44,7 @@ import taintedmagic.common.network.PacketHandler;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.wands.FocusUpgradeType;
+import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.Config;
 import thaumcraft.common.entities.projectile.EntityEmber;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -60,6 +61,9 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 
 	public static final ModelKatana katana = new ModelKatana();
 	public static final ModelSaya saya = new ModelSaya();
+
+	public static boolean equipped = false;
+	public static float ticksEquipped = 0F;
 
 	public ItemKatana ()
 	{
@@ -217,8 +221,11 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	public void onUsingTick (ItemStack s, EntityPlayer p, int i)
 	{
 		super.onUsingTick(s, p, i);
-		float j = 1.0F + (Math.min(1.0F * (float) p.getItemInUseDuration() / 30, 1.0F) + ((float) Math.random() * 0.25F));
-		if (p.ticksExisted % 5 == 0) p.worldObj.playSoundAtEntity(p, "thaumcraft:wind", j * 0.1F, j);
+		if (!p.worldObj.isRemote)
+		{
+			float j = 1.0F + ((float) Math.random() * 0.25F);
+			if (p.ticksExisted % 5 == 0) p.worldObj.playSoundAtEntity(p, "thaumcraft:wind", j * 0.1F, j);
+		}
 	}
 
 	@Override
@@ -289,6 +296,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 					}
 				}
 				p.swingItem();
+				w.playSoundAtEntity(p, "taintedmagic:shockwave", 5.0F, 1.0F * (float) Math.random());
 				TaintedMagic.proxy.spawnWindParticles(w);
 				break;
 			}
@@ -329,7 +337,20 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-				if (p.getHeldItem() == null || p.getHeldItem().getItem() != this)
+				GL11.glPushMatrix();
+
+				GL11.glScalef(0.5F, 0.5F, 0.5F);
+				GL11.glRotatef(55, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
+
+				GL11.glTranslatef(-0.6F, 2.25F, 1.25F);
+
+				Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(s));
+				saya.render(0.0625F);
+
+				GL11.glPopMatrix();
+
+				if (p.getHeldItem() == null || p.getHeldItem() != s)
 				{
 					GL11.glPushMatrix();
 
@@ -345,19 +366,6 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 					GL11.glPopMatrix();
 				}
 
-				GL11.glPushMatrix();
-
-				GL11.glScalef(0.5F, 0.5F, 0.5F);
-				GL11.glRotatef(55, 1.0F, 0.0F, 0.0F);
-				GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
-
-				GL11.glTranslatef(-0.6F, 2.25F, 1.25F);
-
-				Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(s));
-				saya.render(0.0625F);
-
-				GL11.glPopMatrix();
-
 				GL11.glPopMatrix();
 
 				break;
@@ -372,7 +380,20 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 		ItemStack s = mc.thePlayer.getCurrentEquippedItem();
 		Tessellator t = Tessellator.instance;
 
-		if (s != null && s.getItem() instanceof ItemKatana)
+		boolean b = false;
+
+		if (s != null && s.getItem() instanceof ItemKatana) b = true;
+		else b = false;
+
+		float time = 30F;
+		if (b) ticksEquipped = Math.min(time, ticksEquipped + pt);
+		else ticksEquipped = Math.max(0F, ticksEquipped - pt);
+
+		float defAlpha = 0F;
+		float fract = ticksEquipped / time;
+		float a = fract;
+
+		if (b || ticksEquipped != 0)
 		{
 			float tickFract = Math.min((float) p.getItemInUseDuration() / 30.0F, 1.0F);
 
@@ -406,7 +427,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 				t.startDrawingQuads();
 
 				t.setBrightness(240);
-				t.setColorRGBA_F(red, green, 0.4F, alpha + 0.7F);
+				t.setColorRGBA_F(red, green, 0.4F, (alpha + 0.7F) * a);
 				t.addVertexWithUV(x + (rune * 16) - alpha, y2 + alpha, 0, f, f3);
 				t.addVertexWithUV(x2 + (rune * 16) + alpha, y2 + alpha, 0, f1, f3);
 				t.addVertexWithUV(x2 + (rune * 16) + alpha, y - alpha, 0, f1, f2);
