@@ -70,6 +70,11 @@ public class ItemMaterial extends Item
 	@SideOnly (Side.CLIENT)
 	public void getSubItems (Item item, CreativeTabs c, List l)
 	{
+		/**
+		 * 0: Shadowmetal 1: Shadow Cloth 2: Crimson Cloth 3: Warped Shard 4:
+		 * Fluxed Shard 5: Creation Shard 6: Thaumic Alloy 7: Crystal Blood 8:
+		 * Crimson Plating
+		 */
 		for (int i = 0; i < SUBTYPES; i++)
 			l.add(new ItemStack(this, 1, i));
 	}
