@@ -298,9 +298,6 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 						}
 					}
 				}
-
-				System.out.println(w.isRemote);
-
 				p.worldObj.playSoundAtEntity(p, "taintedmagic:shockwave", 5.0F, 1.0F * (float) Math.random());
 				TaintedMagic.proxy.spawnWindParticles(p.worldObj);
 				p.swingItem();
@@ -308,7 +305,6 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 			}
 			}
 		}
-		s.stackTagCompound.setInteger("inscription", 2);
 	}
 
 	public int castType (EntityPlayer p)
