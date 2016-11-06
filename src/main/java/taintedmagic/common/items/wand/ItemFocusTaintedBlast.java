@@ -106,15 +106,12 @@ public class ItemFocusTaintedBlast extends ItemFocusBasic
 			{
 				for (int a = 0; a < ents.size(); a++)
 				{
-					Entity e = ents.get(a);
+					EntityLivingBase e = ents.get(a);
 
 					if (e != p && e.isEntityAlive() && !e.isEntityInvulnerable())
 					{
 						double dist = TaintedMagicHelper.getDistanceTo(e.posX, e.posY, e.posZ, p);
-						if (dist < 7.0D)
-						{
-							e.attackEntityFrom(DamageSource.magic, 2.0F);
-						}
+						if (dist < 7.0D) e.attackEntityFrom(DamageSource.magic, 2.0F);
 						Vector3 movement = TaintedMagicHelper.getDistanceBetween(e, p);
 						e.addVelocity(movement.x * 3, 0.8, movement.z * 3);
 					}

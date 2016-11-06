@@ -11,6 +11,9 @@ import thaumcraft.common.items.armor.ItemCultistLeaderArmor;
 import thaumcraft.common.items.armor.ItemCultistPlateArmor;
 import thaumcraft.common.items.armor.ItemCultistRobeArmor;
 
+/**
+ * Custom recipe for aplpying Voidsent Blood to Cult Attire
+ */
 public class RecipeVoidsentBlood implements IRecipe
 {
 	@Override

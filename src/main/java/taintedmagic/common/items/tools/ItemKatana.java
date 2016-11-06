@@ -65,6 +65,8 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	public static boolean equipped = false;
 	public static float ticksEquipped = 0F;
 
+	public int ticksInUse = 0;
+
 	public ItemKatana ()
 	{
 		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
@@ -221,23 +223,24 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	public void onUsingTick (ItemStack s, EntityPlayer p, int i)
 	{
 		super.onUsingTick(s, p, i);
-		if (!p.worldObj.isRemote)
-		{
-			float j = 1.0F + ((float) Math.random() * 0.25F);
-			if (p.ticksExisted % 5 == 0) p.worldObj.playSoundAtEntity(p, "thaumcraft:wind", j * 0.1F, j);
-		}
+
+		this.ticksInUse = getMaxItemUseDuration(s) - i;
+
+		float j = 1.0F + ((float) Math.random() * 0.25F);
+		if (p.ticksExisted % 5 == 0) p.worldObj.playSoundAtEntity(p, "thaumcraft:wind", j * 0.1F, j);
 	}
 
 	@Override
 	public void onPlayerStoppedUsing (ItemStack s, World w, EntityPlayer p, int i)
 	{
 		super.onPlayerStoppedUsing(s, w, p, i);
+
 		if (!hasAnyInscription(s) || castType(p) == 0 || p.isSneaking())
 		{
 			if (w.isRemote)
 			{
 				MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
-				float mul = Math.min(1.0F + (float) p.getItemInUseDuration() / 40.0F, 2.0F);
+				float mul = Math.min(1.0F + (float) this.ticksInUse / 40.0F, 2.0F);
 
 				if (mop.entityHit != null) PacketHandler.INSTANCE.sendToServer(new PacketAttackEntityFromClient(mop.entityHit, p, this.getAttackDamage(s) * mul));
 
@@ -253,12 +256,12 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 			{
 				for (int a = 0; a < 50; a++)
 				{
-					EntityEmber proj = new EntityEmber(p.worldObj, p, 5.0F);
+					EntityEmber proj = new EntityEmber(w, p, 5.0F);
 					proj.posX += proj.motionX;
 					proj.posY += proj.motionY;
 					proj.posZ += proj.motionZ;
 					proj.damage = 10.0F;
-					p.worldObj.spawnEntityInWorld(proj);
+					w.spawnEntityInWorld(proj);
 					p.swingItem();
 				}
 				break;
@@ -267,19 +270,19 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 			{
 				for (int a = 0; a < 50; a++)
 				{
-					EntityTaintBubble proj = new EntityTaintBubble(p.worldObj, p, 5.0F, false);
+					EntityTaintBubble proj = new EntityTaintBubble(w, p, 5.0F, false);
 					proj.posX += proj.motionX;
 					proj.posY += proj.motionY;
 					proj.posZ += proj.motionZ;
 					proj.damage = 10.0F;
-					p.worldObj.spawnEntityInWorld(proj);
+					w.spawnEntityInWorld(proj);
 					p.swingItem();
 				}
 				break;
 			}
 			case 2 :
 			{
-				List<EntityLivingBase> ents = p.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(p.posX, p.posY, p.posZ, p.posX + 1, p.posY + 1, p.posZ + 1).expand(5.0D, 5.0D, 5.0D));
+				List<EntityLivingBase> ents = w.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(p.posX, p.posY, p.posZ, p.posX + 1, p.posY + 1, p.posZ + 1).expand(5.0D, 5.0D, 5.0D));
 				if (ents != null && ents.size() > 0)
 				{
 					for (int a = 0; a < ents.size(); a++)
@@ -289,26 +292,28 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 						if (e != p && e.isEntityAlive() && !e.isEntityInvulnerable())
 						{
 							double dist = TaintedMagicHelper.getDistanceTo(e.posX, e.posY, e.posZ, p);
-							if (dist < 2) e.attackEntityFrom(DamageSource.causePlayerDamage(p).setMagicDamage().setDamageBypassesArmor(), 5.0F);
+							if (dist < 2.0D) e.attackEntityFrom(DamageSource.causePlayerDamage(p).setMagicDamage(), 5.0F);
 							Vector3 movement = TaintedMagicHelper.getDistanceBetween(e, p);
 							e.addVelocity(movement.x * 3, 0.8, movement.z * 3);
 						}
 					}
 				}
+
+				System.out.println(w.isRemote);
+
+				p.worldObj.playSoundAtEntity(p, "taintedmagic:shockwave", 5.0F, 1.0F * (float) Math.random());
+				TaintedMagic.proxy.spawnWindParticles(p.worldObj);
 				p.swingItem();
-				w.playSoundAtEntity(p, "taintedmagic:shockwave", 5.0F, 1.0F * (float) Math.random());
-				TaintedMagic.proxy.spawnWindParticles(w);
 				break;
 			}
-			default :
-				break;
 			}
 		}
+		s.stackTagCompound.setInteger("inscription", 2);
 	}
 
 	public int castType (EntityPlayer p)
 	{
-		float f = Math.min((float) p.getItemInUseDuration() / 15.0F, 2.0F);
+		float f = Math.min((float) this.ticksInUse / 15.0F, 2.0F);
 
 		if (f == 2.0F) return 1;
 		else return 0;
@@ -318,13 +323,13 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	@SubscribeEvent
 	public void onPlayerRender (RenderPlayerEvent.Specials.Post event)
 	{
-		EntityPlayer p = event.entityPlayer;
-
 		if (event.entityLiving.getActivePotionEffect(Potion.invisibility) != null) return;
+
+		EntityPlayer p = event.entityPlayer;
 
 		for (int i = 0; i < p.inventory.getSizeInventory(); i++)
 		{
-			if (p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() == this)
+			if (p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemKatana)
 			{
 				ItemStack s = p.inventory.getStackInSlot(i);
 
@@ -399,7 +404,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 
 			int x = r.getScaledWidth() / 2 + 725;
 			int x2 = x + 16;
-			int y = r.getScaledHeight() / 2 + (p.capabilities.isCreativeMode ? 810 : 755);
+			int y = r.getScaledHeight() / 2 + (p.capabilities.isCreativeMode ? 805 : 755);
 			int y2 = y + 16;
 
 			GL11.glPushMatrix();

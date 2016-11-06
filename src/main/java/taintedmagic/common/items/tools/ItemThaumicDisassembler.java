@@ -195,7 +195,7 @@ public class ItemThaumicDisassembler extends Item
 
 			GL11.glScalef(0.8F, 0.8F, 0.8F);
 
-			f.drawStringWithShadow(str, resolution.getScaledWidth() / 2 + 100, resolution.getScaledHeight() / 2 + 212, 0xFFFFFF);
+			f.drawStringWithShadow(str, resolution.getScaledWidth() / 2 + 100, resolution.getScaledHeight() / 2 + (p.capabilities.isCreativeMode ? 230 : 212), 0xFFFFFF);
 
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
