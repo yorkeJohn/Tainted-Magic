@@ -161,19 +161,6 @@ public class ItemRegistry
 	}
 
 	public static Item ItemMagicFunguar;
-	/**
-	 * Metadata:
-	 * 
-	 * @param 0: Shadowmetal
-	 * @param 1: Shadow Cloth
-	 * @param 2: Crimson Cloth
-	 * @param 3: Warped Shard
-	 * @param 4: Fluxed Shard
-	 * @param 5: Creation Shard
-	 * @param 6: Thaumic Alloy
-	 * @param 7: Crystal Blood
-	 * @param 8: Crimson Plating
-	 */
 	public static Item ItemMaterial;
 	public static Item ItemVoidsentBlood;
 
