@@ -12,5 +12,6 @@ public class OreDictionaryRegistry
 		OreDictionary.registerOre("treeSapling", new ItemStack(BlockRegistry.BlockWarpwoodSapling));
 		OreDictionary.registerOre("ingotShadow", new ItemStack(ItemRegistry.ItemMaterial));
 		OreDictionary.registerOre("plankWood", new ItemStack(BlockRegistry.BlockWarpwoodPlanks));
+		OreDictionary.registerOre("blockShadow", new ItemStack(BlockRegistry.BlockShadowmetal));
 	}
 }

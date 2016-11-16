@@ -12,12 +12,12 @@ import org.lwjgl.opengl.GL11;
 
 import taintedmagic.common.entities.EntityTaintBubble;
 
-public class RenderTaintBubble extends Render
+public class RenderEntityTaintBubble extends Render
 {
 	private static final ResourceLocation texture = new ResourceLocation("taintedmagic:textures/entities/EntityTaintBubble.png");
 	private Random random = new Random();
 
-	public RenderTaintBubble ()
+	public RenderEntityTaintBubble ()
 	{
 		this.shadowSize = 0.0F;
 	}
@@ -47,7 +47,7 @@ public class RenderTaintBubble extends Render
 		float f7 = 0.5F;
 		float f8 = 0.5F;
 
-		float s = 0.5F;
+		float s = 0.25F;
 
 		GL11.glScalef(s, s, s);
 

@@ -23,7 +23,7 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import taintedmagic.api.IBloodlust;
-import taintedmagic.common.items.wand.ItemFocusMageMace;
+import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;

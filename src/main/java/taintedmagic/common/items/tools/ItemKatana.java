@@ -1,6 +1,7 @@
 package taintedmagic.common.items.tools;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -8,7 +9,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -19,7 +19,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
@@ -37,16 +36,12 @@ import taintedmagic.client.model.ModelKatana;
 import taintedmagic.client.model.ModelSaya;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.entities.EntityTaintBubble;
-import taintedmagic.common.helper.TaintedMagicHelper;
-import taintedmagic.common.helper.Vector3;
-import taintedmagic.common.network.PacketAttackEntityFromClient;
+import taintedmagic.common.network.PacketKatanaAttack;
 import taintedmagic.common.network.PacketHandler;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
-import thaumcraft.api.wands.FocusUpgradeType;
-import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.Config;
-import thaumcraft.common.entities.projectile.EntityEmber;
+import thaumcraft.common.entities.projectile.EntityExplosiveOrb;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -123,7 +118,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 				}
 				case 2 :
 				{
-					e.attackEntityFrom(new DamageSource("wind").setMagicDamage().setDamageBypassesArmor(), getAttackDamage(s));
+					e.attackEntityFrom(DamageSource.wither.setMagicDamage().setDamageBypassesArmor(), getAttackDamage(s));
 
 					try
 					{
@@ -234,36 +229,38 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	public void onPlayerStoppedUsing (ItemStack s, World w, EntityPlayer p, int i)
 	{
 		super.onPlayerStoppedUsing(s, w, p, i);
+		Random r = new Random();
 
-		if (!hasAnyInscription(s) || castType(p) == 0 || p.isSneaking())
+		if (!hasAnyInscription(s) || !isFullyCharged(p) || p.isSneaking() || getInscription(s) == 2)
 		{
+			boolean leech = (getInscription(s) == 2 && isFullyCharged(p));
+			boolean b = false;
+
 			if (w.isRemote)
 			{
 				MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
 				float mul = Math.min(1.0F + (float) this.ticksInUse / 40.0F, 2.0F);
 
-				if (mop.entityHit != null) PacketHandler.INSTANCE.sendToServer(new PacketAttackEntityFromClient(mop.entityHit, p, this.getAttackDamage(s) * mul));
-
+				if (mop.entityHit != null)
+				{
+					PacketHandler.INSTANCE.sendToServer(new PacketKatanaAttack(mop.entityHit, p, this.getAttackDamage(s) * mul, leech));
+				}
 				p.swingItem();
 			}
-			p.worldObj.playSoundAtEntity(p, "thaumcraft:swing", 0.5F + (float) Math.random(), 0.5F + (float) Math.random());
+			p.worldObj.playSoundAtEntity(p, ("thaumcraft:swing"), 0.5F + (float) Math.random(), 0.5F + (float) Math.random());
 		}
-		else if (hasAnyInscription(s) && castType(p) == 1 && !p.isSneaking())
+		else if (hasAnyInscription(s) && isFullyCharged(p) && !p.isSneaking())
 		{
 			switch (getInscription(s))
 			{
 			case 0 :
 			{
-				for (int a = 0; a < 50; a++)
-				{
-					EntityEmber proj = new EntityEmber(w, p, 5.0F);
-					proj.posX += proj.motionX;
-					proj.posY += proj.motionY;
-					proj.posZ += proj.motionZ;
-					proj.damage = 10.0F;
-					w.spawnEntityInWorld(proj);
-					p.swingItem();
-				}
+				EntityExplosiveOrb proj = new EntityExplosiveOrb(w, p);
+				proj.posX += proj.motionX;
+				proj.posY += proj.motionY;
+				proj.posZ += proj.motionZ;
+				if (!w.isRemote) w.spawnEntityInWorld(proj);
+				p.swingItem();
 				break;
 			}
 			case 1 :
@@ -274,45 +271,24 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 					proj.posX += proj.motionX;
 					proj.posY += proj.motionY;
 					proj.posZ += proj.motionZ;
-					proj.damage = 10.0F;
-					w.spawnEntityInWorld(proj);
+					proj.damage = getAttackDamage(s) * 0.2F;
+					if (!w.isRemote) w.spawnEntityInWorld(proj);
 					p.swingItem();
 				}
 				break;
 			}
-			case 2 :
-			{
-				List<EntityLivingBase> ents = w.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(p.posX, p.posY, p.posZ, p.posX + 1, p.posY + 1, p.posZ + 1).expand(5.0D, 5.0D, 5.0D));
-				if (ents != null && ents.size() > 0)
-				{
-					for (int a = 0; a < ents.size(); a++)
-					{
-						EntityLivingBase e = ents.get(a);
-
-						if (e != p && e.isEntityAlive() && !e.isEntityInvulnerable())
-						{
-							double dist = TaintedMagicHelper.getDistanceTo(e.posX, e.posY, e.posZ, p);
-							if (dist < 2.0D) e.attackEntityFrom(DamageSource.causePlayerDamage(p).setMagicDamage(), 5.0F);
-							Vector3 movement = TaintedMagicHelper.getDistanceBetween(e, p);
-							e.addVelocity(movement.x * 3, 0.8, movement.z * 3);
-						}
-					}
-				}
-				p.worldObj.playSoundAtEntity(p, "taintedmagic:shockwave", 5.0F, 1.0F * (float) Math.random());
-				TaintedMagic.proxy.spawnWindParticles(p.worldObj);
-				p.swingItem();
+			default :
 				break;
-			}
 			}
 		}
 	}
 
-	public int castType (EntityPlayer p)
+	private boolean isFullyCharged (EntityPlayer p)
 	{
 		float f = Math.min((float) this.ticksInUse / 15.0F, 2.0F);
 
-		if (f == 2.0F) return 1;
-		else return 0;
+		if (f == 2.0F) return true;
+		else return false;
 	}
 
 	@SideOnly (Side.CLIENT)

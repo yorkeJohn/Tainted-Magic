@@ -1,50 +1,39 @@
-package taintedmagic.common.items.wand;
+package taintedmagic.common.items.wand.foci;
 
-import java.util.Random;
+import java.awt.Color;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.command.ICommandManager;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.entities.EntityTaintBubble;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.ItemFocusBasic;
-import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.config.Config;
-import thaumcraft.common.entities.projectile.EntityEmber;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumcraft.common.items.wands.WandManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemFocusMeteorology extends ItemFocusBasic
+public class ItemFocusTime extends ItemFocusBasic
 {
 	IIcon depthIcon = null;
 
 	private static final AspectList costBase = new AspectList().add(Aspect.AIR, 1000).add(Aspect.WATER, 1000).add(Aspect.FIRE, 1000).add(Aspect.EARTH, 1000).add(Aspect.ORDER, 1000).add(Aspect.ENTROPY, 1000);
 
-	public ItemFocusMeteorology ()
+	public ItemFocusTime ()
 	{
 		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setUnlocalizedName("ItemFocusMeteorology");
+		this.setUnlocalizedName("ItemFocusTime");
 	}
 
 	@SideOnly (Side.CLIENT)
 	public void registerIcons (IIconRegister ir)
 	{
-		this.icon = ir.registerIcon("taintedmagic:ItemFocusMeteorology");
+		this.icon = ir.registerIcon("taintedmagic:ItemFocusTime");
 		this.depthIcon = ir.registerIcon("taintedmagic:ItemFocusMeteorology_depth");
 	}
 
@@ -55,12 +44,13 @@ public class ItemFocusMeteorology extends ItemFocusBasic
 
 	public String getSortingHelper (ItemStack s)
 	{
-		return "WT" + super.getSortingHelper(s);
+		return "TIME" + super.getSortingHelper(s);
 	}
 
 	public int getFocusColor (ItemStack s)
 	{
-		return 0x23D9EA;
+		EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
+		return player == null ? 0xFFFFFF : Color.HSBtoRGB(player.ticksExisted * 16 % 360 / 360F, 1F, 1F);
 	}
 
 	public AspectList getVisCost (ItemStack s)
@@ -87,18 +77,25 @@ public class ItemFocusMeteorology extends ItemFocusBasic
 	{
 		WandManager.setCooldown(p, 30000);
 		ItemWandCasting wand = (ItemWandCasting) s.getItem();
-		wand.consumeAllVis(s, p, getVisCost(s), true, false);
 
-		w.getWorldInfo().setRainTime(w.isRaining() ? 24000 : 0);
-		w.getWorldInfo().setRaining(!w.isRaining());
-
-		p.playSound("thaumcraft:wand", 0.5F, 1.0F);
+		if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
+		{
+			w.setWorldTime(w.isDaytime() ? 14000 : 0);
+			p.playSound("thaumcraft:wand", 0.5F, 1.0F);
+		}
 		return s;
+	}
+
+	@Override
+	public int getColorFromItemStack (ItemStack s, int i)
+	{
+		EntityPlayer p = TaintedMagic.proxy.getClientPlayer();
+		return p == null ? 0xFFFFFF : Color.HSBtoRGB(p.ticksExisted * 16 % 360 / 360F, 1F, 1F);
 	}
 
 	@SideOnly (Side.CLIENT)
 	public EnumRarity getRarity (ItemStack s)
 	{
-		return EnumRarity.epic;
+		return TaintedMagic.rarityCreation;
 	}
 }

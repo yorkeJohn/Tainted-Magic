@@ -1,4 +1,4 @@
-package taintedmagic.common.items.wand;
+package taintedmagic.common.items.wand.foci;
 
 import java.util.Random;
 
@@ -63,7 +63,7 @@ public class ItemFocusEldritch extends ItemFocusBasic
 
 	public String getSortingHelper (ItemStack s)
 	{
-		return "AM" + super.getSortingHelper(s);
+		return "ELDRITCH" + super.getSortingHelper(s);
 	}
 
 	public int getFocusColor (ItemStack s)

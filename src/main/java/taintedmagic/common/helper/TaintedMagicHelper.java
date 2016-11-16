@@ -3,9 +3,11 @@ package taintedmagic.common.helper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Vec3;
 import taintedmagic.api.IBloodlust;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.codechicken.lib.vec.Vector3;
 
 public class TaintedMagicHelper
 {

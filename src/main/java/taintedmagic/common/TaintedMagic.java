@@ -18,13 +18,13 @@ import taintedmagic.common.handler.ConfigHandler;
 import taintedmagic.common.handler.TaintedMagicEventHandler;
 import taintedmagic.common.handler.UpdateHandler;
 import taintedmagic.common.lib.LibCreativeTab;
-import taintedmagic.common.lib.LibRecipes;
 import taintedmagic.common.lib.LibStrings;
 import taintedmagic.common.network.PacketHandler;
 import taintedmagic.common.registry.BlockRegistry;
 import taintedmagic.common.registry.ItemRegistry;
 import taintedmagic.common.registry.ModEntityRegistry;
 import taintedmagic.common.registry.OreDictionaryRegistry;
+import taintedmagic.common.registry.RecipeRegistry;
 import taintedmagic.common.registry.ResearchRegistry;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -68,7 +68,9 @@ public class TaintedMagic
 		ItemRegistry.init();
 		BlockRegistry.init();
 		ModEntityRegistry.init();
-		LibRecipes.init();
+		RecipeRegistry.init();
+
+		OreDictionaryRegistry.init();
 
 		if (configHandler.useUpdateHandler) UpdateHandler.init();
 	}
@@ -94,7 +96,6 @@ public class TaintedMagic
 		log.info("Almost done... Post-initializing Tainted Magic!");
 
 		ResearchRegistry.initResearch();
-		OreDictionaryRegistry.init();
 
 		log.info("Phew! Tainted Magic has finished loading, enjoy!");
 	}

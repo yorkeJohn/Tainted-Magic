@@ -29,6 +29,9 @@ focus.upgrade.sanity.text=This upgrade will stop the orbs from inflicting warp u
 focus.upgrade.bloodlust.name=Bloodlust
 focus.upgrade.bloodlust.text=This upgrade will allow the mace to inherit Bloodlust ability, like that of the Crystal Dagger.
 
+focus.upgrade.persistant.name=Persistant
+focus.upgrade.persistant.text=When the target if this focus dies, disappears or moves out of range, the missile will seek another target of the same type nearby.
+
 #=========BLOCK NAMES==================
 
 tile.BlockShadowOre.name=Shadow Ore
@@ -74,7 +77,7 @@ item.ItemKatana.1.name=Voidmetal Fortress Blade
 item.ItemKatana.2.name=Shadowmetal Fortress Blade
 text.katana.inscription.0=Volcanic Inscription
 text.katana.inscription.1=Tainted Inscription
-text.katana.inscription.2=Stormbound Inscription
+text.katana.inscription.2=Undead Inscription
 
 item.ItemVoidFortressHelmet.name=Void Fortress Helm
 item.ItemVoidFortressChestplate.name=Void Fortress Cuirass
@@ -109,6 +112,7 @@ item.ItemFocusTaint.name=Wand Focus: Tainted Storm
 item.ItemFocusEldritch.name=Wand Focus: Dark Matter
 item.ItemFocusMeteorology.name=Wand Focus: Meteorology
 item.ItemFocusTime.name=Wand Focus: Time
+item.ItemFocusVisShard.name=Wand Focus: Vis Shard
 
 item.ItemWandRod.0.name=Warpwood Rod
 item.ItemWandRod.1.name=Warpwood Staff Core
@@ -158,7 +162,7 @@ tm.name.ROD_warpwood=Warpwood Wand Rod
 tm.tag.ROD_warpwood=The wand chooses the wizard...
 tm.text.ROD_warpwood.1=Ever since you discovered Warpwood, you have wondered if it would be possible to forge this wood into a wand. The Primordial Pearl has given you the answer to the question.<BR>Since the wood is imbued with warp, you think it's only logical to use a Zombie Brain as a place to store the insanity. And, Using the power of the Primordial Pearl as the core of this rod, the power is immense.<BR>The wood is also extremely dense, making it able to store huge amounts of vis - 250 of each, that is.<BR>(Continued)
 
-tm.text.ROD_warpwood.2=It would also seem that the warp stored within the rod reacts with your own warp, causing it to recharge itself. The more warp you amass, the greater the reaction, and the faster it seems to recharge. Due to this process being fueled by the Primordial Pearl, the influx of vis would put any other core to shame.<BR>Seeing as it wards off all warp, The Warp Ward buff seems to negate the reaction completely.<BR><BR>§oToday my wand started whispering strangely to me. As my insane mind grows stronger, the more my wand reveals to me...
+tm.text.ROD_warpwood.2=It would also seem that the warp stored within the rod festers off of your own, creating vis as a byproduct and quickly filling up your wand. The more warp you amass, the greater the reaction, and the faster the wand will recharge itself. Due to this process being fueled by the Primordial Pearl, the influx of vis would put any other core to shame.<BR>Seeing as it wards off all warp, The Warp Ward buff seems to negate the reaction completely.<BR><BR>§oToday my wand started whispering strangely to me. As my insane mind grows stronger, the more my wand reveals to me...
 
 #ROD_warpwood_staff
 
@@ -374,7 +378,7 @@ tm.text.SHADOWMETALKATANA.1=After having discovered Shadowmetal Fortress Armor, 
 
 tm.name.INSCRIPTIONFIRE=Volcanic Inscription
 tm.tag.INSCRIPTIONFIRE=Thaumium Fortress Blade upgrade
-tm.text.INSCRIPTIONFIRE.1=You have upgraded your Fortress Blade by inscribing runes upon it.<BR>This inscription will convert damage dealt into fire damage, which will bypass armor. Any target hit will be set aflame.<BR>Furthermore, when releasing a fully charged strike, a cloud of fire will be emit from your blade. One would hold down shift to cancel this effect and release a normal strike.
+tm.text.INSCRIPTIONFIRE.1=You have upgraded your Fortress Blade by inscribing runes upon it.<BR>This inscription will convert damage dealt into fire damage, which will bypass armor. Any target hit will be set aflame.<BR>Furthermore, when releasing a fully charged strike, an explosive fireball will be emit from your blade. One would hold down shift to cancel this effect and release a normal strike.
 
 #INSCRIPTIONTAINT
 
@@ -382,14 +386,19 @@ tm.name.INSCRIPTIONTAINT=Tainted Inscription
 tm.tag.INSCRIPTIONTAINT=Thaumium Fortress Blade upgrade
 tm.text.INSCRIPTIONTAINT.1=You have upgraded your Fortress Blade by inscribing runes upon it.<BR>This inscription will cause your blade to deal magic damage, bypassing armor. Anything you hit will also be inflicted with Taint Poison.<BR>Moreover, if you release a fully charged strike, a cloud of taint will be emit from your blade. One would hold down shift to cancel this effect and release a normal strike.
 
-#INSCRIPTIONWIND
+#INSCRIPTIONUNDEAD
 
-tm.name.INSCRIPTIONWIND=Stormbound Inscription
-tm.tag.INSCRIPTIONWIND=Thaumium Fortress Blade upgrade
-tm.text.INSCRIPTIONWIND.1=You have upgraded your Fortress Blade by inscribing runes upon it.<BR>This inscription will allow you to deal wind damage, which bypasses armor. Your target will also gain a withering effect.<BR>Incidentally, when releasing a fully charged strike, a burst of charged air will be shot in all directions, knocking back and damaging all nearby enemies. One would hold down shift to cancel this effect and release a normal strike.
+tm.name.INSCRIPTIONUNDEAD=Undead Inscription
+tm.tag.INSCRIPTIONUNDEAD=Thaumium Fortress Blade upgrade
+tm.text.INSCRIPTIONUNDEAD.1=You have upgraded your Fortress Blade by inscribing runes upon it.<BR>This inscription inscribes a formula to deal withering damage, which bypasses armor. Your target will also be inflicted a withering damage over time.<BR>In addition, when releasing a fully charged strike on a target, you will be healed for 25% of damage dealt.
 
 #VOIDGOGGLES
 
 tm.name.VOIDGOGGLES=Voidmetal Goggles of Revealing
 tm.tag.VOIDGOGGLES=Who needs 20/20 vision anyway?
 tm.text.VOIDGOGGLES.1=By infusing your Warped Goggles of Revealing with Voidmetal, you have created a pair of goggles that repair themselves, and have an extremely high vis discount.<BR>Sadly, they offer inferior protection to the original Warped Goggles of Revealing.<BR>Your vision might become distorted and warped while wearing these goggles, but that's okay...warp is not a bad thing, right?
+
+#FOCUSSHARD
+tm.name.FOCUSSHARD=Wand Focus: Vis Shard
+tm.tag.FOCUSSHARD=Blip bloop
+tm.text.FOCUSSHARD.1=With the study of different types of shards, an incredible idea dawned upon you: what if you could animate a vis shard to be used in combat?<BR>This focus can only be cast if you are looking at an enemy. The shard will float through the air, homing in on its target, and will burst on contact.<BR>It would seem that the shard will also bounce off of solid blocks.

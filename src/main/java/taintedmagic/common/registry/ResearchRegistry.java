@@ -14,7 +14,7 @@ import net.minecraft.item.crafting.RecipesWeapons;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.util.ResourceLocation;
 import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.lib.LibRecipes;
+import taintedmagic.common.helper.TaintedMagicHelper;
 import taintedmagic.common.research.TaintedMagicResearchItem;
 import taintedmagic.common.research.ThaumcraftResearchItem;
 import thaumcraft.api.ItemApi;
@@ -182,7 +182,7 @@ public class ResearchRegistry
 				new ResearchPage((InfusionRecipe) recipes.get("ItemVoidwalkerBoots")) }).registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("VOIDWALKERBOOTS", 3);
 
-		new TaintedMagicResearchItem("CREATIONSHARD", TM, new AspectList(), 8, -5, 0, new ItemStack(ItemRegistry.ItemMaterial, 1, 5)).setItemTriggers(new ItemStack[]{ new ItemStack(ConfigItems.itemEldritchObject, 1, 3) }).setLost().setConcealed().setParents(new String[]{ "TMELDRITCHMAJOR" }).setComplexity(3).setPages(new ResearchPage[]{
+		new TaintedMagicResearchItem("CREATIONSHARD", TM, TaintedMagicHelper.getPrimals(16), 8, -5, 0, new ItemStack(ItemRegistry.ItemMaterial, 1, 5)).setConcealed().setParents(new String[]{ "TMELDRITCHMAJOR" }).setPages(new ResearchPage[]{
 				new ResearchPage("1"),
 				new ResearchPage((InfusionRecipe) recipes.get("ItemMaterial:5")) }).setSecondary().registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("CREATIONSHARD", 5);
@@ -244,7 +244,7 @@ public class ResearchRegistry
 				new ResearchPage((InfusionRecipe) recipes.get("ItemShadowFortressLeggings")) }).registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("SHADOWFORTRESSARMOR", 3);
 
-		new TaintedMagicResearchItem("CAP_cloth", TM, new AspectList().add(Aspect.MAGIC, 4).add(Aspect.CLOTH, 4), 5, -3, 0, new ItemStack(ItemRegistry.ItemWandCap, 1, 1)).setParentsHidden("CAP_gold", "ENCHFABRIC").setConcealed().setSecondary().setPages(new ResearchPage[]{
+		new TaintedMagicResearchItem("CAP_cloth", TM, new AspectList().add(Aspect.MAGIC, 4).add(Aspect.CLOTH, 4), 7, 5, 0, new ItemStack(ItemRegistry.ItemWandCap, 1, 1)).setParentsHidden("CAP_gold", "ENCHFABRIC").setConcealed().setSecondary().setPages(new ResearchPage[]{
 				new ResearchPage("1"),
 				new ResearchPage((IArcaneRecipe) recipes.get("ItemWandCap:1")) }).registerResearchItem();
 
@@ -290,15 +290,20 @@ public class ResearchRegistry
 		new TaintedMagicResearchItem("INSCRIPTIONTAINT", TM, new AspectList().add(Aspect.TAINT, 8).add(Aspect.FLESH, 4).add(Aspect.METAL, 6), 9, 2, 0, new ResourceLocation("taintedmagic:textures/misc/IconINSCRIPTIONTAINT.png")).setParents("THAUMIUMKATANA").setParentsHidden("TAINTFOCUS").setConcealed().setPages(new ResearchPage[]{
 				new ResearchPage("1"),
 				new ResearchPage((InfusionRecipe) recipes.get("ItemKatanaThaumium:inscription1")) }).setSecondary().registerResearchItem();
-		ThaumcraftApi.addWarpToResearch("INSCRIPTIONTAINT", 4);
+		ThaumcraftApi.addWarpToResearch("INSCRIPTIONTAINT", 2);
 
-		new TaintedMagicResearchItem("INSCRIPTIONWIND", TM, new AspectList().add(Aspect.AIR, 8).add(Aspect.MOTION, 4).add(Aspect.METAL, 6), 8, 3, 0, new ResourceLocation("taintedmagic:textures/misc/IconINSCRIPTIONWIND.png")).setParents("THAUMIUMKATANA").setConcealed().setPages(new ResearchPage[]{
+		new TaintedMagicResearchItem("INSCRIPTIONUNDEAD", TM, new AspectList().add(Aspect.HEAL, 8).add(Aspect.UNDEAD, 4).add(Aspect.METAL, 6), 8, 3, 0, new ResourceLocation("taintedmagic:textures/misc/IconINSCRIPTIONUNDEAD.png")).setParents("THAUMIUMKATANA").setParentsHidden("BATHSALTS").setConcealed().setPages(new ResearchPage[]{
 				new ResearchPage("1"),
 				new ResearchPage((InfusionRecipe) recipes.get("ItemKatanaThaumium:inscription2")) }).setSecondary().registerResearchItem();
+		ThaumcraftApi.addWarpToResearch("INSCRIPTIONUNDEAD", 5);
 
 		new TaintedMagicResearchItem("VOIDGOGGLES", TM, new AspectList().add(Aspect.VOID, 8).add(Aspect.DARKNESS, 4).add(Aspect.MAGIC, 6).add(Aspect.SENSES, 12).add(Aspect.CRYSTAL, 2), 3, 5, 0, new ItemStack(ItemRegistry.ItemVoidmetalGoggles)).setParents("WARPEDGOGGLES").setParentsHidden("VOIDMETAL").setConcealed().setPages(new ResearchPage[]{
 				new ResearchPage("1"),
 				new ResearchPage((InfusionRecipe) recipes.get("ItemVoidmetalGoggles")) }).setSecondary().registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("VOIDGOGGLES", 2);
+
+		new TaintedMagicResearchItem("FOCUSSHARD", TM, new AspectList().add(Aspect.CRYSTAL, 2).add(Aspect.MAGIC, 4).add(Aspect.MOTION, 6), 3, 1, 0, new ItemStack(ItemRegistry.ItemFocusVisShard)).setParents("EVILSHARDS").setParentsHidden("FOCUSFIRE").setConcealed().setPages(new ResearchPage[]{
+				new ResearchPage("1"),
+				new ResearchPage((IArcaneRecipe) recipes.get("ItemFocusVisShard")) }).setSecondary().registerResearchItem();
 	}
 }

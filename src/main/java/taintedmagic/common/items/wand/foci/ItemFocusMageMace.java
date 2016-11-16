@@ -1,4 +1,4 @@
-package taintedmagic.common.items.wand;
+package taintedmagic.common.items.wand.foci;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class ItemFocusMageMace extends ItemFocusBasic
 
 	public String getSortingHelper (ItemStack s)
 	{
-		return "MM" + super.getSortingHelper(s);
+		return "MACE" + super.getSortingHelper(s);
 	}
 
 	public int getFocusColor (ItemStack s)

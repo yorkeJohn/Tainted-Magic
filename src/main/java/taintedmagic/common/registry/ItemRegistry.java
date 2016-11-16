@@ -28,14 +28,15 @@ import taintedmagic.common.items.tools.ItemShadowmetalPick;
 import taintedmagic.common.items.tools.ItemShadowmetalSpade;
 import taintedmagic.common.items.tools.ItemShadowmetalSword;
 import taintedmagic.common.items.tools.ItemThaumicDisassembler;
-import taintedmagic.common.items.wand.ItemFocusEldritch;
-import taintedmagic.common.items.wand.ItemFocusMageMace;
-import taintedmagic.common.items.wand.ItemFocusMeteorology;
-import taintedmagic.common.items.wand.ItemFocusTaint;
-import taintedmagic.common.items.wand.ItemFocusTaintedBlast;
-import taintedmagic.common.items.wand.ItemFocusTime;
 import taintedmagic.common.items.wand.ItemWandCap;
 import taintedmagic.common.items.wand.ItemWandRod;
+import taintedmagic.common.items.wand.foci.ItemFocusEldritch;
+import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
+import taintedmagic.common.items.wand.foci.ItemFocusMeteorology;
+import taintedmagic.common.items.wand.foci.ItemFocusTaint;
+import taintedmagic.common.items.wand.foci.ItemFocusTaintedBlast;
+import taintedmagic.common.items.wand.foci.ItemFocusTime;
+import taintedmagic.common.items.wand.foci.ItemFocusVisShard;
 import taintedmagic.common.lib.LibToolMaterials;
 import thaumcraft.api.wands.StaffRod;
 import thaumcraft.api.wands.WandCap;
@@ -131,6 +132,9 @@ public class ItemRegistry
 		ItemFocusTaintedBlast = new ItemFocusTaintedBlast();
 		GameRegistry.registerItem(ItemFocusTaintedBlast, "ItemFocusTaintedBlast");
 
+		ItemFocusVisShard = new ItemFocusVisShard();
+		GameRegistry.registerItem(ItemFocusVisShard, "ItemFocusVisShard");
+
 		// Tools
 		ItemThaumicDisassembler = new ItemThaumicDisassembler();
 		GameRegistry.registerItem(ItemThaumicDisassembler, "ItemThaumicDisassembler");
@@ -184,6 +188,7 @@ public class ItemRegistry
 	public static Item ItemFocusTime;
 	public static Item ItemFocusMageMace;
 	public static Item ItemFocusTaintedBlast;
+	public static Item ItemFocusVisShard;
 
 	// Armor and Baubles
 	public static Item ItemWarpedGoggles;

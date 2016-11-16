@@ -39,7 +39,7 @@ public class ItemPrimordialEdge extends ItemSword implements IWarpingGear, IRepa
 
 	public EnumRarity getRarity (ItemStack s)
 	{
-		return EnumRarity.epic;
+		return TaintedMagic.rarityCreation;
 	}
 
 	public boolean hitEntity (ItemStack s, EntityLivingBase e, EntityLivingBase p)

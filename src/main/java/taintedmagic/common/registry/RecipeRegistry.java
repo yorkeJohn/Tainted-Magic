@@ -1,4 +1,4 @@
-package taintedmagic.common.lib;
+package taintedmagic.common.registry;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -10,9 +10,6 @@ import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraftforge.oredict.OreDictionary;
 import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.registry.BlockRegistry;
-import taintedmagic.common.registry.ItemRegistry;
-import taintedmagic.common.registry.ResearchRegistry;
 import thaumcraft.api.ItemApi;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
@@ -21,7 +18,7 @@ import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class LibRecipes
+public class RecipeRegistry
 {
 	public static void init ()
 	{
@@ -444,6 +441,9 @@ public class LibRecipes
 				new ItemStack(Items.iron_ingot),
 				new ItemStack(ItemRegistry.ItemMaterial, 1, 0) }));
 
+		/**
+		 * The ItemKatanaThaumium recipes are for the thaumonomicon
+		 */
 		ResearchRegistry.recipes.put("ItemKatanaThaumium:inscription0", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONFIRE", new Object[]{
 				"inscription",
 				new NBTTagInt(0) }, 8, new AspectList().add(Aspect.FIRE, 64).add(Aspect.LIGHT, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 0), new ItemStack[]{
@@ -464,15 +464,15 @@ public class LibRecipes
 				ItemApi.getItem("itemBottleTaint", 0),
 				ItemApi.getItem("itemResource", 11) }));
 
-		ResearchRegistry.recipes.put("ItemKatanaThaumium:inscription2", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONWIND", new Object[]{
+		ResearchRegistry.recipes.put("ItemKatanaThaumium:inscription2", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONUNDEAD", new Object[]{
 				"inscription",
-				new NBTTagInt(2) }, 8, new AspectList().add(Aspect.AIR, 64).add(Aspect.FLIGHT, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 0), new ItemStack[]{
-				ItemApi.getItem("itemShard", 0),
-				ItemApi.getItem("itemResource", 6),
-				new ItemStack(Items.feather),
-				ItemApi.getItem("itemShard", 6),
-				new ItemStack(Blocks.tnt),
-				ItemApi.getItem("itemWispEssence", 0) }));
+				new NBTTagInt(2) }, 8, new AspectList().add(Aspect.HEAL, 64).add(Aspect.UNDEAD, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 0), new ItemStack[]{
+				new ItemStack(ConfigItems.itemZombieBrain),
+				new ItemStack(Items.bone),
+				new ItemStack(Items.rotten_flesh),
+				new ItemStack(Items.fermented_spider_eye),
+				new ItemStack(ConfigItems.itemFocusPech),
+				new ItemStack(ConfigItems.itemBathSalts) }));
 
 		ResearchRegistry.recipes.put("ItemKatana:inscription0", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONFIRE", new Object[]{
 				"inscription",
@@ -494,15 +494,15 @@ public class LibRecipes
 				ItemApi.getItem("itemBottleTaint", 0),
 				ItemApi.getItem("itemResource", 11) }));
 
-		ResearchRegistry.recipes.put("ItemKatana:inscription2", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONWIND", new Object[]{
+		ResearchRegistry.recipes.put("ItemKatana:inscription2", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONUNDEAD", new Object[]{
 				"inscription",
-				new NBTTagInt(2) }, 8, new AspectList().add(Aspect.AIR, 64).add(Aspect.FLIGHT, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 32767), new ItemStack[]{
-				ItemApi.getItem("itemShard", 0),
-				ItemApi.getItem("itemResource", 6),
-				new ItemStack(Items.feather),
-				ItemApi.getItem("itemShard", 6),
-				new ItemStack(Blocks.tnt),
-				ItemApi.getItem("itemWispEssence", 0) }));
+				new NBTTagInt(2) }, 8, new AspectList().add(Aspect.HEAL, 64).add(Aspect.UNDEAD, 64).add(Aspect.METAL, 16), new ItemStack(ItemRegistry.ItemKatana, 1, 32767), new ItemStack[]{
+				new ItemStack(ConfigItems.itemZombieBrain),
+				new ItemStack(Items.bone),
+				new ItemStack(Items.rotten_flesh),
+				new ItemStack(Items.fermented_spider_eye),
+				new ItemStack(ConfigItems.itemFocusPech),
+				new ItemStack(ConfigItems.itemBathSalts) }));
 
 		ResearchRegistry.recipes.put("ItemVoidmetalGoggles", ThaumcraftApi.addInfusionCraftingRecipe("VOIDGOGGLES", new ItemStack(ItemRegistry.ItemVoidmetalGoggles), 5, new AspectList().add(Aspect.VOID, 42).add(Aspect.SENSES, 38).add(Aspect.DARKNESS, 16).add(Aspect.CRYSTAL, 6).add(Aspect.ARMOR, 24), new ItemStack(ItemRegistry.ItemWarpedGoggles, 1, 32767), new ItemStack[]{
 				new ItemStack(ConfigItems.itemResource, 1, 16),
@@ -651,6 +651,19 @@ public class LibRecipes
 				new ItemStack(ItemRegistry.ItemMaterial, 1, 1),
 				Character.valueOf('B'),
 				ItemApi.getItem("itemResource", 14) }));
+
+		ResearchRegistry.recipes.put("ItemFocusVisShard", ThaumcraftApi.addArcaneCraftingRecipe("FOCUSSHARD", new ItemStack(ItemRegistry.ItemFocusVisShard), new AspectList().add(Aspect.AIR, 46).add(Aspect.ENTROPY, 38).add(Aspect.ORDER, 22), new Object[]{
+				"BDC",
+				"DAD",
+				"CDB",
+				'A',
+				new ItemStack(ConfigItems.itemResource, 1, 3),
+				'B',
+				new ItemStack(ConfigItems.itemShard, 1, 6),
+				'C',
+				new ItemStack(ItemRegistry.ItemMaterial, 1, 4),
+				'D',
+				new ItemStack(ConfigItems.itemWispEssence, 1, 32767) }));
 	}
 
 	public static void initCrucible ()

@@ -1,4 +1,4 @@
-package taintedmagic.common.items.wand;
+package taintedmagic.common.items.wand.foci;
 
 import java.util.Random;
 
@@ -54,7 +54,7 @@ public class ItemFocusTaint extends ItemFocusBasic
 
 	public String getSortingHelper (ItemStack s)
 	{
-		return "BM" + super.getSortingHelper(s);
+		return "TAINT" + super.getSortingHelper(s);
 	}
 
 	public int getFocusColor (ItemStack s)
@@ -100,7 +100,7 @@ public class ItemFocusTaint extends ItemFocusBasic
 		}
 		int range = 8;
 		Vec3 vec3d = p.getLook(range);
-		if (!p.worldObj.isRemote && p.ticksExisted % 5 == 0) p.worldObj.playSoundAtEntity(p, "thaumcraft:bubble", 0.33F, 2F * (float)Math.random());
+		if (!p.worldObj.isRemote && p.ticksExisted % 5 == 0) p.worldObj.playSoundAtEntity(p, "thaumcraft:bubble", 0.33F, 5.0F * (float) Math.random());
 
 		int potency = wand.getFocusPotency(s);
 		if ( (!p.worldObj.isRemote) && (wand.consumeAllVis(s, p, getVisCost(s), true, false)))

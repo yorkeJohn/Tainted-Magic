@@ -1,9 +1,8 @@
-package taintedmagic.common.items.wand;
+package taintedmagic.common.items.wand.foci;
 
 import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,11 +15,11 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
-import taintedmagic.common.helper.Vector3;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.FocusUpgradeType;
 import thaumcraft.api.wands.ItemFocusBasic;
+import thaumcraft.codechicken.lib.vec.Vector3;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -58,7 +57,7 @@ public class ItemFocusTaintedBlast extends ItemFocusBasic
 
 	public String getSortingHelper (ItemStack s)
 	{
-		return "TB" + super.getSortingHelper(s);
+		return "SHOCKWAVE" + super.getSortingHelper(s);
 	}
 
 	public int getFocusColor (ItemStack s)
