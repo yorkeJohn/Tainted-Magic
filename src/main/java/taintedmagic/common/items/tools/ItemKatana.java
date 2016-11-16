@@ -247,7 +247,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 				}
 				p.swingItem();
 			}
-			p.worldObj.playSoundAtEntity(p, ("thaumcraft:swing"), 0.5F + (float) Math.random(), 0.5F + (float) Math.random());
+			p.worldObj.playSoundAtEntity(p, "thaumcraft:swing", 0.5F + (float) Math.random(), 0.5F + (float) Math.random());
 		}
 		else if (hasAnyInscription(s) && isFullyCharged(p) && !p.isSneaking())
 		{

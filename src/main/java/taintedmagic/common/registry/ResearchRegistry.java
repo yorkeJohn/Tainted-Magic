@@ -182,7 +182,7 @@ public class ResearchRegistry
 				new ResearchPage((InfusionRecipe) recipes.get("ItemVoidwalkerBoots")) }).registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("VOIDWALKERBOOTS", 3);
 
-		new TaintedMagicResearchItem("CREATIONSHARD", TM, TaintedMagicHelper.getPrimals(16), 8, -5, 0, new ItemStack(ItemRegistry.ItemMaterial, 1, 5)).setConcealed().setParents(new String[]{ "TMELDRITCHMAJOR" }).setPages(new ResearchPage[]{
+		new TaintedMagicResearchItem("CREATIONSHARD", TM, TaintedMagicHelper.getPrimals(16), 8, -5, 0, new ItemStack(ItemRegistry.ItemMaterial, 1, 5)).setConcealed().setParents("TMELDRITCHMAJOR").setParentsHidden("PRIMPEARL").setPages(new ResearchPage[]{
 				new ResearchPage("1"),
 				new ResearchPage((InfusionRecipe) recipes.get("ItemMaterial:5")) }).setSecondary().registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("CREATIONSHARD", 5);
