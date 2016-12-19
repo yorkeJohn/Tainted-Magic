@@ -9,4 +9,4 @@ And the official Thaumcraft 4 MCF thread [HERE](http://www.minecraftforum.net/fo
 
 This mod was created with a deobf version of Thaumcraft used as a library. Thaumcraft is copyrighted by Azanor, all rights reserved.
 
-Tainted Magic was created by John Yorke (yorkeMC) and is distrubuted under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) Lisence](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+Tainted Magic was created by John Yorke (yorkeMC) and is distributed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) Lisence](https://creativecommons.org/licenses/by-nc-nd/4.0/)
