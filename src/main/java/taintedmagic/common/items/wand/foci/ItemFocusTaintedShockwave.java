@@ -24,25 +24,25 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemFocusTaintedBlast extends ItemFocusBasic
+public class ItemFocusTaintedShockwave extends ItemFocusBasic
 {
-	private static final AspectList costBase = new AspectList().add(Aspect.ENTROPY, 500).add(Aspect.EARTH, 500).add(Aspect.WATER, 500);
+	private static final AspectList cost = new AspectList().add(Aspect.ENTROPY, 1000).add(Aspect.EARTH, 1000).add(Aspect.WATER, 1000).add(Aspect.ORDER, 500);
 
 	public static IIcon depthIcon;
 	public static IIcon ornIcon;
 
-	public ItemFocusTaintedBlast ()
+	public ItemFocusTaintedShockwave ()
 	{
 		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setUnlocalizedName("ItemFocusTaintedBlast");
+		this.setUnlocalizedName("ItemFocusTaintedShockwave");
 	}
 
 	@SideOnly (Side.CLIENT)
 	public void registerIcons (IIconRegister ir)
 	{
-		this.icon = ir.registerIcon("taintedmagic:ItemFocusTaintedBlast");
+		this.icon = ir.registerIcon("taintedmagic:ItemFocusTaintedShockwave");
 		this.depthIcon = ir.registerIcon("taintedmagic:ItemFocusTaint_depth");
-		this.ornIcon = ir.registerIcon("taintedmagic:ItemFocusTaintedBlast_orn");
+		this.ornIcon = ir.registerIcon("taintedmagic:ItemFocusTaintedShockwave_orn");
 	}
 
 	public IIcon getFocusDepthLayerIcon (ItemStack s)
@@ -67,7 +67,7 @@ public class ItemFocusTaintedBlast extends ItemFocusBasic
 
 	public AspectList getVisCost (ItemStack s)
 	{
-		return costBase;
+		return cost;
 	}
 
 	public int getActivationCooldown (ItemStack s)
@@ -128,25 +128,15 @@ public class ItemFocusTaintedBlast extends ItemFocusBasic
 		switch (rank)
 		{
 		case 1 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.enlarge };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
 		case 2 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.enlarge };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
 		case 3 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.enlarge };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
 		case 4 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.enlarge };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
 		case 5 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.enlarge };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
 		}
 		return null;
 	}

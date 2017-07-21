@@ -8,9 +8,14 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import taintedmagic.common.TaintedMagic;
+import taintedmagic.common.helper.TaintedMagicHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.ItemFocusBasic;
+import thaumcraft.client.fx.ParticleEngine;
+import thaumcraft.client.fx.particles.FXWisp;
+import thaumcraft.codechicken.lib.vec.Vector3;
+import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumcraft.common.items.wands.WandManager;
 import cpw.mods.fml.relauncher.Side;
@@ -20,7 +25,7 @@ public class ItemFocusMeteorology extends ItemFocusBasic
 {
 	IIcon depthIcon = null;
 
-	private static final AspectList costBase = new AspectList().add(Aspect.AIR, 1000).add(Aspect.WATER, 1000).add(Aspect.FIRE, 1000).add(Aspect.EARTH, 1000).add(Aspect.ORDER, 1000).add(Aspect.ENTROPY, 1000);
+	private static final AspectList cost = new AspectList().add(Aspect.AIR, 1000).add(Aspect.WATER, 1000).add(Aspect.FIRE, 1000).add(Aspect.EARTH, 1000).add(Aspect.ORDER, 1000).add(Aspect.ENTROPY, 1000);
 
 	public ItemFocusMeteorology ()
 	{
@@ -57,7 +62,7 @@ public class ItemFocusMeteorology extends ItemFocusBasic
 
 	public int getActivationCooldown (ItemStack s)
 	{
-		return 1;
+		return 30000;
 	}
 
 	public boolean isVisCostPerTick (ItemStack s)
@@ -72,14 +77,38 @@ public class ItemFocusMeteorology extends ItemFocusBasic
 
 	public ItemStack onFocusRightClick (ItemStack s, World w, EntityPlayer p, MovingObjectPosition mop)
 	{
-		WandManager.setCooldown(p, 30000);
 		ItemWandCasting wand = (ItemWandCasting) s.getItem();
-		wand.consumeAllVis(s, p, getVisCost(s), true, false);
 
-		w.getWorldInfo().setRainTime(w.isRaining() ? 24000 : 0);
-		w.getWorldInfo().setRaining(!w.isRaining());
+		if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
+		{
+			w.getWorldInfo().setRainTime(w.isRaining() ? 24000 : 0);
+			w.getWorldInfo().setRaining(!w.isRaining());
+			p.playSound("thaumcraft:wand", 0.5F, 1.0F);
 
-		p.playSound("thaumcraft:wand", 0.5F, 1.0F);
+			if (w.isRemote)
+			{
+				for (int i = 1; i < 200; i++)
+				{
+					double xp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
+					double zp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
+					double yp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
+					double off = Math.random() * 0.1;
+
+					float green = p.worldObj.rand.nextFloat();
+					float blue = p.worldObj.rand.nextFloat();
+
+					FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY + 10 + yp + off, p.posZ + zp + off, 0.5F + ((float) Math.random() * 0.25F), 0.25F, green, blue);
+					ef.setGravity(0.75F);
+					ef.shrink = true;
+					ef.noClip = true;
+
+					Vector3 movement = TaintedMagicHelper.getDistanceBetween(ef, p);
+					ef.addVelocity(movement.x * 0.5, movement.y * 0.5, movement.z * 0.5);
+
+					ParticleEngine.instance.addEffect(w, ef);
+				}
+			}
+		}
 		return s;
 	}
 

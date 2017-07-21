@@ -1,6 +1,6 @@
 package taintedmagic.common.lib;
 
-public class LibStrings
+public class LibInfo
 {
 	public static final String MODID = "TaintedMagic";
 	public static final String NAME = "Tainted Magic";

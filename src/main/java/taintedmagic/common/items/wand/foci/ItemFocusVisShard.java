@@ -25,10 +25,8 @@ import thaumcraft.common.lib.utils.EntityUtils;
  */
 public class ItemFocusVisShard extends ItemFocusBasic
 {
-	private static final AspectList cost = new AspectList().add(Aspect.FIRE, 1).add(Aspect.ENTROPY, 1).add(Aspect.AIR, 1);
-	private static final AspectList costPersistant = new AspectList().add(Aspect.FIRE, 1).add(Aspect.ENTROPY, 1).add(Aspect.WATER, 1).add(Aspect.AIR, 1);
-
-	public static FocusUpgradeType persistant = new FocusUpgradeType(69, new ResourceLocation("taintedmagic:textures/foci/IconPersistant.png"), "focus.upgrade.persistant.name", "focus.upgrade.persistant.text", new AspectList().add(Aspect.ARMOR, 1).add(Aspect.MOTION, 1).add(Aspect.ENERGY, 1));
+	private static final AspectList cost = new AspectList().add(Aspect.FIRE, 100).add(Aspect.ENTROPY, 100).add(Aspect.AIR, 100);
+	private static final AspectList costPersistent = new AspectList().add(Aspect.FIRE, 100).add(Aspect.ENTROPY, 100).add(Aspect.WATER, 100).add(Aspect.AIR, 100);
 
 	public ItemFocusVisShard ()
 	{
@@ -71,9 +69,12 @@ public class ItemFocusVisShard extends ItemFocusBasic
 		{
 			if (!w.isRemote)
 			{
-				EntityHomingShard blast = new EntityHomingShard(w, p, (EntityLivingBase) look, wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), persistant));
-				w.spawnEntityInWorld(blast);
-				w.playSoundAtEntity(blast, "taintedmagic:shard", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
+				if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
+				{
+					EntityHomingShard blast = new EntityHomingShard(w, p, (EntityLivingBase) look, wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.persistent));
+					w.spawnEntityInWorld(blast);
+					w.playSoundAtEntity(blast, "taintedmagic:shard", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
+				}
 			}
 			p.swingItem();
 		}
@@ -82,7 +83,7 @@ public class ItemFocusVisShard extends ItemFocusBasic
 
 	public AspectList getVisCost (ItemStack s)
 	{
-		return isUpgradedWith(s, persistant) ? costPersistant : cost;
+		return isUpgradedWith(s, FocusUpgrades.persistent) ? costPersistent : cost;
 	}
 
 	public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack s, int r)
@@ -109,7 +110,7 @@ public class ItemFocusVisShard extends ItemFocusBasic
 			return new FocusUpgradeType[]{
 					FocusUpgradeType.frugal,
 					FocusUpgradeType.potency,
-					persistant };
+					FocusUpgrades.persistent };
 		}
 		return null;
 	}

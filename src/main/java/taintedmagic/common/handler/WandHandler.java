@@ -17,7 +17,7 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumcraft.common.lib.potions.PotionWarpWard;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class WandUpdateHandler implements IWandRodOnUpdate
+public class WandHandler implements IWandRodOnUpdate
 {
 	Aspect aspect;
 	Aspect primals[] = Aspect.getPrimalAspects().toArray(new Aspect[0]);
@@ -31,9 +31,11 @@ public class WandUpdateHandler implements IWandRodOnUpdate
 			int x = permwarp;
 			if (x == 0) x++;
 
-			int y = Math.max( (200 - x), 50);
-
-			if (player.ticksExisted % y == 0)
+			int y = Math.max( (200 - x), 20);
+			double fx = 20 * coth(x / 250.0D);
+			int rfx = Math.min((int) Math.round(fx), 200);
+			
+			if (player.ticksExisted % rfx == 0)
 			{
 				for (int i = 0; i < primals.length; i++)
 				{
@@ -41,5 +43,10 @@ public class WandUpdateHandler implements IWandRodOnUpdate
 				}
 			}
 		}
+	}
+
+	public double coth (double x)
+	{
+		return Math.cosh(x) / Math.sinh(x);
 	}
 }

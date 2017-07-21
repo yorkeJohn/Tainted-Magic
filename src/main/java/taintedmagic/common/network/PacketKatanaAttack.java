@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
+import thaumcraft.common.Thaumcraft;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -46,7 +47,7 @@ public class PacketKatanaAttack implements IMessage, IMessageHandler<PacketKatan
 		if (message.leech && p instanceof EntityPlayer)
 		{
 			((EntityPlayer) p).heal(message.dmg * 0.25F);
-			w.playSoundAtEntity(p, "thaumcraft:wand", 0.5F, 0.5F + ((float) Math.random() * 0.5F));
+			w.playSoundAtEntity(p, "thaumcraft:runicShieldEffect", 0.5F, 0.5F + ((float) Math.random() * 0.5F));
 		}
 
 		return null;

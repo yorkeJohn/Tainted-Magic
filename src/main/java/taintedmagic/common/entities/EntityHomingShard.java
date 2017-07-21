@@ -3,7 +3,10 @@ package taintedmagic.common.entities;
 import io.netty.buffer.ByteBuf;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -30,6 +33,8 @@ public class EntityHomingShard extends EntityThrowable implements IEntityAdditio
 	int targetID = 0;
 	EntityLivingBase target;
 
+	Material[] mats = { Material.plants, Material.air, Material.leaves, Material.portal, Material.vine, Material.web, Material.portal };
+
 	public EntityHomingShard (World w)
 	{
 		super(w);
@@ -50,6 +55,12 @@ public class EntityHomingShard extends EntityThrowable implements IEntityAdditio
 		this.motionX = (-MathHelper.sin(ry / 180.0F * (float) Math.PI) * MathHelper.cos(rp / 180.0F * (float) Math.PI) * f);
 		this.motionZ = (MathHelper.cos(ry / 180.0F * (float) Math.PI) * MathHelper.cos(rp / 180.0F * (float) Math.PI) * f);
 		this.motionY = (-MathHelper.sin(rp / 180.0F * (float) Math.PI) * f);
+	}
+
+	@Override
+	public boolean shouldRenderInPass (int pass)
+	{
+		return pass == 1;
 	}
 
 	@Override
@@ -107,11 +118,21 @@ public class EntityHomingShard extends EntityThrowable implements IEntityAdditio
 			setDead();
 		}
 
-		if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && this.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ).isOpaqueCube())
+		if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
 		{
-			this.motionZ *= -0.5D;
-			this.motionX *= -0.5D;
-			this.motionY *= -0.5D;
+			Block b = this.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+
+			int l = mats.length;
+			List<Material> whitelisted = new ArrayList<Material>(l);
+			for (int i = 0; i < l; i++)
+				whitelisted.add(mats[i]);
+
+			if (!whitelisted.contains(b.getMaterial()))
+			{
+				this.motionZ *= -0.5D;
+				this.motionX *= -0.5D;
+				this.motionY *= -0.5D;
+			}
 		}
 	}
 

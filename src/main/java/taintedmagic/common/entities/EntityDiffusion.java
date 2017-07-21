@@ -10,29 +10,25 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class EntityTaintBubble extends EntityThrowable implements IEntityAdditionalSpawnData
+public class EntityDiffusion extends EntityThrowable
 {
 	public static final String TAG_DAMAGE = "dmg";
 
 	public boolean corrosive = false;
 	public float dmg = 0.0F;
 
-	public EntityTaintBubble (World w)
+	public EntityDiffusion (World w)
 	{
 		super(w);
 	}
 
-	public EntityTaintBubble (World w, EntityLivingBase e, float scatter, float dmg, boolean corrosive)
+	public EntityDiffusion (World w, EntityLivingBase e, float scatter, float dmg, boolean corrosive)
 	{
 		super(w, e);
 		this.corrosive = corrosive;
@@ -58,20 +54,7 @@ public class EntityTaintBubble extends EntityThrowable implements IEntityAdditio
 
 	public void onUpdate ()
 	{
-		// simulated taint swarm motion
-		ChunkCoordinates c = new ChunkCoordinates((int) this.posX + this.rand.nextInt(7) - this.rand.nextInt(7), (int) this.posY + this.rand.nextInt(6) - 2, (int) this.posZ + this.rand.nextInt(7) - this.rand.nextInt(7));
-		double varX = c.posX + 0.5D - this.posX;
-		double varY = c.posY + 0.1D - this.posY;
-		double varZ = c.posZ + 0.5D - this.posZ;
-		this.motionX += (Math.signum(varX) * 0.5D - this.motionX) * 0.025D;
-		this.motionY += (Math.signum(varY) * 0.7D - this.motionY) * 0.05D;
-		this.motionZ += (Math.signum(varZ) * 0.5D - this.motionZ) * 0.025D;
-
-		float angle = (float) (Math.atan2(this.motionZ, this.motionX) * 180.0D / Math.PI) - 90.0F;
-		float wrappedAngle = MathHelper.wrapAngleTo180_float(angle - this.rotationYaw);
-		this.rotationYaw += wrappedAngle;
-
-		if (this.ticksExisted > 50) setDead();
+		if (this.ticksExisted > 20) setDead();
 
 		this.motionX *= 0.95D;
 		this.motionY *= 0.95D;
@@ -79,9 +62,9 @@ public class EntityTaintBubble extends EntityThrowable implements IEntityAdditio
 
 		if (this.onGround)
 		{
-			this.motionX *= 0.65D;
-			this.motionY *= 0.65D;
-			this.motionZ *= 0.65D;
+			this.motionX *= 0.66D;
+			this.motionY *= 0.66D;
+			this.motionZ *= 0.66D;
 		}
 		super.onUpdate();
 	}
@@ -109,12 +92,12 @@ public class EntityTaintBubble extends EntityThrowable implements IEntityAdditio
 				{
 					if (mop.entityHit != null)
 					{
-						((EntityLivingBase) e).attackEntityFrom(new EntityDamageSourceIndirect("taint", this, getThrower()).setMagicDamage(), this.dmg);
+						((EntityLivingBase) e).attackEntityFrom(DamageSource.causeIndirectMagicDamage(getThrower(), e), this.dmg);
 						if (this.corrosive)
 						{
 							try
 							{
-								((EntityLivingBase) e).addPotionEffect(new PotionEffect(Potion.wither.id, 100, 1));
+								((EntityLivingBase) e).addPotionEffect(new PotionEffect(Potion.wither.id, 160, 1));
 							}
 							catch (Exception ex)
 							{
@@ -125,7 +108,7 @@ public class EntityTaintBubble extends EntityThrowable implements IEntityAdditio
 						{
 							try
 							{
-								((EntityLivingBase) e).addPotionEffect(new PotionEffect(Potion.poison.id, 100, 1));
+								((EntityLivingBase) e).addPotionEffect(new PotionEffect(Potion.weakness.id, 160, 1));
 							}
 							catch (Exception ex)
 							{

@@ -10,6 +10,8 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.MinecraftForge;
@@ -105,6 +107,7 @@ public class ItemVoidwalkerBoots extends ItemArmor implements IVisDiscountGear, 
 	@Override
 	public void addInformation (ItemStack s, EntityPlayer p, List l, boolean b)
 	{
+		l.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": " + getVisDiscount(s, p, null) + "%");
 	}
 
 	public void onUpdate (ItemStack s, World w, Entity e, int j, boolean k)

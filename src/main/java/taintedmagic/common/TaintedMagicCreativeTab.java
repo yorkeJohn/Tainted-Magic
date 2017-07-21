@@ -1,4 +1,4 @@
-package taintedmagic.common.lib;
+package taintedmagic.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,19 +6,19 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
+import taintedmagic.common.lib.LibInfo;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
-public class LibCreativeTab extends CreativeTabs
+public class TaintedMagicCreativeTab extends CreativeTabs
 {
 	public List list = new ArrayList();
 
-	public LibCreativeTab ()
+	public TaintedMagicCreativeTab ()
 	{
-		super(LibStrings.MODID);
+		super(LibInfo.MODID);
 	}
 
 	@Override

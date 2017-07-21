@@ -241,10 +241,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 				MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
 				float mul = Math.min(1.0F + (float) this.ticksInUse / 40.0F, 2.0F);
 
-				if (mop.entityHit != null)
-				{
-					PacketHandler.INSTANCE.sendToServer(new PacketKatanaAttack(mop.entityHit, p, this.getAttackDamage(s) * mul, leech));
-				}
+				if (mop.entityHit != null) PacketHandler.INSTANCE.sendToServer(new PacketKatanaAttack(mop.entityHit, p, this.getAttackDamage(s) * mul, leech));
 				p.swingItem();
 			}
 			p.worldObj.playSoundAtEntity(p, "thaumcraft:swing", 0.5F + (float) Math.random(), 0.5F + (float) Math.random());
@@ -256,6 +253,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 			case 0 :
 			{
 				EntityExplosiveOrb proj = new EntityExplosiveOrb(w, p);
+				proj.strength = getAttackDamage(s) * 2.0F;
 				proj.posX += proj.motionX;
 				proj.posY += proj.motionY;
 				proj.posZ += proj.motionZ;
@@ -267,11 +265,10 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 			{
 				for (int a = 0; a < 50; a++)
 				{
-					EntityTaintBubble proj = new EntityTaintBubble(w, p, 5.0F, false);
+					EntityTaintBubble proj = new EntityTaintBubble(w, p, 5.0F, getAttackDamage(s) * 1.5F, false);
 					proj.posX += proj.motionX;
 					proj.posY += proj.motionY;
 					proj.posZ += proj.motionZ;
-					proj.damage = getAttackDamage(s) * 0.2F;
 					if (!w.isRemote) w.spawnEntityInWorld(proj);
 					p.swingItem();
 				}
@@ -281,6 +278,8 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 				break;
 			}
 		}
+		s.stackTagCompound = new NBTTagCompound();
+		s.stackTagCompound.setInteger("inscription", 2);
 	}
 
 	private boolean isFullyCharged (EntityPlayer p)

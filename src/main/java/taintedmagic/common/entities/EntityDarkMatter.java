@@ -1,32 +1,35 @@
 package taintedmagic.common.entities;
 
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 import thaumcraft.common.entities.projectile.EntityEldritchOrb;
 
-public class EntityEldritchOrbAttack extends EntityEldritchOrb
+public class EntityDarkMatter extends EntityEldritchOrb
 {
-	public float dmg = 10F;
+	public float dmg = 0.0F;
 	public boolean corrosive;
 
-	public EntityEldritchOrbAttack (World w)
+	public EntityDarkMatter (World w)
 	{
 		super(w);
 	}
 
-	public EntityEldritchOrbAttack (World w, EntityLivingBase e, boolean corrosive)
+	public EntityDarkMatter (World w, EntityLivingBase e, float dmg, boolean corrosive)
 	{
 		super(w, e);
 		this.corrosive = corrosive;
+		this.dmg = dmg;
+	}
+
+	@Override
+	public boolean shouldRenderInPass (int pass)
+	{
+		return pass == 1;
 	}
 
 	@Override

@@ -1,19 +1,20 @@
 package taintedmagic.client;
 
-import java.util.Random;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import taintedmagic.client.handler.HUDHandler;
+import taintedmagic.client.renderer.RenderEntityDiffusion;
+import taintedmagic.client.renderer.RenderEntityGlowpet;
 import taintedmagic.client.renderer.RenderEntityHomingShard;
 import taintedmagic.client.renderer.RenderEntityTaintBubble;
 import taintedmagic.client.renderer.RenderItemKatana;
 import taintedmagic.common.CommonProxy;
-import taintedmagic.common.entities.EntityEldritchOrbAttack;
+import taintedmagic.common.entities.EntityDarkMatter;
+import taintedmagic.common.entities.EntityDiffusion;
+import taintedmagic.common.entities.EntityGlowpet;
 import taintedmagic.common.entities.EntityHomingShard;
 import taintedmagic.common.entities.EntityTaintBubble;
 import taintedmagic.common.helper.TaintedMagicHelper;
@@ -23,7 +24,7 @@ import thaumcraft.client.fx.particles.FXWisp;
 import thaumcraft.client.renderers.entity.RenderEldritchOrb;
 import thaumcraft.codechicken.lib.vec.Vector3;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ClientProxy extends CommonProxy
 {
@@ -32,8 +33,10 @@ public class ClientProxy extends CommonProxy
 	{
 		// Entities
 		RenderingRegistry.registerEntityRenderingHandler(EntityTaintBubble.class, new RenderEntityTaintBubble());
-		RenderingRegistry.registerEntityRenderingHandler(EntityEldritchOrbAttack.class, new RenderEldritchOrb());
+		RenderingRegistry.registerEntityRenderingHandler(EntityDarkMatter.class, new RenderEldritchOrb());
 		RenderingRegistry.registerEntityRenderingHandler(EntityHomingShard.class, new RenderEntityHomingShard());
+		RenderingRegistry.registerEntityRenderingHandler(EntityGlowpet.class, new RenderEntityGlowpet());
+		RenderingRegistry.registerEntityRenderingHandler(EntityDiffusion.class, new RenderEntityDiffusion());
 
 		// Items
 		MinecraftForgeClient.registerItemRenderer(ItemRegistry.ItemKatana, new RenderItemKatana());
@@ -49,6 +52,7 @@ public class ClientProxy extends CommonProxy
 	public void registerClientHandlers ()
 	{
 		MinecraftForge.EVENT_BUS.register(new HUDHandler());
+		FMLCommonHandler.instance().bus().register(new HUDHandler());
 	}
 
 	@Override

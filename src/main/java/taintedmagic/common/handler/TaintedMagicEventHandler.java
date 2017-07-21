@@ -16,13 +16,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import taintedmagic.api.IBloodlust;
+import taintedmagic.common.items.wand.foci.FocusUpgrades;
 import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.ThaumcraftApiHelper;
@@ -66,7 +66,7 @@ public class TaintedMagicEventHandler
 	}
 
 	/*
-	 * Used to upate the attack damage for the Mage's Mace focus
+	 * Used to upate the attack dmg for the Mage's Mace focus
 	 */
 	public void updateAttackDamage (EntityPlayer p)
 	{
@@ -201,27 +201,32 @@ public class TaintedMagicEventHandler
 		if (event.crafting.getItem() == ItemRegistry.ItemMaterial && event.crafting.getItemDamage() == 5) giveResearch(event.player);
 	}
 
-	public void giveResearch (EntityPlayer player)
+	public void giveResearch (EntityPlayer p)
 	{
-		if ( (!ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), "CREATION") && (ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), "CREATIONSHARD") && !player.worldObj.isRemote)))
+		if (!p.worldObj.isRemote)
 		{
-			Thaumcraft.proxy.getResearchManager().completeResearch(player, "CREATION");
-			PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("CREATION"), (EntityPlayerMP) player);
-			player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal("text.1")));
-			player.playSound("thaumcraft:wind", 1.0F, 5.0F);
-			try
+			if (!ThaumcraftApiHelper.isResearchComplete(p.getCommandSenderName(), "CREATION") && ThaumcraftApiHelper.isResearchComplete(p.getCommandSenderName(), "CREATIONSHARD"))
 			{
-				player.addPotionEffect(new PotionEffect(Potion.blindness.id, 80, 0));
-				player.addPotionEffect(new PotionEffect(Config.potionBlurredID, 200, 0));
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-			if ( (!ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), "OUTERREV") && (ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), "CREATION") && !player.worldObj.isRemote)))
-			{
-				Thaumcraft.proxy.getResearchManager().completeResearch(player, "OUTERREV");
-				PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("OUTERREV"), (EntityPlayerMP) player);
+				Thaumcraft.proxy.getResearchManager().completeResearch(p, "CREATION");
+				PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("CREATION"), (EntityPlayerMP) p);
+				p.addChatMessage(new ChatComponentText("\u00A75" + StatCollector.translateToLocal("text.creation")));
+				p.playSound("thaumcraft:wind", 1.0F, 5.0F);
+
+				if (!ThaumcraftApiHelper.isResearchComplete(p.getCommandSenderName(), "OUTERREV") && ThaumcraftApiHelper.isResearchComplete(p.getCommandSenderName(), "CREATION"))
+				{
+					Thaumcraft.proxy.getResearchManager().completeResearch(p, "OUTERREV");
+					PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("OUTERREV"), (EntityPlayerMP) p);
+				}
+
+				try
+				{
+					p.addPotionEffect(new PotionEffect(Potion.blindness.id, 80, 0));
+					p.addPotionEffect(new PotionEffect(Config.potionBlurredID, 200, 0));
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -238,7 +243,7 @@ public class TaintedMagicEventHandler
 				ItemStack drops = new ItemStack(ItemRegistry.ItemMaterial, r.nextInt(5), 7);
 				addDropItem(event, drops);
 			}
-			else if (p.getHeldItem() != null && p.getHeldItem().getItem() instanceof ItemWandCasting && ((ItemWandCasting) p.getHeldItem().getItem()).getFocus(p.getHeldItem()) != null && ((ItemWandCasting) p.getHeldItem().getItem()).getFocus(p.getHeldItem()).isUpgradedWith( ((ItemWandCasting) p.getHeldItem().getItem()).getFocusItem(p.getHeldItem()), ItemFocusMageMace.bloodlust))
+			else if (p.getHeldItem() != null && p.getHeldItem().getItem() instanceof ItemWandCasting && ((ItemWandCasting) p.getHeldItem().getItem()).getFocus(p.getHeldItem()) != null && ((ItemWandCasting) p.getHeldItem().getItem()).getFocus(p.getHeldItem()).isUpgradedWith( ((ItemWandCasting) p.getHeldItem().getItem()).getFocusItem(p.getHeldItem()), FocusUpgrades.bloodlust))
 			{
 				Random r = new Random();
 				ItemStack drops = new ItemStack(ItemRegistry.ItemMaterial, r.nextInt(5), 7);
@@ -267,7 +272,7 @@ public class TaintedMagicEventHandler
 		}
 		if (event.itemStack.getItem() instanceof IBloodlust) event.toolTip.add("\u00A74" + StatCollector.translateToLocal("text.bloodlust"));
 		if (event.itemStack.getItem() instanceof ItemCrimsonSword) event.toolTip.add("\u00A74" + StatCollector.translateToLocal("text.bloodlust"));
-		if ( (event.itemStack.getItem() instanceof ItemFocusMageMace && ((ItemFocusBasic) event.itemStack.getItem()).isUpgradedWith(event.itemStack, ItemFocusMageMace.bloodlust)) || (event.itemStack.getItem() instanceof ItemWandCasting && ((ItemWandCasting) event.itemStack.getItem()).getFocus(event.itemStack) != null && ((ItemWandCasting) event.itemStack.getItem()).getFocus(event.itemStack) instanceof ItemFocusMageMace && ((ItemWandCasting) event.itemStack.getItem()).getFocus(event.itemStack).isUpgradedWith( ((ItemWandCasting) event.itemStack.getItem()).getFocusItem(event.itemStack), ItemFocusMageMace.bloodlust))) event.toolTip.add("\u00A74" + StatCollector.translateToLocal("text.bloodlust"));
+		if ( (event.itemStack.getItem() instanceof ItemFocusMageMace && ((ItemFocusBasic) event.itemStack.getItem()).isUpgradedWith(event.itemStack, FocusUpgrades.bloodlust)) || (event.itemStack.getItem() instanceof ItemWandCasting && ((ItemWandCasting) event.itemStack.getItem()).getFocus(event.itemStack) != null && ((ItemWandCasting) event.itemStack.getItem()).getFocus(event.itemStack) instanceof ItemFocusMageMace && ((ItemWandCasting) event.itemStack.getItem()).getFocus(event.itemStack).isUpgradedWith( ((ItemWandCasting) event.itemStack.getItem()).getFocusItem(event.itemStack), FocusUpgrades.bloodlust))) event.toolTip.add("\u00A74" + StatCollector.translateToLocal("text.bloodlust"));
 
 		if (event.itemStack.stackTagCompound != null && event.itemStack.stackTagCompound.getBoolean("voidtouched")) event.toolTip.add("\u00A75" + StatCollector.translateToLocal("text.voidtouched"));
 	}

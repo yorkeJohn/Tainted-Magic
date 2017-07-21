@@ -28,10 +28,7 @@ public class ItemFocusMageMace extends ItemFocusBasic
 	public IIcon depthIcon = null;
 	public IIcon ornIcon = null;
 
-	public int dmg;
-
-	public static FocusUpgradeType bloodlust = new FocusUpgradeType(58, new ResourceLocation("taintedmagic", "textures/misc/IconBloodlust.png"), "focus.upgrade.bloodlust.name", "focus.upgrade.bloodlust.text", new AspectList().add(Aspect.WEAPON, 1).add(Aspect.HEAL, 1));
-	public static final AspectList costBase = new AspectList().add(Aspect.ENTROPY, 50);
+	public static final AspectList cost = new AspectList().add(Aspect.ENTROPY, 50);
 	public static final AspectList costBloodlust = new AspectList().add(Aspect.ENTROPY, 50).add(Aspect.ORDER, 20).add(Aspect.FIRE, 50);
 
 	public ItemFocusMageMace ()
@@ -70,7 +67,7 @@ public class ItemFocusMageMace extends ItemFocusBasic
 
 	public AspectList getVisCost (ItemStack s)
 	{
-		return this.isUpgradedWith(s, bloodlust) ? this.costBloodlust : this.costBase;
+		return this.isUpgradedWith(s, FocusUpgrades.bloodlust) ? this.costBloodlust : this.cost;
 	}
 
 	public int getActivationCooldown (ItemStack s)
@@ -125,13 +122,13 @@ public class ItemFocusMageMace extends ItemFocusBasic
 			return new FocusUpgradeType[]{
 					FocusUpgradeType.frugal,
 					FocusUpgradeType.potency,
-					this.bloodlust };
+					FocusUpgrades.bloodlust };
 		}
 		return null;
 	}
 
 	public boolean canApplyUpgrade (ItemStack s, EntityPlayer p, FocusUpgradeType t, int rank)
 	{
-		return (!t.equals(this.bloodlust)) || (ThaumcraftApiHelper.isResearchComplete(p.getCommandSenderName(), "BLOODLUSTUPGRADE"));
+		return (!t.equals(FocusUpgrades.bloodlust)) || (ThaumcraftApiHelper.isResearchComplete(p.getCommandSenderName(), "BLOODLUSTUPGRADE"));
 	}
 }

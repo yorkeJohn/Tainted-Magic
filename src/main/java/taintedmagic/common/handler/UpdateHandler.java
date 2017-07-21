@@ -7,12 +7,12 @@ import java.net.URL;
 import java.util.Scanner;
 
 import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.lib.LibStrings;
+import taintedmagic.common.lib.LibInfo;
 import net.minecraft.util.EnumChatFormatting;
 
 public class UpdateHandler
 {
-	private static String currentVersion = LibStrings.VERSION;
+	private static String currentVersion = LibInfo.VERSION;
 	private static String newestVersion;
 	public static String updateStatus = null;
 	public static boolean show = false;

@@ -9,7 +9,7 @@ import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
-import taintedmagic.common.handler.WandUpdateHandler;
+import taintedmagic.common.handler.WandHandler;
 import taintedmagic.common.items.ItemMagicFunguar;
 import taintedmagic.common.items.ItemMaterial;
 import taintedmagic.common.items.ItemVoidsentBlood;
@@ -30,11 +30,12 @@ import taintedmagic.common.items.tools.ItemShadowmetalSword;
 import taintedmagic.common.items.tools.ItemThaumicDisassembler;
 import taintedmagic.common.items.wand.ItemWandCap;
 import taintedmagic.common.items.wand.ItemWandRod;
-import taintedmagic.common.items.wand.foci.ItemFocusEldritch;
+import taintedmagic.common.items.wand.foci.ItemFocusLumos;
+import taintedmagic.common.items.wand.foci.ItemFocusDarkMatter;
 import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
 import taintedmagic.common.items.wand.foci.ItemFocusMeteorology;
 import taintedmagic.common.items.wand.foci.ItemFocusTaint;
-import taintedmagic.common.items.wand.foci.ItemFocusTaintedBlast;
+import taintedmagic.common.items.wand.foci.ItemFocusTaintedShockwave;
 import taintedmagic.common.items.wand.foci.ItemFocusTime;
 import taintedmagic.common.items.wand.foci.ItemFocusVisShard;
 import taintedmagic.common.lib.LibToolMaterials;
@@ -91,10 +92,10 @@ public class ItemRegistry
 		ItemWandRod = new ItemWandRod();
 		GameRegistry.registerItem(ItemWandRod, "ItemWandRod");
 
-		WAND_ROD_WARPWOOD = new WandRod("warpwood", 250, new ItemStack(ItemWandRod, 1, 0), 16, new WandUpdateHandler(), new ResourceLocation("taintedmagic:textures/models/ModelWAND_ROD_WARPWOOD.png"));
+		WAND_ROD_WARPWOOD = new WandRod("warpwood", 250, new ItemStack(ItemWandRod, 1, 0), 16, new WandHandler(), new ResourceLocation("taintedmagic:textures/models/ModelWAND_ROD_WARPWOOD.png"));
 		WAND_ROD_WARPWOOD.setGlowing(true);
 
-		STAFF_ROD_WARPWOOD = new StaffRod("warpwood", 500, new ItemStack(ItemWandRod, 1, 1), 20, new WandUpdateHandler(), new ResourceLocation("taintedmagic:textures/models/ModelWAND_ROD_WARPWOOD.png"));
+		STAFF_ROD_WARPWOOD = new StaffRod("warpwood", 500, new ItemStack(ItemWandRod, 1, 1), 20, new WandHandler(), new ResourceLocation("taintedmagic:textures/models/ModelWAND_ROD_WARPWOOD.png"));
 		STAFF_ROD_WARPWOOD.setRunes(true);
 		STAFF_ROD_WARPWOOD.setGlowing(true);
 
@@ -117,8 +118,8 @@ public class ItemRegistry
 		ItemFocusTaint = new ItemFocusTaint();
 		GameRegistry.registerItem(ItemFocusTaint, "ItemFocusTaint");
 
-		ItemFocusEldritch = new ItemFocusEldritch();
-		GameRegistry.registerItem(ItemFocusEldritch, "ItemFocusEldritch");
+		ItemFocusDarkMatter = new ItemFocusDarkMatter();
+		GameRegistry.registerItem(ItemFocusDarkMatter, "ItemFocusDarkMatter");
 
 		ItemFocusMeteorology = new ItemFocusMeteorology();
 		GameRegistry.registerItem(ItemFocusMeteorology, "ItemFocusMeteorology");
@@ -129,11 +130,14 @@ public class ItemRegistry
 		ItemFocusMageMace = new ItemFocusMageMace();
 		GameRegistry.registerItem(ItemFocusMageMace, "ItemFocusMageMace");
 
-		ItemFocusTaintedBlast = new ItemFocusTaintedBlast();
-		GameRegistry.registerItem(ItemFocusTaintedBlast, "ItemFocusTaintedBlast");
+		ItemFocusTaintedShockwave = new ItemFocusTaintedShockwave();
+		GameRegistry.registerItem(ItemFocusTaintedShockwave, "ItemFocusTaintedShockwave");
 
 		ItemFocusVisShard = new ItemFocusVisShard();
 		GameRegistry.registerItem(ItemFocusVisShard, "ItemFocusVisShard");
+
+		ItemFocusLumos = new ItemFocusLumos();
+		GameRegistry.registerItem(ItemFocusLumos, "ItemFocusLumos");
 
 		// Tools
 		ItemThaumicDisassembler = new ItemThaumicDisassembler();
@@ -183,12 +187,13 @@ public class ItemRegistry
 
 	// Foci
 	public static Item ItemFocusTaint;
-	public static Item ItemFocusEldritch;
+	public static Item ItemFocusDarkMatter;
 	public static Item ItemFocusMeteorology;
 	public static Item ItemFocusTime;
 	public static Item ItemFocusMageMace;
-	public static Item ItemFocusTaintedBlast;
+	public static Item ItemFocusTaintedShockwave;
 	public static Item ItemFocusVisShard;
+	public static Item ItemFocusLumos;
 
 	// Armor and Baubles
 	public static Item ItemWarpedGoggles;

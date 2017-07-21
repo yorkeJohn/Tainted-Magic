@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemMaterial extends Item
 {
-	public int SUBTYPES = 9;
+	public int SUBTYPES = 10;
 	public IIcon[] icons = new IIcon[SUBTYPES];
 
 	public ItemMaterial ()
@@ -49,6 +49,8 @@ public class ItemMaterial extends Item
 		case 7 :
 			return EnumRarity.uncommon;
 		case 8 :
+			return EnumRarity.uncommon;
+		case 9 :
 			return EnumRarity.uncommon;
 		}
 		return EnumRarity.common;

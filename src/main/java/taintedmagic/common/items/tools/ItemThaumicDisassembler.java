@@ -52,8 +52,8 @@ public class ItemThaumicDisassembler extends Item
 	{
 		super.addInformation(s, p, l, b);
 
-		l.add("\u00A78" + StatCollector.translateToLocal("text.mode") + ": " + getModeName(s));
-		l.add("\u00A78" + StatCollector.translateToLocal("text.efficiency") + ": " + (getMode(s) == 3 ? "\u00A7c" : "\u00A7a") + getEfficiency(s));
+		l.add("\u00A78" + StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(s));
+		l.add("\u00A78" + StatCollector.translateToLocal("text.disassembler.efficiency") + ": " + (getMode(s) == 3 ? "\u00A7c" : "\u00A7a") + getEfficiency(s));
 		l.add(" ");
 		l.add("\u00A79" + "+20 " + StatCollector.translateToLocal("text.attackdamage"));
 	}
@@ -185,7 +185,7 @@ public class ItemThaumicDisassembler extends Item
 
 		if (s != null && s.getItem() instanceof ItemThaumicDisassembler)
 		{
-			String str = "\u00A78" + StatCollector.translateToLocal("text.mode") + ": " + getModeName(s) + (getMode(s) == 3 ? "\u00A7c" : "\u00A7a") + " (" + getEfficiency(s) + ")";
+			String str = "\u00A78" + StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(s) + (getMode(s) == 3 ? "\u00A7c" : "\u00A7a") + " (" + getEfficiency(s) + ")";
 
 			GL11.glPushMatrix();
 			GL11.glEnable(GL11.GL_BLEND);

@@ -1,10 +1,10 @@
 package taintedmagic.common.helper;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
-import taintedmagic.api.IBloodlust;
+import net.minecraft.world.IBlockAccess;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.codechicken.lib.vec.Vector3;
@@ -27,9 +27,9 @@ public class TaintedMagicHelper
 
 	public static double getDistanceTo (double x, double y, double z, EntityPlayer p)
 	{
-		double var7 = p.posX + 0.5D - x;
-		double var9 = p.posY + 0.5D - y;
-		double var11 = p.posZ + 0.5D - z;
-		return var7 * var7 + var9 * var9 + var11 * var11;
+		double distX = p.posX + 0.5D - x;
+		double distY = p.posY + 0.5D - y;
+		double distZ = p.posZ + 0.5D - z;
+		return distX * distX + distY * distY + distZ * distZ;
 	}
 }
