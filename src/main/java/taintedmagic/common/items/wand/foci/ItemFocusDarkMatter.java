@@ -92,7 +92,7 @@ public class ItemFocusDarkMatter extends ItemFocusBasic
 			{
 				if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
 				{
-					EntityDarkMatter proj = new EntityDarkMatter(w, p, 14F + wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.corrosive));
+					EntityDarkMatter proj = new EntityDarkMatter(w, p, 16F + wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.corrosive));
 					w.spawnEntityInWorld(proj);
 					if (!isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.sanity))
 					{
@@ -123,7 +123,7 @@ public class ItemFocusDarkMatter extends ItemFocusBasic
 		{
 			for (int a = 0; a < 2 + wand.getFocusPotency(s); a++)
 			{
-				EntityDiffusion proj = new EntityDiffusion(p.worldObj, p, isUpgradedWith(wand.getFocusItem(s), FocusUpgradeType.enlarge) ? 15.0F : 8.0F, 10F + wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.corrosive));
+				EntityDiffusion proj = new EntityDiffusion(p.worldObj, p, isUpgradedWith(wand.getFocusItem(s), FocusUpgradeType.enlarge) ? 15.0F : 8.0F, 12F + wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.corrosive));
 				proj.posX += proj.motionX;
 				proj.posY += proj.motionY;
 				proj.posZ += proj.motionZ;
