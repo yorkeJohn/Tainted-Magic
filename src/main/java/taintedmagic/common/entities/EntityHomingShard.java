@@ -33,7 +33,7 @@ public class EntityHomingShard extends EntityThrowable implements IEntityAdditio
 	int targetID = 0;
 	EntityLivingBase target;
 
-	Material[] mats = { Material.plants, Material.air, Material.leaves, Material.portal, Material.vine, Material.web, Material.portal };
+	Material[] mats = { Material.plants, Material.air, Material.leaves, Material.portal, Material.vine, Material.web };
 
 	public EntityHomingShard (World w)
 	{
@@ -129,9 +129,9 @@ public class EntityHomingShard extends EntityThrowable implements IEntityAdditio
 
 			if (!whitelisted.contains(b.getMaterial()))
 			{
-				this.motionZ *= -0.5D;
-				this.motionX *= -0.5D;
-				this.motionY *= -0.5D;
+				this.motionZ *= -0.8D;
+				this.motionX *= -0.8D;
+				this.motionY *= -0.8D;
 			}
 		}
 	}
@@ -190,9 +190,9 @@ public class EntityHomingShard extends EntityThrowable implements IEntityAdditio
 			dy /= d;
 			dz /= d;
 
-			this.motionX = dx;
-			this.motionY = dy;
-			this.motionZ = dz;
+			this.motionX = dx * Math.random();
+			this.motionY = dy * Math.random();
+			this.motionZ = dz * Math.random();
 
 			this.worldObj.playSoundAtEntity(this, "taintedmagic:shard", 0.1F, 2.0F * this.worldObj.rand.nextFloat());
 		}

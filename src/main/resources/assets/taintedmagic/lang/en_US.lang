@@ -298,9 +298,11 @@ tm.name.CRYSTALDAGGER=Crystal Blood
 tm.tag.CRYSTALDAGGER=Zwerchhau
 tm.text.CRYSTALDAGGER.1=After having discovered the Essentia Crystallizer, you've managed to create a dagger that crystallizes the blood of your foes.<BR>Using this blade allows you to obtain Crystal Blood upon killing enemies. Any weapon that possesses the Bloodlust trait has a similar effect.<BR>You are certain that this is no ordinary blood, it is particularly interesting because artifacts retrieved from the Crimson Cult seem to have similar properties.
 
+#MACEFOCUS
+
 tm.name.MACEFOCUS=Wand Focus: Mage's Mace
 tm.tag.MACEFOCUS=From wizard to warrior
-tm.text.MACEFOCUS.1=With the discovery of foci, you've noticed that most foci are ranged. For you, this can sometimes be a problem.<BR>By infusing some sharp objects into a Block of Shadowmetal, you created a focus that acts as a mace.<BR>When equipped, this focus will grant increased attack damage to the staff or wand that you are using; turning it into the perfect melee weapon. Nonetheless, this comes at a cost. The focus uses vis every time you hit a mob, no damage will be inflicted if your staff or wand does not have the required vis. The potency upgrade will increase the damage dealt by +1 for each level.
+tm.text.MACEFOCUS.1=With the discovery of foci, you've noticed that most foci are ranged. For you, this can sometimes be a problem.<BR>By infusing some sharp objects into a Block of Iron, you created a focus that acts as a mace.<BR>When equipped, this focus will grant increased attack damage to the staff or wand that you are using; turning it into the perfect melee weapon. Nonetheless, this comes at a cost. The focus uses vis every time you hit a mob, no damage will be inflicted if your staff or wand does not have the required vis. The potency upgrade will increase the damage dealt by +1 for each level.
 
 #CRIMSONBLADE
 

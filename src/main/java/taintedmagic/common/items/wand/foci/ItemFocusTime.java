@@ -79,7 +79,7 @@ public class ItemFocusTime extends ItemFocusBasic
 		if (pass == 0)
 		{
 			EntityPlayer p = TaintedMagic.proxy.getClientPlayer();
-			return p == null ? 0xFFFFFF : Color.HSBtoRGB(p.ticksExisted * 16F % 360 / 360F, 1F, 1F);
+			return p == null ? 0xFFFFFF : Color.HSBtoRGB(p.ticksExisted * 8F % 360 / 360F, 1F, 1F);
 		}
 		if (pass == 1) return 16777215;
 

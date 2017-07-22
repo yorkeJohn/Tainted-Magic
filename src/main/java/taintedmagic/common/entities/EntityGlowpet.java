@@ -67,9 +67,9 @@ public class EntityGlowpet extends EntityThrowable
 
 			if (!whitelisted.contains(b.getMaterial()))
 			{
-				this.motionZ *= -0.5D;
-				this.motionX *= -0.5D;
-				this.motionY *= -0.5D;
+				this.motionZ *= -0.8D;
+				this.motionX *= -0.8D;
+				this.motionY *= -0.8D;
 			}
 		}
 	}
@@ -128,9 +128,9 @@ public class EntityGlowpet extends EntityThrowable
 			dy /= d;
 			dz /= d;
 
-			this.motionX = dx;
-			this.motionY = dy;
-			this.motionZ = dz;
+			this.motionX = dx * Math.random();
+			this.motionY = dy * Math.random();
+			this.motionZ = dz * Math.random();
 
 			this.worldObj.playSoundAtEntity(this, "taintedmagic:shard", 0.1F, 2.0F * this.worldObj.rand.nextFloat());
 		}

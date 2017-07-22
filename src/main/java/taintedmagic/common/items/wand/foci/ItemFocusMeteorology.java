@@ -1,5 +1,7 @@
 package taintedmagic.common.items.wand.foci;
 
+import java.awt.Color;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -23,7 +25,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemFocusMeteorology extends ItemFocusBasic
 {
-	IIcon depthIcon = null;
+	public IIcon depthIcon;
+	public IIcon iconOverlay;
 
 	private static final AspectList cost = new AspectList().add(Aspect.AIR, 1000).add(Aspect.WATER, 1000).add(Aspect.FIRE, 1000).add(Aspect.EARTH, 1000).add(Aspect.ORDER, 1000).add(Aspect.ENTROPY, 1000);
 
@@ -37,6 +40,7 @@ public class ItemFocusMeteorology extends ItemFocusBasic
 	public void registerIcons (IIconRegister ir)
 	{
 		this.icon = ir.registerIcon("taintedmagic:ItemFocusMeteorology");
+		this.iconOverlay = ir.registerIcon("taintedmagic:ItemFocusTime_overlay");
 		this.depthIcon = ir.registerIcon("taintedmagic:ItemFocusMeteorology_depth");
 	}
 
@@ -68,6 +72,25 @@ public class ItemFocusMeteorology extends ItemFocusBasic
 	public boolean isVisCostPerTick (ItemStack s)
 	{
 		return false;
+	}
+
+	@SideOnly (Side.CLIENT)
+	public int getRenderPasses (int m)
+	{
+		return 2;
+	}
+
+	@Override
+	@SideOnly (Side.CLIENT)
+	public IIcon getIconFromDamageForRenderPass (int meta, int pass)
+	{
+		return (pass == 0) ? this.icon : this.iconOverlay;
+	}
+
+	@SideOnly (Side.CLIENT)
+	public boolean requiresMultipleRenderPasses ()
+	{
+		return true;
 	}
 
 	public ItemFocusBasic.WandFocusAnimation getAnimation (ItemStack s)

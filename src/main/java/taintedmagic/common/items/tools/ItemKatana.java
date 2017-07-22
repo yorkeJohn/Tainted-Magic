@@ -263,9 +263,9 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 			}
 			case 1 :
 			{
-				for (int a = 0; a < 50; a++)
+				for (int a = 0; a < 75; a++)
 				{
-					EntityTaintBubble proj = new EntityTaintBubble(w, p, 5.0F, getAttackDamage(s) * 1.5F, false);
+					EntityTaintBubble proj = new EntityTaintBubble(w, p, 5.0F, getAttackDamage(s) * 2.0F, false);
 					proj.posX += proj.motionX;
 					proj.posY += proj.motionY;
 					proj.posZ += proj.motionZ;
@@ -278,8 +278,6 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 				break;
 			}
 		}
-		s.stackTagCompound = new NBTTagCompound();
-		s.stackTagCompound.setInteger("inscription", 2);
 	}
 
 	private boolean isFullyCharged (EntityPlayer p)
