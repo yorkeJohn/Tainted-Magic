@@ -21,28 +21,24 @@ public class RenderEntityTaintBubble extends Render
 		this.shadowSize = 0.0F;
 	}
 
-	@Override
-	public void doRender (Entity e, double x, double y, double z, float f, float pt)
+	public void renderEntityAt (EntityTaintBubble e, double x, double y, double z, float f, float pt)
 	{
 		Tessellator t = Tessellator.instance;
-		EntityTaintBubble bubble = (EntityTaintBubble) e;
 
-		float r = 0.8F + e.worldObj.rand.nextFloat() * 0.2F;
-		float g = e.worldObj.rand.nextFloat() * 0.4F;
-		float b = 1.0F - e.worldObj.rand.nextFloat() * 0.2F;
-		float a = (50.0F - (float) e.ticksExisted) / 50.0F;
+		float alpha = (50.0F - (float) e.ticksExisted) / 50.0F;
 		
 		GL11.glPushMatrix();
-		GL11.glTranslated(x, y, z);
-		GL11.glEnable(GL11.GL_BLEND);
 
+		GL11.glTranslated(x, y, z);
+
+		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDepthMask(false);
 
-		GL11.glColor4f(r, g, b, a);
+		GL11.glColor4f(e.red, e.green, e.blue, alpha);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 
-		int p = 7 + bubble.ticksExisted % 8;
+		int p = 7 + e.ticksExisted % 8;
 		float f2 = p / 16.0F;
 		float f3 = f2 + 0.0624375F;
 		float f4 = 0.25F;
@@ -52,7 +48,7 @@ public class RenderEntityTaintBubble extends Render
 		float f7 = 0.5F;
 		float f8 = 0.5F;
 
-		float s = 0.3F;
+		float s = 0.35F;
 
 		GL11.glScalef(s, s, s);
 
@@ -63,7 +59,7 @@ public class RenderEntityTaintBubble extends Render
 
 		t.setBrightness(240);
 		t.setNormal(0.0F, 1.0F, 0.0F);
-		t.setColorRGBA_F(r, g, b, a);
+		t.setColorRGBA_F(e.red, e.green, e.blue, alpha);
 
 		t.addVertexWithUV(-f7, -f8, 0.0D, f2, f5);
 		t.addVertexWithUV(f6 - f7, -f8, 0.0D, f3, f5);
@@ -74,6 +70,7 @@ public class RenderEntityTaintBubble extends Render
 
 		GL11.glDepthMask(true);
 		GL11.glDisable(GL11.GL_BLEND);
+
 		GL11.glPopMatrix();
 	}
 
@@ -81,5 +78,11 @@ public class RenderEntityTaintBubble extends Render
 	protected ResourceLocation getEntityTexture (Entity e)
 	{
 		return null;
+	}
+
+	@Override
+	public void doRender (Entity e, double x, double y, double z, float f, float pT)
+	{
+		renderEntityAt((EntityTaintBubble) e, x, y, z, f, pT);
 	}
 }

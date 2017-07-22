@@ -21,8 +21,8 @@ public class RenderEntityDiffusion extends Render
 
 		GL11.glTranslated(x, y, z);
 
-		float c = 0.1F;
-		float a = ( (20.0F - (float) e.ticksExisted) / 40.0F);
+		float color = 0.1F;
+		float alpha = (20.0F - (float) e.ticksExisted) / 40.0F;
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -37,7 +37,7 @@ public class RenderEntityDiffusion extends Render
 		float f7 = 0.5F;
 		float f8 = 0.5F;
 
-		GL11.glColor4f(c, c, c, a);
+		GL11.glColor4f(color, color, color, alpha);
 
 		GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -48,7 +48,7 @@ public class RenderEntityDiffusion extends Render
 		t.startDrawingQuads();
 
 		t.setNormal(0.0F, 1.0F, 0.0F);
-		t.setColorRGBA_F(c, c, c, a);
+		t.setColorRGBA_F(color, color, color, alpha);
 
 		t.addVertexWithUV(0.0F - f7, 0.0F - f8, 0.0D, f2, f5);
 		t.addVertexWithUV(f6 - f7, 0.0F - f8, 0.0D, f3, f5);

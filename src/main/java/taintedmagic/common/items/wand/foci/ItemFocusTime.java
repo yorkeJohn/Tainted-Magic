@@ -25,7 +25,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemFocusTime extends ItemFocusBasic
 {
-	IIcon depthIcon = null;
+	public IIcon depthIcon;
+	public IIcon iconOverlay;
 
 	private static final AspectList cost = new AspectList().add(Aspect.AIR, 1000).add(Aspect.WATER, 1000).add(Aspect.FIRE, 1000).add(Aspect.EARTH, 1000).add(Aspect.ORDER, 1000).add(Aspect.ENTROPY, 1000);
 
@@ -39,6 +40,7 @@ public class ItemFocusTime extends ItemFocusBasic
 	public void registerIcons (IIconRegister ir)
 	{
 		this.icon = ir.registerIcon("taintedmagic:ItemFocusTime");
+		this.iconOverlay = ir.registerIcon("taintedmagic:ItemFocusTime_overlay");
 		this.depthIcon = ir.registerIcon("taintedmagic:ItemFocusMeteorology_depth");
 	}
 
@@ -56,6 +58,38 @@ public class ItemFocusTime extends ItemFocusBasic
 	{
 		EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
 		return player == null ? 0xFFFFFF : Color.HSBtoRGB(player.ticksExisted * 16 % 360 / 360F, 1F, 1F);
+	}
+
+	@SideOnly (Side.CLIENT)
+	public int getRenderPasses (int m)
+	{
+		return 2;
+	}
+
+	@Override
+	@SideOnly (Side.CLIENT)
+	public IIcon getIconFromDamageForRenderPass (int meta, int pass)
+	{
+		return (pass == 0) ? this.icon : this.iconOverlay;
+	}
+
+	@SideOnly (Side.CLIENT)
+	public int getColorFromItemStack (ItemStack s, int pass)
+	{
+		if (pass == 0)
+		{
+			EntityPlayer p = TaintedMagic.proxy.getClientPlayer();
+			return p == null ? 0xFFFFFF : Color.HSBtoRGB(p.ticksExisted * 16F % 360 / 360F, 1F, 1F);
+		}
+		if (pass == 1) return 16777215;
+
+		return 16777215;
+	}
+
+	@SideOnly (Side.CLIENT)
+	public boolean requiresMultipleRenderPasses ()
+	{
+		return true;
 	}
 
 	public AspectList getVisCost (ItemStack s)
@@ -87,45 +121,43 @@ public class ItemFocusTime extends ItemFocusBasic
 			w.setWorldTime(w.isDaytime() ? 14000 : 24000);
 			p.playSound("thaumcraft:wand", 0.5F, 1.0F);
 
-			if (w.isRemote)
-			{
-				for (int i = 1; i < 200; i++)
-				{
-					double xp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
-					double zp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
-					double yp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
-					double off = Math.random() * 0.1;
-
-					float red = p.worldObj.rand.nextFloat();
-					float green = p.worldObj.rand.nextFloat();
-					float blue = p.worldObj.rand.nextFloat();
-
-					FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY + 10 + yp + off, p.posZ + zp + off, 0.5F + ((float) Math.random() * 0.25F), red, green, blue);
-					ef.setGravity(0.75F);
-					ef.shrink = true;
-					ef.noClip = true;
-
-					Vector3 movement = TaintedMagicHelper.getDistanceBetween(ef, p);
-					ef.addVelocity(movement.x * 0.5, movement.y * 0.5, movement.z * 0.5);
-
-					ParticleEngine.instance.addEffect(w, ef);
-				}
-
-			}
+			spawnParticles(w, p);
 		}
 		return s;
-	}
-
-	@Override
-	public int getColorFromItemStack (ItemStack s, int i)
-	{
-		EntityPlayer p = TaintedMagic.proxy.getClientPlayer();
-		return p == null ? 0xFFFFFF : Color.HSBtoRGB(p.ticksExisted * 16 % 360 / 360F, 1F, 1F);
 	}
 
 	@SideOnly (Side.CLIENT)
 	public EnumRarity getRarity (ItemStack s)
 	{
 		return TaintedMagic.rarityCreation;
+	}
+
+	@SideOnly (Side.CLIENT)
+	void spawnParticles (World w, EntityPlayer p)
+	{
+		if (w.isRemote)
+		{
+			for (int i = 1; i < 200; i++)
+			{
+				double xp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
+				double zp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
+				double yp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
+				double off = Math.random() * 0.1;
+
+				float red = p.worldObj.rand.nextFloat();
+				float green = p.worldObj.rand.nextFloat();
+				float blue = p.worldObj.rand.nextFloat();
+
+				FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY + 10 + yp + off, p.posZ + zp + off, 0.5F + ((float) Math.random() * 0.25F), red, green, blue);
+				ef.setGravity(0.75F);
+				ef.shrink = true;
+				ef.noClip = true;
+
+				Vector3 movement = TaintedMagicHelper.getDistanceBetween(ef, p);
+				ef.addVelocity(movement.x * 0.5, movement.y * 0.5, movement.z * 0.5);
+
+				ParticleEngine.instance.addEffect(w, ef);
+			}
+		}
 	}
 }

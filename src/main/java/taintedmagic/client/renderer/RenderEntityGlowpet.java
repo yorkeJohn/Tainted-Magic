@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import taintedmagic.common.entities.EntityGlowpet;
 import thaumcraft.client.fx.ParticleEngine;
@@ -24,9 +25,11 @@ public class RenderEntityGlowpet extends Render
 		Tessellator t = Tessellator.instance;
 
 		GL11.glPushMatrix();
+
 		GL11.glDepthMask(false);
-		GL11.glEnable(3042);
-		GL11.glBlendFunc(770, 771);
+
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 		bindTexture(ParticleEngine.particleTexture);
 
@@ -39,17 +42,26 @@ public class RenderEntityGlowpet extends Render
 		float f7 = 0.5F;
 		float f8 = 0.5F;
 
-		GL11.glColor4f(1.0F, 0.75F, 0.45F, 1.0F);
+		float red = 1.0F;
+		float green = 0.75F;
+		float blue = 0.5F;
+		float alpha = 1.0F;
+
+		GL11.glColor4f(red, green, blue, alpha);
 
 		GL11.glPushMatrix();
+
 		GL11.glTranslated(x, y, z);
+
 		GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-		GL11.glScalef(0.4F, 0.4F, 0.4F);
+
+		float s = 0.4F;
+		GL11.glScalef(s, s, s);
 
 		t.startDrawingQuads();
 
-		t.setColorRGBA_F(1.0F, 0.75F, 0.45F, 1.0F);
+		t.setColorRGBA_F(red, green, blue, alpha);
 		t.setNormal(0.0F, 1.0F, 0.0F);
 		t.setBrightness(240);
 
@@ -62,12 +74,10 @@ public class RenderEntityGlowpet extends Render
 
 		GL11.glPopMatrix();
 
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GL11.glBlendFunc(770, 771);
-		GL11.glDisable(3042);
-		GL11.glDisable(32826);
-
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		GL11.glDepthMask(true);
+
 		GL11.glPopMatrix();
 	}
 

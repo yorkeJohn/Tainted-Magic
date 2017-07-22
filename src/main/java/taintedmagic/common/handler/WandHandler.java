@@ -29,12 +29,11 @@ public class WandHandler implements IWandRodOnUpdate
 			int permwarp = Thaumcraft.proxy.getPlayerKnowledge().getWarpPerm(player.getCommandSenderName());
 
 			int x = permwarp;
-			if (x == 0) x++;
+			if (x == 0) return;
 
-			int y = Math.max( (200 - x), 20);
 			double fx = 20 * coth(x / 250.0D);
 			int rfx = Math.min((int) Math.round(fx), 200);
-			
+
 			if (player.ticksExisted % rfx == 0)
 			{
 				for (int i = 0; i < primals.length; i++)

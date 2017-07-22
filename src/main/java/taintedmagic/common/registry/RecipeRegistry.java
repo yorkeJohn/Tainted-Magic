@@ -31,8 +31,10 @@ public class RecipeRegistry
 
 	public static void initCrafting ()
 	{
-		ResearchRegistry.recipes.put("BlockShadowmetal", GameRegistry.addShapedRecipe(new ItemStack(Item.getItemFromBlock(BlockRegistry.BlockShadowmetal)), new Object[]{ "AAA", "AAA", "AAA", Character.valueOf('A'), new ItemStack(ItemRegistry.ItemMaterial) }));
+		GameRegistry.addShapedRecipe(new ItemStack(Item.getItemFromBlock(BlockRegistry.BlockShadowmetal)), new Object[]{ "AAA", "AAA", "AAA", Character.valueOf('A'), new ItemStack(ItemRegistry.ItemMaterial) });
 
+		GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new Object[]{ "AAA", "AAA", "AAA", Character.valueOf('A'), new ItemStack(ItemRegistry.ItemMaterial, 1, 9) });
+		
 		ResearchRegistry.recipes.put("ItemShadowmetalPick", GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalPick), new Object[]{ "AAA", " B ", " B ", Character.valueOf('A'), new ItemStack(ItemRegistry.ItemMaterial), Character.valueOf('B'), new ItemStack(Items.stick) }));
 
 		ResearchRegistry.recipes.put("ItemShadowmetalAxe", CraftingManager.getInstance().addRecipe(new ItemStack(ItemRegistry.ItemShadowmetalAxe), new Object[]{ "AA", "BA", "B ", Character.valueOf('A'), new ItemStack(ItemRegistry.ItemMaterial), Character.valueOf('B'), new ItemStack(Items.stick) }));
@@ -44,6 +46,7 @@ public class RecipeRegistry
 		ResearchRegistry.recipes.put("ItemShadowmetalSword", GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalSword), new Object[]{ "A", "A", "B", Character.valueOf('A'), new ItemStack(ItemRegistry.ItemMaterial), Character.valueOf('B'), new ItemStack(Items.stick) }));
 
 		GameRegistry.addRecipe(new ItemStack(ItemRegistry.ItemMaterial, 9), new Object[]{ "A", Character.valueOf('A'), new ItemStack(BlockRegistry.BlockShadowmetal) });
+
 		GameRegistry.addRecipe(new ItemStack(ItemRegistry.ItemMaterial, 9, 9), new Object[]{ "A", Character.valueOf('A'), new ItemStack(ItemRegistry.ItemMaterial, 1, 0) });
 
 		ResearchRegistry.recipes.put("BlockWarpwoodPlanks", CraftingManager.getInstance().addRecipe(new ItemStack(BlockRegistry.BlockWarpwoodPlanks, 4), new Object[]{ "A", Character.valueOf('A'), new ItemStack(BlockRegistry.BlockWarpwoodLog) }));

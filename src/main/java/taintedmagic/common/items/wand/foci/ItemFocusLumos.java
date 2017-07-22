@@ -126,9 +126,7 @@ public class ItemFocusLumos extends ItemFocusBasic
 					w.playSoundAtEntity(p, "thaumcraft:ice", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
 					for (int a = 0; a < 9; a++)
 					{
-						FXSparkle fx = new FXSparkle(w, x + w.rand.nextFloat(), y + w.rand.nextFloat(), z + w.rand.nextFloat(), 1.75F, w.rand.nextInt(5), 3 + w.rand.nextInt(3));
-						fx.setGravity(0.1F);
-						ParticleEngine.instance.addEffect(w, fx);
+						spawnParticles(w, x, y, z);
 					}
 				}
 			}
@@ -143,9 +141,7 @@ public class ItemFocusLumos extends ItemFocusBasic
 						w.playSoundAtEntity(pet, "taintedmagic:shard", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
 						for (int a = 0; a < 18; a++)
 						{
-							FXSparkle fx = new FXSparkle(w, pet.posX + w.rand.nextFloat(), pet.posY + w.rand.nextFloat(), pet.posZ + w.rand.nextFloat(), 1.75F, w.rand.nextInt(5), 3 + w.rand.nextInt(3));
-							fx.setGravity(0.1F);
-							ParticleEngine.instance.addEffect(w, fx);
+							spawnParticles(w, pet.posX, pet.posY, pet.posZ);
 						}
 					}
 				}
@@ -173,9 +169,7 @@ public class ItemFocusLumos extends ItemFocusBasic
 										{
 											for (int a = 0; a < 9; a++)
 											{
-												FXSparkle fx = new FXSparkle(w, x + w.rand.nextFloat(), y + w.rand.nextFloat(), z + w.rand.nextFloat(), 1.75F, w.rand.nextInt(5), 3 + w.rand.nextInt(3));
-												fx.setGravity(0.1F);
-												ParticleEngine.instance.addEffect(w, fx);
+												spawnParticles(w, x, y, z);
 											}
 										}
 									}
@@ -189,6 +183,14 @@ public class ItemFocusLumos extends ItemFocusBasic
 		}
 		p.swingItem();
 		return s;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	void spawnParticles(World w, double x, double y, double z)
+	{
+		FXSparkle fx = new FXSparkle(w, x + w.rand.nextFloat(), y + w.rand.nextFloat(), z + w.rand.nextFloat(), 1.75F, w.rand.nextInt(5), 3 + w.rand.nextInt(3));
+		fx.setGravity(0.1F);
+		ParticleEngine.instance.addEffect(w, fx);
 	}
 
 	public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack s, int r)

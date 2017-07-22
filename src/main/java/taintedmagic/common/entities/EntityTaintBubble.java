@@ -27,6 +27,10 @@ public class EntityTaintBubble extends EntityThrowable implements IEntityAdditio
 	public boolean corrosive = false;
 	public float dmg = 0.0F;
 
+	public float red = 0.0F;
+	public float green = 0.0F;
+	public float blue = 0.0F;
+
 	public EntityTaintBubble (World w)
 	{
 		super(w);
@@ -38,6 +42,10 @@ public class EntityTaintBubble extends EntityThrowable implements IEntityAdditio
 		this.corrosive = corrosive;
 		this.dmg = dmg;
 		setThrowableHeading(this.motionX, this.motionY, this.motionZ, func_70182_d(), scatter);
+
+		this.red = 0.8F + worldObj.rand.nextFloat() * 0.2F;
+		this.green = worldObj.rand.nextFloat() * 0.2F;
+		this.blue = 1.0F - worldObj.rand.nextFloat() * 0.2F;
 	}
 
 	@Override
@@ -58,14 +66,18 @@ public class EntityTaintBubble extends EntityThrowable implements IEntityAdditio
 
 	public void onUpdate ()
 	{
+		this.motionX *= 0.95D;
+		this.motionY *= 0.95D;
+		this.motionZ *= 0.95D;
+		
 		// simulated taint swarm motion
 		ChunkCoordinates c = new ChunkCoordinates((int) this.posX + this.rand.nextInt(7) - this.rand.nextInt(7), (int) this.posY + this.rand.nextInt(6) - 2, (int) this.posZ + this.rand.nextInt(7) - this.rand.nextInt(7));
 		double varX = c.posX + 0.5D - this.posX;
 		double varY = c.posY + 0.1D - this.posY;
 		double varZ = c.posZ + 0.5D - this.posZ;
-		this.motionX += (Math.signum(varX) * 0.5D - this.motionX) * 0.025D;
+		this.motionX += (Math.signum(varX) * 0.5D - this.motionX) * 0.02D;
 		this.motionY += (Math.signum(varY) * 0.7D - this.motionY) * 0.05D;
-		this.motionZ += (Math.signum(varZ) * 0.5D - this.motionZ) * 0.025D;
+		this.motionZ += (Math.signum(varZ) * 0.5D - this.motionZ) * 0.02D;
 
 		float angle = (float) (Math.atan2(this.motionZ, this.motionX) * 180.0D / Math.PI) - 90.0F;
 		float wrappedAngle = MathHelper.wrapAngleTo180_float(angle - this.rotationYaw);
@@ -73,9 +85,6 @@ public class EntityTaintBubble extends EntityThrowable implements IEntityAdditio
 
 		if (this.ticksExisted > 50) setDead();
 
-		this.motionX *= 0.95D;
-		this.motionY *= 0.95D;
-		this.motionZ *= 0.95D;
 
 		if (this.onGround)
 		{
@@ -89,11 +98,17 @@ public class EntityTaintBubble extends EntityThrowable implements IEntityAdditio
 	public void writeSpawnData (ByteBuf buf)
 	{
 		buf.writeFloat(this.dmg);
+		buf.writeFloat(this.red);
+		buf.writeFloat(this.green);
+		buf.writeFloat(this.blue);
 	}
 
 	public void readSpawnData (ByteBuf buf)
 	{
 		this.dmg = buf.readFloat();
+		this.red = buf.readFloat();
+		this.green = buf.readFloat();
+		this.blue = buf.readFloat();
 	}
 
 	protected void onImpact (MovingObjectPosition mop)

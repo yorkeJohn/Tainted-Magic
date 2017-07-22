@@ -62,7 +62,7 @@ public class ItemFocusMageMace extends ItemFocusBasic
 
 	public int getFocusColor (ItemStack s)
 	{
-		return 3289650;
+		return 13813960;
 	}
 
 	public AspectList getVisCost (ItemStack s)

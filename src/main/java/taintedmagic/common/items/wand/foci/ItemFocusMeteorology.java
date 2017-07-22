@@ -84,30 +84,7 @@ public class ItemFocusMeteorology extends ItemFocusBasic
 			w.getWorldInfo().setRainTime(w.isRaining() ? 24000 : 0);
 			w.getWorldInfo().setRaining(!w.isRaining());
 			p.playSound("thaumcraft:wand", 0.5F, 1.0F);
-
-			if (w.isRemote)
-			{
-				for (int i = 1; i < 200; i++)
-				{
-					double xp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
-					double zp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
-					double yp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
-					double off = Math.random() * 0.1;
-
-					float green = p.worldObj.rand.nextFloat();
-					float blue = p.worldObj.rand.nextFloat();
-
-					FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY + 10 + yp + off, p.posZ + zp + off, 0.5F + ((float) Math.random() * 0.25F), 0.25F, green, blue);
-					ef.setGravity(0.75F);
-					ef.shrink = true;
-					ef.noClip = true;
-
-					Vector3 movement = TaintedMagicHelper.getDistanceBetween(ef, p);
-					ef.addVelocity(movement.x * 0.5, movement.y * 0.5, movement.z * 0.5);
-
-					ParticleEngine.instance.addEffect(w, ef);
-				}
-			}
+			spawnParticles(w, p);
 		}
 		return s;
 	}
@@ -116,5 +93,33 @@ public class ItemFocusMeteorology extends ItemFocusBasic
 	public EnumRarity getRarity (ItemStack s)
 	{
 		return TaintedMagic.rarityCreation;
+	}
+
+	@SideOnly (Side.CLIENT)
+	void spawnParticles (World w, EntityPlayer p)
+	{
+		if (w.isRemote)
+		{
+			for (int i = 1; i < 200; i++)
+			{
+				double xp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
+				double zp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
+				double yp = (-Math.random() * 2.0F) + (Math.random() * 2.0F);
+				double off = Math.random() * 0.1;
+
+				float green = p.worldObj.rand.nextFloat();
+				float blue = p.worldObj.rand.nextFloat();
+
+				FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY + 10 + yp + off, p.posZ + zp + off, 0.5F + ((float) Math.random() * 0.25F), 0.25F, green, blue);
+				ef.setGravity(0.75F);
+				ef.shrink = true;
+				ef.noClip = true;
+
+				Vector3 movement = TaintedMagicHelper.getDistanceBetween(ef, p);
+				ef.addVelocity(movement.x * 0.5, movement.y * 0.5, movement.z * 0.5);
+
+				ParticleEngine.instance.addEffect(w, ef);
+			}
+		}
 	}
 }

@@ -42,7 +42,9 @@ public class TaintedMagic
 	public static TaintedMagicEventHandler taintedMagicEvents;
 	public static CreativeTabs tabTaintedMagic = new TaintedMagicCreativeTab();
 	public static ConfigHandler configHandler;
+	
 	public static final Logger log = LogManager.getLogger("TAINTEDMAGIC");
+	
 	public static EnumRarity rarityCreation = EnumHelper.addRarity("CREATION", EnumChatFormatting.GOLD, "Creation");
 
 	// Pre init

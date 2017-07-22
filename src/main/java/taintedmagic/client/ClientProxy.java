@@ -1,6 +1,7 @@
 package taintedmagic.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -18,6 +19,7 @@ import taintedmagic.common.entities.EntityGlowpet;
 import taintedmagic.common.entities.EntityHomingShard;
 import taintedmagic.common.entities.EntityTaintBubble;
 import taintedmagic.common.helper.TaintedMagicHelper;
+import taintedmagic.common.items.tools.ItemKatana;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWisp;
@@ -46,6 +48,12 @@ public class ClientProxy extends CommonProxy
 	public EntityPlayer getClientPlayer ()
 	{
 		return Minecraft.getMinecraft().thePlayer;
+	}
+
+	@Override
+	public WorldClient getClientWorld ()
+	{
+		return Minecraft.getMinecraft().theWorld;
 	}
 
 	@Override

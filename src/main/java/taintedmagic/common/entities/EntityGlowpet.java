@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityGlowpet extends EntityThrowable
 {
-	int maxAge = 0;
+	public int maxAge = 0;
 	Material[] mats = { Material.plants, Material.air, Material.leaves, Material.portal, Material.vine, Material.web, Material.portal };
 
 	public EntityGlowpet (World w)

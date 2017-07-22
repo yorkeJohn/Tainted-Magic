@@ -36,8 +36,8 @@ import taintedmagic.client.model.ModelKatana;
 import taintedmagic.client.model.ModelSaya;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.entities.EntityTaintBubble;
-import taintedmagic.common.network.PacketKatanaAttack;
 import taintedmagic.common.network.PacketHandler;
+import taintedmagic.common.network.PacketKatanaAttack;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.common.config.Config;
@@ -294,9 +294,9 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	@SubscribeEvent
 	public void onPlayerRender (RenderPlayerEvent.Specials.Post event)
 	{
-		if (event.entityLiving.getActivePotionEffect(Potion.invisibility) != null) return;
-
 		EntityPlayer p = event.entityPlayer;
+
+		if (p.getActivePotionEffect(Potion.invisibility) != null) return;
 
 		for (int i = 0; i < p.inventory.getSizeInventory(); i++)
 		{
