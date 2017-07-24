@@ -1,7 +1,6 @@
 package taintedmagic.common.items.wand.foci;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +19,9 @@ import thaumcraft.api.wands.FocusUpgradeType;
 import thaumcraft.api.wands.ItemFocusBasic;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXSparkle;
+import thaumcraft.client.fx.particles.FXWisp;
 import thaumcraft.common.items.wands.ItemWandCasting;
+import thaumcraft.common.lib.network.PacketHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -92,105 +93,127 @@ public class ItemFocusLumos extends ItemFocusBasic
 	{
 		ItemWandCasting wand = (ItemWandCasting) s.getItem();
 
-		if (!w.isRemote)
+		if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && !p.isSneaking())
 		{
-			if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && !p.isSneaking())
+			if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
+			{
+				int x = mop.blockX;
+				int y = mop.blockY;
+				int z = mop.blockZ;
+
+				switch (mop.sideHit)
+				{
+				case 0 :
+					y--;
+					break;
+				case 1 :
+					y++;
+					break;
+				case 2 :
+					z--;
+					break;
+				case 3 :
+					z++;
+					break;
+				case 4 :
+					x--;
+					break;
+				case 5 :
+					x++;
+				}
+				if (!w.isRemote) w.setBlock(x, y, z, BlockRegistry.BlockLumos, 2, 3);
+				w.playSoundAtEntity(p, "thaumcraft:ice", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
+
+				for (int a = 0; a < 9; a++)
+				{
+					if (w.isRemote) spawnLumosParticles(w, x, y, z);
+				}
+			}
+		}
+		else
+		{
+			if (isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.glowpet))
 			{
 				if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
 				{
-					int x = mop.blockX;
-					int y = mop.blockY;
-					int z = mop.blockZ;
+					EntityGlowpet pet = new EntityGlowpet(w, p, wand.getFocusExtend(s) + 1);
+					if (!w.isRemote) w.spawnEntityInWorld(pet);
+					w.playSoundAtEntity(pet, "taintedmagic:shard", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
 
-					switch (mop.sideHit)
+					for (int a = 0; a < 18; a++)
 					{
-					case 0 :
-						y--;
-						break;
-					case 1 :
-						y++;
-						break;
-					case 2 :
-						z--;
-						break;
-					case 3 :
-						z++;
-						break;
-					case 4 :
-						x--;
-						break;
-					case 5 :
-						x++;
-					}
-					w.setBlock(x, y, z, BlockRegistry.BlockLumos, 2, 3);
-					w.playSoundAtEntity(p, "thaumcraft:ice", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
-					for (int a = 0; a < 9; a++)
-					{
-						spawnParticles(w, x, y, z);
+						if (w.isRemote) spawnLumosParticles(w, pet.posX, pet.posY, pet.posZ);
 					}
 				}
 			}
-			else
+			else if (isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.maxima))
 			{
-				if (isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.glowpet))
+				int r = 11 + wand.getFocusEnlarge(s);
+				if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
 				{
-					if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
+					for (int xOff = -r; xOff <= r; xOff++)
 					{
-						EntityGlowpet pet = new EntityGlowpet(w, p, wand.getFocusExtend(s) + 1);
-						w.spawnEntityInWorld(pet);
-						w.playSoundAtEntity(pet, "taintedmagic:shard", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
-						for (int a = 0; a < 18; a++)
+						for (int yOff = -r; yOff <= r; yOff++)
 						{
-							spawnParticles(w, pet.posX, pet.posY, pet.posZ);
-						}
-					}
-				}
-				else if (isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.maxima))
-				{
-					int r = 11 + wand.getFocusEnlarge(s);
-					if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
-					{
-						for (int xOff = -r; xOff <= r; xOff++)
-						{
-							for (int yOff = -r; yOff <= r; yOff++)
+							for (int zOff = -r; zOff <= r; zOff++)
 							{
-								for (int zOff = -r; zOff <= r; zOff++)
-								{
-									int x = (int) (p.posX + xOff);
-									int y = (int) (p.posY + yOff);
-									int z = (int) (p.posZ + zOff);
+								int x = (int) (p.posX + xOff);
+								int y = (int) (p.posY + yOff);
+								int z = (int) (p.posZ + zOff);
 
-									if (w.isAirBlock(x, y, z) && w.getBlock(x, y, z) != BlockRegistry.BlockLumos && w.getBlockLightValue(x, y, z) < 9)
-									{
-										BlockLumos src = (BlockLumos) BlockRegistry.BlockLumos;
-										src.setGlowDuration(200);
-										w.setBlock(x, y, z, src, 1, 3);
-										if (w.rand.nextInt(12) == 0)
-										{
-											for (int a = 0; a < 9; a++)
-											{
-												spawnParticles(w, x, y, z);
-											}
-										}
-									}
+								if (w.isAirBlock(x, y, z) && w.getBlock(x, y, z) != BlockRegistry.BlockLumos && w.getBlockLightValue(x, y, z) < 9)
+								{
+									BlockLumos src = (BlockLumos) BlockRegistry.BlockLumos;
+									src.setGlowDuration(200);
+									if (!w.isRemote) w.setBlock(x, y, z, src, 1, 3);
 								}
 							}
 						}
-						w.playSoundAtEntity(p, "thaumcraft:ice", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
+						if (w.isRemote) spawnMaximaParticles(w, p, wand.getFocusEnlarge(s));
 					}
+					w.playSoundAtEntity(p, "thaumcraft:runicShieldCharge", 0.3F, 1.0F + w.rand.nextFloat() * 0.5F);
 				}
 			}
 		}
 		p.swingItem();
 		return s;
 	}
-	
-	@SideOnly(Side.CLIENT)
-	void spawnParticles(World w, double x, double y, double z)
+
+	@SideOnly (Side.CLIENT)
+	void spawnLumosParticles (World w, double x, double y, double z)
 	{
-		FXSparkle fx = new FXSparkle(w, x + w.rand.nextFloat(), y + w.rand.nextFloat(), z + w.rand.nextFloat(), 1.75F, w.rand.nextInt(5), 3 + w.rand.nextInt(3));
+		FXSparkle fx = new FXSparkle(w, x + w.rand.nextFloat(), y + w.rand.nextFloat(), z + w.rand.nextFloat(), 1.75F, 6, 3 + w.rand.nextInt(3));
 		fx.setGravity(0.1F);
 		ParticleEngine.instance.addEffect(w, fx);
+	}
+
+	@SideOnly (Side.CLIENT)
+	void spawnMaximaParticles (World w, EntityPlayer p, float ex)
+	{
+		for (int i = 1; i < 100 + (25 * ex); i++)
+		{
+			double t = 2 * Math.PI * Math.random();
+			double r = (-Math.random() + Math.random()) * (11 + ex);
+
+			double xp = r * Math.cos(t);
+			double zp = r * Math.sin(t);
+			double yp = -Math.random() + Math.random();
+
+			double off = Math.random() * 0.1;
+
+			float red = 0.9F + (float) Math.random() * 0.1F;
+			float green = 0.8F + (float) Math.random() * 0.1F;
+			float blue = 0.8F + (float) Math.random() * 0.1F;
+
+			FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY + 15.0D + yp + off, p.posZ + zp + off, 0.5F + (float) Math.random() * 0.25F, red, green, blue);
+			ef.setGravity(0.0F);
+			ef.shrink = true;
+			ef.noClip = true;
+
+			ef.addVelocity(xp * 0.2D, 0.0D, zp * 0.2D);
+
+			ParticleEngine.instance.addEffect(w, ef);
+		}
 	}
 
 	public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack s, int r)
@@ -200,19 +223,22 @@ public class ItemFocusLumos extends ItemFocusBasic
 		case 1 :
 			return new FocusUpgradeType[]{ FocusUpgrades.glowpet, FocusUpgrades.maxima, FocusUpgradeType.frugal };
 		case 2 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, isUpgradedWith(s, FocusUpgrades.glowpet) ? FocusUpgradeType.extend : isUpgradedWith(s, FocusUpgrades.maxima) ? FocusUpgradeType.enlarge : null };
+			if (isUpgradedWith(s, FocusUpgrades.glowpet)) return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.extend };
+			else if (isUpgradedWith(s, FocusUpgrades.maxima)) return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
+			else return new FocusUpgradeType[]{ FocusUpgradeType.frugal };
 		case 3 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, isUpgradedWith(s, FocusUpgrades.glowpet) ? FocusUpgradeType.extend : isUpgradedWith(s, FocusUpgrades.maxima) ? FocusUpgradeType.enlarge : null };
+			if (isUpgradedWith(s, FocusUpgrades.glowpet)) return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.extend };
+			else if (isUpgradedWith(s, FocusUpgrades.maxima)) return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
+			else return new FocusUpgradeType[]{ FocusUpgradeType.frugal };
 		case 4 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, isUpgradedWith(s, FocusUpgrades.glowpet) ? FocusUpgradeType.extend : isUpgradedWith(s, FocusUpgrades.maxima) ? FocusUpgradeType.enlarge : null };
+			if (isUpgradedWith(s, FocusUpgrades.glowpet)) return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.extend };
+			else if (isUpgradedWith(s, FocusUpgrades.maxima)) return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
+			else return new FocusUpgradeType[]{ FocusUpgradeType.frugal };
 		case 5 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, isUpgradedWith(s, FocusUpgrades.glowpet) ? FocusUpgradeType.extend : isUpgradedWith(s, FocusUpgrades.maxima) ? FocusUpgradeType.enlarge : null };
+			if (isUpgradedWith(s, FocusUpgrades.glowpet)) return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.extend };
+			else if (isUpgradedWith(s, FocusUpgrades.maxima)) return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
+			else return new FocusUpgradeType[]{ FocusUpgradeType.frugal };
 		}
 		return null;
-	}
-
-	public boolean canApplyUpgrade (ItemStack s, EntityPlayer p, FocusUpgradeType t, int rank)
-	{
-		return !t.equals(FocusUpgradeType.enlarge) || ((ItemFocusBasic) s.getItem()).isUpgradedWith(s, FocusUpgrades.maxima);
 	}
 }

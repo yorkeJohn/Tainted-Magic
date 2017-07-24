@@ -15,7 +15,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
@@ -57,10 +56,10 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	public static final ModelKatana katana = new ModelKatana();
 	public static final ModelSaya saya = new ModelSaya();
 
-	public static boolean equipped = false;
-	public static float ticksEquipped = 0F;
+	static boolean equipped = false;
+	static float ticksEquipped = 0F;
 
-	public int ticksInUse = 0;
+	int ticksInUse = 0;
 
 	public ItemKatana ()
 	{
@@ -134,7 +133,6 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 			else e.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) p), getAttackDamage(s));
 		}
 		p.worldObj.playSoundAtEntity(p, "thaumcraft:swing", 0.5F + (float) Math.random(), 0.5F + (float) Math.random());
-
 		return super.hitEntity(s, e, p);
 	}
 

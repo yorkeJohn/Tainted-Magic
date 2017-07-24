@@ -67,13 +67,15 @@ public class ItemFocusVisShard extends ItemFocusBasic
 		Entity look = EntityUtils.getPointedEntity(p.worldObj, p, 0.0D, 32.0D, 1.1F);
 		if (look != null && look instanceof EntityLivingBase)
 		{
-			if (!w.isRemote)
+			if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
 			{
-				if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
+				EntityHomingShard shard = new EntityHomingShard(w, p, (EntityLivingBase) look, wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.persistent));
+				if (!w.isRemote) w.spawnEntityInWorld(shard);
+				w.playSoundAtEntity(shard, "taintedmagic:shard", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
+
+				for (int a = 0; a < 18; a++)
 				{
-					EntityHomingShard blast = new EntityHomingShard(w, p, (EntityLivingBase) look, wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.persistent));
-					w.spawnEntityInWorld(blast);
-					w.playSoundAtEntity(blast, "taintedmagic:shard", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
+					TaintedMagic.proxy.spawnLumosParticles(w, shard.posX, shard.posY, shard.posZ, 0);
 				}
 			}
 			p.swingItem();
@@ -91,26 +93,15 @@ public class ItemFocusVisShard extends ItemFocusBasic
 		switch (r)
 		{
 		case 1 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.potency };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
 		case 2 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.potency };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
 		case 3 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.potency };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
 		case 4 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.potency };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
 		case 5 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.potency,
-					FocusUpgrades.persistent };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, FocusUpgrades.persistent };
 		}
 		return null;
 	}

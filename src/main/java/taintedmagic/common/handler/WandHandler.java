@@ -33,7 +33,7 @@ public class WandHandler implements IWandRodOnUpdate
 
 			double fx = 20 * coth(x / 250.0D);
 			int rfx = Math.min((int) Math.round(fx), 200);
-
+			
 			if (player.ticksExisted % rfx == 0)
 			{
 				for (int i = 0; i < primals.length; i++)

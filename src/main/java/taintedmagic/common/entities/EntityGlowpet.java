@@ -128,9 +128,9 @@ public class EntityGlowpet extends EntityThrowable
 			dy /= d;
 			dz /= d;
 
-			this.motionX = dx * Math.random();
-			this.motionY = dy * Math.random();
-			this.motionZ = dz * Math.random();
+			this.motionX = dx;
+			this.motionY = dy;
+			this.motionZ = dz;
 
 			this.worldObj.playSoundAtEntity(this, "taintedmagic:shard", 0.1F, 2.0F * this.worldObj.rand.nextFloat());
 		}

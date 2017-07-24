@@ -19,6 +19,8 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.FocusUpgradeType;
 import thaumcraft.api.wands.ItemFocusBasic;
+import thaumcraft.client.fx.ParticleEngine;
+import thaumcraft.client.fx.particles.FXWisp;
 import thaumcraft.codechicken.lib.vec.Vector3;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import cpw.mods.fml.relauncher.Side;
@@ -116,11 +118,40 @@ public class ItemFocusTaintedShockwave extends ItemFocusBasic
 					}
 				}
 			}
-			w.playSoundAtEntity(p, "taintedmagic:shockwave", 5.0F, 1.0F * (float) Math.random());
-			TaintedMagic.proxy.spawnShockwaveParticles(p.worldObj);
+			w.playSoundAtEntity(p, "taintedmagic:shockwave", 5.0F, 1.5F * (float) Math.random());
+			if (w.isRemote) spawnParticles(w, p);
 			return s;
 		}
 		return null;
+	}
+
+	@SideOnly (Side.CLIENT)
+	public void spawnParticles (World w, EntityPlayer p)
+	{
+		for (int i = 1; i < 360; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				double r = 4.0D;
+				double xp = (Math.cos(i * Math.PI / 180.0D)) * r;
+				double zp = (Math.sin(i * Math.PI / 180.0D)) * r;
+
+				float red = 0.75F + w.rand.nextFloat() * 0.25F;
+				float green = w.rand.nextFloat() * 0.5F;
+				float blue = 0.75F + w.rand.nextFloat() * 0.25F;
+
+				double off = j * 0.25F;
+
+				FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY - 1, p.posZ + zp + off, 0.5F + (float) Math.random() * 0.25F, red, green, blue);
+				ef.setGravity(0.0F);
+				ef.shrink = true;
+				ef.noClip = true;
+
+				ef.addVelocity(xp * 0.3D, 0, zp * 0.3D);
+
+				ParticleEngine.instance.addEffect(w, ef);
+			}
+		}
 	}
 
 	public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack s, int rank)

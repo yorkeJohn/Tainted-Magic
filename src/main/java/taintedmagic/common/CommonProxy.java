@@ -19,10 +19,6 @@ public class CommonProxy
 	{
 	}
 
-	public void spawnShockwaveParticles (World w)
-	{
-	}
-
 	public WorldClient getClientWorld ()
 	{
 		return null;

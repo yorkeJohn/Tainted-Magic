@@ -7,12 +7,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IWarpingGear;
@@ -24,8 +22,6 @@ import baubles.api.IBauble;
 import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpingGear, IBauble
 {
@@ -100,13 +96,13 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
 	public void onWornTick (ItemStack s, EntityLivingBase e)
 	{
 		EntityPlayer p = (EntityPlayer) e;
-		if ( (p.inventory.armorItemInSlot(0) != null) && (p.inventory.armorItemInSlot(0).getItem() instanceof ItemVoidwalkerBoots))
+		if (p.inventory.armorItemInSlot(0) != null && p.inventory.armorItemInSlot(0).getItem() instanceof ItemVoidwalkerBoots)
 		{
 			if (hasSpeedBoost(s))
 			{
 				if (p.moveForward > 0.0F)
 				{
-					if ( (p.worldObj.isRemote) && (!p.isSneaking()))
+					if (p.worldObj.isRemote && !p.isSneaking())
 					{
 						if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(p.getEntityId())))
 						{
@@ -138,14 +134,14 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
 	@SubscribeEvent
 	public void onPlayerJump (LivingEvent.LivingJumpEvent event)
 	{
-		if ( (event.entityLiving instanceof EntityPlayer))
+		if (event.entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
 			ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
 			ItemStack boots = player.inventory.armorItemInSlot(0);
-			if ( (sash != null) && ( (sash.getItem() instanceof ItemVoidwalkerSash)))
+			if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash)
 			{
-				if ( (boots != null) && ( (boots.getItem() instanceof ItemVoidwalkerBoots)))
+				if (boots != null && boots.getItem() instanceof ItemVoidwalkerBoots)
 				{
 					if (hasSpeedBoost(sash))
 					{
