@@ -177,7 +177,7 @@ public class RecipeRegistry
 
 		ResearchRegistry.recipes.put("ItemMagicFunguar", ThaumcraftApi.addShapelessArcaneCraftingRecipe("MAGICFUNGUAR", new ItemStack(ItemRegistry.ItemMagicFunguar), new AspectList().add(Aspect.ORDER, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.AIR, 1).add(Aspect.FIRE, 1).add(Aspect.ENTROPY, 1), new Object[]{ new ItemStack(ConfigBlocks.blockCustomPlant, 1, 5), new ItemStack(ConfigItems.itemShard, 1, 32767), new ItemStack(Blocks.brown_mushroom), new ItemStack(Blocks.red_mushroom), new ItemStack(Items.blaze_powder) }));
 
-		ResearchRegistry.recipes.put("ItemCrystalDagger", ThaumcraftApi.addArcaneCraftingRecipe("CRIMSONROBES", new ItemStack(ItemRegistry.ItemCrystalDagger), new AspectList().add(Aspect.EARTH, 85).add(Aspect.FIRE, 85).add(Aspect.ENTROPY, 85), new Object[]{ "  A", " B ", "C  ", Character.valueOf('A'), ItemApi.getItem("itemResource", 16), Character.valueOf('B'), ItemApi.getBlock("blockTube", 7), Character.valueOf('C'), "logWood" }));
+		ResearchRegistry.recipes.put("ItemCrystalDagger", ThaumcraftApi.addArcaneCraftingRecipe("CRYSTALDAGGER", new ItemStack(ItemRegistry.ItemCrystalDagger), new AspectList().add(Aspect.EARTH, 85).add(Aspect.FIRE, 85).add(Aspect.ENTROPY, 85), new Object[]{ "  A", " B ", "C  ", Character.valueOf('A'), new ItemStack(Items.iron_ingot), Character.valueOf('B'), ItemApi.getBlock("blockTube", 7), Character.valueOf('C'), "logWood" }));
 
 		ResearchRegistry.recipes.put("ItemWandCap:1", ThaumcraftApi.addArcaneCraftingRecipe("CAP_cloth", new ItemStack(ItemRegistry.ItemWandCap, 1, 1), new AspectList().add(Aspect.EARTH, 10).add(Aspect.FIRE, 10).add(Aspect.ENTROPY, 10).add(Aspect.ORDER, 10), new Object[]{ "AAA", "A A", Character.valueOf('A'), ItemApi.getItem("itemResource", 7) }));
 

@@ -2,6 +2,7 @@ package taintedmagic.common.items.wand.foci;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,6 +17,9 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.FocusUpgradeType;
 import thaumcraft.api.wands.ItemFocusBasic;
+import thaumcraft.client.fx.ParticleEngine;
+import thaumcraft.client.fx.bolt.FXLightningBolt;
+import thaumcraft.client.fx.particles.FXSparkle;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumcraft.common.lib.utils.EntityUtils;
 
@@ -27,6 +31,8 @@ public class ItemFocusVisShard extends ItemFocusBasic
 {
 	private static final AspectList cost = new AspectList().add(Aspect.FIRE, 100).add(Aspect.ENTROPY, 100).add(Aspect.AIR, 100);
 	private static final AspectList costPersistent = new AspectList().add(Aspect.FIRE, 100).add(Aspect.ENTROPY, 100).add(Aspect.WATER, 100).add(Aspect.AIR, 100);
+
+	EntityLivingBase target;
 
 	public ItemFocusVisShard ()
 	{
@@ -67,6 +73,7 @@ public class ItemFocusVisShard extends ItemFocusBasic
 		Entity look = EntityUtils.getPointedEntity(p.worldObj, p, 0.0D, 32.0D, 1.1F);
 		if (look != null && look instanceof EntityLivingBase)
 		{
+			this.target = (EntityLivingBase) look;
 			if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
 			{
 				EntityHomingShard shard = new EntityHomingShard(w, p, (EntityLivingBase) look, wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.persistent));
@@ -75,12 +82,20 @@ public class ItemFocusVisShard extends ItemFocusBasic
 
 				for (int a = 0; a < 18; a++)
 				{
-					TaintedMagic.proxy.spawnLumosParticles(w, shard.posX, shard.posY, shard.posZ, 0);
+					if (w.isRemote) spawnParticles(w, shard.posX, shard.posY, shard.posZ);
 				}
 			}
 			p.swingItem();
 		}
 		return s;
+	}
+
+	@SideOnly (Side.CLIENT)
+	void spawnParticles (World w, double x, double y, double z)
+	{
+		FXSparkle fx = new FXSparkle(w, x + w.rand.nextFloat(), y + w.rand.nextFloat(), z + w.rand.nextFloat(), 1.75F, 0, 3 + w.rand.nextInt(3));
+		fx.setGravity(0.1F);
+		ParticleEngine.instance.addEffect(w, fx);
 	}
 
 	public AspectList getVisCost (ItemStack s)

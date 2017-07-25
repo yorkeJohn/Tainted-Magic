@@ -1,5 +1,6 @@
 package taintedmagic.common.items.tools;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -31,6 +32,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemThaumicDisassembler extends Item
 {
 	public static final String TAG_MODE = "mode";
+
+	static float ticksEquipped = 0F;
+	public static List<Integer> data = new ArrayList<Integer>();
 
 	public ItemThaumicDisassembler ()
 	{
@@ -116,9 +120,9 @@ public class ItemThaumicDisassembler extends Item
 		return s;
 	}
 
-	public static int getEfficiency (ItemStack s)
+	public static int getEfficiency (int mode)
 	{
-		switch (getMode(s))
+		switch (mode)
 		{
 		case 0 :
 			return 20;
@@ -132,16 +136,19 @@ public class ItemThaumicDisassembler extends Item
 		return 0;
 	}
 
+	public static int getEfficiency (ItemStack s)
+	{
+		return getEfficiency(getMode(s));
+	}
+
 	public static int getMode (ItemStack s)
 	{
 		if (s.stackTagCompound == null) return 0;
 		return s.stackTagCompound.getInteger(TAG_MODE);
 	}
 
-	public static String getModeName (ItemStack s)
+	public static String getModeName (int mode)
 	{
-		int mode = getMode(s);
-
 		switch (mode)
 		{
 		case 0 :
@@ -154,6 +161,11 @@ public class ItemThaumicDisassembler extends Item
 			return "\u00A7c" + StatCollector.translateToLocal("text.disassembler.off");
 		}
 		return null;
+	}
+
+	public static String getModeName (ItemStack s)
+	{
+		return getModeName(getMode(s));
 	}
 
 	public void toggleMode (ItemStack s)
@@ -176,29 +188,58 @@ public class ItemThaumicDisassembler extends Item
 	}
 
 	@SideOnly (Side.CLIENT)
-	public static void renderHUD (ScaledResolution resolution, EntityPlayer player, float partialTicks)
+	public static void renderHUD (ScaledResolution r, EntityPlayer p, float pT)
 	{
 		Minecraft mc = Minecraft.getMinecraft();
-		EntityPlayer p = TaintedMagic.proxy.getClientPlayer();
 		ItemStack s = mc.thePlayer.getCurrentEquippedItem();
 		FontRenderer f = mc.fontRenderer;
 
+		boolean b = false;
+
 		if (s != null && s.getItem() instanceof ItemThaumicDisassembler)
 		{
-			String str = "\u00A78" + StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(s) + (getMode(s) == 3 ? "\u00A7c" : "\u00A7a") + " (" + getEfficiency(s) + ")";
+			if (data.isEmpty())
+			{
+				data.add(getMode(s));
+			}
+
+			if (!data.isEmpty() && getMode(s) != data.get(0))
+			{
+				data.clear();
+				data.add(getMode(s));
+			}
+			b = true;
+		}
+		else b = false;
+
+		float time = 30F;
+		if (b) ticksEquipped = Math.min(time, ticksEquipped + pT);
+		else ticksEquipped = Math.max(0F, ticksEquipped - pT);
+
+		float fract = ticksEquipped / time;
+
+		if (b || ticksEquipped != 0)
+		{
+			int mode = data.get(0);
+			String str = "\u00A78" + StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(mode) + (mode == 3 ? "\u00A7c" : "\u00A7a") + " (" + getEfficiency(mode) + ")";
 
 			GL11.glPushMatrix();
+
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GL11.glTranslated(0, -15, 0);
+
+			GL11.glTranslated(40.0F, -15.0F, 0.0F);
+			GL11.glTranslatef(-fract * 40.0F, 0.0F, 0.0F);
 
 			GL11.glScalef(0.8F, 0.8F, 0.8F);
 
-			f.drawStringWithShadow(str, resolution.getScaledWidth() / 2 + 100, resolution.getScaledHeight() / 2 + (p.capabilities.isCreativeMode ? 230 : 212), 0xFFFFFF);
+			f.drawStringWithShadow(str, r.getScaledWidth() / 2 + 100, r.getScaledHeight() / 2 + (p.capabilities.isCreativeMode ? 230 : 212), 0xFFFFFF);
 
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+
 			GL11.glPopMatrix();
 		}
 	}

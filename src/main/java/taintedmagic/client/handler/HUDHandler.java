@@ -34,12 +34,12 @@ public class HUDHandler
 			Minecraft mc = Minecraft.getMinecraft();
 			EntityPlayer p = mc.thePlayer;
 			ScaledResolution r = event.resolution;
-			float pt = event.partialTicks;
+			float pT = event.partialTicks;
 
 			if (mc.currentScreen == null)
 			{
-				ItemKatana.renderHUD(r, p, pt);
-				ItemThaumicDisassembler.renderHUD(r, p, pt);
+				ItemKatana.renderHUD(r, p, pT);
+				ItemThaumicDisassembler.renderHUD(r, p, pT);
 			}
 		}
 	}

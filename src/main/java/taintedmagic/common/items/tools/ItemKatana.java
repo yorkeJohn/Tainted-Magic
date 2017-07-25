@@ -56,7 +56,6 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	public static final ModelKatana katana = new ModelKatana();
 	public static final ModelSaya saya = new ModelSaya();
 
-	static boolean equipped = false;
 	static float ticksEquipped = 0F;
 
 	int ticksInUse = 0;
@@ -346,7 +345,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	}
 
 	@SideOnly (Side.CLIENT)
-	public static void renderHUD (ScaledResolution r, EntityPlayer p, float pt)
+	public static void renderHUD (ScaledResolution r, EntityPlayer p, float pT)
 	{
 		Minecraft mc = Minecraft.getMinecraft();
 		ItemStack s = mc.thePlayer.getCurrentEquippedItem();
@@ -358,12 +357,10 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 		else b = false;
 
 		float time = 30F;
-		if (b) ticksEquipped = Math.min(time, ticksEquipped + pt);
-		else ticksEquipped = Math.max(0F, ticksEquipped - pt);
+		if (b) ticksEquipped = Math.min(time, ticksEquipped + pT);
+		else ticksEquipped = Math.max(0F, ticksEquipped - pT);
 
-		float defAlpha = 0F;
-		float fract = ticksEquipped / time;
-		float a = fract;
+		float a = ticksEquipped / time;
 
 		if (b || ticksEquipped != 0)
 		{

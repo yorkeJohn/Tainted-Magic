@@ -296,7 +296,7 @@ tm.text.MAGICFUNGUAR.1=Vis Shrooms. The bane of every Thaumaturge's existence. E
 
 tm.name.CRYSTALDAGGER=Crystal Blood
 tm.tag.CRYSTALDAGGER=Zwerchhau
-tm.text.CRYSTALDAGGER.1=After having discovered the Essentia Crystallizer, you've managed to create a dagger that crystallizes the blood of your foes.<BR>Using this blade allows you to obtain Crystal Blood upon killing enemies. Any weapon that possesses the Bloodlust trait has a similar effect.<BR>You are certain that this is no ordinary blood, it is particularly interesting because artifacts retrieved from the Crimson Cult seem to have similar properties.
+tm.text.CRYSTALDAGGER.1=Using the Essentia Crystallizer, you have managed to forge a dagger that crystallizes the blood of your enemies as you kill them.<BR>Using this blade allows you to obtain Crystal Blood when killing your foes. Any weapon that possesses the Bloodlust trait has a similar effect.<BR>This newfound substance is particularly interesting because artifacts retrieved from the Crimson Cult seem to have similar properties.
 
 #MACEFOCUS
 
