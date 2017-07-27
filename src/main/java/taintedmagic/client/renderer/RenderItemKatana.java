@@ -121,7 +121,7 @@ public class RenderItemKatana implements IItemRenderer
 
 			GL11.glEnable(GL11.GL_BLEND);
 
-			GL11.glBlendFunc(770, 1);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 			GL11.glRotated(90.0D, 0.0D, 1.0D, 0.0D);
 			for (int a = 0; a < 14; a++)
 			{
@@ -134,7 +134,7 @@ public class RenderItemKatana implements IItemRenderer
 				int rune = (a + 1 * 3) % 16;
 				drawRune(-1.65D + a * 0.14D, 0D, -0.03D, rune, p);
 			}
-			GL11.glBlendFunc(770, 771);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glDisable(GL11.GL_BLEND);
 
 			GL11.glPopMatrix();

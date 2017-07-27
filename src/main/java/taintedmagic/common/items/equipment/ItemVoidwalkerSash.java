@@ -126,7 +126,7 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
 						p.jumpMovementFactor = 0.025F;
 					}
 				}
-				if (p.fallDistance > 0.0F) p.fallDistance = 0.0F;
+				if (p.fallDistance > 3.0F) p.fallDistance = 0.0F;
 			}
 		}
 	}

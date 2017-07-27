@@ -184,20 +184,6 @@ public class TaintedMagicEventHandler
 	@SubscribeEvent
 	public void onCrafting (ItemCraftedEvent event)
 	{
-		if (event.crafting == new ItemStack(ItemRegistry.ItemWandCap, 1, 0))
-		{
-			EntityItem ent = event.player.entityDropItem(new ItemStack(ConfigItems.itemEldritchObject, 1, 3), 0);
-			ent.motionY += randy.nextFloat() * 0.05F;
-			ent.motionX += (randy.nextFloat() - randy.nextFloat()) * 0.1F;
-			ent.motionZ += (randy.nextFloat() - randy.nextFloat()) * 0.1F;
-		}
-		if (event.crafting == new ItemStack(ItemRegistry.ItemWandRod, 1, 0))
-		{
-			EntityItem ent = event.player.entityDropItem(new ItemStack(ConfigItems.itemEldritchObject, 1, 3), 0);
-			ent.motionY += randy.nextFloat() * 0.05F;
-			ent.motionX += (randy.nextFloat() - randy.nextFloat()) * 0.1F;
-			ent.motionZ += (randy.nextFloat() - randy.nextFloat()) * 0.1F;
-		}
 		if (event.crafting.getItem() == ItemRegistry.ItemMaterial && event.crafting.getItemDamage() == 5) giveResearch(event.player);
 	}
 

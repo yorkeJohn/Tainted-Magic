@@ -1,17 +1,9 @@
 package taintedmagic.common.registry;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.RecipesWeapons;
-import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.util.ResourceLocation;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
@@ -23,12 +15,9 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.CrucibleRecipe;
 import thaumcraft.api.crafting.IArcaneRecipe;
-import thaumcraft.api.crafting.InfusionEnchantmentRecipe;
 import thaumcraft.api.crafting.InfusionRecipe;
-import thaumcraft.api.research.ResearchPage.PageType;
-import thaumcraft.api.research.*;
-import thaumcraft.client.lib.UtilsFX;
-import thaumcraft.common.Thaumcraft;
+import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.config.ConfigItems;
 
 public class ResearchRegistry
@@ -43,7 +32,7 @@ public class ResearchRegistry
 		/**
 		 * Thaumcraft research items
 		 */
-		new ThaumcraftResearchItem("TMELDRITCHMAJOR", TM, "ELDRITCHMAJOR", "ELDRITCH", 6, -7, new ResourceLocation("thaumcraft:textures/misc/r_eldritchmajor.png")).setSpecial().setConcealed().setRound().registerResearchItem();
+		new ThaumcraftResearchItem("TMELDRITCHMAJOR", TM, "ELDRITCHMAJOR", "ELDRITCH", 7, -7, new ResourceLocation("thaumcraft:textures/misc/r_eldritchmajor.png")).setSpecial().setConcealed().setRound().registerResearchItem();
 		new ThaumcraftResearchItem("TMFOCUSFIRE", TM, "FOCUSFIRE", "THAUMATURGY", 7, 3, new ItemStack(ConfigItems.itemFocusFire)).setConcealed().registerResearchItem();
 		new ThaumcraftResearchItem("TMARMORFORTRESS", TM, "ARMORFORTRESS", "ARTIFICE", 11, 1, new ItemStack(ConfigItems.itemHelmetFortress)).setConcealed().registerResearchItem();
 
@@ -70,7 +59,7 @@ public class ResearchRegistry
 
 		new TaintedMagicResearchItem("CRIMSONROBES", TM, new AspectList().add(Aspect.CLOTH, 4).add(Aspect.EXCHANGE, 4).add(Aspect.ARMOR, 4), -2, -1, 0, new ItemStack(ItemRegistry.ItemMaterial, 1, 2)).setParents("CRYSTALDAGGER").setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((IArcaneRecipe) recipes.get("ItemMaterial:2")), new ResearchPage((IArcaneRecipe) recipes.get("ItemHelmetCultistRobe")), new ResearchPage((IArcaneRecipe) recipes.get("ItemChestCultistRobe")), new ResearchPage((IArcaneRecipe) recipes.get("ItemLegsCultistRobe")), new ResearchPage((IArcaneRecipe) recipes.get("ItemBootsCultist")) }).setConcealed().registerResearchItem();
 
-		new TaintedMagicResearchItem("VOIDFORTRESS", TM, new AspectList().add(Aspect.ARMOR, 5).add(Aspect.ELDRITCH, 3).add(Aspect.DARKNESS, 3).add(Aspect.VOID, 5), 4, -9, 0, new ItemStack(ItemRegistry.ItemVoidFortressHelmet)).setParentsHidden(new String[]{ "ARMORVOIDFORTRESS", "ARMORFORTRESS", }).setParents(new String[]{ "TMELDRITCHMAJOR" }).setConcealed().setSecondary().setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemVoidFortressHelmet")), new ResearchPage((InfusionRecipe) recipes.get("ItemVoidFortressChestplate")), new ResearchPage((InfusionRecipe) recipes.get("ItemVoidFortressLeggings")) }).registerResearchItem();
+		new TaintedMagicResearchItem("VOIDFORTRESS", TM, new AspectList().add(Aspect.ARMOR, 5).add(Aspect.ELDRITCH, 3).add(Aspect.DARKNESS, 3).add(Aspect.VOID, 5), 5, -9, 0, new ItemStack(ItemRegistry.ItemVoidFortressHelmet)).setParentsHidden(new String[]{ "ARMORVOIDFORTRESS", "ARMORFORTRESS", }).setParents(new String[]{ "TMELDRITCHMAJOR" }).setConcealed().setSecondary().setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemVoidFortressHelmet")), new ResearchPage((InfusionRecipe) recipes.get("ItemVoidFortressChestplate")), new ResearchPage((InfusionRecipe) recipes.get("ItemVoidFortressLeggings")) }).registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("VOIDFORTRESS", 2);
 
 		new TaintedMagicResearchItem("WARPEDGOGGLES", TM, new AspectList().add(Aspect.ARMOR, 4).add(Aspect.ELDRITCH, 4).add(Aspect.DARKNESS, 4).add(Aspect.ARMOR, 4), 1, 4, 0, new ItemStack(ItemRegistry.ItemWarpedGoggles)).setParentsHidden(new String[]{ "TAINTEDMAGIC", "GOGGLES", }).setConcealed().setSecondary().setParents("SHADOWMETAL").setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemWarpedGoggles")) }).registerResearchItem();
@@ -85,23 +74,23 @@ public class ResearchRegistry
 
 		new TaintedMagicResearchItem("PRAETORARMOR", TM, new AspectList().add(Aspect.CLOTH, 4).add(Aspect.DARKNESS, 4).add(Aspect.ARMOR, 4).add(Aspect.ELDRITCH, 4), -6, 0, 0, ItemApi.getItem("itemHelmetCultistLeaderPlate", 0)).setParents("KNIGHTROBES").setParentsHidden(new String[]{ "CRIMSONROBES", "TMELDRITCHMAJOR", "VOIDMETAL" }).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemHelmetCultistLeaderPlate")), new ResearchPage((InfusionRecipe) recipes.get("ItemChestCultistLeaderPlate")), new ResearchPage((InfusionRecipe) recipes.get("ItemLegsCultistLeaderPlate")) }).setConcealed().registerResearchItem();
 
-		new TaintedMagicResearchItem("VOIDSENTBLOOD", TM, new AspectList().add(Aspect.VOID, 14).add(Aspect.DARKNESS, 8).add(Aspect.ARMOR, 18).add(Aspect.AURA, 4), -7, -1, 0, new ItemStack(ItemRegistry.ItemVoidsentBlood)).setSecondary().setParents("PRAETORARMOR").setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((CrucibleRecipe) recipes.get("ItemVoidsentBlood")) }).registerResearchItem();
+		new TaintedMagicResearchItem("VOIDSENTBLOOD", TM, new AspectList().add(Aspect.VOID, 14).add(Aspect.DARKNESS, 8).add(Aspect.ARMOR, 18).add(Aspect.AURA, 4), -7, -1, 0, new ItemStack(ItemRegistry.ItemVoidsentBlood)).setSecondary().setParents("PRAETORARMOR").setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((CrucibleRecipe) recipes.get("ItemVoidsentBlood")) }).setConcealed().registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("VOIDSENTBLOOD", 1);
 
-		new TaintedMagicResearchItem("VOIDWALKERBOOTS", TM, new AspectList().add(Aspect.MAGIC, 4).add(Aspect.DARKNESS, 8).add(Aspect.ARMOR, 8).add(Aspect.ELDRITCH, 8), 4, -5, 0, new ItemStack(ItemRegistry.ItemVoidwalkerBoots)).setParentsHidden(new String[]{ "TMELDRITCHMAJOR", "BOOTSTRAVELLER", "EVILSHARDS", "SHADOWCLOTH", "ARMORVOIDFORTRESS" }).setConcealed().setParents(new String[]{ "TMELDRITCHMAJOR" }).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemVoidwalkerBoots")) }).registerResearchItem();
+		new TaintedMagicResearchItem("VOIDWALKERBOOTS", TM, new AspectList().add(Aspect.MAGIC, 4).add(Aspect.DARKNESS, 8).add(Aspect.ARMOR, 8).add(Aspect.ELDRITCH, 8), 5, -5, 0, new ItemStack(ItemRegistry.ItemVoidwalkerBoots)).setParentsHidden(new String[]{ "PRIMPEARL", "BOOTSTRAVELLER", "SHADOWCLOTH", "ARMORVOIDFORTRESS" }).setConcealed().setParents(new String[]{ "TMELDRITCHMAJOR" }).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemVoidwalkerBoots")) }).registerResearchItem();
 
-		new TaintedMagicResearchItem("CREATIONSHARD", TM, TaintedMagicHelper.getPrimals(16), 7, -7, 0, new ItemStack(ItemRegistry.ItemMaterial, 1, 5)).setConcealed().setParents("TMELDRITCHMAJOR").setParentsHidden("PRIMPEARL").setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemMaterial:5")) }).setSecondary().registerResearchItem();
+		new TaintedMagicResearchItem("CREATIONSHARD", TM, TaintedMagicHelper.getPrimals(16), 9, -7, 0, new ItemStack(ItemRegistry.ItemMaterial, 1, 5)).setConcealed().setParents("TMELDRITCHMAJOR").setParentsHidden("PRIMPEARL").setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemMaterial:5")) }).setSecondary().registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("CREATIONSHARD", 9);
 
-		new TaintedMagicResearchItem("CREATION", TM, new AspectList().add(Aspect.MAGIC, 4), 8, -7, 0, new ResourceLocation("taintedmagic:textures/misc/IconCREATION.png")).setParents("CREATIONSHARD").setConcealed().setRound().setSpecial().setHidden().setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage("2"), new ResearchPage("3"), new ResearchPage("4"), new ResearchPage("5") }).registerResearchItem();
+		new TaintedMagicResearchItem("CREATION", TM, new AspectList().add(Aspect.MAGIC, 4), 11, -5, 0, new ResourceLocation("taintedmagic:textures/misc/IconCREATION.png")).setParents("CREATIONSHARD").setConcealed().setRound().setSpecial().setHidden().setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage("2"), new ResearchPage("3"), new ResearchPage("4"), new ResearchPage("5") }).registerResearchItem();
 
-		new TaintedMagicResearchItem("FOCUSTIME", TM, new AspectList().add(Aspect.FIRE, 4).add(Aspect.WATER, 8).add(Aspect.EARTH, 4).add(Aspect.AIR, 4).add(Aspect.ORDER, 4).add(Aspect.ENTROPY, 4).add(Aspect.EXCHANGE, 4), 10, -9, 0, new ItemStack(ItemRegistry.ItemFocusTime)).setConcealed().setParents("CREATION").setParentsHidden("FOCUSPORTABLEHOLE", "FOCUSFIRE").setComplexity(3).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemFocusTime")) }).setSecondary().registerResearchItem();
+		new TaintedMagicResearchItem("FOCUSTIME", TM, new AspectList().add(Aspect.FIRE, 4).add(Aspect.WATER, 8).add(Aspect.EARTH, 4).add(Aspect.AIR, 4).add(Aspect.ORDER, 4).add(Aspect.ENTROPY, 4).add(Aspect.EXCHANGE, 4), 13, -6, 0, new ItemStack(ItemRegistry.ItemFocusTime)).setConcealed().setParents("CREATION").setParentsHidden("FOCUSPORTABLEHOLE", "FOCUSFIRE").setComplexity(3).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemFocusTime")) }).setSecondary().registerResearchItem();
 
-		new TaintedMagicResearchItem("FOCUSWEATHER", TM, new AspectList().add(Aspect.FIRE, 4).add(Aspect.WATER, 8).add(Aspect.EARTH, 4).add(Aspect.AIR, 4).add(Aspect.ORDER, 4).add(Aspect.ENTROPY, 4).add(Aspect.WEATHER, 4), 10, -5, 0, new ItemStack(ItemRegistry.ItemFocusMeteorology)).setParentsHidden(new String[]{ "FOCUSFROST", "FOCUSSHOCK" }).setConcealed().setParents("CREATION").setComplexity(3).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemFocusMeteorology")) }).setSecondary().registerResearchItem();
+		new TaintedMagicResearchItem("FOCUSWEATHER", TM, new AspectList().add(Aspect.FIRE, 4).add(Aspect.WATER, 8).add(Aspect.EARTH, 4).add(Aspect.AIR, 4).add(Aspect.ORDER, 4).add(Aspect.ENTROPY, 4).add(Aspect.WEATHER, 4), 13, -4, 0, new ItemStack(ItemRegistry.ItemFocusMeteorology)).setParentsHidden(new String[]{ "FOCUSFROST", "FOCUSSHOCK" }).setConcealed().setParents("CREATION").setComplexity(3).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemFocusMeteorology")) }).setSecondary().registerResearchItem();
 
-		new TaintedMagicResearchItem("THAUMICDISASSEMBLER", TM, new AspectList().add(Aspect.METAL, 4).add(Aspect.WEAPON, 8).add(Aspect.TOOL, 4), 3, -7, 0, new ItemStack(ItemRegistry.ItemThaumicDisassembler)).setParentsHidden(new String[]{ "THAUMIUM", "VOIDMETAL" }).setConcealed().setParents("TMELDRITCHMAJOR").setComplexity(2).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemThaumicDisassembler")), new ResearchPage((IArcaneRecipe) recipes.get("ItemMaterial:6")), new ResearchPage("2") }).registerResearchItem();
+		new TaintedMagicResearchItem("THAUMICDISASSEMBLER", TM, new AspectList().add(Aspect.METAL, 4).add(Aspect.WEAPON, 8).add(Aspect.TOOL, 4), 5, -7, 0, new ItemStack(ItemRegistry.ItemThaumicDisassembler)).setParentsHidden(new String[]{ "THAUMIUM", "VOIDMETAL", "PRIMPEARL" }).setConcealed().setParents("TMELDRITCHMAJOR").setComplexity(2).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemThaumicDisassembler")), new ResearchPage((IArcaneRecipe) recipes.get("ItemMaterial:6")), new ResearchPage("2") }).registerResearchItem();
 
-		new TaintedMagicResearchItem("VOIDSASH", TM, new AspectList().add(Aspect.VOID, 4).add(Aspect.METAL, 8).add(Aspect.ARMOR, 4), 7, -4, 0, new ItemStack(ItemRegistry.ItemVoidwalkerSash)).setParentsHidden("PRIMPEARL").setParents("VOIDWALKERBOOTS").setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemVoidwalkerSash")) }).setConcealed().setSecondary().registerResearchItem();
+		new TaintedMagicResearchItem("VOIDSASH", TM, new AspectList().add(Aspect.VOID, 4).add(Aspect.METAL, 8).add(Aspect.ARMOR, 4), 3, -6, 0, new ItemStack(ItemRegistry.ItemVoidwalkerSash)).setParentsHidden("PRIMPEARL").setParents("VOIDWALKERBOOTS").setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemVoidwalkerSash")) }).setConcealed().setSecondary().registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("VOIDSASH", 4);
 
 		new TaintedMagicResearchItem("MAGICFUNGUAR", TM, new AspectList().add(Aspect.MAGIC, 2).add(Aspect.HUNGER, 4).add(Aspect.PLANT, 2), 3, -3, 0, new ItemStack(ItemRegistry.ItemMagicFunguar)).setSecondary().setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((IArcaneRecipe) recipes.get("ItemMagicFunguar")) }).setConcealed().registerResearchItem();
@@ -127,7 +116,7 @@ public class ResearchRegistry
 		new TaintedMagicResearchItem("FOCUSTAINTEDBLAST", TM, new AspectList().add(Aspect.MAGIC, 20).add(Aspect.TAINT, 12).add(Aspect.AIR, 6).add(Aspect.MOTION, 12), 10, 4, 0, new ItemStack(ItemRegistry.ItemFocusTaintedShockwave)).setParentsHidden("FOCUSFIRE", "ELDRITCHMINOR", "FOCUSSHOCK").setConcealed().setParents("TAINTFOCUS").setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemFocusTaintedShockwave")) }).setSecondary().registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("FOCUSTAINTEDBLAST", 4);
 
-		new TaintedMagicResearchItem("PRIMALBLADE", TM, new AspectList().add(Aspect.MAGIC, 1).add(Aspect.ELDRITCH, 1).add(Aspect.WEAPON, 1).add(Aspect.VOID, 1).add(Aspect.AURA, 1), 11, -7, 0, new ItemStack(ItemRegistry.ItemPrimordialEdge)).setParentsHidden("VOIDMETAL", "PRIMALCRUSHER", "EVILSHARDS", "CRYSTALDAGGER").setConcealed().setParents("CREATION").setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemPrimordialEdge")) }).registerResearchItem();
+		new TaintedMagicResearchItem("PRIMALBLADE", TM, new AspectList().add(Aspect.MAGIC, 1).add(Aspect.ELDRITCH, 1).add(Aspect.WEAPON, 1).add(Aspect.VOID, 1).add(Aspect.AURA, 1), 11, -3, 0, new ItemStack(ItemRegistry.ItemPrimordialEdge)).setParentsHidden("VOIDMETAL", "PRIMALCRUSHER", "EVILSHARDS", "CRYSTALDAGGER").setConcealed().setParents("CREATION").setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemPrimordialEdge")) }).registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("PRIMALBLADE", 4);
 
 		new TaintedMagicResearchItem("BLOODLUSTUPGRADE", TM, new AspectList().add(Aspect.MAGIC, 4).add(Aspect.HEAL, 8).add(Aspect.WEAPON, 8), 4, 4, 0, new ResourceLocation("taintedmagic:textures/foci/IconBloodlust.png")).setParentsHidden("CRYSTALDAGGER", "FOCALMANIPULATION").setConcealed().setParents("MACEFOCUS").setSecondary().setPages(new ResearchPage[]{ new ResearchPage("1") }).registerResearchItem();
@@ -135,7 +124,7 @@ public class ResearchRegistry
 
 		new TaintedMagicResearchItem("THAUMIUMKATANA", TM, new AspectList().add(Aspect.METAL, 8).add(Aspect.MAGIC, 4).add(Aspect.WEAPON, 6), 13, 1, 0, new ItemStack(ItemRegistry.ItemKatana, 1, 0)).setParents("TMARMORFORTRESS").setParentsHidden("ARMORFORTRESS").setConcealed().setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemKatana:0")) }).registerResearchItem();
 
-		new TaintedMagicResearchItem("VOIDMETALKATANA", TM, new AspectList().add(Aspect.METAL, 16).add(Aspect.MAGIC, 8).add(Aspect.WEAPON, 12).add(Aspect.VOID, 12), 7, -10, 0, new ItemStack(ItemRegistry.ItemKatana, 1, 1)).setParentsHidden("THAUMIUMKATANA").setParents("VOIDFORTRESS").setConcealed().setSecondary().setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemKatana:1")) }).registerResearchItem();
+		new TaintedMagicResearchItem("VOIDMETALKATANA", TM, new AspectList().add(Aspect.METAL, 16).add(Aspect.MAGIC, 8).add(Aspect.WEAPON, 12).add(Aspect.VOID, 12), 3, -8, 0, new ItemStack(ItemRegistry.ItemKatana, 1, 1)).setParentsHidden("THAUMIUMKATANA").setParents("VOIDFORTRESS").setConcealed().setSecondary().setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemKatana:1")) }).registerResearchItem();
 		ThaumcraftApi.addWarpToResearch("VOIDMETALKATANA", 4);
 
 		new TaintedMagicResearchItem("SHADOWMETALKATANA", TM, new AspectList().add(Aspect.METAL, 16).add(Aspect.MAGIC, 8).add(Aspect.WEAPON, 12).add(Aspect.VOID, 12).add(Aspect.DARKNESS, 14), 0, 6, 0, new ItemStack(ItemRegistry.ItemKatana, 1, 2)).setParentsHidden("VOIDMETALKATANA").setParents("SHADOWFORTRESSARMOR").setConcealed().setSecondary().setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemKatana:2")) }).registerResearchItem();
@@ -154,6 +143,8 @@ public class ResearchRegistry
 
 		new TaintedMagicResearchItem("FOCUSSHARD", TM, new AspectList().add(Aspect.CRYSTAL, 2).add(Aspect.MAGIC, 4).add(Aspect.MOTION, 6), 6, 6, 0, new ItemStack(ItemRegistry.ItemFocusVisShard)).setParents("TMFOCUSFIRE").setParentsHidden("FOCUSFIRE", "EVILSHARDS").setConcealed().setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((IArcaneRecipe) recipes.get("ItemFocusVisShard")) }).setSecondary().registerResearchItem();
 
-		new TaintedMagicResearchItem("FOCUSLUMOS", TM, new AspectList().add(Aspect.FIRE, 16).add(Aspect.LIGHT, 24).add(Aspect.ENERGY, 8), 8, 6, 0, new ItemStack(ItemRegistry.ItemFocusLumos)).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((IArcaneRecipe) recipes.get("ItemFocusLumos")) }).setParents("TMFOCUSFIRE").setParentsHidden("FOCUSFIRE").setSecondary().registerResearchItem();
+		new TaintedMagicResearchItem("FOCUSLUMOS", TM, new AspectList().add(Aspect.FIRE, 16).add(Aspect.LIGHT, 24).add(Aspect.ENERGY, 8), 8, 6, 0, new ItemStack(ItemRegistry.ItemFocusLumos)).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((IArcaneRecipe) recipes.get("ItemFocusLumos")) }).setParents("TMFOCUSFIRE").setParentsHidden("FOCUSFIRE").setConcealed().setSecondary().registerResearchItem();
+
+		new TaintedMagicResearchItem("FLYTECHARM", TM, new AspectList().add(Aspect.FLIGHT, 15).add(Aspect.AIR, 20).add(Aspect.SENSES, 8).add(Aspect.MAGIC, 12), 9, -4, 0, new ItemStack(ItemRegistry.ItemFlyteCharm)).setPages(new ResearchPage[]{ new ResearchPage("1"), new ResearchPage((InfusionRecipe) recipes.get("ItemFlyteCharm")) }).setParents("CREATION").setParentsHidden("VOIDSASH", "PRIMALARROW").setConcealed().registerResearchItem();
 	}
 }

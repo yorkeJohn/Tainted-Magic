@@ -1,4 +1,5 @@
 {
 	"shockwave": {"category": "master","sounds": [{"name": "shockwave","stream": false}]},
-	"shard": {"category": "master","sounds": [{"name": "shard","stream": false}]}
+	"shard": {"category": "master","sounds": [{"name": "shard","stream": false}]},
+	"burst": {"category": "master","sounds": [{"name": "burst","stream": false}]}
 }

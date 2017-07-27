@@ -1,19 +1,47 @@
 package taintedmagic.common.helper;
 
+import baubles.api.BaublesApi;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.codechicken.lib.vec.Vector3;
+import thaumcraft.common.items.baubles.ItemAmuletVis;
+import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class TaintedMagicHelper
 {
 	public static AspectList getPrimals (int amount)
 	{
 		return new AspectList().add(Aspect.FIRE, amount).add(Aspect.WATER, amount).add(Aspect.EARTH, amount).add(Aspect.AIR, amount).add(Aspect.ORDER, amount).add(Aspect.ENTROPY, amount);
+	}
+
+	public static boolean consumeVisFromInventory (EntityPlayer p, AspectList l, boolean b)
+	{
+		IInventory baubles = BaublesApi.getBaubles(p);
+
+		for (int a = 0; a < 4; a++)
+		{
+			if (baubles.getStackInSlot(a) != null && baubles.getStackInSlot(a).getItem() instanceof ItemAmuletVis)
+			{
+				if ( ((ItemAmuletVis) baubles.getStackInSlot(a).getItem()).consumeAllVis(baubles.getStackInSlot(a), p, l, b, true)) return true;
+			}
+
+		}
+		for (int a = p.inventory.mainInventory.length - 1; a >= 0; a--)
+		{
+			ItemStack s = p.inventory.mainInventory[a];
+			if (s != null && s.getItem() instanceof ItemWandCasting)
+			{
+				if ( ((ItemWandCasting) s.getItem()).consumeAllVis(s, p, l, b, true)) return true;
+			}
+		}
+		return false;
 	}
 
 	public static Vector3 getDistanceBetween (Entity e, Entity target)

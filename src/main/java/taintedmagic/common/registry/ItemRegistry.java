@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
 import taintedmagic.common.handler.WandHandler;
+import taintedmagic.common.items.ItemFlyteCharm;
 import taintedmagic.common.items.ItemMagicFunguar;
 import taintedmagic.common.items.ItemMaterial;
 import taintedmagic.common.items.ItemVoidsentBlood;
@@ -30,8 +31,8 @@ import taintedmagic.common.items.tools.ItemShadowmetalSword;
 import taintedmagic.common.items.tools.ItemThaumicDisassembler;
 import taintedmagic.common.items.wand.ItemWandCap;
 import taintedmagic.common.items.wand.ItemWandRod;
-import taintedmagic.common.items.wand.foci.ItemFocusLumos;
 import taintedmagic.common.items.wand.foci.ItemFocusDarkMatter;
+import taintedmagic.common.items.wand.foci.ItemFocusLumos;
 import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
 import taintedmagic.common.items.wand.foci.ItemFocusMeteorology;
 import taintedmagic.common.items.wand.foci.ItemFocusTaint;
@@ -56,6 +57,9 @@ public class ItemRegistry
 
 		ItemMagicFunguar = new ItemMagicFunguar(5, 1.0F, false);
 		GameRegistry.registerItem(ItemMagicFunguar, "ItemMagicFunguar");
+
+		ItemFlyteCharm = new ItemFlyteCharm();
+		GameRegistry.registerItem(ItemFlyteCharm, "ItemFlyteCharm");
 
 		// Armor
 		ItemWarpedGoggles = new ItemWarpedGoggles(LibToolMaterials.armorMatSpecial, 4, 0);
@@ -171,6 +175,7 @@ public class ItemRegistry
 	public static Item ItemMagicFunguar;
 	public static Item ItemMaterial;
 	public static Item ItemVoidsentBlood;
+	public static Item ItemFlyteCharm;
 
 	// Wand
 	public static Item ItemWandRod;

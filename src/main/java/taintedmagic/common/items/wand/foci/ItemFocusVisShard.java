@@ -32,8 +32,6 @@ public class ItemFocusVisShard extends ItemFocusBasic
 	private static final AspectList cost = new AspectList().add(Aspect.FIRE, 100).add(Aspect.ENTROPY, 100).add(Aspect.AIR, 100);
 	private static final AspectList costPersistent = new AspectList().add(Aspect.FIRE, 100).add(Aspect.ENTROPY, 100).add(Aspect.WATER, 100).add(Aspect.AIR, 100);
 
-	EntityLivingBase target;
-
 	public ItemFocusVisShard ()
 	{
 		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
@@ -73,7 +71,6 @@ public class ItemFocusVisShard extends ItemFocusBasic
 		Entity look = EntityUtils.getPointedEntity(p.worldObj, p, 0.0D, 32.0D, 1.1F);
 		if (look != null && look instanceof EntityLivingBase)
 		{
-			this.target = (EntityLivingBase) look;
 			if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
 			{
 				EntityHomingShard shard = new EntityHomingShard(w, p, (EntityLivingBase) look, wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.persistent));

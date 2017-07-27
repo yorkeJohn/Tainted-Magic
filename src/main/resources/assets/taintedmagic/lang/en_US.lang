@@ -74,12 +74,16 @@ item.ItemMaterial.6.name=Thaumic Alloy
 item.ItemMaterial.7.name=Phial of Crystal Blood
 item.ItemMaterial.8.name=Crimson Plating
 item.ItemMaterial.9.name=Shadowmetal Nugget
+item.ItemMaterial.10.name=Primordial Nodule
+item.ItemMaterial.11.name=Primordial Mote
 
 item.ItemVoidsentBlood.name=Phial of Voidsent Blood
 
 item.ItemCrystalDagger.name=Crystal Dagger
 
 item.ItemMagicFunguar.name=Magic Funguar
+
+item.ItemFlyteCharm.name=Flyte Charm
 
 item.ItemVoidwalkerSash.name=Voidwalker's Sash of Runic Shielding
 text.sash.on=ENABLED
@@ -397,7 +401,7 @@ tm.text.INSCRIPTIONUNDEAD.1=You have upgraded your Fortress Blade by inscribing 
 #VOIDGOGGLES
 
 tm.name.VOIDGOGGLES=Voidmetal Goggles of Revealing
-tm.tag.VOIDGOGGLES=Rinnegan
+tm.tag.VOIDGOGGLES=Madmen know nothing
 tm.text.VOIDGOGGLES.1=By infusing your Warped Goggles of Revealing with Voidmetal, you have created a pair of goggles that repair themselves, and have an extremely high vis discount.<BR>Sadly, they offer inferior protection to the original Warped Goggles of Revealing.
 
 #FOCUSSHARD
@@ -407,6 +411,12 @@ tm.tag.FOCUSSHARD=Blip bloop
 tm.text.FOCUSSHARD.1=With the study of different types of shards, an incredible idea dawned upon you: what if you could animate a vis shard to be used in combat?<BR>This focus can only be cast if you are looking at an enemy. The shard will float through the air, homing in on its target, and will burst on contact.<BR>It would seem that the shard will also bounce off of solid blocks.
 
 #FOCUSLUMOS
+
 tm.name.FOCUSLUMOS=Wand Focus: Lumos
 tm.tag.FOCUSLUMOS=It's leviOOOOOSA
 tm.text.FOCUSLUMOS.1=After having studied foci and aspects you had an amazing idea. What if you could create light from the tip of your wand? This focus does just that.<BR>Simply aim your wand (or staff) at a block and watch as a pocket of light appears! The light source can be broken and thus removed with your bare hands.
+
+#FLYTECHARM
+tm.name.FLYTECHARM=Flyte Charm
+tm.tag.FLYTECHARM=The spiders of Aurum
+tm.text.FLYTECHARM.1=By infusing an Air Arrow with a Shard of Creation - and some other magical objects - you have created a powerful charm which allows the user to fly. While you have the charm stored in your inventory, you will be granted Flyte at the cost of some Aer vis. About 0.1 per tick while flying.<BR>While flying, press your Sprint key to burst forward and while falling, press your Sneak key to glide gently to the ground.

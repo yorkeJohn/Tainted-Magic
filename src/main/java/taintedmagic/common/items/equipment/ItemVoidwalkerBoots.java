@@ -149,7 +149,7 @@ public class ItemVoidwalkerBoots extends ItemArmor implements IVisDiscountGear, 
 				p.jumpMovementFactor = 0.05F;
 			}
 		}
-		if (p.fallDistance > 0.0F) p.fallDistance = 0.0F;
+		if (p.fallDistance > 3.0F) p.fallDistance = 0.0F;
 	}
 
 	@SubscribeEvent

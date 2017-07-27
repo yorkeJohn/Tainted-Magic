@@ -206,12 +206,12 @@ public class ItemFocusLumos extends ItemFocusBasic
 			float green = 0.8F + (float) Math.random() * 0.1F;
 			float blue = 0.8F + (float) Math.random() * 0.1F;
 
-			FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY + 15.0D + yp + off, p.posZ + zp + off, 0.5F + (float) Math.random() * 0.25F, red, green, blue);
+			FXWisp ef = new FXWisp(w, p.posX + xp + off, p.posY + 5.0D + yp + off, p.posZ + zp + off, 0.5F + (float) Math.random() * 0.25F, red, green, blue);
 			ef.setGravity(0.0F);
 			ef.shrink = true;
-			ef.noClip = true;
+			ef.noClip = false;
 
-			ef.addVelocity(xp * 0.2D, 0.0D, zp * 0.2D);
+			ef.addVelocity(r * Math.cos(t + Math.PI) * 0.1D, 0.0D, r * Math.sin(t + Math.PI) * 0.1D);
 
 			ParticleEngine.instance.addEffect(w, ef);
 		}
