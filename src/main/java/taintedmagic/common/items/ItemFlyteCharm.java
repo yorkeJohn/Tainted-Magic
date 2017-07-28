@@ -40,13 +40,16 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 {
 	boolean isFlying = false;
 
-	final int burstCooldown = 40;
-	final AspectList cost = new AspectList().add(Aspect.AIR, 10);
+	static final int burstCooldown = 40;
+	static final AspectList cost = new AspectList().add(Aspect.AIR, 10);
+
+	static final String TAG_SPRINTING = "isSprinting";
+	static final String TAG_COOLDOWN = "cooldown";
 
 	// Flight manager
 	List<String> playersWithFlight = new ArrayList();
 
-	private static ResourceLocation circle = new ResourceLocation("taintedmagic:textures/misc/circle.png");
+	private static final ResourceLocation circle = new ResourceLocation("taintedmagic:textures/misc/circle.png");
 
 	public ItemFlyteCharm ()
 	{
@@ -109,14 +112,12 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 			}
 
 			ItemStack s = null;
-			boolean b = false;
 
 			for (int i = 0; i < p.inventory.getSizeInventory(); i++)
 			{
 				if (p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemFlyteCharm)
 				{
 					s = p.inventory.getStackInSlot(i);
-					b = true;
 					break;
 				}
 				else s = null;
@@ -124,11 +125,15 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 
 			if (s != null)
 			{
-				// Burst CD
-				if (getBurstCooldown(s) > 0.0F) setBurstCooldown(s, (int) Math.max(getBurstCooldown(s) - 1, 0));
+				if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
+				
+				// Sprint stuff
+				boolean wasSprinting = s.stackTagCompound.getBoolean(TAG_SPRINTING);
+				boolean isSprinting = p.isSprinting();
+				if (isSprinting != wasSprinting) s.stackTagCompound.setBoolean(TAG_SPRINTING, isSprinting);
 
-				// Negate fall dmg
-				if (p.fallDistance > 3.0F) p.fallDistance = 0.0F;
+				// Burst CD
+				if (getBurstCooldown(s) > 0) setBurstCooldown(s, (int) Math.max(getBurstCooldown(s) - 1, 0));
 
 				// Speed boost
 				if (p.moveForward > 0.0F)
@@ -144,20 +149,21 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 				if (isFlying)
 				{
 					if (!p.capabilities.isCreativeMode) TaintedMagicHelper.consumeVisFromInventory(p, cost, true);
-					if (getBurstCooldown(s) == 0 && p.worldObj.isRemote && Minecraft.getMinecraft().gameSettings.keyBindSprint.getIsKeyPressed())
-					{
-						if (p.onGround) Minecraft.getMinecraft().gameSettings.keyBindSprint.unPressAllKeys();
-						else if (!p.onGround)
-						{
-							p.worldObj.playSound(p.posX, p.posY, p.posZ, "taintedmagic:burst", 5.0F, 1.0F + (float) Math.random() * 0.1F, true);
-							p.motionX += look.x * 1.5D;
-							p.motionZ += look.z * 1.5D;
-							p.moveFlying(0.0F, 1.0F, 5.0F);
 
-							setBurstCooldown(s, this.burstCooldown);
-						}
+					// Burst
+					if (!wasSprinting && isSprinting && getBurstCooldown(s) == 0 && TaintedMagicHelper.consumeVisFromInventory(p, new AspectList().add(Aspect.FIRE, 500), true))
+					{
+						p.worldObj.playSound(p.posX, p.posY, p.posZ, "taintedmagic:burst", 5.0F, 1.0F + (float) Math.random() * 0.1F, true);
+						p.motionX += look.x * 1.5D;
+						p.motionZ += look.z * 1.5D;
+
+						setBurstCooldown(s, this.burstCooldown);
 					}
-					if (getBurstCooldown(s) < this.burstCooldown / 2) p.setSprinting(false);
+					else if (getBurstCooldown(s) > 0)
+					{
+						if (this.burstCooldown - getBurstCooldown(s) < 2) p.moveFlying(0F, 1.0F, 5.0F);
+						else if (this.burstCooldown - getBurstCooldown(s) < 10) p.setSprinting(false);
+					}
 				}
 				else
 				{
@@ -171,11 +177,6 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 						p.fallDistance = 2.0F;
 					}
 				}
-			}
-			else
-			{
-				if (!p.capabilities.isCreativeMode) p.capabilities.isFlying = false;
-				b = false;
 			}
 		}
 	}
@@ -205,13 +206,13 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 	public void setBurstCooldown (ItemStack s, int cooldown)
 	{
 		if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
-		s.getTagCompound().setInteger("cooldown", cooldown);
+		s.getTagCompound().setInteger(TAG_COOLDOWN, cooldown);
 	}
 
 	public float getBurstCooldown (ItemStack s)
 	{
 		if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
-		return s.stackTagCompound.getInteger("cooldown");
+		return s.stackTagCompound.getInteger(TAG_COOLDOWN);
 	}
 
 	@SideOnly (Side.CLIENT)

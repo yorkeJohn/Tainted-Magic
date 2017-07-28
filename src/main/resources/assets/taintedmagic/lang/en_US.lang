@@ -419,4 +419,4 @@ tm.text.FOCUSLUMOS.1=After having studied foci and aspects you had an amazing id
 #FLYTECHARM
 tm.name.FLYTECHARM=Flyte Charm
 tm.tag.FLYTECHARM=The spiders of Aurum
-tm.text.FLYTECHARM.1=By infusing an Air Arrow with a Shard of Creation - and some other magical objects - you have created a powerful charm which allows the user to fly. While you have the charm stored in your inventory, you will be granted Flyte at the cost of some Aer vis. About 0.1 per tick while flying.<BR>While flying, press your Sprint key to burst forward and while falling, press your Sneak key to glide gently to the ground.
+tm.text.FLYTECHARM.1=By infusing an Air Arrow with a Shard of Creation - and some other magical objects - you have created a powerful charm which allows the user to fly.<BR>While you have the charm stored in your inventory, you will be granted Flyte at the cost of some Aer vis from your inventory. About 0.1 per tick while flying.<BR>Furthermore, while flying, you can press your Sprint key to burst forward every 2 seconds. At the cost of some Ignis vis, that is. While falling, press your Sneak key to glide gently to the ground.
