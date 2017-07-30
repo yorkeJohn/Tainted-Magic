@@ -7,7 +7,7 @@ import thaumcraft.api.wands.FocusUpgradeType;
 
 public class FocusUpgrades
 {
-	public static int ID = Short.MAX_VALUE - 5;
+	public static int ID = Short.MAX_VALUE;
 	public static FocusUpgradeType sanity = new FocusUpgradeType(ID--, new ResourceLocation("taintedmagic:textures/foci/IconSanity.png"), "focus.upgrade.sanity.name", "focus.upgrade.sanity.text", new AspectList().add(Aspect.MIND, 1).add(Aspect.HEAL, 1));
 	public static FocusUpgradeType bloodlust = new FocusUpgradeType(ID--, new ResourceLocation("taintedmagic:textures/foci/IconBloodlust.png"), "focus.upgrade.bloodlust.name", "focus.upgrade.bloodlust.text", new AspectList().add(Aspect.WEAPON, 1).add(Aspect.HEAL, 1));
 	public static FocusUpgradeType antibody = new FocusUpgradeType(ID--, new ResourceLocation("taintedmagic:textures/foci/IconAntibody.png"), "focus.upgrade.antibody.name", "focus.upgrade.antibody.text", new AspectList().add(Aspect.TAINT, 1).add(Aspect.HEAL, 1));
