@@ -1,16 +1,16 @@
 package taintedmagic.client.renderer;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import taintedmagic.common.entities.EntityGlowpet;
 import thaumcraft.client.fx.ParticleEngine;
+import thaumcraft.client.lib.UtilsFX;
 
 public class RenderEntityGlowpet extends Render
 {
@@ -31,7 +31,7 @@ public class RenderEntityGlowpet extends Render
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		bindTexture(ParticleEngine.particleTexture);
+		UtilsFX.bindTexture(ParticleEngine.particleTexture);
 
 		float f2 = (8 + e.ticksExisted % 8) / 16.0F;
 		float f3 = f2 + 0.0625F;

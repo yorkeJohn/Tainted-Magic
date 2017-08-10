@@ -24,8 +24,16 @@ import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ClientProxy extends CommonProxy
 {
+
 	@Override
-	public void initRenders ()
+	public void registerClientHandlers ()
+	{
+		MinecraftForge.EVENT_BUS.register(new HUDHandler());
+		FMLCommonHandler.instance().bus().register(new HUDHandler());
+	}
+	
+	@Override
+	public void registerRenderers ()
 	{
 		// Entities
 		RenderingRegistry.registerEntityRenderingHandler(EntityTaintBubble.class, new RenderEntityTaintBubble());
@@ -48,12 +56,5 @@ public class ClientProxy extends CommonProxy
 	public WorldClient getClientWorld ()
 	{
 		return Minecraft.getMinecraft().theWorld;
-	}
-
-	@Override
-	public void registerClientHandlers ()
-	{
-		MinecraftForge.EVENT_BUS.register(new HUDHandler());
-		FMLCommonHandler.instance().bus().register(new HUDHandler());
 	}
 }

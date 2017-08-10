@@ -26,32 +26,32 @@ public class TaintedMagicCreativeTab extends CreativeTabs
 	{
 		super.displayAllReleventItems(l);
 		ItemStack wand = new ItemStack(ConfigItems.itemWandCasting);
-		ItemWandCasting wand2 = (ItemWandCasting) wand.getItem();
+		ItemWandCasting wandCasting = (ItemWandCasting) wand.getItem();
 
-		wand2.setCap(wand, ItemRegistry.WAND_CAP_SHADOWMETAL);
-		wand2.setRod(wand, ItemRegistry.STAFF_ROD_WARPWOOD);
-		wand2.storeAllVis(wand, TaintedMagicHelper.getPrimals(50000));
+		wandCasting.setCap(wand, ItemRegistry.WAND_CAP_SHADOWMETAL);
+		wandCasting.setRod(wand, ItemRegistry.STAFF_ROD_WARPWOOD);
+		wandCasting.storeAllVis(wand, TaintedMagicHelper.getPrimals(50000));
 
 		if (l != null) l.add(0, wand);
 
-		ItemStack wand3 = new ItemStack(ConfigItems.itemWandCasting);
-		ItemWandCasting wand4 = (ItemWandCasting) wand.getItem();
+		wand = new ItemStack(ConfigItems.itemWandCasting);
+		wandCasting = (ItemWandCasting) wand.getItem();
 
-		wand4.setCap(wand3, ItemRegistry.WAND_CAP_SHADOWMETAL);
-		wand4.setRod(wand3, ItemRegistry.WAND_ROD_WARPWOOD);
-		wand4.storeAllVis(wand3, TaintedMagicHelper.getPrimals(25000));
+		wandCasting.setCap(wand, ItemRegistry.WAND_CAP_SHADOWMETAL);
+		wandCasting.setRod(wand, ItemRegistry.WAND_ROD_WARPWOOD);
+		wandCasting.storeAllVis(wand, TaintedMagicHelper.getPrimals(25000));
 
-		if (l != null) l.add(1, wand3);
+		if (l != null) l.add(1, wand);
 	}
 
 	@Override
 	public ItemStack getIconItemStack ()
 	{
 		ItemStack wand = new ItemStack(ConfigItems.itemWandCasting);
-		ItemWandCasting wand2 = (ItemWandCasting) wand.getItem();
+		ItemWandCasting wandCasting = (ItemWandCasting) wand.getItem();
 
-		wand2.setCap(wand, ItemRegistry.WAND_CAP_SHADOWMETAL);
-		wand2.setRod(wand, ItemRegistry.WAND_ROD_WARPWOOD);
+		wandCasting.setCap(wand, ItemRegistry.WAND_CAP_SHADOWMETAL);
+		wandCasting.setRod(wand, ItemRegistry.WAND_ROD_WARPWOOD);
 
 		return wand;
 	}

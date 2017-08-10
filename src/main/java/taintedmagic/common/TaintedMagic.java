@@ -82,7 +82,7 @@ public class TaintedMagic
 		MinecraftForge.EVENT_BUS.register(taintedMagicEvents);
 		FMLCommonHandler.instance().bus().register(taintedMagicEvents);
 
-		proxy.initRenders();
+		proxy.registerRenderers();
 	}
 
 	// Post init

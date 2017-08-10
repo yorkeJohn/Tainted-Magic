@@ -18,12 +18,15 @@ public class ModelKatana extends ModelBase
 	{
 		this.textureWidth = 32;
 		this.textureHeight = 64;
+		
 		this.grip2 = new ModelRenderer(this, 22, 0);
 		this.grip2.setRotationPoint(0.0F, 0.0F, 0.0F);
 		this.grip2.addBox(-1.0F, -12.0F, -1.5F, 2, 12, 3, 0.0F);
+		
 		this.blade = new ModelRenderer(this, 0, 0);
 		this.blade.setRotationPoint(0.0F, -40.0F, 0.0F);
 		this.blade.addBox(-0.5F, 0.0F, -2.0F, 1, 48, 4, -0.75F);
+		
 		this.grip1 = new ModelRenderer(this, 0, 52);
 		this.grip1.setRotationPoint(0.0F, -40.0F, 0.0F);
 		this.grip1.addBox(-2.5F, 0.0F, -3.5F, 5, 1, 7, 0.0F);

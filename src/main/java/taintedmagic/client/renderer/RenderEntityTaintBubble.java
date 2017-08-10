@@ -1,16 +1,13 @@
 package taintedmagic.client.renderer;
 
-import java.util.Random;
+import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
 import taintedmagic.common.entities.EntityTaintBubble;
+import thaumcraft.client.lib.UtilsFX;
 
 public class RenderEntityTaintBubble extends Render
 {
@@ -36,7 +33,7 @@ public class RenderEntityTaintBubble extends Render
 
 		GL11.glColor4f(e.red, e.green, e.blue, alpha);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+		UtilsFX.bindTexture(texture);
 
 		int p = 7 + e.ticksExisted % 8;
 		float f2 = p / 16.0F;
