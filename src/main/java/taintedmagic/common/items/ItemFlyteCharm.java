@@ -4,27 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 
 import org.lwjgl.opengl.GL11;
 
-import taintedmagic.client.renderer.RenderItemKatana;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
+import taintedmagic.common.items.tools.ItemKatana;
+import taintedmagic.common.network.PacketHandler;
+import taintedmagic.common.network.PacketSyncInv;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -39,15 +39,16 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemFlyteCharm extends Item implements IWarpingGear
 {
 	boolean isFlying = false;
+	boolean synced = false;
 
-	static final int burstCooldown = 40;
+	static final int maxBurstCooldown = 40;
 	static final AspectList cost = new AspectList().add(Aspect.AIR, 10);
 
 	static final String TAG_SPRINTING = "isSprinting";
 	static final String TAG_COOLDOWN = "cooldown";
 
 	// Flight manager
-	List<String> playersWithFlight = new ArrayList();
+	static List<String> playersWithFlight = new ArrayList();
 
 	private static final ResourceLocation circle = new ResourceLocation("taintedmagic:textures/misc/circle.png");
 
@@ -56,6 +57,7 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
 		this.setUnlocalizedName("ItemFlyteCharm");
 		this.setMaxStackSize(1);
+		this.setTextureName("taintedmagic:ItemFlyteCharm");
 
 		MinecraftForge.EVENT_BUS.register(this);
 		FMLCommonHandler.instance().bus().register(this);
@@ -65,18 +67,6 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 	public EnumRarity getRarity (ItemStack s)
 	{
 		return TaintedMagic.rarityCreation;
-	}
-
-	@Override
-	public void addInformation (ItemStack s, EntityPlayer p, List l, boolean b)
-	{
-	}
-
-	@Override
-	@SideOnly (Side.CLIENT)
-	public void registerIcons (IIconRegister ir)
-	{
-		itemIcon = ir.registerIcon("taintedmagic:ItemFlyteCharm");
 	}
 
 	// Flight manager
@@ -113,20 +103,34 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 
 			ItemStack s = null;
 
-			for (int i = 0; i < p.inventory.getSizeInventory(); i++)
+			for (int i = 0; i < p.inventory.mainInventory.length; i++)
 			{
-				if (p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemFlyteCharm)
+				if (p.inventory.mainInventory[i] != null && p.inventory.mainInventory[i].getItem() instanceof ItemFlyteCharm)
 				{
-					s = p.inventory.getStackInSlot(i);
+					if (!this.synced)
+					{
+						// sync slot to other players
+						TaintedMagicHelper.syncSlotToClients(p.inventory.player);
+						this.synced = true;
+					}
+					s = p.inventory.mainInventory[i];
 					break;
 				}
-				else s = null;
+				else
+				{
+					if (this.synced)
+					{
+						TaintedMagicHelper.syncSlotToClients(p.inventory.player);
+						this.synced = false;
+					}
+					s = null;
+				}
 			}
 
 			if (s != null)
 			{
 				if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
-				
+
 				// Sprint stuff
 				boolean wasSprinting = s.stackTagCompound.getBoolean(TAG_SPRINTING);
 				boolean isSprinting = p.isSprinting();
@@ -157,12 +161,12 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 						p.motionX += look.x * 1.5D;
 						p.motionZ += look.z * 1.5D;
 
-						setBurstCooldown(s, this.burstCooldown);
+						setBurstCooldown(s, this.maxBurstCooldown);
 					}
 					else if (getBurstCooldown(s) > 0)
 					{
-						if (this.burstCooldown - getBurstCooldown(s) < 2) p.moveFlying(0F, 1.0F, 5.0F);
-						else if (this.burstCooldown - getBurstCooldown(s) < 10) p.setSprinting(false);
+						if (this.maxBurstCooldown - getBurstCooldown(s) < 2) p.moveFlying(0F, 1.0F, 5.0F);
+						else if (this.maxBurstCooldown - getBurstCooldown(s) < 10) p.setSprinting(false);
 					}
 				}
 				else
@@ -190,12 +194,11 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 		playersWithFlight.remove(username + ":true");
 	}
 
-	public String playerStr (EntityPlayer p)
+	private String playerStr (EntityPlayer p)
 	{
 		return p.getGameProfile().getName() + ":" + p.worldObj.isRemote;
 	}
 
-	// player flight status
 	private boolean shouldPlayerHaveFlight (EntityPlayer p)
 	{
 		for (int i = 0; i < p.inventory.getSizeInventory(); i++)
@@ -203,44 +206,48 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 		return false;
 	}
 
-	public void setBurstCooldown (ItemStack s, int cooldown)
+	private void setBurstCooldown (ItemStack s, int cooldown)
 	{
 		if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
 		s.getTagCompound().setInteger(TAG_COOLDOWN, cooldown);
 	}
 
-	public float getBurstCooldown (ItemStack s)
+	private float getBurstCooldown (ItemStack s)
 	{
 		if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
 		return s.stackTagCompound.getInteger(TAG_COOLDOWN);
 	}
 
-	@SideOnly (Side.CLIENT)
+	@Override
+	public int getWarp (ItemStack s, EntityPlayer p)
+	{
+		return 5;
+	}
+
 	@SubscribeEvent
-	public void onPlayerRender (RenderPlayerEvent.Specials.Post event)
+	@SideOnly (Side.CLIENT)
+	public void renderPlayer (RenderPlayerEvent.Specials.Post event)
 	{
 		EntityPlayer p = event.entityPlayer;
+		if (p.getActivePotionEffect(Potion.invisibility) != null) return;
 
-		boolean render = false;
-
+		ItemStack s = null;
 		for (int i = 0; i < p.inventory.getSizeInventory(); i++)
 		{
 			if (p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemFlyteCharm)
 			{
-				render = true;
+				s = p.inventory.getStackInSlot(i);
 				break;
 			}
-			else render = false;
+			else s = null;
 		}
 
-		if (render)
+		if (s != null)
 		{
 			GL11.glPushMatrix();
 
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-			if (p.isSneaking()) GL11.glRotatef(28.64789F, 1.0F, 0.0F, 0.0F);
 
 			GL11.glTranslated(0, (p != Minecraft.getMinecraft().thePlayer ? 1.62F : 0F) - p.getDefaultEyeHeight() + (p.isSneaking() ? 0.0625 : 0), 0);
 
@@ -276,11 +283,5 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 
 			GL11.glPopMatrix();
 		}
-	}
-
-	@Override
-	public int getWarp (ItemStack s, EntityPlayer p)
-	{
-		return 5;
 	}
 }

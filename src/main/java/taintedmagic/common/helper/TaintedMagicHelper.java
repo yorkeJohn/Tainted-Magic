@@ -1,18 +1,18 @@
 package taintedmagic.common.helper;
 
-import baubles.api.BaublesApi;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.IBlockAccess;
+import taintedmagic.common.TaintedMagic;
+import taintedmagic.common.network.PacketHandler;
+import taintedmagic.common.network.PacketSyncInv;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.codechicken.lib.vec.Vector3;
 import thaumcraft.common.items.baubles.ItemAmuletVis;
 import thaumcraft.common.items.wands.ItemWandCasting;
+import baubles.api.BaublesApi;
 
 public class TaintedMagicHelper
 {
@@ -42,6 +42,18 @@ public class TaintedMagicHelper
 			}
 		}
 		return false;
+	}
+
+	public static void syncSlotToClients (EntityPlayer p)
+	{
+		try
+		{
+			if (TaintedMagic.proxy.getClientWorld() == null) PacketHandler.INSTANCE.sendToAll(new PacketSyncInv(p));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public static Vector3 getDistanceBetween (Entity e, Entity target)

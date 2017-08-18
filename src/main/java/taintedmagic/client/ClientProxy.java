@@ -1,8 +1,8 @@
 package taintedmagic.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import taintedmagic.client.handler.HUDHandler;
@@ -19,6 +19,7 @@ import taintedmagic.common.entities.EntityHomingShard;
 import taintedmagic.common.entities.EntityTaintBubble;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.client.renderers.entity.RenderEldritchOrb;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 
@@ -53,8 +54,8 @@ public class ClientProxy extends CommonProxy
 	}
 
 	@Override
-	public WorldClient getClientWorld ()
+	public World getClientWorld ()
 	{
-		return Minecraft.getMinecraft().theWorld;
+		return FMLClientHandler.instance().getClient().theWorld;
 	}
 }

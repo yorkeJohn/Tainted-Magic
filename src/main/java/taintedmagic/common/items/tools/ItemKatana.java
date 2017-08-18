@@ -27,6 +27,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEvent;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -35,12 +36,15 @@ import taintedmagic.client.model.ModelKatana;
 import taintedmagic.client.model.ModelSaya;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.entities.EntityTaintBubble;
+import taintedmagic.common.helper.TaintedMagicHelper;
+import taintedmagic.common.items.ItemFlyteCharm;
 import taintedmagic.common.network.PacketHandler;
 import taintedmagic.common.network.PacketKatanaAttack;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.common.config.Config;
 import thaumcraft.common.entities.projectile.EntityExplosiveOrb;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -57,8 +61,8 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	public static final ModelSaya saya = new ModelSaya();
 
 	static float ticksEquipped = 0F;
-
 	int ticksInUse = 0;
+	boolean synced = false;
 
 	public ItemKatana ()
 	{
@@ -68,6 +72,37 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 		this.setMaxStackSize(1);
 
 		MinecraftForge.EVENT_BUS.register(this);
+		FMLCommonHandler.instance().bus().register(this);
+	}
+
+	@SubscribeEvent
+	public void playerTick (LivingEvent.LivingUpdateEvent event)
+	{
+		if (event.entityLiving instanceof EntityPlayer)
+		{
+			EntityPlayer p = (EntityPlayer) event.entityLiving;
+			for (int i = 0; i < p.inventory.mainInventory.length; i++)
+			{
+				if (p.inventory.mainInventory[i] != null && p.inventory.mainInventory[i].getItem() instanceof ItemKatana)
+				{
+					if (!this.synced)
+					{
+						// sync slot to other players
+						TaintedMagicHelper.syncSlotToClients(p.inventory.player);
+						this.synced = true;
+					}
+					break;
+				}
+				else
+				{
+					if (this.synced)
+					{
+						TaintedMagicHelper.syncSlotToClients(p.inventory.player);
+						this.synced = false;
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -290,24 +325,45 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 	public void onPlayerRender (RenderPlayerEvent.Specials.Post event)
 	{
 		EntityPlayer p = event.entityPlayer;
-
 		if (p.getActivePotionEffect(Potion.invisibility) != null) return;
 
+		ItemStack s = null;
 		for (int i = 0; i < p.inventory.getSizeInventory(); i++)
 		{
 			if (p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemKatana)
 			{
-				ItemStack s = p.inventory.getStackInSlot(i);
+				s = p.inventory.getStackInSlot(i);
+				break;
+			}
+			else s = null;
+		}
 
-				GL11.glPushMatrix();
+		if (s != null)
+		{
+			GL11.glPushMatrix();
 
-				int light = p.getBrightnessForRender(0);
-				int lightmapX = light % 65536;
-				int lightmapY = light / 65536;
-				OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lightmapX, lightmapY);
+			int light = p.getBrightnessForRender(0);
+			int lightmapX = light % 65536;
+			int lightmapY = light / 65536;
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lightmapX, lightmapY);
 
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
+			GL11.glPushMatrix();
+
+			GL11.glScalef(0.5F, 0.5F, 0.5F);
+			GL11.glRotatef(55, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
+
+			GL11.glTranslatef(-0.6F, 2.25F, 1.25F);
+
+			Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(s));
+			saya.render(0.0625F);
+
+			GL11.glPopMatrix();
+
+			if (p.getHeldItem() == null || p.getHeldItem() != s)
+			{
 				GL11.glPushMatrix();
 
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
@@ -317,30 +373,12 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable
 				GL11.glTranslatef(-0.6F, 2.25F, 1.25F);
 
 				Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(s));
-				saya.render(0.0625F);
+				katana.render(0.0625F);
 
 				GL11.glPopMatrix();
-
-				if (p.getHeldItem() == null || p.getHeldItem() != s)
-				{
-					GL11.glPushMatrix();
-
-					GL11.glScalef(0.5F, 0.5F, 0.5F);
-					GL11.glRotatef(55, 1.0F, 0.0F, 0.0F);
-					GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
-
-					GL11.glTranslatef(-0.6F, 2.25F, 1.25F);
-
-					Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(s));
-					katana.render(0.0625F);
-
-					GL11.glPopMatrix();
-				}
-
-				GL11.glPopMatrix();
-
-				break;
 			}
+
+			GL11.glPopMatrix();
 		}
 	}
 

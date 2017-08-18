@@ -19,7 +19,7 @@ public class CommonProxy
 		return null;
 	}
 
-	public WorldClient getClientWorld ()
+	public World getClientWorld ()
 	{
 		return null;
 	}

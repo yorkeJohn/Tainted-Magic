@@ -11,7 +11,8 @@ public class PacketHandler
 
 	public static void init ()
 	{
-		int i = 0;
-		INSTANCE.registerMessage(PacketKatanaAttack.class, PacketKatanaAttack.class, i++, Side.SERVER);
+		int idx = 0;
+		INSTANCE.registerMessage(PacketKatanaAttack.class, PacketKatanaAttack.class, idx++, Side.SERVER);
+		INSTANCE.registerMessage(PacketSyncInv.class, PacketSyncInv.class, idx++, Side.CLIENT);
 	}
 }
