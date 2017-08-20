@@ -6,8 +6,6 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -32,23 +30,21 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import taintedmagic.api.IEquipmentItemRenderer;
+import taintedmagic.api.IHeldItemHUD;
 import taintedmagic.client.model.ModelKatana;
 import taintedmagic.client.model.ModelSaya;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.entities.EntityTaintBubble;
-import taintedmagic.common.helper.TaintedMagicHelper;
 import taintedmagic.common.network.PacketHandler;
 import taintedmagic.common.network.PacketKatanaAttack;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
+import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.common.config.Config;
 import thaumcraft.common.entities.projectile.EntityExplosiveOrb;
 
-public class ItemKatana extends Item implements IWarpingGear, IRepairable, IEquipmentItemRenderer
+public class ItemKatana extends Item implements IWarpingGear, IRepairable, IEquipmentItemRenderer, IHeldItemHUD
 {
 	public static final int SUBTYPES = 3;
 
@@ -59,9 +55,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IEqui
 	public static final ModelKatana katana = new ModelKatana();
 	public static final ModelSaya saya = new ModelSaya();
 
-	static float ticksEquipped = 0F;
 	int ticksInUse = 0;
-	boolean synced = false;
 
 	public ItemKatana ()
 	{
@@ -286,84 +280,67 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IEqui
 		else return false;
 	}
 
-	@SideOnly (Side.CLIENT)
-	public static void renderHUD (ScaledResolution r, EntityPlayer p, float pT)
+	@Override
+	public void renderHUD (ScaledResolution res, EntityPlayer p, ItemStack s, float partialTicks, float fract)
 	{
-		Minecraft mc = Minecraft.getMinecraft();
-		ItemStack s = mc.thePlayer.getCurrentEquippedItem();
 		Tessellator t = Tessellator.instance;
 
-		boolean b = false;
+		float tickFract = Math.min((float) p.getItemInUseDuration() / 30.0F, 1.0F);
 
-		if (s != null && s.getItem() instanceof ItemKatana) b = true;
-		else b = false;
+		int x = res.getScaledWidth() / 2 + 725;
+		int x2 = x + 16;
+		int y = res.getScaledHeight() / 2 + (p.capabilities.isCreativeMode ? 805 : 755);
+		int y2 = y + 16;
 
-		float time = 30F;
-		if (b) ticksEquipped = Math.min(time, ticksEquipped + pT);
-		else ticksEquipped = Math.max(0F, ticksEquipped - pT);
+		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		float a = ticksEquipped / time;
+		float sc = 0.315F;
+		GL11.glScalef(sc, sc, sc);
 
-		if (b || ticksEquipped != 0)
+		UtilsFX.bindTexture(new ResourceLocation("thaumcraft:textures/misc/script.png"));
+
+		for (int rune = 0; rune < 16; rune++)
 		{
-			float tickFract = Math.min((float) p.getItemInUseDuration() / 30.0F, 1.0F);
+			float red = MathHelper.sin( (p.ticksExisted + rune * 5) / 5.0F) * 0.1F + 0.8F;
+			float green = MathHelper.sin( (p.ticksExisted + rune * 5) / 7.0F) * 0.1F + 0.7F;
+			float alpha = MathHelper.sin( (p.ticksExisted + rune * 5) / 10.0F) * 0.3F;
 
-			int x = r.getScaledWidth() / 2 + 725;
-			int x2 = x + 16;
-			int y = r.getScaledHeight() / 2 + (p.capabilities.isCreativeMode ? 805 : 755);
-			int y2 = y + 16;
+			float f = 0.0625F * rune;
+			float f1 = f + 0.0625F;
+			float f2 = 0.0F;
+			float f3 = 1.0F;
 
-			GL11.glPushMatrix();
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			t.startDrawingQuads();
 
-			float sc = 0.315F;
+			t.setBrightness(240);
+			t.setColorRGBA_F(red, green, 0.4F, (alpha + 0.7F) * fract);
+			t.addVertexWithUV(x + (rune * 16) - alpha, y2 + alpha, 0, f, f3);
+			t.addVertexWithUV(x2 + (rune * 16) + alpha, y2 + alpha, 0, f1, f3);
+			t.addVertexWithUV(x2 + (rune * 16) + alpha, y - alpha, 0, f1, f2);
+			t.addVertexWithUV(x + (rune * 16) - alpha, y - alpha, 0, f, f2);
 
-			GL11.glScalef(sc, sc, sc);
+			t.draw();
 
-			mc.renderEngine.bindTexture(new ResourceLocation("thaumcraft:textures/misc/script.png"));
-
-			for (int rune = 0; rune < 16; rune++)
+			if ((int) (16 * tickFract) > rune)
 			{
-				float red = MathHelper.sin( (p.ticksExisted + rune * 5) / 5.0F) * 0.1F + 0.8F;
-				float green = MathHelper.sin( (p.ticksExisted + rune * 5) / 7.0F) * 0.1F + 0.7F;
-				float alpha = MathHelper.sin( (p.ticksExisted + rune * 5) / 10.0F) * 0.3F;
-
-				float f = 0.0625F * rune;
-				float f1 = f + 0.0625F;
-				float f2 = 0.0F;
-				float f3 = 1.0F;
-
 				t.startDrawingQuads();
 
 				t.setBrightness(240);
-				t.setColorRGBA_F(red, green, 0.4F, (alpha + 0.7F) * a);
+				t.setColorRGBA_F(1.0F - (0.0625F * rune), 0.0F + (0.0625F * rune), 0.0F, 0.9F + alpha);
 				t.addVertexWithUV(x + (rune * 16) - alpha, y2 + alpha, 0, f, f3);
 				t.addVertexWithUV(x2 + (rune * 16) + alpha, y2 + alpha, 0, f1, f3);
 				t.addVertexWithUV(x2 + (rune * 16) + alpha, y - alpha, 0, f1, f2);
 				t.addVertexWithUV(x + (rune * 16) - alpha, y - alpha, 0, f, f2);
 
 				t.draw();
-
-				if ((int) (16 * tickFract) > rune)
-				{
-					t.startDrawingQuads();
-
-					t.setBrightness(240);
-					t.setColorRGBA_F(1.0F - (0.0625F * rune), 0.0F + (0.0625F * rune), 0.0F, 0.9F + alpha);
-					t.addVertexWithUV(x + (rune * 16) - alpha, y2 + alpha, 0, f, f3);
-					t.addVertexWithUV(x2 + (rune * 16) + alpha, y2 + alpha, 0, f1, f3);
-					t.addVertexWithUV(x2 + (rune * 16) + alpha, y - alpha, 0, f1, f2);
-					t.addVertexWithUV(x + (rune * 16) - alpha, y - alpha, 0, f, f2);
-
-					t.draw();
-				}
 			}
-			GL11.glDisable(GL11.GL_BLEND);
-			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-			GL11.glPopMatrix();
 		}
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		GL11.glPopMatrix();
 	}
 
 	public static boolean hasAnyInscription (ItemStack s)

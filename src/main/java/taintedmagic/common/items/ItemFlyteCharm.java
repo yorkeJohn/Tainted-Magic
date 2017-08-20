@@ -37,7 +37,6 @@ import thaumcraft.codechicken.lib.vec.Vector3;
 public class ItemFlyteCharm extends Item implements IWarpingGear, IEquipmentItemRenderer
 {
 	boolean isFlying = false;
-	boolean synced = false;
 
 	static final int maxBurstCooldown = 40;
 	static final AspectList cost = new AspectList().add(Aspect.AIR, 10);

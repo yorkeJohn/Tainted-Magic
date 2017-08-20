@@ -3,6 +3,9 @@ package taintedmagic.common.items.tools;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -18,22 +21,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
+import taintedmagic.api.IHeldItemHUD;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.items.wands.WandManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemThaumicDisassembler extends Item
+public class ItemThaumicDisassembler extends Item implements IHeldItemHUD
 {
 	public static final String TAG_MODE = "mode";
-
-	static float ticksEquipped = 0F;
 	public static List<Integer> data = new ArrayList<Integer>();
 
 	public ItemThaumicDisassembler ()
@@ -187,60 +183,41 @@ public class ItemThaumicDisassembler extends Item
 		}
 	}
 
-	@SideOnly (Side.CLIENT)
-	public static void renderHUD (ScaledResolution r, EntityPlayer p, float pT)
+	@Override
+	public void renderHUD (ScaledResolution res, EntityPlayer p, ItemStack s, float partialTicks, float fract)
 	{
-		Minecraft mc = Minecraft.getMinecraft();
-		ItemStack s = mc.thePlayer.getCurrentEquippedItem();
-		FontRenderer f = mc.fontRenderer;
-
-		boolean b = false;
-
-		if (s != null && s.getItem() instanceof ItemThaumicDisassembler)
+		if (data.isEmpty())
 		{
-			if (data.isEmpty())
-			{
-				data.add(getMode(s));
-			}
-
-			if (!data.isEmpty() && getMode(s) != data.get(0))
-			{
-				data.clear();
-				data.add(getMode(s));
-			}
-			b = true;
+			data.add(getMode(s));
 		}
-		else b = false;
 
-		float time = 30F;
-		if (b) ticksEquipped = Math.min(time, ticksEquipped + pT);
-		else ticksEquipped = Math.max(0F, ticksEquipped - pT);
-
-		float fract = ticksEquipped / time;
-
-		if (b || ticksEquipped != 0)
+		if (!data.isEmpty() && getMode(s) != data.get(0))
 		{
-			int mode = data.get(0);
-			String str = "\u00A78" + StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(mode) + (mode == 3 ? "\u00A7c" : "\u00A7a") + " (" + getEfficiency(mode) + ")";
-
-			GL11.glPushMatrix();
-
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-			GL11.glTranslated(40.0F, -15.0F, 0.0F);
-			GL11.glTranslatef(-fract * 40.0F, 0.0F, 0.0F);
-
-			GL11.glScalef(0.8F, 0.8F, 0.8F);
-
-			f.drawStringWithShadow(str, r.getScaledWidth() / 2 + 100, r.getScaledHeight() / 2 + (p.capabilities.isCreativeMode ? 230 : 212), 0xFFFFFF);
-
-			GL11.glDisable(GL11.GL_BLEND);
-			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-
-			GL11.glPopMatrix();
+			data.clear();
+			data.add(getMode(s));
 		}
+
+		int mode = data.get(0);
+		String str = "\u00A78" + StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(mode) + (mode == 3 ? "\u00A7c" : "\u00A7a") + " (" + getEfficiency(mode) + ")";
+
+		GL11.glPushMatrix();
+
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		GL11.glTranslated(40.0F, -15.0F, 0.0F);
+		GL11.glTranslatef(-fract * 40.0F, 0.0F, 0.0F);
+
+		GL11.glScalef(0.8F, 0.8F, 0.8F);
+
+		FontRenderer f = Minecraft.getMinecraft().fontRenderer;
+		f.drawStringWithShadow(str, res.getScaledWidth() / 2 + 100, res.getScaledHeight() / 2 + (p.capabilities.isCreativeMode ? 230 : 212), 0xFFFFFF);
+
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+
+		GL11.glPopMatrix();
 	}
 }
