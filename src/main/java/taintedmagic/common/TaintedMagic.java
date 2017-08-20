@@ -10,6 +10,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import taintedmagic.client.handler.EquipmentItemRenderHandler;
 import taintedmagic.common.handler.ConfigHandler;
 import taintedmagic.common.handler.TaintedMagicEventHandler;
 import taintedmagic.common.handler.UpdateHandler;
@@ -81,7 +82,7 @@ public class TaintedMagic
 
 		MinecraftForge.EVENT_BUS.register(taintedMagicEvents);
 		FMLCommonHandler.instance().bus().register(taintedMagicEvents);
-
+		
 		proxy.registerRenderers();
 	}
 

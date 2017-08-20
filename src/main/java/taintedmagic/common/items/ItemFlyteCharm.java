@@ -3,11 +3,18 @@ package taintedmagic.common.items;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,26 +24,17 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
-
-import org.lwjgl.opengl.GL11;
-
+import taintedmagic.api.IEquipmentItemRenderer;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
 import taintedmagic.common.items.tools.ItemKatana;
-import taintedmagic.common.network.PacketHandler;
-import taintedmagic.common.network.PacketSyncInv;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.codechicken.lib.vec.Vector3;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemFlyteCharm extends Item implements IWarpingGear
+public class ItemFlyteCharm extends Item implements IWarpingGear, IEquipmentItemRenderer
 {
 	boolean isFlying = false;
 	boolean synced = false;
@@ -103,26 +101,17 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 
 			ItemStack s = null;
 
-			for (int i = 0; i < p.inventory.mainInventory.length; i++)
+			InventoryPlayer inv = p.inventory;
+			for (int i = 0; i < inv.getSizeInventory(); i++)
 			{
-				if (p.inventory.mainInventory[i] != null && p.inventory.mainInventory[i].getItem() instanceof ItemFlyteCharm)
+				ItemStack stackInSlot = inv.getStackInSlot(i);
+				if (stackInSlot != null && stackInSlot.getItem() instanceof ItemKatana)
 				{
-					if (!this.synced)
-					{
-						// sync slot to other players
-						TaintedMagicHelper.syncSlotToClients(p.inventory.player);
-						this.synced = true;
-					}
-					s = p.inventory.mainInventory[i];
+					s = stackInSlot;
 					break;
 				}
 				else
 				{
-					if (this.synced)
-					{
-						TaintedMagicHelper.syncSlotToClients(p.inventory.player);
-						this.synced = false;
-					}
 					s = null;
 				}
 			}
@@ -224,64 +213,46 @@ public class ItemFlyteCharm extends Item implements IWarpingGear
 		return 5;
 	}
 
-	@SubscribeEvent
-	@SideOnly (Side.CLIENT)
-	public void renderPlayer (RenderPlayerEvent.Specials.Post event)
+	@Override
+	public void render (EntityPlayer p, ItemStack s, float pT)
 	{
-		EntityPlayer p = event.entityPlayer;
-		if (p.getActivePotionEffect(Potion.invisibility) != null) return;
+		GL11.glPushMatrix();
 
-		ItemStack s = null;
-		for (int i = 0; i < p.inventory.getSizeInventory(); i++)
-		{
-			if (p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemFlyteCharm)
-			{
-				s = p.inventory.getStackInSlot(i);
-				break;
-			}
-			else s = null;
-		}
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		if (s != null)
-		{
-			GL11.glPushMatrix();
+		GL11.glTranslated(0, (p != Minecraft.getMinecraft().thePlayer ? 1.62F : 0F) - p.getDefaultEyeHeight() + (p.isSneaking() ? 0.0625 : 0), 0);
 
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glRotatef(45, -1, 0, -1);
+		GL11.glTranslatef(0.0F, -0.5F, -0.2F);
 
-			GL11.glTranslated(0, (p != Minecraft.getMinecraft().thePlayer ? 1.62F : 0F) - p.getDefaultEyeHeight() + (p.isSneaking() ? 0.0625 : 0), 0);
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
 
-			GL11.glRotatef(45, -1, 0, -1);
-			GL11.glTranslatef(0.0F, -0.5F, -0.2F);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_CULL_FACE);
 
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glColor4f(1F, 1F, 1F, 0.8F);
 
-			GL11.glDisable(GL11.GL_LIGHTING);
-			GL11.glDisable(GL11.GL_CULL_FACE);
+		Tessellator t = Tessellator.instance;
 
-			GL11.glShadeModel(GL11.GL_SMOOTH);
-			GL11.glColor4f(1F, 1F, 1F, 0.8F);
+		GL11.glScalef(0.4F, 0.4F, 0.4F);
+		GL11.glRotatef(p.ticksExisted + pT, 0F, 1F, 0F);
 
-			Tessellator t = Tessellator.instance;
+		UtilsFX.bindTexture(circle);
 
-			GL11.glScalef(0.4F, 0.4F, 0.4F);
-			GL11.glRotatef(p.ticksExisted + event.partialRenderTick, 0F, 1F, 0F);
+		t.startDrawingQuads();
+		t.addVertexWithUV(-1, 0, -1, 0, 0);
+		t.addVertexWithUV(-1, 0, 1, 0, 1);
+		t.addVertexWithUV(1, 0, 1, 1, 1);
+		t.addVertexWithUV(1, 0, -1, 1, 0);
+		t.draw();
 
-			UtilsFX.bindTexture(circle);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_BLEND);
 
-			t.startDrawingQuads();
-			t.addVertexWithUV(-1, 0, -1, 0, 0);
-			t.addVertexWithUV(-1, 0, 1, 0, 1);
-			t.addVertexWithUV(1, 0, 1, 1, 1);
-			t.addVertexWithUV(1, 0, -1, 1, 0);
-			t.draw();
-
-			GL11.glEnable(GL11.GL_LIGHTING);
-			GL11.glShadeModel(GL11.GL_FLAT);
-			GL11.glEnable(GL11.GL_CULL_FACE);
-			GL11.glDisable(GL11.GL_BLEND);
-
-			GL11.glPopMatrix();
-		}
+		GL11.glPopMatrix();
 	}
 }

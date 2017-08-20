@@ -1,10 +1,14 @@
 package taintedmagic.client;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import taintedmagic.client.handler.EquipmentItemRenderHandler;
 import taintedmagic.client.handler.HUDHandler;
 import taintedmagic.client.renderer.RenderEntityDiffusion;
 import taintedmagic.client.renderer.RenderEntityGlowpet;
@@ -19,9 +23,6 @@ import taintedmagic.common.entities.EntityHomingShard;
 import taintedmagic.common.entities.EntityTaintBubble;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.client.renderers.entity.RenderEldritchOrb;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ClientProxy extends CommonProxy
 {
@@ -30,9 +31,9 @@ public class ClientProxy extends CommonProxy
 	public void registerClientHandlers ()
 	{
 		MinecraftForge.EVENT_BUS.register(new HUDHandler());
-		FMLCommonHandler.instance().bus().register(new HUDHandler());
+		MinecraftForge.EVENT_BUS.register(new EquipmentItemRenderHandler());
 	}
-	
+
 	@Override
 	public void registerRenderers ()
 	{

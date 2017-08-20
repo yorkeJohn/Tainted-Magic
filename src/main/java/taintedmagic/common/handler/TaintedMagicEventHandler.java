@@ -3,12 +3,16 @@ package taintedmagic.common.handler;
 import java.util.Random;
 import java.util.UUID;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,6 +26,8 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import taintedmagic.api.IBloodlust;
+import taintedmagic.api.IEquipmentItemRenderer;
+import taintedmagic.common.helper.TaintedMagicHelper;
 import taintedmagic.common.items.wand.foci.FocusUpgrades;
 import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
 import taintedmagic.common.registry.ItemRegistry;
@@ -33,21 +39,17 @@ import thaumcraft.api.wands.StaffRod;
 import thaumcraft.api.wands.WandRod;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.Config;
-import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.equipment.ItemCrimsonSword;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.playerdata.PacketResearchComplete;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 
 public class TaintedMagicEventHandler
 {
 	Random randy = new Random();
 
 	@SubscribeEvent
-	public void livingTick (LivingEvent.LivingUpdateEvent event)
+	public void playerTick (LivingEvent.LivingUpdateEvent event)
 	{
 		if (event.entity instanceof EntityPlayer)
 		{
@@ -66,7 +68,7 @@ public class TaintedMagicEventHandler
 	}
 
 	/*
-	 * Used to upate the attack dmg for the Mage's Mace focus
+	 * Used to upate the attack dmg for the Mage'slot Mace focus
 	 */
 	public void updateAttackDamage (EntityPlayer p)
 	{
