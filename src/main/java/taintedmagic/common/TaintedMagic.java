@@ -10,10 +10,11 @@ import net.minecraftforge.common.util.EnumHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import taintedmagic.client.handler.EquipmentItemRenderHandler;
+import taintedmagic.client.handler.ClientHandler;
 import taintedmagic.common.handler.ConfigHandler;
-import taintedmagic.common.handler.TaintedMagicEventHandler;
+import taintedmagic.common.handler.TMEventHandler;
 import taintedmagic.common.handler.UpdateHandler;
+import taintedmagic.common.items.wand.foci.FocusUpgrades;
 import taintedmagic.common.lib.LibInfo;
 import taintedmagic.common.network.PacketHandler;
 import taintedmagic.common.registry.BlockRegistry;
@@ -40,12 +41,12 @@ public class TaintedMagic
 	@SidedProxy (clientSide = "taintedmagic.client.ClientProxy", serverSide = "taintedmagic.common.CommonProxy")
 	public static CommonProxy proxy;
 
-	public static TaintedMagicEventHandler taintedMagicEvents;
+	public static TMEventHandler taintedMagicEvents;
 	public static CreativeTabs tabTaintedMagic = new TaintedMagicCreativeTab();
 	public static ConfigHandler configHandler;
-	
+
 	public static final Logger log = LogManager.getLogger("TAINTEDMAGIC");
-	
+
 	public static EnumRarity rarityCreation = EnumHelper.addRarity("CREATION", EnumChatFormatting.GOLD, "Creation");
 
 	// Pre init
@@ -78,12 +79,13 @@ public class TaintedMagic
 	{
 		log.info("Things seem to be going smoothly... Initializing Tainted Magic!");
 
-		taintedMagicEvents = new TaintedMagicEventHandler();
+		taintedMagicEvents = new TMEventHandler();
 
 		MinecraftForge.EVENT_BUS.register(taintedMagicEvents);
 		FMLCommonHandler.instance().bus().register(taintedMagicEvents);
-		
+
 		proxy.registerRenderers();
+		FocusUpgrades.init();
 	}
 
 	// Post init

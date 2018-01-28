@@ -41,7 +41,7 @@ public class TaintedMagicHelper
 		return false;
 	}
 
-	public static Vector3 getDistanceBetween (Entity e, Entity target)
+	public static Vector3 getVectorBetweenEntities (Entity e, Entity target)
 	{
 		Vector3 fromPosition = new Vector3(e.posX, e.posY, e.posZ);
 		Vector3 toPosition = new Vector3(target.posX, target.posY, target.posZ);

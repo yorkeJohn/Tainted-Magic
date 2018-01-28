@@ -1,5 +1,6 @@
 package taintedmagic.common.registry;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemAxe;
@@ -43,7 +44,6 @@ import taintedmagic.common.lib.LibToolMaterials;
 import thaumcraft.api.wands.StaffRod;
 import thaumcraft.api.wands.WandCap;
 import thaumcraft.api.wands.WandRod;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemRegistry
 {

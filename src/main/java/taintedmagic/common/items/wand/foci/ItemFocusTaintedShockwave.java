@@ -113,7 +113,7 @@ public class ItemFocusTaintedShockwave extends ItemFocusBasic
 					{
 						double dist = TaintedMagicHelper.getDistanceTo(e.posX, e.posY, e.posZ, p);
 						if (dist < 7.0D) e.attackEntityFrom(DamageSource.magic, 2.0F);
-						Vector3 movement = TaintedMagicHelper.getDistanceBetween(e, p);
+						Vector3 movement = TaintedMagicHelper.getVectorBetweenEntities(e, p);
 						e.addVelocity(movement.x * 3, 0.8, movement.z * 3);
 					}
 				}

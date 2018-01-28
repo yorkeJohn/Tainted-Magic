@@ -20,6 +20,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
@@ -30,8 +31,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import taintedmagic.api.IEquipmentItemRenderer;
 import taintedmagic.api.IHeldItemHUD;
+import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.client.model.ModelKatana;
 import taintedmagic.client.model.ModelSaya;
 import taintedmagic.common.TaintedMagic;
@@ -44,7 +45,7 @@ import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.common.config.Config;
 import thaumcraft.common.entities.projectile.EntityExplosiveOrb;
 
-public class ItemKatana extends Item implements IWarpingGear, IRepairable, IEquipmentItemRenderer, IHeldItemHUD
+public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRenderInventoryItem, IHeldItemHUD
 {
 	public static final int SUBTYPES = 3;
 
@@ -245,7 +246,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IEqui
 			case 0 :
 			{
 				EntityExplosiveOrb proj = new EntityExplosiveOrb(w, p);
-				proj.strength = getAttackDamage(s) * 2.0F;
+				proj.strength = getAttackDamage(s) * 0.5F;
 				proj.posX += proj.motionX;
 				proj.posY += proj.motionY;
 				proj.posZ += proj.motionZ;
@@ -270,6 +271,8 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IEqui
 				break;
 			}
 		}
+		s.stackTagCompound = new NBTTagCompound();
+		s.getTagCompound().setInteger("inscription", 1);
 	}
 
 	private boolean isFullyCharged (EntityPlayer p)

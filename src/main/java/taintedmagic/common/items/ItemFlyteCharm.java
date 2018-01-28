@@ -19,27 +19,24 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import taintedmagic.api.IEquipmentItemRenderer;
+import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
-import taintedmagic.common.items.tools.ItemKatana;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.codechicken.lib.vec.Vector3;
 
-public class ItemFlyteCharm extends Item implements IWarpingGear, IEquipmentItemRenderer
+public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInventoryItem
 {
 	boolean isFlying = false;
 
 	static final int maxBurstCooldown = 40;
-	static final AspectList cost = new AspectList().add(Aspect.AIR, 10);
+	static final AspectList cost = new AspectList().add(Aspect.AIR, 15);
 
 	static final String TAG_SPRINTING = "isSprinting";
 	static final String TAG_COOLDOWN = "cooldown";
@@ -104,7 +101,7 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IEquipmentItem
 			for (int i = 0; i < inv.getSizeInventory(); i++)
 			{
 				ItemStack stackInSlot = inv.getStackInSlot(i);
-				if (stackInSlot != null && stackInSlot.getItem() instanceof ItemKatana)
+				if (stackInSlot != null && stackInSlot.getItem() instanceof ItemFlyteCharm)
 				{
 					s = stackInSlot;
 					break;

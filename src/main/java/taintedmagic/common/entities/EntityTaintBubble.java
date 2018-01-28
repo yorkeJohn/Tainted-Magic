@@ -66,25 +66,24 @@ public class EntityTaintBubble extends EntityThrowable implements IEntityAdditio
 
 	public void onUpdate ()
 	{
-		this.motionX *= 0.95D;
-		this.motionY *= 0.95D;
-		this.motionZ *= 0.95D;
-		
+		this.motionX *= 0.85D;
+		this.motionY *= 0.85D;
+		this.motionZ *= 0.85D;
+
 		// simulated taint swarm motion
 		ChunkCoordinates c = new ChunkCoordinates((int) this.posX + this.rand.nextInt(7) - this.rand.nextInt(7), (int) this.posY + this.rand.nextInt(6) - 2, (int) this.posZ + this.rand.nextInt(7) - this.rand.nextInt(7));
-		double varX = c.posX + 0.5D - this.posX;
-		double varY = c.posY + 0.1D - this.posY;
-		double varZ = c.posZ + 0.5D - this.posZ;
-		this.motionX += (Math.signum(varX) * 0.5D - this.motionX) * 0.02D;
-		this.motionY += (Math.signum(varY) * 0.7D - this.motionY) * 0.05D;
-		this.motionZ += (Math.signum(varZ) * 0.5D - this.motionZ) * 0.02D;
 
+		double x = c.posX + 0.5D - this.posX;
+		double y = c.posY + 0.1D - this.posY;
+		double z = c.posZ + 0.5D - this.posZ;
+		this.motionX += (Math.signum(x) * 0.5D - this.motionX) * 0.015D;
+		this.motionY += (Math.signum(y) * 0.7D - this.motionY) * 0.1D;
+		this.motionZ += (Math.signum(z) * 0.5D - this.motionZ) * 0.015D;
 		float angle = (float) (Math.atan2(this.motionZ, this.motionX) * 180.0D / Math.PI) - 90.0F;
-		float wrappedAngle = MathHelper.wrapAngleTo180_float(angle - this.rotationYaw);
-		this.rotationYaw += wrappedAngle;
+		float angle2 = MathHelper.wrapAngleTo180_float(angle - this.rotationYaw);
+		this.rotationYaw += angle2;
 
 		if (this.ticksExisted > 50) setDead();
-
 
 		if (this.onGround)
 		{

@@ -5,7 +5,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import taintedmagic.client.handler.EquipmentItemRenderHandler;
+import taintedmagic.client.handler.ClientHandler;
 
 public class CommonProxy
 {

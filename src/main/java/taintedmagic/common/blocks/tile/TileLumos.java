@@ -16,11 +16,11 @@ import thaumcraft.common.Thaumcraft;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityLumos extends TileEntity
+public class TileLumos extends TileEntity
 {
 	int ticksExisted;
 
-	public TileEntityLumos ()
+	public TileLumos ()
 	{
 	}
 

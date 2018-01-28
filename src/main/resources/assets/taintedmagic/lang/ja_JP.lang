@@ -1,3 +1,5 @@
+#THIS TRANSLATION IS WIP
+
 #=========MISC=========================
 
 itemGroup.TaintedMagic=Tainted Magic
@@ -188,7 +190,7 @@ tm.text.CRIMSONROBES.1=After studying Crystal Blood for quite some time, you rea
 
 tm.name.VOIDFORTRESS=Void Fortress Armor
 tm.tag.VOIDFORTRESS=Nothing is getting out
-tm.text.VOIDFORTRESS.1=This is a simple improvement on the concepts laid down by the discovery of fortress armor. By using Void Metal instead of Thaumium you are not only increasing the effectiveness of the armor, but also it's durability.<BR>Of course some people claim that wearing such a large amount of Void metal is probably not good, but there will always be doubters and they should be ignored. You find the dull ache that settles into your bones as you wear it comforting.<BR>Like normal fortress armor this armor can be enhanced by various different faceplates and modifications. 
+tm.text.VOIDFORTRESS.1=This is a simple improvement on the concepts laid down by the discovery of fortress armor. By using Void Metal instead of Thaumium you are not only increasing the effectiveness of the armor, but also it's durability.<BR>Of course some people claim that wearing such a large amount of Void metal is probably not good, but there will always be doubters and they should be ignored. You find the dull ache that settles into your bones as you wear it comforting.<BR>Like normal fortress armor this armor can be enhanced by various different faceplates and modifications.
 
 #WARPEDGOGGLES
 

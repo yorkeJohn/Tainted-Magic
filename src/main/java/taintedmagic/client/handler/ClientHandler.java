@@ -13,12 +13,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import taintedmagic.api.IEquipmentItemRenderer;
+import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.common.helper.TaintedMagicHelper;
 import taintedmagic.common.items.tools.ItemKatana;
 
-public class EquipmentItemRenderHandler
+public class ClientHandler
 {
+	/*
+	 * Render items implementing IRenderInventoryItem
+	 */
 	@SubscribeEvent
 	public void onPlayerRender (RenderPlayerEvent.Specials.Post event)
 	{
@@ -30,9 +33,9 @@ public class EquipmentItemRenderHandler
 		for (int i = 0; i < 36; i++)
 		{
 			ItemStack s = inv[i];
-			if (s != null && s.getItem() instanceof IEquipmentItemRenderer && !rendering.contains(s.getItem()))
+			if (s != null && s.getItem() instanceof IRenderInventoryItem && !rendering.contains(s.getItem()))
 			{
-				((IEquipmentItemRenderer) s.getItem()).render(p, s, event.partialRenderTick);
+				((IRenderInventoryItem) s.getItem()).render(p, s, event.partialRenderTick);
 				rendering.add(s.getItem());
 			}
 			if (i == 36) rendering.clear();

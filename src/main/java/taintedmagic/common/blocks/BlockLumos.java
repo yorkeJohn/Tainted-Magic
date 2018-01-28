@@ -10,7 +10,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import taintedmagic.common.blocks.tile.TileEntityLumos;
+import taintedmagic.common.blocks.tile.TileLumos;
 import thaumcraft.common.config.Config;
 import thaumcraft.common.config.ConfigItems;
 import cpw.mods.fml.relauncher.Side;
@@ -123,6 +123,6 @@ public class BlockLumos extends Block implements ITileEntityProvider
 	@Override
 	public TileEntity createNewTileEntity (World w, int m)
 	{
-		return new TileEntityLumos();
+		return new TileLumos();
 	}
 }

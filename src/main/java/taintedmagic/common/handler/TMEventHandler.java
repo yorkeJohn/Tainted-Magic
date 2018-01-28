@@ -12,7 +12,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,8 +25,6 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import taintedmagic.api.IBloodlust;
-import taintedmagic.api.IEquipmentItemRenderer;
-import taintedmagic.common.helper.TaintedMagicHelper;
 import taintedmagic.common.items.wand.foci.FocusUpgrades;
 import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
 import taintedmagic.common.registry.ItemRegistry;
@@ -41,10 +38,9 @@ import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.Config;
 import thaumcraft.common.items.equipment.ItemCrimsonSword;
 import thaumcraft.common.items.wands.ItemWandCasting;
-import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.playerdata.PacketResearchComplete;
 
-public class TaintedMagicEventHandler
+public class TMEventHandler
 {
 	Random randy = new Random();
 
@@ -54,13 +50,14 @@ public class TaintedMagicEventHandler
 		if (event.entity instanceof EntityPlayer)
 		{
 			EntityPlayer p = (EntityPlayer) event.entity;
-			updateAttackDamage(p);
+
+			modifyAttackDamage(p);
 
 			for (int i = 0; i < p.inventory.getSizeInventory(); i++)
 			{
-				if (p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).stackTagCompound != null && p.inventory.getStackInSlot(i).stackTagCompound.getBoolean("voidtouched"))
+				ItemStack s = p.inventory.getStackInSlot(i);
+				if (s != null && s.stackTagCompound != null && s.stackTagCompound.getBoolean("voidtouched"))
 				{
-					ItemStack s = p.inventory.getStackInSlot(i);
 					if (!p.worldObj.isRemote && s.isItemDamaged() && p.ticksExisted % 20 == 0) s.damageItem(-1, (EntityLivingBase) p);
 				}
 			}
@@ -68,9 +65,9 @@ public class TaintedMagicEventHandler
 	}
 
 	/*
-	 * Used to upate the attack dmg for the Mage'slot Mace focus
+	 * some hacky code to make the mage's mace work
 	 */
-	public void updateAttackDamage (EntityPlayer p)
+	public void modifyAttackDamage (EntityPlayer p)
 	{
 		if (!p.worldObj.isRemote)
 		{
@@ -196,14 +193,14 @@ public class TaintedMagicEventHandler
 			if (!ThaumcraftApiHelper.isResearchComplete(p.getCommandSenderName(), "CREATION") && ThaumcraftApiHelper.isResearchComplete(p.getCommandSenderName(), "CREATIONSHARD"))
 			{
 				Thaumcraft.proxy.getResearchManager().completeResearch(p, "CREATION");
-				PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("CREATION"), (EntityPlayerMP) p);
+				thaumcraft.common.lib.network.PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("CREATION"), (EntityPlayerMP) p);
 				p.addChatMessage(new ChatComponentText("\u00A75" + StatCollector.translateToLocal("text.creation")));
 				p.playSound("thaumcraft:wind", 1.0F, 5.0F);
 
 				if (!ThaumcraftApiHelper.isResearchComplete(p.getCommandSenderName(), "OUTERREV") && ThaumcraftApiHelper.isResearchComplete(p.getCommandSenderName(), "CREATION"))
 				{
 					Thaumcraft.proxy.getResearchManager().completeResearch(p, "OUTERREV");
-					PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("OUTERREV"), (EntityPlayerMP) p);
+					thaumcraft.common.lib.network.PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("OUTERREV"), (EntityPlayerMP) p);
 				}
 
 				try

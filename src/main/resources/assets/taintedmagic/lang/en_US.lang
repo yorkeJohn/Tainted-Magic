@@ -78,11 +78,8 @@ item.ItemMaterial.10.name=Primordial Nodule
 item.ItemMaterial.11.name=Primordial Mote
 
 item.ItemVoidsentBlood.name=Phial of Voidsent Blood
-
 item.ItemCrystalDagger.name=Crystal Dagger
-
 item.ItemMagicFunguar.name=Magic Funguar
-
 item.ItemFlyteCharm.name=Flyte Charm
 
 item.ItemVoidwalkerSash.name=Voidwalker's Sash of Runic Shielding
@@ -196,7 +193,7 @@ tm.text.CRIMSONROBES.1=By comparing Crystal Blood and various cultist artifacts,
 
 tm.name.VOIDFORTRESS=Void Fortress Armor
 tm.tag.VOIDFORTRESS=Nothing is getting out
-tm.text.VOIDFORTRESS.1=This is a simple improvement on the concepts laid down by the discovery of fortress armor. By using Void Metal instead of Thaumium you are not only increasing the effectiveness of the armor, but also it's durability.<BR>Of course some people claim that wearing such a large amount of Void metal is probably not good, but there will always be doubters and they should be ignored. You find the dull ache that settles into your bones as you wear it comforting.<BR>Like normal fortress armor this armor can be enhanced by various different faceplates and modifications. 
+tm.text.VOIDFORTRESS.1=This is a simple improvement on the concepts laid down by the discovery of fortress armor. By using Void Metal instead of Thaumium you are not only increasing the effectiveness of the armor, but also it's durability.<BR>Of course some people claim that wearing such a large amount of Void metal is probably not good, but there will always be doubters and they should be ignored. You find the dull ache that settles into your bones as you wear it comforting.<BR>Like normal fortress armor this armor can be enhanced by various different faceplates and modifications.
 
 #WARPEDGOGGLES
 
@@ -360,7 +357,7 @@ tm.text.BLOODLUSTUPGRADE.1=This upgrade can only be applied to the Mage's Mace f
 
 tm.name.VOIDSENTBLOOD=Voidsent Blood
 tm.tag.VOIDSENTBLOOD=Amdapori
-tm.text.VOIDSENTBLOOD.1=While you love Crimson Cult robes, they are inferior to any armor made from Voidmetal because they do not repair themselves.<BR>Until now.<BR>Voidsent Blood is a simple concoction: Crystal Blood infused with void aspects.<BR>Applying this elixir to Crimson Cult attire via a crafting grid will cause the armor to repair itself. 
+tm.text.VOIDSENTBLOOD.1=While you love Crimson Cult robes, they are inferior to any armor made from Voidmetal because they do not repair themselves.<BR>Until now.<BR>Voidsent Blood is a simple concoction: Crystal Blood infused with void aspects.<BR>Applying this elixir to Crimson Cult attire via a crafting grid will cause the armor to repair itself.
 
 #THAUMIUMKATANA
 

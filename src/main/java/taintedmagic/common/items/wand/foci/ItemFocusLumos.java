@@ -96,38 +96,39 @@ public class ItemFocusLumos extends ItemFocusBasic
 
 		if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && !p.isSneaking())
 		{
-			if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
+			int x = mop.blockX;
+			int y = mop.blockY;
+			int z = mop.blockZ;
+
+			if (!w.getBlock(x, y, z).getMaterial().isReplaceable()) switch (mop.sideHit)
 			{
-				int x = mop.blockX;
-				int y = mop.blockY;
-				int z = mop.blockZ;
-
-				switch (mop.sideHit)
+			case 0 :
+				y--;
+				break;
+			case 1 :
+				y++;
+				break;
+			case 2 :
+				z--;
+				break;
+			case 3 :
+				z++;
+				break;
+			case 4 :
+				x--;
+				break;
+			case 5 :
+				x++;
+			}
+			if (w.getBlock(x, y, z).getMaterial().isReplaceable())
+			{
+				if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
 				{
-				case 0 :
-					y--;
-					break;
-				case 1 :
-					y++;
-					break;
-				case 2 :
-					z--;
-					break;
-				case 3 :
-					z++;
-					break;
-				case 4 :
-					x--;
-					break;
-				case 5 :
-					x++;
-				}
-				if (!w.isRemote) w.setBlock(x, y, z, BlockRegistry.BlockLumos, 2, 3);
-				w.playSoundAtEntity(p, "thaumcraft:ice", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
+					if (!w.isRemote) w.setBlock(x, y, z, BlockRegistry.BlockLumos, 2, 3);
+					w.playSoundAtEntity(p, "thaumcraft:ice", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F);
 
-				for (int a = 0; a < 9; a++)
-				{
-					if (w.isRemote) spawnLumosParticles(w, x, y, z);
+					for (int a = 0; a < 9; a++)
+						if (w.isRemote) spawnLumosParticles(w, x, y, z);
 				}
 			}
 		}
