@@ -246,7 +246,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 			case 0 :
 			{
 				EntityExplosiveOrb proj = new EntityExplosiveOrb(w, p);
-				proj.strength = getAttackDamage(s) * 0.5F;
+				proj.strength = getAttackDamage(s) * 0.25F;
 				proj.posX += proj.motionX;
 				proj.posY += proj.motionY;
 				proj.posZ += proj.motionZ;
@@ -271,8 +271,6 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 				break;
 			}
 		}
-		s.stackTagCompound = new NBTTagCompound();
-		s.getTagCompound().setInteger("inscription", 1);
 	}
 
 	private boolean isFullyCharged (EntityPlayer p)
