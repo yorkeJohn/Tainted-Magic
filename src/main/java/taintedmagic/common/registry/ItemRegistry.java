@@ -14,14 +14,16 @@ import taintedmagic.common.handler.WandHandler;
 import taintedmagic.common.items.ItemFlyteCharm;
 import taintedmagic.common.items.ItemMagicFunguar;
 import taintedmagic.common.items.ItemMaterial;
+import taintedmagic.common.items.ItemSalis;
 import taintedmagic.common.items.ItemVoidsentBlood;
+import taintedmagic.common.items.equipment.ItemLumosRing;
 import taintedmagic.common.items.equipment.ItemShadowFortressArmor;
 import taintedmagic.common.items.equipment.ItemVoidFortressArmor;
 import taintedmagic.common.items.equipment.ItemVoidmetalGoggles;
 import taintedmagic.common.items.equipment.ItemVoidwalkerBoots;
 import taintedmagic.common.items.equipment.ItemVoidwalkerSash;
 import taintedmagic.common.items.equipment.ItemWarpedGoggles;
-import taintedmagic.common.items.tools.ItemCrystalDagger;
+import taintedmagic.common.items.tools.ItemHollowDagger;
 import taintedmagic.common.items.tools.ItemKatana;
 import taintedmagic.common.items.tools.ItemPrimordialEdge;
 import taintedmagic.common.items.tools.ItemShadowmetalAxe;
@@ -35,10 +37,8 @@ import taintedmagic.common.items.wand.ItemWandRod;
 import taintedmagic.common.items.wand.foci.ItemFocusDarkMatter;
 import taintedmagic.common.items.wand.foci.ItemFocusLumos;
 import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
-import taintedmagic.common.items.wand.foci.ItemFocusMeteorology;
-import taintedmagic.common.items.wand.foci.ItemFocusTaint;
-import taintedmagic.common.items.wand.foci.ItemFocusTaintedShockwave;
-import taintedmagic.common.items.wand.foci.ItemFocusTime;
+import taintedmagic.common.items.wand.foci.ItemFocusShockwave;
+import taintedmagic.common.items.wand.foci.ItemFocusTaintSwarm;
 import taintedmagic.common.items.wand.foci.ItemFocusVisShard;
 import taintedmagic.common.lib.LibToolMaterials;
 import thaumcraft.api.wands.StaffRod;
@@ -61,7 +61,10 @@ public class ItemRegistry
 		ItemFlyteCharm = new ItemFlyteCharm();
 		GameRegistry.registerItem(ItemFlyteCharm, "ItemFlyteCharm");
 
-		// Armor
+		ItemSalis = new ItemSalis();
+		GameRegistry.registerItem(ItemSalis, "ItemSalis");
+
+		// Armor and Baubles
 		ItemWarpedGoggles = new ItemWarpedGoggles(LibToolMaterials.armorMatSpecial, 4, 0);
 		GameRegistry.registerItem(ItemWarpedGoggles, "ItemWarpedGoggles");
 
@@ -92,6 +95,9 @@ public class ItemRegistry
 		ItemVoidmetalGoggles = new ItemVoidmetalGoggles(ArmorMaterial.IRON, 4, 0);
 		GameRegistry.registerItem(ItemVoidmetalGoggles, "ItemVoidmetalGoggles");
 
+		ItemLumosRing = new ItemLumosRing();
+		GameRegistry.registerItem(ItemLumosRing, "ItemLumosRing");
+
 		// Wands and Staves
 		ItemWandRod = new ItemWandRod();
 		GameRegistry.registerItem(ItemWandRod, "ItemWandRod");
@@ -119,23 +125,17 @@ public class ItemRegistry
 		WAND_CAP_SHADOW_CLOTH.setTexture(new ResourceLocation("taintedmagic:textures/models/ModelWAND_CAP_SHADOW_CLOTH.png"));
 
 		// Foci
-		ItemFocusTaint = new ItemFocusTaint();
-		GameRegistry.registerItem(ItemFocusTaint, "ItemFocusTaint");
+		ItemFocusTaintSwarm = new ItemFocusTaintSwarm();
+		GameRegistry.registerItem(ItemFocusTaintSwarm, "ItemFocusTaintSwarm");
 
 		ItemFocusDarkMatter = new ItemFocusDarkMatter();
 		GameRegistry.registerItem(ItemFocusDarkMatter, "ItemFocusDarkMatter");
 
-		ItemFocusMeteorology = new ItemFocusMeteorology();
-		GameRegistry.registerItem(ItemFocusMeteorology, "ItemFocusMeteorology");
-
-		ItemFocusTime = new ItemFocusTime();
-		GameRegistry.registerItem(ItemFocusTime, "ItemFocusTime");
-
 		ItemFocusMageMace = new ItemFocusMageMace();
 		GameRegistry.registerItem(ItemFocusMageMace, "ItemFocusMageMace");
 
-		ItemFocusTaintedShockwave = new ItemFocusTaintedShockwave();
-		GameRegistry.registerItem(ItemFocusTaintedShockwave, "ItemFocusTaintedShockwave");
+		ItemFocusShockwave = new ItemFocusShockwave();
+		GameRegistry.registerItem(ItemFocusShockwave, "ItemFocusShockwave");
 
 		ItemFocusVisShard = new ItemFocusVisShard();
 		GameRegistry.registerItem(ItemFocusVisShard, "ItemFocusVisShard");
@@ -147,8 +147,8 @@ public class ItemRegistry
 		ItemThaumicDisassembler = new ItemThaumicDisassembler();
 		GameRegistry.registerItem(ItemThaumicDisassembler, "ItemThaumicDisassembler");
 
-		ItemCrystalDagger = new ItemCrystalDagger(LibToolMaterials.toolMatCrystal);
-		GameRegistry.registerItem(ItemCrystalDagger, "ItemCrystalDagger");
+		ItemHollowDagger = new ItemHollowDagger(LibToolMaterials.toolMatHollow);
+		GameRegistry.registerItem(ItemHollowDagger, "ItemHollowDagger");
 
 		ItemShadowmetalHoe = new ItemShadowmetalHoe(LibToolMaterials.toolMatShadow);
 		GameRegistry.registerItem(ItemShadowmetalHoe, "ItemShadowmetalHoe");
@@ -176,6 +176,7 @@ public class ItemRegistry
 	public static Item ItemMaterial;
 	public static Item ItemVoidsentBlood;
 	public static Item ItemFlyteCharm;
+	public static Item ItemSalis;
 
 	// Wand
 	public static Item ItemWandRod;
@@ -191,12 +192,10 @@ public class ItemRegistry
 	public static WandCap WAND_CAP_SHADOW_CLOTH;
 
 	// Foci
-	public static Item ItemFocusTaint;
+	public static Item ItemFocusTaintSwarm;
 	public static Item ItemFocusDarkMatter;
-	public static Item ItemFocusMeteorology;
-	public static Item ItemFocusTime;
 	public static Item ItemFocusMageMace;
-	public static Item ItemFocusTaintedShockwave;
+	public static Item ItemFocusShockwave;
 	public static Item ItemFocusVisShard;
 	public static Item ItemFocusLumos;
 
@@ -215,9 +214,11 @@ public class ItemRegistry
 	public static Item ItemShadowFortressChestplate;
 	public static Item ItemShadowFortressLeggings;
 
+	public static Item ItemLumosRing;
+
 	// Tools
 	public static Item ItemThaumicDisassembler;
-	public static Item ItemCrystalDagger;
+	public static Item ItemHollowDagger;
 
 	public static ItemHoe ItemShadowmetalHoe;
 	public static ItemPickaxe ItemShadowmetalPick;

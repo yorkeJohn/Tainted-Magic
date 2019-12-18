@@ -17,8 +17,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import taintedmagic.api.IBloodlust;
 import taintedmagic.common.TaintedMagic;
+import taintedmagic.common.helper.TaintedMagicHelper;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
 
@@ -83,11 +83,8 @@ public class ItemPrimordialEdge extends ItemSword implements IWarpingGear, IRepa
 			{
 				if ( (eo.isEntityAlive()) && (!eo.isEntityInvulnerable()))
 				{
-					double d = pointDistanceSpace(eo.posX, eo.posY, eo.posZ, p);
-					if (d < 2.0D)
-					{
-						eo.attackEntityFrom(DamageSource.magic, 1.0F);
-					}
+					double d = TaintedMagicHelper.getDistanceTo(eo.posX, eo.posY, eo.posZ, p);
+					if (d < 2.0D) eo.attackEntityFrom(DamageSource.magic, 5.0F);
 
 				}
 				double var3 = (p.posX + 0.5D - eo.posX) / 20.0D;
@@ -114,14 +111,6 @@ public class ItemPrimordialEdge extends ItemSword implements IWarpingGear, IRepa
 		{
 			s.damageItem(-1, (EntityLivingBase) e);
 		}
-	}
-
-	public double pointDistanceSpace (double x, double y, double z, EntityPlayer p)
-	{
-		double xvar = p.posX + 0.5D - x;
-		double yvar = p.posY + 0.5D - y;
-		double zvar = p.posZ + 0.5D - z;
-		return xvar * xvar + yvar * yvar + zvar * zvar;
 	}
 
 	@Override

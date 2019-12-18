@@ -1,22 +1,20 @@
 package taintedmagic.common.entities;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import thaumcraft.common.Thaumcraft;
 
 public class EntityDiffusion extends EntityThrowable
 {
@@ -54,6 +52,25 @@ public class EntityDiffusion extends EntityThrowable
 		return 1.0F;
 	}
 
+	public void handleHealthUpdate (byte b)
+	{
+		if (b == 16)
+		{
+			if (this.worldObj.isRemote)
+			{
+				float fx = (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
+				float fy = (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
+				float fz = (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
+				Thaumcraft.proxy.wispFX3(this.worldObj, this.posX + fx, this.posY + fy, this.posZ + fz, this.posX + fx * 8.0F, this.posY + fy * 8.0F, this.posZ + fz * 8.0F, 0.3F, 5, true, 0.02F);
+			}
+
+		}
+		else
+		{
+			super.handleHealthUpdate(b);
+		}
+	}
+
 	public void onUpdate ()
 	{
 		if (this.ticksExisted > 20) setDead();
@@ -68,6 +85,7 @@ public class EntityDiffusion extends EntityThrowable
 			this.motionY *= 0.66D;
 			this.motionZ *= 0.66D;
 		}
+
 		super.onUpdate();
 	}
 
@@ -121,7 +139,7 @@ public class EntityDiffusion extends EntityThrowable
 				}
 			}
 		}
-		setDead();
+		this.worldObj.setEntityState(this, (byte) 16);
 	}
 
 	protected boolean canTriggerWalking ()

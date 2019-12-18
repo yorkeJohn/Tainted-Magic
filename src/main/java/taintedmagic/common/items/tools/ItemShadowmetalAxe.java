@@ -1,11 +1,11 @@
 package taintedmagic.common.items.tools;
 
-import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.registry.ItemRegistry;
-import thaumcraft.api.IRepairable;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
+import taintedmagic.common.TaintedMagic;
+import taintedmagic.common.registry.ItemRegistry;
+import thaumcraft.api.IRepairable;
 
 public class ItemShadowmetalAxe extends ItemAxe implements IRepairable
 {

@@ -2,6 +2,11 @@ package taintedmagic.common.items.equipment;
 
 import java.util.List;
 
+import baubles.api.BaubleType;
+import baubles.api.IBauble;
+import baubles.common.lib.PlayerHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -17,11 +22,6 @@ import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.ItemRunic;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
-import baubles.api.BaubleType;
-import baubles.api.IBauble;
-import baubles.common.lib.PlayerHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpingGear, IBauble
 {

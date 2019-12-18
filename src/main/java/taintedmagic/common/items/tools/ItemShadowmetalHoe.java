@@ -1,5 +1,7 @@
 package taintedmagic.common.items.tools;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,8 +14,6 @@ import net.minecraftforge.event.entity.player.UseHoeEvent;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IRepairable;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ItemShadowmetalHoe extends ItemHoe implements IRepairable
 {

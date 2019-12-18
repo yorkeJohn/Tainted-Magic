@@ -2,18 +2,15 @@ package taintedmagic.common.items.wand;
 
 import java.util.List;
 
-import taintedmagic.common.TaintedMagic;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
+import taintedmagic.common.TaintedMagic;
 
 public class ItemWandRod extends Item
 {

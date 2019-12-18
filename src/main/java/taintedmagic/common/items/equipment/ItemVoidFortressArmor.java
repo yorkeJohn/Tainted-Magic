@@ -2,25 +2,21 @@ package taintedmagic.common.items.equipment;
 
 import java.util.List;
 
-import taintedmagic.common.TaintedMagic;
-import thaumcraft.api.IVisDiscountGear;
-import thaumcraft.api.IWarpingGear;
-import thaumcraft.api.ItemApi;
-import thaumcraft.api.aspects.Aspect;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import taintedmagic.common.TaintedMagic;
+import thaumcraft.api.IVisDiscountGear;
+import thaumcraft.api.IWarpingGear;
+import thaumcraft.api.ItemApi;
+import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.items.armor.ItemFortressArmor;
 
 public class ItemVoidFortressArmor extends ItemFortressArmor implements IWarpingGear, IVisDiscountGear

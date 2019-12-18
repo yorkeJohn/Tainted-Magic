@@ -14,13 +14,14 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
@@ -30,20 +31,22 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import taintedmagic.api.IHeldItemHUD;
 import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.client.model.ModelKatana;
 import taintedmagic.client.model.ModelSaya;
 import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.entities.EntityTaintBubble;
 import taintedmagic.common.network.PacketHandler;
 import taintedmagic.common.network.PacketKatanaAttack;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.common.config.Config;
+import thaumcraft.common.entities.monster.EntityTaintSwarm;
 import thaumcraft.common.entities.projectile.EntityExplosiveOrb;
+import thaumcraft.common.lib.utils.EntityUtils;
 
 public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRenderInventoryItem, IHeldItemHUD
 {
@@ -224,7 +227,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 		super.onPlayerStoppedUsing(s, w, p, i);
 		Random r = new Random();
 
-		if (!hasAnyInscription(s) || !isFullyCharged(p) || p.isSneaking() || getInscription(s) == 2)
+		if (isFullyCharged(p) && (!hasAnyInscription(s) || p.isSneaking() || getInscription(s) == 2))
 		{
 			boolean leech = (getInscription(s) == 2 && isFullyCharged(p));
 			boolean b = false;
@@ -232,7 +235,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 			if (w.isRemote)
 			{
 				MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
-				float mul = Math.min(1.0F + (float) this.ticksInUse / 40.0F, 2.0F);
+				float mul = 2.0F;
 
 				if (mop.entityHit != null) PacketHandler.INSTANCE.sendToServer(new PacketKatanaAttack(mop.entityHit, p, this.getAttackDamage(s) * mul, leech));
 				p.swingItem();
@@ -246,7 +249,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 			case 0 :
 			{
 				EntityExplosiveOrb proj = new EntityExplosiveOrb(w, p);
-				proj.strength = getAttackDamage(s) * 0.5F;
+				proj.strength = getAttackDamage(s) * .25F;
 				proj.posX += proj.motionX;
 				proj.posY += proj.motionY;
 				proj.posZ += proj.motionZ;
@@ -256,30 +259,33 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 			}
 			case 1 :
 			{
-				for (int a = 0; a < 75; a++)
+				Entity look = EntityUtils.getPointedEntity(w, p, 0.0D, 32.0D, 1.1F);
+				if (look != null && look instanceof EntityLivingBase)
 				{
-					EntityTaintBubble proj = new EntityTaintBubble(w, p, 5.0F, getAttackDamage(s) * 2.0F, false);
-					proj.posX += proj.motionX;
-					proj.posY += proj.motionY;
-					proj.posZ += proj.motionZ;
-					if (!w.isRemote) w.spawnEntityInWorld(proj);
-					p.swingItem();
+					EntityTaintSwarm e = new EntityTaintSwarm(w);
+					Vec3 v = p.getLookVec();
+					e.setLocationAndAngles(p.posX + v.xCoord / 2.0D, p.posY + p.getEyeHeight() + v.yCoord / 2.0D, p.posZ + v.zCoord / 2.0D, p.rotationYaw, p.rotationPitch);
+					e.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.getAttackDamage(s) * 2);
+					e.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(this.getAttackDamage(s));
+					e.setTarget(look);
+					e.setIsSummoned(true);
+					if (!w.isRemote) w.spawnEntityInWorld(e);
+
 				}
+				p.swingItem();
 				break;
 			}
 			default :
 				break;
 			}
 		}
-		s.stackTagCompound = new NBTTagCompound();
-		s.getTagCompound().setInteger("inscription", 1);
 	}
 
 	private boolean isFullyCharged (EntityPlayer p)
 	{
-		float f = Math.min((float) this.ticksInUse / 15.0F, 2.0F);
+		float f = Math.min((float) this.ticksInUse / 10.0F, 1.0F);
 
-		if (f == 2.0F) return true;
+		if (f == 1.0F) return true;
 		else return false;
 	}
 
@@ -288,7 +294,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 	{
 		Tessellator t = Tessellator.instance;
 
-		float tickFract = Math.min((float) p.getItemInUseDuration() / 30.0F, 1.0F);
+		float tickFract = Math.min((float) p.getItemInUseDuration() / 10.0F, 1.0F);
 
 		int x = res.getScaledWidth() / 2 + 725;
 		int x2 = x + 16;

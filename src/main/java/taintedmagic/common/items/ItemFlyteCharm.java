@@ -3,16 +3,11 @@ package taintedmagic.common.items;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumRarity;
@@ -22,20 +17,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.codechicken.lib.vec.Vector3;
 
-public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInventoryItem
+public class ItemFlyteCharm extends Item implements IWarpingGear
 {
 	boolean isFlying = false;
 
-	static final int maxBurstCooldown = 40;
+	static final int maxBurstCooldown = 80;
 	static final AspectList cost = new AspectList().add(Aspect.AIR, 15);
 
 	static final String TAG_SPRINTING = "isSprinting";
@@ -63,7 +56,9 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
 		return TaintedMagic.rarityCreation;
 	}
 
-	// Flight manager
+	/**
+	 * Flight manager
+	 */
 	@SubscribeEvent
 	public void updateFlight (LivingEvent.LivingUpdateEvent event)
 	{
@@ -150,8 +145,8 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
 					}
 					else if (getBurstCooldown(s) > 0)
 					{
-						if (this.maxBurstCooldown - getBurstCooldown(s) < 2) p.moveFlying(0F, 1.0F, 5.0F);
-						else if (this.maxBurstCooldown - getBurstCooldown(s) < 10) p.setSprinting(false);
+						if (this.maxBurstCooldown - getBurstCooldown(s) < 4) p.moveFlying(0F, 1.0F * getBurstCooldown(s) / this.maxBurstCooldown, 5.0F * getBurstCooldown(s) / this.maxBurstCooldown);
+						else if (this.maxBurstCooldown - getBurstCooldown(s) > 5) p.setSprinting(false);
 					}
 				}
 				else
@@ -207,48 +202,5 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
 	public int getWarp (ItemStack s, EntityPlayer p)
 	{
 		return 5;
-	}
-
-	@Override
-	public void render (EntityPlayer p, ItemStack s, float pT)
-	{
-		GL11.glPushMatrix();
-
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-		GL11.glTranslated(0, (p != Minecraft.getMinecraft().thePlayer ? 1.62F : 0F) - p.getDefaultEyeHeight() + (p.isSneaking() ? 0.0625 : 0), 0);
-
-		GL11.glRotatef(45, -1, 0, -1);
-		GL11.glTranslatef(0.0F, -0.5F, -0.2F);
-
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
-
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_CULL_FACE);
-
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		GL11.glColor4f(1F, 1F, 1F, 0.8F);
-
-		Tessellator t = Tessellator.instance;
-
-		GL11.glScalef(0.4F, 0.4F, 0.4F);
-		GL11.glRotatef(p.ticksExisted + pT, 0F, 1F, 0F);
-
-		UtilsFX.bindTexture(circle);
-
-		t.startDrawingQuads();
-		t.addVertexWithUV(-1, 0, -1, 0, 0);
-		t.addVertexWithUV(-1, 0, 1, 0, 1);
-		t.addVertexWithUV(1, 0, 1, 1, 1);
-		t.addVertexWithUV(1, 0, -1, 1, 0);
-		t.draw();
-
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_BLEND);
-
-		GL11.glPopMatrix();
 	}
 }

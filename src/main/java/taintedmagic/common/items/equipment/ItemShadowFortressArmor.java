@@ -18,7 +18,6 @@ import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.IWarpingGear;
-import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.items.armor.ItemFortressArmor;
 

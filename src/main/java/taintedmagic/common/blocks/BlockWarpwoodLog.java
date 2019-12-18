@@ -1,20 +1,14 @@
 package taintedmagic.common.blocks;
 
-import java.util.Random;
-
-import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.registry.BlockRegistry;
-import thaumcraft.common.config.ConfigItems;
-import net.minecraft.block.Block;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import taintedmagic.common.TaintedMagic;
 
 public class BlockWarpwoodLog extends BlockRotatedPillar
 {

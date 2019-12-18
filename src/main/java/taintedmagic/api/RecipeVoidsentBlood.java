@@ -1,15 +1,12 @@
 package taintedmagic.api;
 
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import taintedmagic.common.items.ItemVoidsentBlood;
-import thaumcraft.common.items.armor.ItemCultistLeaderArmor;
-import thaumcraft.common.items.armor.ItemCultistPlateArmor;
-import thaumcraft.common.items.armor.ItemCultistRobeArmor;
 
 /**
  * Custom recipe for aplpying Voidsent Blood to Cult Attire
@@ -29,7 +26,7 @@ public class RecipeVoidsentBlood implements IRecipe
 			if (s != null)
 			{
 				if (s.getItem() instanceof ItemVoidsentBlood && !foundBlood) foundBlood = true;
-				else if ( (s.getItem() instanceof ItemCultistRobeArmor || s.getItem() instanceof ItemCultistPlateArmor || s.getItem() instanceof ItemCultistLeaderArmor) && !foundArmor) foundArmor = true;
+				else if (s.getItem() instanceof ItemArmor && !foundArmor) foundArmor = true;
 
 				else return false;
 			}
@@ -46,7 +43,7 @@ public class RecipeVoidsentBlood implements IRecipe
 
 		for (int i = 0; i < inv.getSizeInventory(); i++)
 		{
-			if (inv.getStackInSlot(i) != null && (inv.getStackInSlot(i).getItem() instanceof ItemCultistRobeArmor || inv.getStackInSlot(i).getItem() instanceof ItemCultistPlateArmor || inv.getStackInSlot(i).getItem() instanceof ItemCultistLeaderArmor)) armor = inv.getStackInSlot(i);
+			if (inv.getStackInSlot(i) != null && inv.getStackInSlot(i).getItem() instanceof ItemArmor) armor = inv.getStackInSlot(i);
 			else if (inv.getStackInSlot(i) != null && inv.getStackInSlot(i).getItem() instanceof ItemVoidsentBlood) blood = inv.getStackInSlot(i);
 		}
 		if (armor != null && blood != null && (armor.getTagCompound() == null || (armor.getTagCompound() != null && !armor.getTagCompound().getBoolean("voidtouched"))))

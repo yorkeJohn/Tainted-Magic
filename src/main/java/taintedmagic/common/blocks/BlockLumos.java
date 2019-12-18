@@ -2,6 +2,8 @@ package taintedmagic.common.blocks;
 
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.Item;
@@ -11,48 +13,50 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import taintedmagic.common.blocks.tile.TileLumos;
+import thaumcraft.client.fx.ParticleEngine;
+import thaumcraft.client.fx.particles.FXSparkle;
 import thaumcraft.common.config.Config;
-import thaumcraft.common.config.ConfigItems;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockLumos extends Block implements ITileEntityProvider
 {
-	int duration = 0;
-
 	public BlockLumos ()
 	{
 		super(Config.airyMaterial);
+		this.setStepSound(new Block.SoundType("stone", -1, -1));
 		this.setBlockName("BlockLumos");
 		this.setTickRandomly(false);
 		this.setLightLevel(1.0F);
-		this.setStepSound(new CustomStepSound("thaumcraft:crystal", 0.3F, 1.0F));
 		this.setBlockTextureName("thaumcraft:blank");
 	}
 
-	public void setGlowDuration (int i)
+	@Override
+	public void onBlockDestroyedByPlayer (World w, int x, int y, int z, int meta)
 	{
-		this.duration = i;
+		super.onBlockDestroyedByPlayer(w, x, y, z, meta);
+
+		w.playSound(x, y, z, "thaumcraft:ice", 0.3F, 1.1F + w.rand.nextFloat() * 0.1F, true);
+
+		for (int a = 0; a < 9; a++)
+			if (w.isRemote) spawnBreakParticles(w, x, y, z);
 	}
 
-	public int getGlowDuration ()
+	@SideOnly (Side.CLIENT)
+	void spawnBreakParticles (World w, double x, double y, double z)
 	{
-		return this.duration;
+		FXSparkle fx = new FXSparkle(w, x + w.rand.nextFloat(), y + w.rand.nextFloat(), z + w.rand.nextFloat(), 1.75F, 6, 3 + w.rand.nextInt(3));
+		fx.motionX += w.rand.nextGaussian() * 0.1D;
+		fx.motionY += w.rand.nextGaussian() * 0.1D;
+		fx.motionZ += w.rand.nextGaussian() * 0.1D;
+		fx.setGravity(0.5F);
+		ParticleEngine.instance.addEffect(w, fx);
 	}
 
 	@Override
 	public void setBlockBoundsBasedOnState (IBlockAccess w, int x, int y, int z)
 	{
 		int meta = w.getBlockMetadata(x, y, z);
-		if (meta == 2) setBlockBounds(0.3F, 0.3F, 0.3F, 0.7F, 0.7F, 0.7F);
+		if (meta == 0) setBlockBounds(0.3F, 0.3F, 0.3F, 0.7F, 0.7F, 0.7F);
 		else setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-	}
-
-	@SideOnly (Side.CLIENT)
-	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool (World w, int x, int y, int z)
-	{
-		return AxisAlignedBB.getBoundingBox(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
@@ -100,12 +104,6 @@ public class BlockLumos extends Block implements ITileEntityProvider
 	public boolean renderAsNormalBlock ()
 	{
 		return false;
-	}
-
-	@Override
-	public boolean isLeaves (IBlockAccess w, int x, int y, int z)
-	{
-		return true;
 	}
 
 	@Override

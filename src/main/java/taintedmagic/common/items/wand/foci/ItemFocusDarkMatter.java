@@ -1,11 +1,10 @@
 package taintedmagic.common.items.wand.foci;
 
-import java.util.Random;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -17,14 +16,12 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.FocusUpgradeType;
 import thaumcraft.api.wands.ItemFocusBasic;
 import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.config.Config;
 import thaumcraft.common.items.wands.ItemWandCasting;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemFocusDarkMatter extends ItemFocusBasic
 {
 	IIcon depthIcon = null;
+	IIcon ornIcon = null;
 
 	private static final AspectList cost = new AspectList().add(Aspect.ENTROPY, 20).add(Aspect.FIRE, 20);
 	private static final AspectList costSanity = new AspectList().add(Aspect.ENTROPY, 20).add(Aspect.FIRE, 50).add(Aspect.ORDER, 50);
@@ -41,11 +38,36 @@ public class ItemFocusDarkMatter extends ItemFocusBasic
 	{
 		this.icon = ir.registerIcon("taintedmagic:ItemFocusDarkMatter");
 		this.depthIcon = ir.registerIcon("taintedmagic:ItemFocusDarkMatter_depth");
+		this.ornIcon = ir.registerIcon("thaumcraft:focus_warding_orn");
 	}
 
 	public IIcon getFocusDepthLayerIcon (ItemStack s)
 	{
 		return this.depthIcon;
+	}
+
+	public IIcon getOrnament (ItemStack s)
+	{
+		return this.ornIcon;
+	}
+
+	@SideOnly (Side.CLIENT)
+	public boolean requiresMultipleRenderPasses ()
+	{
+		return true;
+	}
+
+	@SideOnly (Side.CLIENT)
+	public int getRenderPasses (int m)
+	{
+		return 2;
+	}
+
+	@Override
+	@SideOnly (Side.CLIENT)
+	public IIcon getIconFromDamageForRenderPass (int meta, int pass)
+	{
+		return (pass == 0) ? this.ornIcon : this.icon;
 	}
 
 	public String getSortingHelper (ItemStack s)
@@ -123,7 +145,8 @@ public class ItemFocusDarkMatter extends ItemFocusBasic
 		{
 			for (int a = 0; a < 2 + wand.getFocusPotency(s); a++)
 			{
-				EntityDiffusion proj = new EntityDiffusion(p.worldObj, p, isUpgradedWith(wand.getFocusItem(s), FocusUpgradeType.enlarge) ? 15.0F : 8.0F, 12F + wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.corrosive));
+				EntityDiffusion proj = new EntityDiffusion(p.worldObj, p, isUpgradedWith(wand.getFocusItem(s), FocusUpgradeType.enlarge) ? 15.0F : 9.0F, 12F + wand.getFocusPotency(s),
+						isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.corrosive));
 				proj.posX += proj.motionX;
 				proj.posY += proj.motionY;
 				proj.posZ += proj.motionZ;
@@ -144,28 +167,15 @@ public class ItemFocusDarkMatter extends ItemFocusBasic
 		switch (r)
 		{
 		case 1 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.potency };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
 		case 2 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.potency };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
 		case 3 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.potency,
-					FocusUpgrades.diffusion,
-					FocusUpgrades.sanity };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, FocusUpgrades.corrosive, FocusUpgrades.sanity };
 		case 4 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.potency };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
 		case 5 :
-			return new FocusUpgradeType[]{
-					FocusUpgradeType.frugal,
-					FocusUpgradeType.potency,
-					FocusUpgrades.corrosive };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, FocusUpgrades.diffusion };
 		}
 		return null;
 	}

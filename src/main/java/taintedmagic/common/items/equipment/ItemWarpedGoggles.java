@@ -1,30 +1,15 @@
 package taintedmagic.common.items.equipment;
 
-import java.util.List;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.registry.ItemRegistry;
-import thaumcraft.api.IGoggles;
-import thaumcraft.api.IRepairable;
-import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.IWarpingGear;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.nodes.IRevealer;
-import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.armor.ItemGoggles;
 
 public class ItemWarpedGoggles extends ItemGoggles implements IWarpingGear

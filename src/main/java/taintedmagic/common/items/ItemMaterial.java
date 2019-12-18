@@ -2,7 +2,8 @@ package taintedmagic.common.items;
 
 import java.util.List;
 
-import taintedmagic.common.TaintedMagic;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,12 +13,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import taintedmagic.common.TaintedMagic;
 
 public class ItemMaterial extends Item
 {
-	public int SUBTYPES = 12;
+	public int SUBTYPES = 13;
 	public IIcon[] icons = new IIcon[SUBTYPES];
 
 	public ItemMaterial ()
@@ -53,9 +53,11 @@ public class ItemMaterial extends Item
 		case 9 :
 			return EnumRarity.uncommon;
 		case 10 :
-			return EnumRarity.rare;
+			return EnumRarity.epic;
 		case 11 :
-			return EnumRarity.uncommon;
+			return EnumRarity.epic;
+		case 12 :
+			return TaintedMagic.rarityCreation;
 		}
 		return EnumRarity.common;
 	}
@@ -71,6 +73,18 @@ public class ItemMaterial extends Item
 	public IIcon getIconFromDamage (int i)
 	{
 		return this.icons[i];
+	}
+
+	@Override
+	public void addInformation (ItemStack s, EntityPlayer p, List l, boolean b)
+	{
+		super.addInformation(s, p, l, b);
+
+		if (s.getItemDamage() == 5)
+		{
+			l.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("text.shard.1"));
+			l.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("text.shard.2"));
+		}
 	}
 
 	@SideOnly (Side.CLIENT)

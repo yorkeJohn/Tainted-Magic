@@ -6,9 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ResearchCategoryList;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
-import thaumcraft.api.research.ResearchCategoryList;
 
 /**
  * This class was created by <flaxbeard> as part of the Thaumic Exploration mod.

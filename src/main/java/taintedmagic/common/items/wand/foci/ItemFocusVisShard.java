@@ -2,14 +2,12 @@ package taintedmagic.common.items.wand.foci;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.entities.EntityHomingShard;
@@ -18,7 +16,6 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.FocusUpgradeType;
 import thaumcraft.api.wands.ItemFocusBasic;
 import thaumcraft.client.fx.ParticleEngine;
-import thaumcraft.client.fx.bolt.FXLightningBolt;
 import thaumcraft.client.fx.particles.FXSparkle;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumcraft.common.lib.utils.EntityUtils;
@@ -51,7 +48,7 @@ public class ItemFocusVisShard extends ItemFocusBasic
 
 	public int getFocusColor (ItemStack s)
 	{
-		return 10037693;
+		return 0x9929BD;
 	}
 
 	public int getActivationCooldown (ItemStack s)

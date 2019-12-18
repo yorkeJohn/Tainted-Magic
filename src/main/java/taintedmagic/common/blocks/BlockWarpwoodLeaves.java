@@ -3,6 +3,8 @@ package taintedmagic.common.blocks;
 import java.util.ArrayList;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,10 +20,7 @@ import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.util.ForgeDirection;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.registry.BlockRegistry;
-import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.ConfigBlocks;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockWarpwoodLeaves extends Block implements IShearable
 {

@@ -1,14 +1,11 @@
 package taintedmagic.common.handler;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Scanner;
 
+import net.minecraft.util.EnumChatFormatting;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.lib.LibInfo;
-import net.minecraft.util.EnumChatFormatting;
 
 public class UpdateHandler
 {

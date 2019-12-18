@@ -2,20 +2,19 @@ package taintedmagic.common.items.equipment;
 
 import java.util.List;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.registry.ItemRegistry;
@@ -24,9 +23,10 @@ import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.aspects.Aspect;
+import thaumcraft.client.fx.ParticleEngine;
+import thaumcraft.client.fx.particles.FXWispEG;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ItemVoidwalkerBoots extends ItemArmor implements IVisDiscountGear, IWarpingGear, IRunicArmor, IRepairable, ISpecialArmor
 {
@@ -121,6 +121,13 @@ public class ItemVoidwalkerBoots extends ItemArmor implements IVisDiscountGear, 
 	{
 		super.onArmorTick(w, p, s);
 		if ( (!w.isRemote) && (s.getItemDamage() > 0) && (p.ticksExisted % 20 == 0)) s.damageItem(-1, p);
+
+		double motion = Math.abs(p.motionX) + Math.abs(p.motionZ) + Math.abs(0.5 * p.motionY);
+		if ( w.isRemote && (motion > .1D || !p.onGround) && w.rand.nextInt(5) == 0)
+		{
+			FXWispEG ef = new FXWispEG(w, (double) (p.posX + ( (Math.random() - Math.random()) * 0.5F)), (double) (p.boundingBox.minY + .05F + ( (Math.random() - Math.random()) * 0.1F)), (double) (p.posZ + ( (Math.random() - Math.random()) * 0.5F)), p);
+			ParticleEngine.instance.addEffect(w, ef);
+		}
 
 		if (p.moveForward > 0.0F)
 		{

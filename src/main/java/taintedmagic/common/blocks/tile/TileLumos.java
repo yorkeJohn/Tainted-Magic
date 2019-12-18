@@ -1,20 +1,19 @@
 package taintedmagic.common.blocks.tile;
 
-import java.util.List;
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.blocks.BlockLumos;
-import taintedmagic.common.entities.EntityGlowpet;
-import taintedmagic.common.items.wand.foci.ItemFocusLumos;
-import thaumcraft.client.fx.ParticleEngine;
-import thaumcraft.client.fx.particles.FXSparkle;
-import thaumcraft.common.Thaumcraft;
+import baubles.api.BaublesApi;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import taintedmagic.common.blocks.BlockLumos;
+import taintedmagic.common.items.equipment.ItemLumosRing;
+import taintedmagic.common.registry.ItemRegistry;
+import thaumcraft.client.fx.ParticleEngine;
+import thaumcraft.client.fx.particles.FXSparkle;
+import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class TileLumos extends TileEntity
 {
@@ -37,31 +36,40 @@ public class TileLumos extends TileEntity
 		Block b = worldObj.getBlock(xCoord, yCoord, zCoord);
 		int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
-		List<EntityGlowpet> ents = worldObj.getEntitiesWithinAABB(EntityGlowpet.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(2.0D, 2.0D, 2.0D));
 		if (b instanceof BlockLumos)
 		{
-			BlockLumos src = (BlockLumos) b;
-			if (meta == 0 && ents.isEmpty())
+			EntityPlayer p = worldObj.getClosestPlayer(xCoord, yCoord, zCoord, 4);
+
+			if (meta == 0 && worldObj.rand.nextInt(15) == 0)
+			{
+				if (worldObj.isRemote) spawnParticles();
+			}
+			if ( (meta == 1 || meta == 2) && p == null)
 			{
 				worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 			}
-
-			else if (meta == 1 && ticksExisted > src.getGlowDuration())
+			else if (meta == 1 && p != null)
 			{
-				worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-			}
-
-			if ( (meta == 1 && worldObj.rand.nextInt(50) == 0) || (meta == 2 && worldObj.rand.nextInt(9) == 0))
-			{
-				Thaumcraft.proxy.sparkle((float) xCoord + 0.5F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.25F, (float) yCoord + 0.5F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.25F, (float) zCoord + 0.5F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.25F, 0.5F, 6, -0.05F);
-			}
-
-			if ( (meta == 1 || meta == 2) && worldObj.rand.nextInt(512) == 0)
-			{
-				for (int a = 0; a < 9; a++)
+				if (p.getHeldItem() == null || (p.getHeldItem() != null && ! (p.getHeldItem().getItem() instanceof ItemWandCasting))) worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+				else if (p.getHeldItem() != null && p.getHeldItem().getItem() instanceof ItemWandCasting)
 				{
-					if (worldObj.isRemote) spawnParticles();
+					ItemStack s = p.getHeldItem();
+					ItemWandCasting wand = (ItemWandCasting) s.getItem();
+
+					if (wand.getFocus(s) == null || (wand.getFocus(s) != null && wand.getFocus(s) != ItemRegistry.ItemFocusLumos)) worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 				}
+			}
+			if (meta == 2 && p != null)
+			{
+				IInventory baub = BaublesApi.getBaubles(p);
+				if (baub.getStackInSlot(1) == null && baub.getStackInSlot(2) == null) worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+				else if ( (baub.getStackInSlot(1) != null && baub.getStackInSlot(2) == null) && ! (baub.getStackInSlot(1).getItem() instanceof ItemLumosRing))
+					worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+				else if ( (baub.getStackInSlot(1) == null && baub.getStackInSlot(2) != null) && ! (baub.getStackInSlot(2).getItem() instanceof ItemLumosRing))
+					worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+				else if ( (baub.getStackInSlot(1) != null && baub.getStackInSlot(2) != null)
+						&& (! (baub.getStackInSlot(1).getItem() instanceof ItemLumosRing) && ! (baub.getStackInSlot(2).getItem() instanceof ItemLumosRing)))
+					worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 			}
 		}
 	}
@@ -69,8 +77,10 @@ public class TileLumos extends TileEntity
 	@SideOnly (Side.CLIENT)
 	void spawnParticles ()
 	{
-		FXSparkle fx = new FXSparkle(worldObj, xCoord + worldObj.rand.nextFloat(), yCoord + worldObj.rand.nextFloat(), zCoord + worldObj.rand.nextFloat(), 1.75F, worldObj.rand.nextInt(5), 3 + worldObj.rand.nextInt(3));
-		fx.setGravity(0.1F);
+		FXSparkle fx = new FXSparkle(worldObj, (double) xCoord + 0.5D + (worldObj.rand.nextGaussian() * 0.1D), (double) yCoord + 0.5D + (worldObj.rand.nextGaussian() * 0.1D),
+				(double) zCoord + 0.5D + (worldObj.rand.nextGaussian() * 0.1D), 1.75F, 6, 3 + worldObj.rand.nextInt(2));
+		fx.slowdown = true;
+		fx.setGravity(-0.5F);
 		ParticleEngine.instance.addEffect(worldObj, fx);
 	}
 }

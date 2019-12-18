@@ -1,51 +1,49 @@
 package taintedmagic.common.handler;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.world.World;
-import taintedmagic.common.TaintedMagic;
+import net.minecraft.nbt.NBTTagCompound;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.wands.IWandRodOnUpdate;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.Config;
 import thaumcraft.common.items.wands.ItemWandCasting;
-import thaumcraft.common.lib.potions.PotionWarpWard;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class WandHandler implements IWandRodOnUpdate
 {
 	Aspect aspect;
 	Aspect primals[] = Aspect.getPrimalAspects().toArray(new Aspect[0]);
+	private static final String TAG_PERIOD = "period";
 
-	public void onUpdate (ItemStack itemstack, EntityPlayer player)
+	public void onUpdate (ItemStack s, EntityPlayer p)
 	{
-		if (!player.isPotionActive(Config.potionWarpWardID))
+		if (!p.isPotionActive(Config.potionWarpWardID))
 		{
-			int permwarp = Thaumcraft.proxy.getPlayerKnowledge().getWarpPerm(player.getCommandSenderName());
+			int permwarp = Thaumcraft.proxy.getPlayerKnowledge().getWarpPerm(p.getCommandSenderName());
 
-			int x = permwarp;
-			if (x == 0) return;
+			if (permwarp == 0)
+			{
+				if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
+				s.getTagCompound().setInteger(TAG_PERIOD, 0);
+				return;
+			}
 
-			double fx = 20 * coth(x / 250.0D);
-			int rfx = Math.min((int) Math.round(fx), 200);
-			
-			if (player.ticksExisted % rfx == 0)
+			// exponential decay at rate of mul / warp (1 / x)
+			float mul = 10000.0F;
+			float T = mul / (float) permwarp;
+
+			int rT = Math.round(T);
+
+			if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
+			s.getTagCompound().setInteger(TAG_PERIOD, rT);
+
+			if (p.ticksExisted % rT == 0)
 			{
 				for (int i = 0; i < primals.length; i++)
 				{
-					((ItemWandCasting) itemstack.getItem()).addVis(itemstack, this.primals[i], 1, true);
+					((ItemWandCasting) s.getItem()).addVis(s, this.primals[i], 1, true);
 				}
 			}
 		}
-	}
-
-	public double coth (double x)
-	{
-		return Math.cosh(x) / Math.sinh(x);
 	}
 }

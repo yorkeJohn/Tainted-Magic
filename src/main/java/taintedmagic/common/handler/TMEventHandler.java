@@ -3,15 +3,16 @@ package taintedmagic.common.handler;
 import java.util.Random;
 import java.util.UUID;
 
+import baubles.api.BaublesApi;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,19 +25,19 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import taintedmagic.api.IBloodlust;
-import taintedmagic.common.items.wand.foci.FocusUpgrades;
+import taintedmagic.common.items.equipment.ItemLumosRing;
+import taintedmagic.common.items.tools.ItemHollowDagger;
 import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
+import taintedmagic.common.registry.BlockRegistry;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import thaumcraft.api.wands.ItemFocusBasic;
 import thaumcraft.api.wands.StaffRod;
 import thaumcraft.api.wands.WandRod;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.Config;
-import thaumcraft.common.items.equipment.ItemCrimsonSword;
+import thaumcraft.common.items.ItemEssence;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumcraft.common.lib.network.playerdata.PacketResearchComplete;
 
@@ -50,22 +51,58 @@ public class TMEventHandler
 		if (event.entity instanceof EntityPlayer)
 		{
 			EntityPlayer p = (EntityPlayer) event.entity;
-
 			modifyAttackDamage(p);
 
+			/**
+			 * Repair voidtouched items
+			 */
 			for (int i = 0; i < p.inventory.getSizeInventory(); i++)
 			{
 				ItemStack s = p.inventory.getStackInSlot(i);
-				if (s != null && s.stackTagCompound != null && s.stackTagCompound.getBoolean("voidtouched"))
+				if (s != null)
 				{
-					if (!p.worldObj.isRemote && s.isItemDamaged() && p.ticksExisted % 20 == 0) s.damageItem(-1, (EntityLivingBase) p);
+					if (s.stackTagCompound != null && s.stackTagCompound.getBoolean("voidtouched"))
+					{
+						if (!p.worldObj.isRemote && s.isItemDamaged() && p.ticksExisted % 20 == 0)
+						{
+							s.setItemDamage(s.getItemDamage() - 1);
+						}
+					}
 				}
 			}
+
+			/**
+			 * Create lumos blocks when the player is holding a wand or staff
+			 * with the lumos focus equipped or when the Lumos ring is equipped.
+			 */
+			if (p.getHeldItem() != null && p.getHeldItem().getItem() instanceof ItemWandCasting)
+			{
+				ItemStack s = p.getHeldItem();
+				ItemWandCasting wand = (ItemWandCasting) s.getItem();
+
+				if (wand.getFocus(s) != null && wand.getFocus(s) == ItemRegistry.ItemFocusLumos && !p.worldObj.isRemote) createLumos(p, 1);
+			}
+			IInventory baub = BaublesApi.getBaubles(p);
+			if ( (baub.getStackInSlot(1) != null && baub.getStackInSlot(1).getItem() instanceof ItemLumosRing)
+					|| (baub.getStackInSlot(2) != null && baub.getStackInSlot(2).getItem() instanceof ItemLumosRing))
+				createLumos(p, 2);
 		}
 	}
 
+	/**
+	 * Creates lumos lightsource blocks.
+	 */
+	public void createLumos (EntityPlayer p, int meta)
+	{
+		int x = Math.round((float) p.posX);
+		int y = Math.round((float) p.posY) + 1;
+		int z = Math.round((float) p.posZ);
+
+		if (p.worldObj.getBlock(x, y, z) == Blocks.air) p.worldObj.setBlock(x, y, z, BlockRegistry.BlockLumos, meta, 3);
+	}
+
 	/*
-	 * some hacky code to make the mage's mace work
+	 * Some hacky code to make the mage's mace work...
 	 */
 	public void modifyAttackDamage (EntityPlayer p)
 	{
@@ -87,7 +124,7 @@ public class TMEventHandler
 						tag.setString("AttributeName", SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName());
 
 						UUID u = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
-						AttributeModifier am = new AttributeModifier(u, "Weapon modifier", 15.0D + wand.getFocusPotency(s), 0);
+						AttributeModifier am = new AttributeModifier(u, "Weapon modifier", ConfigHandler.baseMaceDamageIncrease + wand.getFocusPotency(s), 0);
 
 						tag.setString("Name", am.getName());
 						tag.setDouble("Amount", am.getAmount());
@@ -113,7 +150,7 @@ public class TMEventHandler
 						tag.setString("AttributeName", SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName());
 
 						UUID u = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
-						AttributeModifier am = new AttributeModifier(u, "Weapon modifier", 21.0D + wand.getFocusPotency(s), 0);
+						AttributeModifier am = new AttributeModifier(u, "Weapon modifier", 6.0D + ConfigHandler.baseMaceDamageIncrease + wand.getFocusPotency(s), 0);
 
 						tag.setString("Name", am.getName());
 						tag.setDouble("Amount", am.getAmount());
@@ -153,6 +190,10 @@ public class TMEventHandler
 		if (event.source.getEntity() instanceof EntityPlayer)
 		{
 			EntityPlayer p = (EntityPlayer) event.source.getEntity();
+
+			/**
+			 * Consume vis for Mage's Mace hits
+			 */
 			if (p.getHeldItem() != null && p.getHeldItem().getItem() instanceof ItemWandCasting)
 			{
 				ItemStack s = p.getHeldItem();
@@ -168,6 +209,24 @@ public class TMEventHandler
 					else
 					{
 						event.setCanceled(true);
+					}
+				}
+			}
+
+			/**
+			 * Fill phials with blood when an entity is hit with the Hollow
+			 * Dagger
+			 */
+			if (p.getHeldItem() != null && p.getHeldItem().getItem() instanceof ItemHollowDagger)
+			{
+				for (int i = 0; i < p.inventory.getSizeInventory(); i++)
+				{
+					if (p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemEssence && p.inventory.getStackInSlot(i).getItemDamage() == 0)
+					{
+						p.inventory.decrStackSize(i, 1);
+
+						if (p.inventory.addItemStackToInventory(new ItemStack(ItemRegistry.ItemMaterial, 1, 7)) == false)
+							if (!p.worldObj.isRemote) p.entityDropItem(new ItemStack(ItemRegistry.ItemMaterial, 1, 7), 2.0F);
 					}
 				}
 			}
@@ -222,18 +281,8 @@ public class TMEventHandler
 		if (event.source.getEntity() instanceof EntityPlayer)
 		{
 			EntityPlayer p = (EntityPlayer) event.source.getEntity();
-			if (p.getHeldItem() != null && (p.getHeldItem().getItem() instanceof IBloodlust || p.getHeldItem().getItem() instanceof ItemCrimsonSword))
-			{
-				Random r = new Random();
-				ItemStack drops = new ItemStack(ItemRegistry.ItemMaterial, r.nextInt(5), 7);
-				addDropItem(event, drops);
-			}
-			else if (p.getHeldItem() != null && p.getHeldItem().getItem() instanceof ItemWandCasting && ((ItemWandCasting) p.getHeldItem().getItem()).getFocus(p.getHeldItem()) != null && ((ItemWandCasting) p.getHeldItem().getItem()).getFocus(p.getHeldItem()).isUpgradedWith( ((ItemWandCasting) p.getHeldItem().getItem()).getFocusItem(p.getHeldItem()), FocusUpgrades.bloodlust))
-			{
-				Random r = new Random();
-				ItemStack drops = new ItemStack(ItemRegistry.ItemMaterial, r.nextInt(5), 7);
-				addDropItem(event, drops);
-			}
+
+			// Currently unused
 		}
 	}
 
@@ -255,9 +304,6 @@ public class TMEventHandler
 				event.toolTip.add(1, StatCollector.translateToLocal("item.Focus.cost3"));
 			}
 		}
-		if (event.itemStack.getItem() instanceof IBloodlust) event.toolTip.add("\u00A74" + StatCollector.translateToLocal("text.bloodlust"));
-		if (event.itemStack.getItem() instanceof ItemCrimsonSword) event.toolTip.add("\u00A74" + StatCollector.translateToLocal("text.bloodlust"));
-		if ( (event.itemStack.getItem() instanceof ItemFocusMageMace && ((ItemFocusBasic) event.itemStack.getItem()).isUpgradedWith(event.itemStack, FocusUpgrades.bloodlust)) || (event.itemStack.getItem() instanceof ItemWandCasting && ((ItemWandCasting) event.itemStack.getItem()).getFocus(event.itemStack) != null && ((ItemWandCasting) event.itemStack.getItem()).getFocus(event.itemStack) instanceof ItemFocusMageMace && ((ItemWandCasting) event.itemStack.getItem()).getFocus(event.itemStack).isUpgradedWith( ((ItemWandCasting) event.itemStack.getItem()).getFocusItem(event.itemStack), FocusUpgrades.bloodlust))) event.toolTip.add("\u00A74" + StatCollector.translateToLocal("text.bloodlust"));
 
 		if (event.itemStack.stackTagCompound != null && event.itemStack.stackTagCompound.getBoolean("voidtouched")) event.toolTip.add("\u00A75" + StatCollector.translateToLocal("text.voidtouched"));
 	}
