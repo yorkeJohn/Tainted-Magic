@@ -19,15 +19,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import taintedmagic.api.IHeldItemHUD;
+import taintedmagic.client.handler.HUDHandler;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.items.wands.WandManager;
 
-public class ItemThaumicDisassembler extends Item implements IHeldItemHUD
+public class ItemThaumicDisassembler extends Item
 {
 	public static final String TAG_MODE = "mode";
 	public static List<Integer> data = new ArrayList<Integer>();
@@ -52,8 +54,8 @@ public class ItemThaumicDisassembler extends Item implements IHeldItemHUD
 	{
 		super.addInformation(s, p, l, b);
 
-		l.add("\u00A78" + StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(s));
-		l.add("\u00A78" + StatCollector.translateToLocal("text.disassembler.efficiency") + ": " + (getMode(s) == 3 ? "\u00A7c" : "\u00A7a") + getEfficiency(s));
+		l.add(StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(s));
+		l.add(StatCollector.translateToLocal("text.disassembler.efficiency") + ": " + (getMode(s) == 3 ? "\u00A7c" : "\u00A7a") + getEfficiency(s));
 		l.add(" ");
 		l.add("\u00A79" + "+20 " + StatCollector.translateToLocal("text.attackdamage"));
 	}
@@ -111,7 +113,16 @@ public class ItemThaumicDisassembler extends Item implements IHeldItemHUD
 	@Override
 	public ItemStack onItemRightClick (ItemStack s, World w, EntityPlayer p)
 	{
-		if (!w.isRemote && p.isSneaking()) toggleMode(s);
+		if (!w.isRemote && p.isSneaking())
+		{
+			if (s.stackTagCompound == null) s.setTagCompound(new NBTTagCompound());
+			s.stackTagCompound.setInteger(TAG_MODE, getMode(s) < 3 ? getMode(s) + 1 : 0);
+
+			int mode = getMode(s);
+			String str = EnumChatFormatting.GRAY + StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(mode) + (mode == 3 ? "\u00A7c" : "\u00A7a") + " ("
+					+ getEfficiency(mode) + ")";
+			HUDHandler.displayString(str, 300, false);
+		}
 
 		return s;
 	}
@@ -164,12 +175,6 @@ public class ItemThaumicDisassembler extends Item implements IHeldItemHUD
 		return getModeName(getMode(s));
 	}
 
-	public void toggleMode (ItemStack s)
-	{
-		if (s.stackTagCompound == null) s.setTagCompound(new NBTTagCompound());
-		s.stackTagCompound.setInteger(TAG_MODE, getMode(s) < 3 ? getMode(s) + 1 : 0);
-	}
-
 	public void onUpdate (ItemStack s, World w, Entity e, int i, boolean b)
 	{
 		super.onUpdate(s, w, e, i, b);
@@ -181,43 +186,5 @@ public class ItemThaumicDisassembler extends Item implements IHeldItemHUD
 				if (WandManager.consumeVisFromInventory(p, new AspectList().add(Aspect.ENTROPY, 5))) s.damageItem(-1, (EntityLivingBase) e);
 			}
 		}
-	}
-
-	@Override
-	public void renderHUD (ScaledResolution res, EntityPlayer p, ItemStack s, float partialTicks, float fract)
-	{
-		if (data.isEmpty())
-		{
-			data.add(getMode(s));
-		}
-
-		if (!data.isEmpty() && getMode(s) != data.get(0))
-		{
-			data.clear();
-			data.add(getMode(s));
-		}
-
-		int mode = data.get(0);
-		String str = "\u00A78" + StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(mode) + (mode == 3 ? "\u00A7c" : "\u00A7a") + " (" + getEfficiency(mode) + ")";
-
-		GL11.glPushMatrix();
-
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-		GL11.glTranslated(40.0F, -15.0F, 0.0F);
-		GL11.glTranslatef(-fract * 40.0F, 0.0F, 0.0F);
-
-		GL11.glScalef(0.8F, 0.8F, 0.8F);
-
-		FontRenderer f = Minecraft.getMinecraft().fontRenderer;
-		f.drawStringWithShadow(str, res.getScaledWidth() / 2 + 100, res.getScaledHeight() / 2 + (p.capabilities.isCreativeMode ? 230 : 212), 0xFFFFFF);
-
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-
-		GL11.glPopMatrix();
 	}
 }

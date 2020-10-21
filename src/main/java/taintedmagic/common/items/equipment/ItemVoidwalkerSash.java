@@ -12,10 +12,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import taintedmagic.client.handler.HUDHandler;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IWarpingGear;
@@ -89,7 +91,7 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
 
 	public void addInformation (ItemStack s, EntityPlayer p, List l, boolean b)
 	{
-		l.add("\u00A78" + StatCollector.translateToLocal("text.sash.mode") + (hasSpeedBoost(s) ? " \u00A7a" : " \u00A7c") + StatCollector.translateToLocal(hasSpeedBoost(s) ? "text.sash.on" : "text.sash.off"));
+		l.add( (hasSpeedBoost(s) ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + StatCollector.translateToLocal("text.sash.mode"));
 	}
 
 	@Override
@@ -113,7 +115,7 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
 
 					if (p.onGround || p.capabilities.isFlying)
 					{
-						float bonus = 0.4F;
+						float bonus = 0.25F;
 						p.moveFlying(0.0F, 1.0F, p.capabilities.isFlying ? (bonus - 0.050F) : bonus);
 					}
 					else if (Hover.getHover(p.getEntityId()))
@@ -162,7 +164,12 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
 				s.setTagCompound(new NBTTagCompound());
 				s.stackTagCompound.setBoolean(TAG_MODE, false);
 			}
-			if (s.stackTagCompound != null) s.stackTagCompound.setBoolean(TAG_MODE, !s.stackTagCompound.getBoolean(TAG_MODE));
+			if (s.stackTagCompound != null)
+			{
+				s.stackTagCompound.setBoolean(TAG_MODE, !s.stackTagCompound.getBoolean(TAG_MODE));
+				HUDHandler.displayString( (hasSpeedBoost(s) ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + StatCollector.translateToLocal("text.sash.mode") + " "
+						+ StatCollector.translateToLocal(hasSpeedBoost(s) ? "text.sash.on" : "text.sash.off"), 300, true);
+			}
 		}
 		return s;
 	}

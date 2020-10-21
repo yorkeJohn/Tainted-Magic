@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import taintedmagic.common.registry.ResearchRegistry;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchCategoryList;
@@ -18,9 +19,9 @@ public class ThaumcraftResearchItem extends ResearchItem
 {
 	public ResearchItem original;
 
-	public ThaumcraftResearchItem (String tag, String category, String origin, String originCategory, int col, int row, ResourceLocation icon)
+	public ThaumcraftResearchItem (String tag, String origin, String originCategory, int col, int row, ResourceLocation icon)
 	{
-		super(tag, category, new AspectList(), col, row, 1, icon);
+		super(tag, ResearchRegistry.categoryTM, new AspectList(), col, row, 1, icon);
 		original = ((ResearchCategoryList) ResearchCategories.researchCategories.get(originCategory)).research.get(origin);
 		bindToOriginal();
 		setStub();
@@ -28,9 +29,9 @@ public class ThaumcraftResearchItem extends ResearchItem
 
 	}
 
-	public ThaumcraftResearchItem (String tag, String category, String origin, String originCategory, int col, int row, ItemStack icon)
+	public ThaumcraftResearchItem (String tag, String origin, String originCategory, int col, int row, ItemStack icon)
 	{
-		super(tag, category, new AspectList(), col, row, 1, icon);
+		super(tag, ResearchRegistry.categoryTM, new AspectList(), col, row, 1, icon);
 		original = ((ResearchCategoryList) ResearchCategories.researchCategories.get(originCategory)).research.get(origin);
 		bindToOriginal();
 		setStub();

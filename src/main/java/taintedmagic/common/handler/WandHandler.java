@@ -11,9 +11,7 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class WandHandler implements IWandRodOnUpdate
 {
-	Aspect aspect;
 	Aspect primals[] = Aspect.getPrimalAspects().toArray(new Aspect[0]);
-	private static final String TAG_PERIOD = "period";
 
 	public void onUpdate (ItemStack s, EntityPlayer p)
 	{
@@ -21,29 +19,16 @@ public class WandHandler implements IWandRodOnUpdate
 		{
 			int permwarp = Thaumcraft.proxy.getPlayerKnowledge().getWarpPerm(p.getCommandSenderName());
 
-			if (permwarp == 0)
-			{
-				if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
-				s.getTagCompound().setInteger(TAG_PERIOD, 0);
-				return;
-			}
+			if (permwarp == 0) return;
 
-			// exponential decay at rate of mul / warp (1 / x)
-			float mul = 10000.0F;
-			float T = mul / (float) permwarp;
+			// refresh period of base/warp (1/x type relationship)
+			float base = ConfigHandler.WARP_WAND_REFRESH_BASE;
+			float T = base / (float) permwarp;
 
-			int rT = Math.round(T);
+			int rT = (T < 1.0F) ? 1 : Math.round(T);
 
-			if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
-			s.getTagCompound().setInteger(TAG_PERIOD, rT);
-
-			if (p.ticksExisted % rT == 0)
-			{
-				for (int i = 0; i < primals.length; i++)
-				{
-					((ItemWandCasting) s.getItem()).addVis(s, this.primals[i], 1, true);
-				}
-			}
+			if (p.ticksExisted % rT == 0) for (int i = 0; i < primals.length; i++)
+				((ItemWandCasting) s.getItem()).addVis(s, this.primals[i], 1, true);
 		}
 	}
 }

@@ -65,10 +65,9 @@ public class TaintedMagic
 		BlockRegistry.initTiles();
 		ModEntityRegistry.init();
 		RecipeRegistry.init();
-
 		OreDictionaryRegistry.init();
 
-		if (configHandler.useUpdateHandler) UpdateHandler.init();
+		if (configHandler.UPDATE_HANDLER) UpdateHandler.init();
 	}
 
 	// Init

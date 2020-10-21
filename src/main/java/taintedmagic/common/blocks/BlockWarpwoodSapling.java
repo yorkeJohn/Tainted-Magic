@@ -8,6 +8,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -27,20 +28,17 @@ public class BlockWarpwoodSapling extends BlockSapling
 	}
 
 	@Override
-	public void func_149878_d (World world, int x, int y, int z, Random rand)
+	public void func_149878_d (World w, int x, int y, int z, Random rand)
 	{
-		if (!world.isRemote)
+		if (!w.isRemote)
 		{
-			int meta = world.getBlockMetadata(x, y, z);
+			int meta = w.getBlockMetadata(x, y, z);
 
-			world.setBlockToAir(x, y, z);
+			w.setBlockToAir(x, y, z);
 
-			WorldGenWarpwoodTree tree = new WorldGenWarpwoodTree(true, BlockRegistry.BlockWarpwoodLog, BlockRegistry.BlockWarpwoodLeaves);
+			WorldGenWarpwoodTree tree = new WorldGenWarpwoodTree(true, 7, 5);
 
-			if (!tree.generate(world, rand, x, y, z))
-			{
-				world.setBlock(x, y, z, this, meta, 2);
-			}
+			if (!tree.generate(w, rand, x, y, z)) w.setBlock(x, y, z, this, meta, 2);
 		}
 	}
 

@@ -2,6 +2,7 @@ package taintedmagic.client;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -21,35 +22,36 @@ import thaumcraft.client.renderers.entity.RenderEldritchOrb;
 
 public class ClientProxy extends CommonProxy
 {
+    @Override
+    public void registerClientHandlers ()
+    {
+        MinecraftForge.EVENT_BUS.register(new HUDHandler());
 
-	@Override
-	public void registerClientHandlers ()
-	{
-		MinecraftForge.EVENT_BUS.register(new HUDHandler());
-		MinecraftForge.EVENT_BUS.register(new ClientHandler());
-	}
+        FMLCommonHandler.instance().bus().register(new ClientHandler());
+        MinecraftForge.EVENT_BUS.register(new ClientHandler());
+    }
 
-	@Override
-	public void registerRenderers ()
-	{
-		// Entities
-		RenderingRegistry.registerEntityRenderingHandler(EntityDarkMatter.class, new RenderEldritchOrb());
-		RenderingRegistry.registerEntityRenderingHandler(EntityHomingShard.class, new RenderEntityHomingShard());
-		RenderingRegistry.registerEntityRenderingHandler(EntityDiffusion.class, new RenderEntityDiffusion());
+    @Override
+    public void registerRenderers ()
+    {
+        // Entities
+        RenderingRegistry.registerEntityRenderingHandler(EntityDarkMatter.class, new RenderEldritchOrb());
+        RenderingRegistry.registerEntityRenderingHandler(EntityHomingShard.class, new RenderEntityHomingShard());
+        RenderingRegistry.registerEntityRenderingHandler(EntityDiffusion.class, new RenderEntityDiffusion());
 
-		// Items
-		MinecraftForgeClient.registerItemRenderer(ItemRegistry.ItemKatana, new RenderItemKatana());
-	}
+        // Items
+        MinecraftForgeClient.registerItemRenderer(ItemRegistry.ItemKatana, new RenderItemKatana());
+    }
 
-	@Override
-	public EntityPlayer getClientPlayer ()
-	{
-		return Minecraft.getMinecraft().thePlayer;
-	}
+    @Override
+    public EntityPlayer getClientPlayer ()
+    {
+        return Minecraft.getMinecraft().thePlayer;
+    }
 
-	@Override
-	public World getClientWorld ()
-	{
-		return FMLClientHandler.instance().getClient().theWorld;
-	}
+    @Override
+    public World getClientWorld ()
+    {
+        return FMLClientHandler.instance().getClient().theWorld;
+    }
 }

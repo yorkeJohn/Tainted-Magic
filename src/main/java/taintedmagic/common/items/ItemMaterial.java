@@ -14,6 +14,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import taintedmagic.common.TaintedMagic;
+import thaumcraft.common.config.ConfigItems;
 
 public class ItemMaterial extends Item
 {
@@ -51,13 +52,13 @@ public class ItemMaterial extends Item
 		case 8 :
 			return EnumRarity.uncommon;
 		case 9 :
-			return EnumRarity.uncommon;
+			return EnumRarity.epic;
 		case 10 :
 			return EnumRarity.epic;
 		case 11 :
-			return EnumRarity.epic;
-		case 12 :
 			return TaintedMagic.rarityCreation;
+		case 12:
+			return EnumRarity.uncommon;
 		}
 		return EnumRarity.common;
 	}
@@ -82,8 +83,7 @@ public class ItemMaterial extends Item
 
 		if (s.getItemDamage() == 5)
 		{
-			l.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("text.shard.1"));
-			l.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("text.shard.2"));
+			l.add(EnumChatFormatting.LIGHT_PURPLE + StatCollector.translateToLocal("text.shard.1"));
 		}
 	}
 

@@ -86,7 +86,8 @@ public class ItemFocusShockwave extends ItemFocusBasic
 	{
 		super.addInformation(s, p, l, b);
 		l.add(" ");
-		l.add(EnumChatFormatting.BLUE + "+" + new String(this.isUpgradedWith(s, FocusUpgradeType.enlarge) ? Integer.toString(15 + this.getUpgradeLevel(s, FocusUpgradeType.enlarge)) : "15") + " " + StatCollector.translateToLocal("text.radius"));
+		l.add(EnumChatFormatting.BLUE + "+" + new String(this.isUpgradedWith(s, FocusUpgradeType.enlarge) ? Integer.toString(15 + this.getUpgradeLevel(s, FocusUpgradeType.enlarge)) : "15") + " "
+				+ StatCollector.translateToLocal("text.radius"));
 	}
 
 	public ItemStack onFocusRightClick (ItemStack s, World w, EntityPlayer p, MovingObjectPosition mop)
@@ -96,7 +97,8 @@ public class ItemFocusShockwave extends ItemFocusBasic
 		int pot = wand.getFocusPotency(s);
 		if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
 		{
-			List<EntityLivingBase> ents = w.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(p.posX, p.posY, p.posZ, p.posX + 1, p.posY + 1, p.posZ + 1).expand(15.0D + this.getUpgradeLevel(s, FocusUpgradeType.enlarge), 15.0D + this.getUpgradeLevel(s, FocusUpgradeType.enlarge), 15.0D + this.getUpgradeLevel(s, FocusUpgradeType.enlarge)));
+			List<EntityLivingBase> ents = w.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(p.posX, p.posY, p.posZ, p.posX + 1, p.posY + 1, p.posZ + 1).expand(15.0D
+					+ this.getUpgradeLevel(s, FocusUpgradeType.enlarge), 15.0D + this.getUpgradeLevel(s, FocusUpgradeType.enlarge), 15.0D + this.getUpgradeLevel(s, FocusUpgradeType.enlarge)));
 			if (ents != null && ents.size() > 0)
 			{
 				for (int a = 0; a < ents.size(); a++)
@@ -106,9 +108,10 @@ public class ItemFocusShockwave extends ItemFocusBasic
 					if (e != p && e.isEntityAlive() && !e.isEntityInvulnerable())
 					{
 						double dist = TaintedMagicHelper.getDistanceTo(e.posX, e.posY, e.posZ, p);
-						if (dist < 7.0D) e.attackEntityFrom(DamageSource.magic, 2.0F);
+						if (dist < 7.0D) e.attackEntityFrom(DamageSource.magic, 2.0F + this.getUpgradeLevel(s, FocusUpgradeType.potency));
 						Vector3 movement = TaintedMagicHelper.getVectorBetweenEntities(e, p);
-						e.addVelocity(movement.x * 5.0D, 1.5D, movement.z * 5.0D);
+						e.addVelocity(movement.x * (5.0D + this.getUpgradeLevel(s, FocusUpgradeType.potency)), 1.5D + (this.getUpgradeLevel(s, FocusUpgradeType.potency) * 0.1D), movement.z
+								* (5.0D + this.getUpgradeLevel(s, FocusUpgradeType.potency)));
 						if (w.isRemote) spawnParticles(w, p, e);
 					}
 				}
@@ -120,7 +123,7 @@ public class ItemFocusShockwave extends ItemFocusBasic
 	}
 
 	@SideOnly (Side.CLIENT)
-	public void spawnParticles (World w, EntityPlayer p, Entity e)
+	public static void spawnParticles (World w, EntityPlayer p, Entity e)
 	{
 		FXLightningBolt bolt = new FXLightningBolt(w, p, e, w.rand.nextLong(), 4);
 
@@ -130,7 +133,8 @@ public class ItemFocusShockwave extends ItemFocusBasic
 		bolt.finalizeBolt();
 		for (int a = 0; a < 5; a++)
 		{
-			Thaumcraft.proxy.sparkle((float) e.posX + (p.worldObj.rand.nextFloat() - p.worldObj.rand.nextFloat()) * 0.6F, (float) e.posY + (p.worldObj.rand.nextFloat() - p.worldObj.rand.nextFloat()) * 0.6F, (float) e.posZ + (p.worldObj.rand.nextFloat() - p.worldObj.rand.nextFloat()) * 0.6F, 2.0F + p.worldObj.rand.nextFloat(), 2, 0.05F + p.worldObj.rand.nextFloat() * 0.05F);
+			Thaumcraft.proxy.sparkle((float) e.posX + (p.worldObj.rand.nextFloat() - p.worldObj.rand.nextFloat()) * 0.6F, (float) e.posY + (p.worldObj.rand.nextFloat() - p.worldObj.rand.nextFloat())
+					* 0.6F, (float) e.posZ + (p.worldObj.rand.nextFloat() - p.worldObj.rand.nextFloat()) * 0.6F, 2.0F + p.worldObj.rand.nextFloat(), 2, 0.05F + p.worldObj.rand.nextFloat() * 0.05F);
 		}
 	}
 
@@ -139,15 +143,15 @@ public class ItemFocusShockwave extends ItemFocusBasic
 		switch (rank)
 		{
 		case 1 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge, FocusUpgradeType.potency };
 		case 2 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge, FocusUpgradeType.potency };
 		case 3 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge, FocusUpgradeType.potency };
 		case 4 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge, FocusUpgradeType.potency };
 		case 5 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge };
+			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.enlarge, FocusUpgradeType.potency };
 		}
 		return null;
 	}

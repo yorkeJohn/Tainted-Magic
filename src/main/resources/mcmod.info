@@ -2,13 +2,13 @@
 {
   "modid": "TaintedMagic",
   "name": "Tainted Magic",
-  "description": "An intercrete addon to Thaumcraft 4 that elaborates the darker nuances of Thaumaturgy.",
+  "description": "Tainted Magic is an addon to Thaumcraft 4 which focuses on the dark side of Thaumaturgy.",
   "version": "r7.82",
   "mcversion": "1.7.10",
   "url": "http://bitly.com/1HV2VSK",
   "updateUrl": "",
   "authorList": ["John Yorke (yorkemc)"],
-  "credits": "John Yorke (yorkemc), and special thanks to FastieTheWolf and RapidMelons",
+  "credits": "Special thanks to FastieTheWolf, RapidMelons and wiiv.",
   "logoFile": "TaintedMagic.png",
   "screenshots": [],
   "dependencies": []

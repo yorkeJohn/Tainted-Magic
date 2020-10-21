@@ -1,0 +1,159 @@
+
+#Tainted Magic Changelog
+
+------------------------------------------------------------ r7.0 --------------------------------------------------------------
+
+Initial release of Release 7. Significant changes from Release 6. Release 6 worlds are not compatible with this update.
+
+------------------------------------------------------------ r7.1 --------------------------------------------------------------
+
+- Bug fixes, fixed crashes.
+
+------------------------------------------------------------ r7.2 --------------------------------------------------------------
+
+Fixes:
+- Various bug fixes and texture improvements.
+- Fixed the Thaumic Disassembler text.
+- Fixed the Thaumonomicon entry for Shadowmetal Fortress armor, and Thaumium Fortress Blades.
+- Fixed a few recipes.
+
+Changes:
+- Tweaked the rendering, animation, and sfx for the Tainted Storm wand focus.
+- Tweaked some rendering for the Fortress Blades.
+
+Additions:
+- Upgrades to the Fortress Blades as inscriptions.
+- Hold down right click to charge a fortress blade, releasing a powered strike.
+
+------------------------------------------------------------ r7.3 --------------------------------------------------------------
+
+Fixes:
+- Fixed some Thaumonomicon entries.
+- Fixed some values.
+
+Additions:
+- Voidmetal Goggles of Revealing.
+
+------------------------------------------------------------ r7.4 --------------------------------------------------------------
+
+Fixes:
+- Fixed some Thaumonomicon entries.
+- Bug fixes.
+
+Changes:
+- HUD changes.
+- Changes to the Stormbound Inscription
+
+------------------------------------------------------------ r7.5 --------------------------------------------------------------
+
+- Bug fixes.
+
+------------------------------------------------------------ r7.6 --------------------------------------------------------------
+
+Fixes:
+- Fixed some oredict stuff.
+- Code cleanup.
+
+Changes:
+- Removed the stormbound inscription and replaced it with the undead inscription.
+- Changed the volcanic inscription to emit a single explosive fireball.
+- Balanced katana projectile damage.
+- Retextured some stuff
+- Made the Shard of Creation research secondary.
+
+Additions:
+- Added the Undead Inscription.
+- Added the Vis Shard focus from TC5.
+
+------------------------------------------------------------ r7.7 --------------------------------------------------------------
+
+Fixes:
+- Bug fixes and code cleanup.
+- Fixed various rendering problems... finally.
+
+Changes:
+- Adjusted damage values for the Fortress Blades and certain foci.
+- New thaumonomicon layout.
+- Reworked thaumonomicon prerequisites.
+- Texture changes.
+- New formula to calculate the recharge rate of the Warpwood Wand Rod / Staff Core
+- Some thaumonomicon entries were rewritten.
+- Recipe adjustments.
+- Reworked focus upgrades.
+- Reworked the Tainted Storm focus with a new renderer and movement physics.
+
+Additions:
+- Lumos focus.
+- Diffusion upgrade for the Dark Matter focus.
+- Shadowmetal nuggets.
+- Particles when using the Time and Meteorology foci.
+
+------------------------------------------------------------ r7.8 --------------------------------------------------------------
+
+Fixes:
+- Fixed bugs where servers would crash under certain conditions.
+- Other bug fixes.
+
+Changes:
+- Improved some particle effects.
+- Texture improvements.
+- Made adjustments to recipes.
+- Made adjustments to research and prerequisites.
+
+Additions:
+- Flyte Charm.
+- New materials (stolen from Thaumcraft 6)
+
+----------------------------------------------------------- r7.81 --------------------------------------------------------------
+
+- Bug fixes.
+
+----------------------------------------------------------- r7.82 --------------------------------------------------------------
+
+- Bug fixes.
+- Thaumonomicon layout improvements.
+
+----------------------------------------------------------- r8.0 ---------------------------------------------------------------
+
+Fixes:
+- Fixed a bug in which foci could not be upgraded when playing on a server.
+- Fixed a bug where a Kanata with the Volcanic Inscription would deal damage within an ungodly radius.
+- Fixed a bug where the Lumos focus would replace nodes.
+
+Changes:
+- Shadowmetal -> Shadow Metal.
+- Changed the system for obtaining materials to make Crimson Cult equipment.
+- Replaced the Crystal Dagger with the Hollow Dagger.
+- Replaced Phial of Crystal Blood with Phial of Crimson Blood.
+- To obtain Phials of Crimson Blood the player must kill entities with a Hollow Dagger and must have empty Glass Phials in their inventory.
+- Removed the "Bloodlust" attribute from weapons with which Crystal Blood was previously obtainable. Phials of Crimson Blood now may only be obtained with a Hollow Dagger.
+- Replaced the Tainted Shockwave focus with the Shockwave Focus, see additions for details. The crafting recipe for this item was changed significantly as well.
+- Replaced the Tainted Storm focus with the Taint Swarm focus. Complete overhaul, see additions.
+- Removed the Glowpet and Lumos Maxima upgrades to the Lumos focus. To replace the functionality of the Glowpet upgrade, the Ring of Lumos has been added. See additions for details.
+- Lumos light sources now have a hitbox.
+- Removed the Meteorology and Time foci, replaced with Salis Tempestas and Salis Aevus respectively. See additions for details.
+- Warpwood Saplings can no longer be crafted via infusion. Warping Fertilizer must be used on a Silverwood Sapling to create a Warpwood Sapling.
+- Changed how Warpwood trees grow, as well as the leaf and log textures. They now are shaped like Silverwood trees.
+- Changed the formula with which the Warpwood Wand/Staff's vis replenishment rate is calculated.
+- Slightly changed the visual effects for Lumos light sources.
+- Voidsent Blood can now be applied to any armour.
+- The player now must first research the diffusion upgrade before they can apply it to the Dark Matter Focus.
+- Replaced the Tainted Kanata Inscription with the Shockwave inscription. Works like a mini Shockwave focus.
+- Significantly changed recipes for Crimson Cult Equipment.
+- Changed many recipes to make them more balanced. Some recipes were weirdly difficult.
+- Changed textures.
+- Significantly changed Thaumonomicon entries and research.
+
+Additions:
+- Re-added the old particles when walking with the Boots of the Voidwalker. Not as invasive as the original.
+- Added Atropa Belladona plants which grow at the base of Warpwood Trees, dropping Nightshade Berries when broken.
+- Added Nightshade Berries. Instant kill if eaten. Used in crafting. More uses to be added in the future.
+- Added Warping Fertilizer.
+- Added the Fragment of Creation. Sub unit of the Shard of Creation. 1 shard can be broken down into 9 fragments. Used for crafting recipes that require some creation-y goodness but where an entire shard would be too expensive.
+- Added Salis Tempestas and Salis Aevus. Salis Mundus-style powders. When thrown they change the weather or time respectively, the same way that the Meterology and Time foci did in previous versions. Single use but not overly difficult to craft.
+- Added the Shockwave Focus. Works the same as the Tainted Shockwave used to, but attacks them with lightning instead.
+- Added the Taint Swarm focus. The focus summons a tamed Taint Swarm to fight for the player. The player must be looking at a valid target to summon a swarm. The swarm will path find to this target and will only attack this target. The swarm dies when the target dies. The focus can be used on cooldown to summon multiple swarms.
+- Added a way to synthetically product Vishrooms. Why? No idea. Probably the warp made me add it.
+- Added a config option to define how powerful the Mage's Mace focus is.
+- Added a way to display info to the player temporarily on the hud instead of via chat messages. Used in various places.
+- Added the Celestial Gatekey. Bind it to a location to return to that location from anywhere within the same dimension. One location per key, bound location is permanent.

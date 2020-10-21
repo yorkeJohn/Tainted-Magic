@@ -13,6 +13,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import taintedmagic.common.TaintedMagic;
+import taintedmagic.common.handler.ConfigHandler;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.FocusUpgradeType;
@@ -68,7 +69,7 @@ public class ItemFocusMageMace extends ItemFocusBasic
 
 	public int getFocusColor (ItemStack s)
 	{
-		return 0x5F6166;
+		return 0xACA9B5;
 	}
 
 	public AspectList getVisCost (ItemStack s)
@@ -101,7 +102,7 @@ public class ItemFocusMageMace extends ItemFocusBasic
 	{
 		super.addInformation(s, p, l, b);
 		l.add(" ");
-		l.add(EnumChatFormatting.BLUE + "+" + new String(this.isUpgradedWith(s, FocusUpgradeType.potency) ? Integer.toString(15 + this.getUpgradeLevel(s, FocusUpgradeType.potency)) : "15") + " "
+		l.add(EnumChatFormatting.BLUE + "+" + String.valueOf(ConfigHandler.MAGE_MACE_DMG_INC_BASE + (double) this.getUpgradeLevel(s, FocusUpgradeType.potency)) + " "
 				+ StatCollector.translateToLocal("text.attackdamageequipped"));
 	}
 

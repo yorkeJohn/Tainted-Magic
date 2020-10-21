@@ -14,39 +14,39 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import taintedmagic.api.IHeldItemHUD;
 import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.client.model.ModelKatana;
 import taintedmagic.client.model.ModelSaya;
 import taintedmagic.common.TaintedMagic;
+import taintedmagic.common.helper.TaintedMagicHelper;
+import taintedmagic.common.items.wand.foci.ItemFocusShockwave;
 import taintedmagic.common.network.PacketHandler;
 import taintedmagic.common.network.PacketKatanaAttack;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.lib.UtilsFX;
+import thaumcraft.codechicken.lib.vec.Vector3;
 import thaumcraft.common.config.Config;
-import thaumcraft.common.entities.monster.EntityTaintSwarm;
 import thaumcraft.common.entities.projectile.EntityExplosiveOrb;
-import thaumcraft.common.lib.utils.EntityUtils;
 
 public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRenderInventoryItem, IHeldItemHUD
 {
@@ -106,7 +106,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
 					try
 					{
-						e.addPotionEffect(new PotionEffect(Config.potionTaintPoisonID, 100));
+						e.addPotionEffect(new PotionEffect(Potion.weakness.id, 160));
 					}
 					catch (Exception ex)
 					{
@@ -190,7 +190,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 		case 0 :
 			return 14.25F;
 		case 1 :
-			return 17.55F;
+			return 17.5F;
 		case 2 :
 			return 20.75F;
 		}
@@ -259,19 +259,25 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 			}
 			case 1 :
 			{
-				Entity look = EntityUtils.getPointedEntity(w, p, 0.0D, 32.0D, 1.1F);
-				if (look != null && look instanceof EntityLivingBase)
+				List<EntityLivingBase> ents = w
+						.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(p.posX, p.posY, p.posZ, p.posX + 1, p.posY + 1, p.posZ + 1).expand(10.0D, 10.0D, 10.0D));
+				if (ents != null && ents.size() > 0)
 				{
-					EntityTaintSwarm e = new EntityTaintSwarm(w);
-					Vec3 v = p.getLookVec();
-					e.setLocationAndAngles(p.posX + v.xCoord / 2.0D, p.posY + p.getEyeHeight() + v.yCoord / 2.0D, p.posZ + v.zCoord / 2.0D, p.rotationYaw, p.rotationPitch);
-					e.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.getAttackDamage(s) * 2);
-					e.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(this.getAttackDamage(s));
-					e.setTarget(look);
-					e.setIsSummoned(true);
-					if (!w.isRemote) w.spawnEntityInWorld(e);
+					for (int a = 0; a < ents.size(); a++)
+					{
+						EntityLivingBase e = ents.get(a);
 
+						if (e != p && e.isEntityAlive() && !e.isEntityInvulnerable())
+						{
+							double dist = TaintedMagicHelper.getDistanceTo(e.posX, e.posY, e.posZ, p);
+							e.attackEntityFrom(DamageSource.magic, getAttackDamage(s) * 0.25F);
+							Vector3 movement = TaintedMagicHelper.getVectorBetweenEntities(e, p);
+							e.addVelocity(movement.x * 5.0D, 1.5D, movement.z * 5.0D);
+							if (w.isRemote) ItemFocusShockwave.spawnParticles(w, p, e);
+						}
+					}
 				}
+				w.playSoundAtEntity(p, "taintedmagic:shockwave", 5.0F, 1.5F * (float) Math.random());
 				p.swingItem();
 				break;
 			}

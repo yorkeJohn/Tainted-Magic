@@ -6,25 +6,32 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import taintedmagic.common.TaintedMagic;
+import taintedmagic.common.registry.ResearchRegistry;
+import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
 
-public class TaintedMagicResearchItem extends ResearchItem
+public class TMResearchItem extends ResearchItem
 {
-	public TaintedMagicResearchItem (String key, String category)
+	int warp = 0;
+
+	public TMResearchItem (String key, String category)
 	{
 		super(key, category);
 	}
 
-	public TaintedMagicResearchItem (String key, String category, AspectList tags, int col, int row, int complex, ItemStack icon)
+	public TMResearchItem (String key, AspectList tags, int col, int row, ItemStack icon, int complex, int warp)
 	{
-		super(key, category, tags, col, row, complex, icon);
+		super(key, ResearchRegistry.categoryTM, tags, col, row, complex, icon);
+		this.warp = warp;
 	}
 
-	public TaintedMagicResearchItem (String key, String category, AspectList tags, int col, int row, int complex, ResourceLocation icon)
+	public TMResearchItem (String key, AspectList tags, int col, int row, ResourceLocation icon, int complex, int warp)
 	{
-		super(key, category, tags, col, row, complex, icon);
+		super(key, ResearchRegistry.categoryTM, tags, col, row, complex, icon);
+		this.warp = warp;
 	}
 
 	@SideOnly (Side.CLIENT)
@@ -36,7 +43,7 @@ public class TaintedMagicResearchItem extends ResearchItem
 	@SideOnly (Side.CLIENT)
 	public String getText ()
 	{
-		return (TaintedMagic.configHandler.researchTags ? "[TM] " : "") + StatCollector.translateToLocal(new StringBuilder("tm.tag.").append(this.key).toString());
+		return (TaintedMagic.configHandler.RESEARCH_TAGS ? "[TM] " : "") + StatCollector.translateToLocal(new StringBuilder("tm.tag.").append(this.key).toString());
 	}
 
 	@Override
@@ -63,5 +70,13 @@ public class TaintedMagicResearchItem extends ResearchItem
 			}
 		}
 		return super.setPages(par);
+	}
+
+	@Override
+	public ResearchItem registerResearchItem ()
+	{
+		super.registerResearchItem();
+		if (warp > 0) ThaumcraftApi.addWarpToResearch(key, warp);
+		return this;
 	}
 }
