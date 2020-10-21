@@ -3,7 +3,7 @@ package taintedmagic.common.registry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class OreDictionaryRegistry
+public class OreDictRegistry
 {
 	public static void init ()
 	{

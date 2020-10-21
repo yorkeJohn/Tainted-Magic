@@ -24,8 +24,8 @@ import taintedmagic.common.lib.LibInfo;
 import taintedmagic.common.network.PacketHandler;
 import taintedmagic.common.registry.BlockRegistry;
 import taintedmagic.common.registry.ItemRegistry;
-import taintedmagic.common.registry.ModEntityRegistry;
-import taintedmagic.common.registry.OreDictionaryRegistry;
+import taintedmagic.common.registry.TMEntityRegistry;
+import taintedmagic.common.registry.OreDictRegistry;
 import taintedmagic.common.registry.RecipeRegistry;
 import taintedmagic.common.registry.ResearchRegistry;
 
@@ -63,9 +63,9 @@ public class TaintedMagic
 		ItemRegistry.init();
 		BlockRegistry.init();
 		BlockRegistry.initTiles();
-		ModEntityRegistry.init();
+		TMEntityRegistry.init();
 		RecipeRegistry.init();
-		OreDictionaryRegistry.init();
+		OreDictRegistry.init();
 
 		if (configHandler.UPDATE_HANDLER) UpdateHandler.init();
 	}

@@ -43,14 +43,6 @@ public class ResearchRegistry
                 new ResourceLocation("thaumcraft:textures/misc/r_eldritchmajor.png"));
         r.setSpecial().setConcealed().setRound().registerResearchItem();
 
-        r = new ThaumcraftResearchItem("TMFOCUSFIRE", "FOCUSFIRE", "THAUMATURGY", 7, 3,
-                new ItemStack(ConfigItems.itemFocusFire));
-        r.setConcealed().registerResearchItem();
-
-        r = new ThaumcraftResearchItem("TMARMORFORTRESS", "ARMORFORTRESS", "ARTIFICE", 11, 2,
-                new ItemStack(ConfigItems.itemHelmetFortress));
-        r.setConcealed().registerResearchItem();
-
         /**
          * Tainted Magic research
          */
@@ -147,8 +139,8 @@ public class ResearchRegistry
                 .registerResearchItem();
 
         r = new TMResearchItem("VOIDWALKERBOOTS",
-                new AspectList().add(Aspect.MAGIC, 4).add(Aspect.DARKNESS, 8).add(Aspect.ARMOR, 8).add(Aspect.ELDRITCH, 8), 5,
-                -5, new ItemStack(ItemRegistry.ItemVoidwalkerBoots), 3, 4);
+                new AspectList().add(Aspect.MAGIC, 4).add(Aspect.DARKNESS, 8).add(Aspect.ARMOR, 8).add(Aspect.ELDRITCH, 8), 4,
+                -8, new ItemStack(ItemRegistry.ItemVoidwalkerBoots), 3, 4);
         r.setPages(new ResearchPage("1"), infusionPage("ItemVoidwalkerBoots"));
         r.setParentsHidden("PRIMPEARL", "BOOTSTRAVELLER", "SHADOWCLOTH", "ARMORVOIDFORTRESS").setConcealed()
                 .setParents("TMELDRITCHMAJOR").registerResearchItem();
@@ -188,7 +180,7 @@ public class ResearchRegistry
                 .registerResearchItem();
 
         r = new TMResearchItem("VOIDSASH", new AspectList().add(Aspect.VOID, 4).add(Aspect.METAL, 8).add(Aspect.ARMOR, 4), 3,
-                -6, new ItemStack(ItemRegistry.ItemVoidwalkerSash), 0, 3);
+                -9, new ItemStack(ItemRegistry.ItemVoidwalkerSash), 0, 3);
         r.setPages(new ResearchPage("1"), infusionPage("ItemVoidwalkerSash"));
         r.setParentsHidden("PRIMPEARL").setParents("VOIDWALKERBOOTS").setConcealed().setSecondary().registerResearchItem();
 
@@ -248,10 +240,10 @@ public class ResearchRegistry
                 .setParents("CREATION").registerResearchItem();
 
         r = new TMResearchItem("THAUMIUMKATANA",
-                new AspectList().add(Aspect.METAL, 8).add(Aspect.MAGIC, 4).add(Aspect.WEAPON, 6), 13, 2,
+                new AspectList().add(Aspect.METAL, 8).add(Aspect.MAGIC, 4).add(Aspect.WEAPON, 6), 12, -1,
                 new ItemStack(ItemRegistry.ItemKatana, 1, 0), 3, 0);
         r.setPages(new ResearchPage("1"), infusionPage("ItemKatana:0"));
-        r.setParents("TMARMORFORTRESS").setParentsHidden("ARMORFORTRESS").setConcealed().registerResearchItem();
+        r.setParentsHidden("ARMORFORTRESS").setConcealed().registerResearchItem();
 
         r = new TMResearchItem("VOIDMETALKATANA",
                 new AspectList().add(Aspect.METAL, 16).add(Aspect.MAGIC, 8).add(Aspect.WEAPON, 12).add(Aspect.VOID, 12), 7, -10,
@@ -267,19 +259,19 @@ public class ResearchRegistry
         r.setParentsHidden("VOIDMETALKATANA").setParents("SHADOWFORTRESS").setConcealed().setSecondary().registerResearchItem();
 
         r = new TMResearchItem("INSCRIPTIONFIRE",
-                new AspectList().add(Aspect.FIRE, 8).add(Aspect.ENTROPY, 4).add(Aspect.METAL, 6), 14, 0,
+                new AspectList().add(Aspect.FIRE, 8).add(Aspect.ENTROPY, 4).add(Aspect.METAL, 6), 14, 2,
                 new ResourceLocation("taintedmagic:textures/misc/r_fire.png"), 0, 0);
         r.setPages(new ResearchPage("1"), infusionPage("ItemKatanaThaumium:inscription0"));
         r.setParents("THAUMIUMKATANA").setParentsHidden("FOCUSFIRE").setConcealed().setSecondary().registerResearchItem();
 
         r = new TMResearchItem("INSCRIPTIONTHUNDER",
-                new AspectList().add(Aspect.ENTROPY, 8).add(Aspect.MOTION, 4).add(Aspect.METAL, 6), 15, 2,
+                new AspectList().add(Aspect.ENTROPY, 8).add(Aspect.MOTION, 4).add(Aspect.METAL, 6), 14, 1,
                 new ResourceLocation("taintedmagic:textures/misc/r_thunder.png"), 0, 0);
         r.setPages(new ResearchPage("1"), infusionPage("ItemKatanaThaumium:inscription1"));
         r.setParents("THAUMIUMKATANA").setParentsHidden("FOCUSSHOCKWAVE").setConcealed().setSecondary().registerResearchItem();
 
         r = new TMResearchItem("INSCRIPTIONUNDEAD",
-                new AspectList().add(Aspect.HEAL, 8).add(Aspect.UNDEAD, 4).add(Aspect.METAL, 6), 14, 4,
+                new AspectList().add(Aspect.HEAL, 8).add(Aspect.UNDEAD, 4).add(Aspect.METAL, 6), 14, 0,
                 new ResourceLocation("taintedmagic:textures/misc/r_undead.png"), 0, 2);
         r.setPages(new ResearchPage("1"), infusionPage("ItemKatanaThaumium:inscription2"));
         r.setParents("THAUMIUMKATANA").setParentsHidden("BATHSALTS").setConcealed().setSecondary().registerResearchItem();
@@ -291,49 +283,48 @@ public class ResearchRegistry
         r.setParents("WARPEDGOGGLES").setParentsHidden("VOIDMETAL").setConcealed().setSecondary().registerResearchItem();
 
         r = new TMResearchItem("ELDRITCHFOCUS",
-                new AspectList().add(Aspect.ELDRITCH, 22).add(Aspect.ENTROPY, 14).add(Aspect.AIR, 4).add(Aspect.DARKNESS, 6), 7,
-                7, new ItemStack(ItemRegistry.ItemFocusDarkMatter), 3, 7);
+                new AspectList().add(Aspect.ELDRITCH, 22).add(Aspect.ENTROPY, 14).add(Aspect.AIR, 4).add(Aspect.DARKNESS, 6), 5,
+                -5, new ItemStack(ItemRegistry.ItemFocusDarkMatter), 3, 7);
         r.setPages(new ResearchPage("1"), infusionPage("ItemFocusDarkMatter"));
-        r.setParentsHidden("OUTERREV").setParents("TAINTFOCUS", "FOCUSSHARD", "FOCUSLUMOS", "MACEFOCUS", "FOCUSSHOCKWAVE")
-                .setConcealed().setSpecial().registerResearchItem();
+        r.setParentsHidden("OUTERREV").setParents("TMELDRITCHMAJOR").setConcealed().setSpecial().registerResearchItem();
 
         r = new TMResearchItem("DIFFUSIONUPGRADE",
-                new AspectList().add(Aspect.MAGIC, 4).add(Aspect.DARKNESS, 8).add(Aspect.WEAPON, 8).add(Aspect.ELDRITCH, 10), 8,
-                8, new ResourceLocation("taintedmagic:textures/foci/IconDiffusion.png"), 0, 2);
+                new AspectList().add(Aspect.MAGIC, 4).add(Aspect.DARKNESS, 8).add(Aspect.WEAPON, 8).add(Aspect.ELDRITCH, 10), 6,
+                -4, new ResourceLocation("taintedmagic:textures/foci/IconDiffusion.png"), 0, 2);
         r.setPages(new ResearchPage("1"));
         r.setParentsHidden("FOCALMANIPULATION").setConcealed().setParents("ELDRITCHFOCUS").setSecondary()
                 .registerResearchItem();
 
         r = new TMResearchItem("MACEFOCUS",
-                new AspectList().add(Aspect.ENTROPY, 10).add(Aspect.EARTH, 4).add(Aspect.WEAPON, 6).add(Aspect.MAGIC, 8), 6, 5,
+                new AspectList().add(Aspect.ENTROPY, 10).add(Aspect.EARTH, 4).add(Aspect.WEAPON, 6).add(Aspect.MAGIC, 8), 7, 3,
                 new ItemStack(ItemRegistry.ItemFocusMageMace), 2, 0);
         r.setPages(new ResearchPage("1"), infusionPage("ItemFocusMageMace"));
-        r.setParents("TMFOCUSFIRE").setConcealed().setParentsHidden("THAUMIUM").registerResearchItem();
+        r.setConcealed().setParentsHidden("THAUMIUM", "FOCUSFIRE").registerResearchItem();
 
         r = new TMResearchItem("FOCUSSHOCKWAVE",
-                new AspectList().add(Aspect.MAGIC, 20).add(Aspect.ENTROPY, 12).add(Aspect.AIR, 6).add(Aspect.MOTION, 12), 8, 5,
+                new AspectList().add(Aspect.MAGIC, 20).add(Aspect.ENTROPY, 12).add(Aspect.AIR, 6).add(Aspect.MOTION, 12), 7, 2,
                 new ItemStack(ItemRegistry.ItemFocusShockwave), 0, 0);
         r.setPages(new ResearchPage("1"), infusionPage("ItemFocusShockwave"));
-        r.setParentsHidden("FOCUSSHOCK").setConcealed().setParents("TMFOCUSFIRE").setSecondary().registerResearchItem();
+        r.setParentsHidden("FOCUSSHOCK").setConcealed().setSecondary().registerResearchItem();
 
         r = new TMResearchItem("FOCUSSHARD", new AspectList().add(Aspect.CRYSTAL, 2).add(Aspect.MAGIC, 4).add(Aspect.MOTION, 6),
-                9, 6, new ItemStack(ItemRegistry.ItemFocusVisShard), 0, 0);
+                6, 1, new ItemStack(ItemRegistry.ItemFocusVisShard), 0, 0);
         r.setPages(new ResearchPage("1"), arcanePage("ItemFocusVisShard"));
-        r.setParents("TMFOCUSFIRE").setParentsHidden("FOCUSFIRE", "UNBALANCEDSHARDS").setConcealed().setSecondary()
+        r.setParents("UNBALANCEDSHARDS").setParentsHidden("FOCUSFIRE").setConcealed().setSecondary()
                 .registerResearchItem();
 
         r = new TMResearchItem("TAINTFOCUS", new AspectList().add(Aspect.TAINT, 4).add(Aspect.LIFE, 4).add(Aspect.MOTION, 4),
-                10, 6, new ItemStack(ItemRegistry.ItemFocusTaintSwarm), 3, 3);
+                5, 2, new ItemStack(ItemRegistry.ItemFocusTaintSwarm), 3, 3);
         r.setPages(new ResearchPage("1"), infusionPage("ItemFocusTaintSwarm"));
         r.setParentsHidden("INFUSION", "BOTTLETAINT").setParents("FOCUSSHARD").setConcealed().registerResearchItem();
 
         r = new TMResearchItem("FOCUSLUMOS", new AspectList().add(Aspect.FIRE, 16).add(Aspect.LIGHT, 24).add(Aspect.ENERGY, 8),
-                5, 6, new ItemStack(ItemRegistry.ItemFocusLumos), 0, 0);
+                5, 3, new ItemStack(ItemRegistry.ItemFocusLumos), 0, 0);
         r.setPages(new ResearchPage("1"), arcanePage("ItemFocusLumos"));
-        r.setParents("TMFOCUSFIRE").setParentsHidden("FOCUSFIRE").setConcealed().setSecondary().registerResearchItem();
+        r.setParentsHidden("FOCUSFIRE").setConcealed().setSecondary().registerResearchItem();
 
         r = new TMResearchItem("LUMOSRING",
-                new AspectList().add(Aspect.ARMOR, 16).add(Aspect.AURA, 12).add(Aspect.LIGHT, 24).add(Aspect.ENERGY, 8), 4, 7,
+                new AspectList().add(Aspect.ARMOR, 16).add(Aspect.AURA, 12).add(Aspect.LIGHT, 24).add(Aspect.ENERGY, 8), 6, 4,
                 new ItemStack(ItemRegistry.ItemLumosRing), 2, 0);
         r.setPages(new ResearchPage("1"), infusionPage("ItemLumosRing"));
         r.setParents("FOCUSLUMOS").setParentsHidden("RUNICARMOR").setConcealed().registerResearchItem();

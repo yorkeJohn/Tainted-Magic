@@ -6,7 +6,7 @@ import taintedmagic.common.entities.EntityDarkMatter;
 import taintedmagic.common.entities.EntityDiffusion;
 import taintedmagic.common.entities.EntityHomingShard;
 
-public class ModEntityRegistry
+public class TMEntityRegistry
 {
 	public static void init ()
 	{
