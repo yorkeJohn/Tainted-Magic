@@ -25,7 +25,7 @@ import thaumcraft.common.config.ConfigItems;
 public class ResearchRegistry
 {
     public static final String categoryTM = "TAINTEDMAGIC";
-    public static HashMap recipes = new HashMap();
+    public static HashMap<String, Object> recipes = new HashMap<String, Object>();
 
     public static void initResearch ()
     {
