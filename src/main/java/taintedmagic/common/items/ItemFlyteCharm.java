@@ -1,206 +1,163 @@
 package taintedmagic.common.items;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import thaumcraft.codechicken.lib.vec.Vector3;
+import thaumcraft.client.lib.UtilsFX;
 
-public class ItemFlyteCharm extends Item implements IWarpingGear
+public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInventoryItem
 {
-	boolean isFlying = false;
+    // Vis used per tick while flying
+    static final AspectList COST = new AspectList().add(Aspect.AIR, 15);
+    // Magic circle
+    private static final ResourceLocation circle = new ResourceLocation("taintedmagic:textures/misc/circle.png");
 
-	static final int maxBurstCooldown = 80;
-	static final AspectList cost = new AspectList().add(Aspect.AIR, 15);
+    public ItemFlyteCharm ()
+    {
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setUnlocalizedName("ItemFlyteCharm");
+        this.setMaxStackSize(1);
+        this.setTextureName("taintedmagic:ItemFlyteCharm");
 
-	static final String TAG_SPRINTING = "isSprinting";
-	static final String TAG_COOLDOWN = "cooldown";
+        MinecraftForge.EVENT_BUS.register(this);
+        FMLCommonHandler.instance().bus().register(this);
+    }
 
-	// Flight manager
-	static List<String> playersWithFlight = new ArrayList();
+    @SideOnly (Side.CLIENT)
+    public EnumRarity getRarity (ItemStack stack)
+    {
+        return TaintedMagic.rarityCreation;
+    }
 
-	private static final ResourceLocation circle = new ResourceLocation("taintedmagic:textures/misc/circle.png");
+    @SubscribeEvent
+    public void updateFlight (LivingEvent.LivingUpdateEvent event)
+    {
+        if (event.entityLiving instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) event.entityLiving;
+            boolean isFlying = player.capabilities.isFlying;
 
-	public ItemFlyteCharm ()
-	{
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setUnlocalizedName("ItemFlyteCharm");
-		this.setMaxStackSize(1);
-		this.setTextureName("taintedmagic:ItemFlyteCharm");
+            if (shouldPlayerHaveFlight(player))
+            {
+                player.capabilities.allowFlying = true;
 
-		MinecraftForge.EVENT_BUS.register(this);
-		FMLCommonHandler.instance().bus().register(this);
-	}
+                if (isFlying && !player.capabilities.isCreativeMode)
+                    TaintedMagicHelper.consumeVisFromInventory(player, COST, true);
 
-	@SideOnly (Side.CLIENT)
-	public EnumRarity getRarity (ItemStack s)
-	{
-		return TaintedMagic.rarityCreation;
-	}
+                // Speed boost
+                if (player.moveForward > 0.0F)
+                {
+                    float mul = 0.05F;
+                    player.moveFlying(0.0F, 1.0F, mul);
+                    player.jumpMovementFactor = 0.00002F;
+                }
 
-	/**
-	 * Flight manager
-	 */
-	@SubscribeEvent
-	public void updateFlight (LivingEvent.LivingUpdateEvent event)
-	{
-		if (event.entityLiving instanceof EntityPlayer)
-		{
-			EntityPlayer p = (EntityPlayer) event.entityLiving;
-			isFlying = p.capabilities.isFlying;
+                if (!isFlying)
+                {
+                    // Glide
+                    if (player.isSneaking() && !player.onGround && player.fallDistance > 0.5F)
+                    {
+                        player.motionY = -0.1D;
+                        double speed = 0.1D;
+                        double x = Math.cos(Math.toRadians(player.rotationYawHead + 90)) * speed;
+                        double z = Math.sin(Math.toRadians(player.rotationYawHead + 90)) * speed;
+                        player.motionX += x;
+                        player.motionZ += z;
+                    }
+                }
+            }
+            else
+            {
+                if (!player.capabilities.isCreativeMode)
+                {
+                    player.capabilities.allowFlying = false;
+                    player.capabilities.isFlying = false;
+                }
+            }
+        }
+    }
 
-			if (playersWithFlight.contains(playerStr(p)))
-			{
-				if (shouldPlayerHaveFlight(p))
-				{
-					p.capabilities.allowFlying = true;
-				}
-				else
-				{
-					if (!p.capabilities.isCreativeMode)
-					{
-						p.capabilities.allowFlying = false;
-						p.capabilities.isFlying = false;
-						p.capabilities.disableDamage = false;
-					}
-					playersWithFlight.remove(playerStr(p));
-				}
-			}
-			else if (shouldPlayerHaveFlight(p))
-			{
-				playersWithFlight.add(playerStr(p));
-				p.capabilities.allowFlying = true;
-			}
+    /**
+     * Determines if the player should be able to fly.
+     */
+    private boolean shouldPlayerHaveFlight (EntityPlayer player)
+    {
+        for (int i = 0; i < player.inventory.getSizeInventory(); i++)
+            if (player.inventory.getStackInSlot(i) != null
+                    && player.inventory.getStackInSlot(i).getItem() instanceof ItemFlyteCharm
+                    && TaintedMagicHelper.consumeVisFromInventory(player, COST, false))
+                return true;
+        return false;
+    }
 
-			ItemStack s = null;
+    @Override
+    public int getWarp (ItemStack stack, EntityPlayer player)
+    {
+        return 5;
+    }
 
-			InventoryPlayer inv = p.inventory;
-			for (int i = 0; i < inv.getSizeInventory(); i++)
-			{
-				ItemStack stackInSlot = inv.getStackInSlot(i);
-				if (stackInSlot != null && stackInSlot.getItem() instanceof ItemFlyteCharm)
-				{
-					s = stackInSlot;
-					break;
-				}
-				else
-				{
-					s = null;
-				}
-			}
+    // Render magic circle
+    @Override
+    public void render (EntityPlayer player, ItemStack stack, float partialTicks)
+    {
+        Tessellator t = Tessellator.instance;
 
-			if (s != null)
-			{
-				if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
+        GL11.glPushMatrix();
 
-				// Sprint stuff
-				boolean wasSprinting = s.stackTagCompound.getBoolean(TAG_SPRINTING);
-				boolean isSprinting = p.isSprinting();
-				if (isSprinting != wasSprinting) s.stackTagCompound.setBoolean(TAG_SPRINTING, isSprinting);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-				// Burst CD
-				if (getBurstCooldown(s) > 0) setBurstCooldown(s, (int) Math.max(getBurstCooldown(s) - 1, 0));
+        GL11.glTranslated(0, (player != Minecraft.getMinecraft().thePlayer ? 1.62F : 0F) - player.getDefaultEyeHeight()
+                + (player.isSneaking() ? 0.0625 : 0), 0);
 
-				// Speed boost
-				if (p.moveForward > 0.0F)
-				{
-					float mul = 1.0F / 30.0F;
-					p.moveFlying(0.0F, 1.0F, mul);
-					p.jumpMovementFactor = 0.00002F;
-				}
+        GL11.glRotatef(45, -1, 0, -1);
+        GL11.glTranslatef(0.0F, -0.5F, -0.2F);
 
-				Vector3 look = new Vector3(p.getLookVec());
-				look.normalize();
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
 
-				if (isFlying)
-				{
-					if (!p.capabilities.isCreativeMode) TaintedMagicHelper.consumeVisFromInventory(p, cost, true);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_CULL_FACE);
 
-					// Burst
-					if (!wasSprinting && isSprinting && getBurstCooldown(s) == 0 && TaintedMagicHelper.consumeVisFromInventory(p, new AspectList().add(Aspect.FIRE, 500), true))
-					{
-						p.worldObj.playSound(p.posX, p.posY, p.posZ, "taintedmagic:burst", 5.0F, 1.0F + (float) Math.random() * 0.1F, true);
-						p.motionX += look.x * 1.5D;
-						p.motionZ += look.z * 1.5D;
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+        GL11.glColor4f(1F, 1F, 1F, 0.8F);
 
-						setBurstCooldown(s, this.maxBurstCooldown);
-					}
-					else if (getBurstCooldown(s) > 0)
-					{
-						if (this.maxBurstCooldown - getBurstCooldown(s) < 4) p.moveFlying(0F, 1.0F * getBurstCooldown(s) / this.maxBurstCooldown, 5.0F * getBurstCooldown(s) / this.maxBurstCooldown);
-						else if (this.maxBurstCooldown - getBurstCooldown(s) > 5) p.setSprinting(false);
-					}
-				}
-				else
-				{
-					boolean doGlide = p.isSneaking() && !p.onGround && p.fallDistance >= 2.0F;
-					if (doGlide)
-					{
-						p.motionY = Math.max(-0.4F, p.motionY * 2);
-						float mul = 3.0F;
-						p.motionX = look.x * mul;
-						p.motionZ = look.z * mul;
-						p.fallDistance = 2.0F;
-					}
-				}
-			}
-		}
-	}
+        GL11.glScalef(0.4F, 0.4F, 0.4F);
+        GL11.glRotatef(player.ticksExisted + partialTicks, 0F, 1F, 0F);
 
-	// Flight manager
-	@SubscribeEvent
-	public void playerLoggedOut (PlayerEvent.PlayerLoggedOutEvent event)
-	{
-		String username = event.player.getGameProfile().getName();
-		playersWithFlight.remove(username + ":false");
-		playersWithFlight.remove(username + ":true");
-	}
+        UtilsFX.bindTexture(circle);
 
-	private String playerStr (EntityPlayer p)
-	{
-		return p.getGameProfile().getName() + ":" + p.worldObj.isRemote;
-	}
+        t.startDrawingQuads();
+        t.addVertexWithUV(-1, 0, -1, 0, 0);
+        t.addVertexWithUV(-1, 0, 1, 0, 1);
+        t.addVertexWithUV(1, 0, 1, 1, 1);
+        t.addVertexWithUV(1, 0, -1, 1, 0);
+        t.draw();
 
-	private boolean shouldPlayerHaveFlight (EntityPlayer p)
-	{
-		for (int i = 0; i < p.inventory.getSizeInventory(); i++)
-			if (p.inventory.getStackInSlot(i) != null && p.inventory.getStackInSlot(i).getItem() instanceof ItemFlyteCharm && TaintedMagicHelper.consumeVisFromInventory(p, cost, false)) return true;
-		return false;
-	}
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glShadeModel(GL11.GL_FLAT);
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glDisable(GL11.GL_BLEND);
 
-	private void setBurstCooldown (ItemStack s, int cooldown)
-	{
-		if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
-		s.getTagCompound().setInteger(TAG_COOLDOWN, cooldown);
-	}
-
-	private float getBurstCooldown (ItemStack s)
-	{
-		if (s.stackTagCompound == null) s.stackTagCompound = new NBTTagCompound();
-		return s.stackTagCompound.getInteger(TAG_COOLDOWN);
-	}
-
-	@Override
-	public int getWarp (ItemStack s, EntityPlayer p)
-	{
-		return 5;
-	}
+        GL11.glPopMatrix();
+    }
 }
