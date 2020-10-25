@@ -136,7 +136,8 @@ Changes:
 - Changed how Warpwood trees grow, as well as the leaf and log textures. They now are shaped like Silverwood trees.
 - Changed the formula with which the Warpwood Wand/Staff's vis replenishment rate is calculated.
 - Slightly changed the visual effects for Lumos light sources.
-- Voidsent Blood can now be applied to any armour.
+- Voidmetal Goggles of Revealing now only provide 1 point of armour (previously 2), and now have a vis discount of 12% (previously 10%).
+- Voidsent Blood -> Void-infused Blood. Can now be applied to any armour.
 - The player now must first research the diffusion upgrade before they can apply it to the Dark Matter Focus.
 - Replaced the Tainted Kanata Inscription with the Shockwave inscription. Works like a mini Shockwave focus.
 - Significantly changed recipes for Crimson Cult Equipment.
@@ -155,7 +156,7 @@ Additions:
 - Added Salis Tempestas and Salis Aevus. Salis Mundus-style powders. When thrown they change the weather or time respectively, the same way that the Meterology and Time foci did in previous versions. Single use but not overly difficult to craft.
 - Added the Shockwave Focus. Works the same as the Tainted Shockwave used to, but attacks them with lightning instead.
 - Added the Taint Swarm focus. The focus summons a tamed Taint Swarm to fight for the player. The player must be looking at a valid target to summon a swarm. The swarm will path find to this target and will only attack this target. The swarm dies when the target dies. The focus can be used on cooldown to summon multiple swarms.
-- Added a way to synthetically product Vishrooms. Why? No idea. Probably the warp made me add it.
+- Added a way to synthetically product Vishrooms. Why? No idea. The warp probably made me add it...
 - Added a config option to define how powerful the Mage's Mace focus is.
-- Added a way to display info to the player temporarily on the hud instead of via chat messages. Used in various places.
-- Added the Celestial Gatekey. Bind it to a location to return to that location from anywhere within the same dimension. One location per key, bound location is permanent.
+- Added a way to display info to the player temporarily on the HUD instead of via chat messages. Used in various places.
+- Added the Celestial Gate Key. Bind it to a location to return to that location from anywhere within the same dimension. One location per key, bound location is permanent.
