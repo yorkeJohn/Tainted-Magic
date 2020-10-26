@@ -13,83 +13,85 @@ import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.lib.UtilsFX;
 
 /**
- * this class is based off of RenderHomingShard.class created by <Azanor> as
- * part of Thaumcraft 5
+ * This class is based off of RenderHomingShard.class created by <Azanor> as part of Thaumcraft 5.
  */
 public class RenderEntityHomingShard extends Render
 {
-	public RenderEntityHomingShard ()
-	{
-		super();
-		this.shadowSize = 0.0F;
-	}
+    public RenderEntityHomingShard ()
+    {
+        super();
+        this.shadowSize = 0.0F;
+    }
 
-	public void renderEntityAt (EntityHomingShard e, double x, double y, double z, float f, float pT)
-	{
-		Tessellator t = Tessellator.instance;
+    @Override
+    public void doRender (Entity entity, double x, double y, double z, float f, float partialTicks)
+    {
+        render((EntityHomingShard) entity, x, y, z, f, partialTicks);
+    }
 
-		GL11.glPushMatrix();
-		
-		GL11.glDepthMask(false);
-		
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    public void render (EntityHomingShard entity, double x, double y, double z, float f, float partialTicks)
+    {
+        Tessellator t = Tessellator.instance;
 
-		UtilsFX.bindTexture(ParticleEngine.particleTexture);
+        GL11.glPushMatrix();
 
-		float f2 = (8 + e.ticksExisted % 8) / 16.0F;
-		float f3 = f2 + 0.0625F;
-		float f4 = 0.25F;
-		float f5 = f4 + 0.0625F;
+        GL11.glDepthMask(false);
 
-		float f6 = 1.0F;
-		float f7 = 0.5F;
-		float f8 = 0.5F;
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		float red = 0.405F;
-		float green = 0.075F;
-		float blue = 0.525F;
-		float alpha = 1.0F;
+        UtilsFX.bindTexture(ParticleEngine.particleTexture);
 
-		GL11.glColor4f(red, green, blue, alpha);
+        float f2 = (8 + entity.ticksExisted % 8) / 16.0F;
+        float f3 = f2 + 0.0625F;
+        float f4 = 0.25F;
+        float f5 = f4 + 0.0625F;
 
-		GL11.glPushMatrix();
-		
-		GL11.glTranslated(x, y, z);
-		
-		GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-		GL11.glScalef(0.4F + 0.1F * e.getStrength(), 0.4F + 0.1F * e.getStrength(), 0.4F + 0.1F * e.getStrength());
+        float f6 = 1.0F;
+        float f7 = 0.5F;
+        float f8 = 0.5F;
 
-		t.startDrawingQuads();
+        float red = 0.405F;
+        float green = 0.075F;
+        float blue = 0.525F;
+        float alpha = 1.0F;
 
-		t.setColorRGBA_F(red, green, blue, alpha);
-		t.setNormal(0.0F, 1.0F, 0.0F);
-		t.setBrightness(240);
+        GL11.glColor4f(red, green, blue, alpha);
 
-		t.addVertexWithUV(-f7, -f8, 0.0D, f2, f5);
-		t.addVertexWithUV(f6 - f7, -f8, 0.0D, f3, f5);
-		t.addVertexWithUV(f6 - f7, 1.0F - f8, 0.0D, f3, f4);
-		t.addVertexWithUV(-f7, 1.0F - f8, 0.0D, f2, f4);
+        GL11.glPushMatrix();
 
-		t.draw();
+        GL11.glTranslated(x, y, z);
 
-		GL11.glPopMatrix();
+        GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+        GL11.glScalef(0.4F + 0.1F * entity.getStrength(), 0.4F + 0.1F * entity.getStrength(),
+                0.4F + 0.1F * entity.getStrength());
 
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-		GL11.glDepthMask(true);
+        t.startDrawingQuads();
 
-		GL11.glPopMatrix();
-	}
+        t.setColorRGBA_F(red, green, blue, alpha);
+        t.setNormal(0.0F, 1.0F, 0.0F);
+        t.setBrightness(240);
 
-	public void doRender (Entity e, double x, double y, double z, float f, float pT)
-	{
-		renderEntityAt((EntityHomingShard) e, x, y, z, f, pT);
-	}
+        t.addVertexWithUV(-f7, -f8, 0.0D, f2, f5);
+        t.addVertexWithUV(f6 - f7, -f8, 0.0D, f3, f5);
+        t.addVertexWithUV(f6 - f7, 1.0F - f8, 0.0D, f3, f4);
+        t.addVertexWithUV(-f7, 1.0F - f8, 0.0D, f2, f4);
 
-	protected ResourceLocation getEntityTexture (Entity e)
-	{
-		return TextureMap.locationBlocksTexture;
-	}
+        t.draw();
+
+        GL11.glPopMatrix();
+
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        GL11.glDepthMask(true);
+
+        GL11.glPopMatrix();
+    }
+
+    @Override
+    protected ResourceLocation getEntityTexture (Entity entity)
+    {
+        return TextureMap.locationBlocksTexture;
+    }
 }

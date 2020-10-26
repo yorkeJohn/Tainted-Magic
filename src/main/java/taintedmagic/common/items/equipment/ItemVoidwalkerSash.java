@@ -1,12 +1,8 @@
 package taintedmagic.common.items.equipment;
 
-import java.util.List;
-
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
-import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -16,168 +12,111 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import taintedmagic.client.handler.HUDHandler;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.ItemRunic;
 import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.items.armor.Hover;
 
 public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpingGear, IBauble
 {
-	public static final String TAG_MODE = "mode";
+    public static final String TAG_MODE = "mode";
 
-	public ItemVoidwalkerSash ()
-	{
-		super(20);
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setTextureName("taintedmagic:ItemVoidwalkerSash");
-		this.setMaxDamage(-1);
-		this.setMaxStackSize(1);
-		this.setUnlocalizedName("ItemVoidwalkerSash");
+    public ItemVoidwalkerSash ()
+    {
+        super(20);
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setTextureName("taintedmagic:ItemVoidwalkerSash");
+        this.setMaxDamage(-1);
+        this.setMaxStackSize(1);
+        this.setUnlocalizedName("ItemVoidwalkerSash");
 
-		MinecraftForge.EVENT_BUS.register(this);
-		FMLCommonHandler.instance().bus().register(this);
-	}
+        MinecraftForge.EVENT_BUS.register(this);
+        FMLCommonHandler.instance().bus().register(this);
+    }
 
-	public EnumRarity getRarity (ItemStack s)
-	{
-		return EnumRarity.epic;
-	}
+    public EnumRarity getRarity (ItemStack stack)
+    {
+        return EnumRarity.epic;
+    }
 
-	@Override
-	public int getWarp (ItemStack s, EntityPlayer p)
-	{
-		return 2;
-	}
+    @Override
+    public int getWarp (ItemStack stack, EntityPlayer player)
+    {
+        return 2;
+    }
 
-	@Override
-	public int getRunicCharge (ItemStack s)
-	{
-		return 20;
-	}
+    @Override
+    public int getRunicCharge (ItemStack stack)
+    {
+        return 20;
+    }
 
-	@Override
-	public boolean canEquip (ItemStack s, EntityLivingBase e)
-	{
-		return true;
-	}
+    @Override
+    public boolean canEquip (ItemStack stack, EntityLivingBase entity)
+    {
+        return true;
+    }
 
-	@Override
-	public boolean canUnequip (ItemStack s, EntityLivingBase e)
-	{
-		return true;
-	}
+    @Override
+    public boolean canUnequip (ItemStack stack, EntityLivingBase entity)
+    {
+        return true;
+    }
 
-	@Override
-	public BaubleType getBaubleType (ItemStack s)
-	{
-		return BaubleType.BELT;
-	}
+    @Override
+    public BaubleType getBaubleType (ItemStack stack)
+    {
+        return BaubleType.BELT;
+    }
 
-	@Override
-	public void onEquipped (ItemStack s, EntityLivingBase e)
-	{
-		Thaumcraft.instance.runicEventHandler.isDirty = true;
-	}
+    @Override
+    public void onEquipped (ItemStack stack, EntityLivingBase entity)
+    {
+        Thaumcraft.instance.runicEventHandler.isDirty = true;
+    }
 
-	@Override
-	public void onUnequipped (ItemStack s, EntityLivingBase e)
-	{
-		Thaumcraft.instance.runicEventHandler.isDirty = true;
-	}
+    @Override
+    public void onUnequipped (ItemStack stack, EntityLivingBase entity)
+    {
+        Thaumcraft.instance.runicEventHandler.isDirty = true;
+    }
 
-	public void addInformation (ItemStack s, EntityPlayer p, List l, boolean b)
-	{
-		l.add( (hasSpeedBoost(s) ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + StatCollector.translateToLocal("text.sash.mode"));
-	}
+    @Override
+    public void onWornTick (ItemStack stack, EntityLivingBase entity)
+    {
+    }
 
-	@Override
-	public void onWornTick (ItemStack s, EntityLivingBase e)
-	{
-		EntityPlayer p = (EntityPlayer) e;
-		if (p.inventory.armorItemInSlot(0) != null && p.inventory.armorItemInSlot(0).getItem() instanceof ItemVoidwalkerBoots)
-		{
-			if (hasSpeedBoost(s))
-			{
-				if (p.moveForward > 0.0F)
-				{
-					if (p.worldObj.isRemote && !p.isSneaking())
-					{
-						if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(p.getEntityId())))
-						{
-							Thaumcraft.instance.entityEventHandler.prevStep.put(Integer.valueOf(p.getEntityId()), Float.valueOf(p.stepHeight));
-						}
-						p.stepHeight = 1.0F;
-					}
+    @Override
+    public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
+    {
+        if (!world.isRemote && player.isSneaking())
+        {
+            if (stack.stackTagCompound == null)
+            {
+                stack.setTagCompound(new NBTTagCompound());
+                stack.stackTagCompound.setBoolean(TAG_MODE, true);
+            }
+            if (stack.stackTagCompound != null)
+            {
+                stack.stackTagCompound.setBoolean(TAG_MODE, !stack.stackTagCompound.getBoolean(TAG_MODE));
+                if (isSpeedEnabled(stack))
+                    HUDHandler.displayString(EnumChatFormatting.GREEN + StatCollector.translateToLocal("text.sash.speed.on"),
+                            300, false);
+                else HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("text.sash.speed.off"),
+                        300, false);
+            }
+        }
+        return stack;
+    }
 
-					if (p.onGround || p.capabilities.isFlying)
-					{
-						float bonus = 0.25F;
-						p.moveFlying(0.0F, 1.0F, p.capabilities.isFlying ? (bonus - 0.050F) : bonus);
-					}
-					else if (Hover.getHover(p.getEntityId()))
-					{
-						p.jumpMovementFactor = 0.015F;
-
-					}
-					else
-					{
-						p.jumpMovementFactor = 0.025F;
-					}
-				}
-				if (p.fallDistance > 3.0F) p.fallDistance = 0.0F;
-			}
-		}
-	}
-
-	@SubscribeEvent
-	public void onPlayerJump (LivingEvent.LivingJumpEvent event)
-	{
-		if (event.entityLiving instanceof EntityPlayer)
-		{
-			EntityPlayer player = (EntityPlayer) event.entityLiving;
-			ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
-			ItemStack boots = player.inventory.armorItemInSlot(0);
-			if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash)
-			{
-				if (boots != null && boots.getItem() instanceof ItemVoidwalkerBoots)
-				{
-					if (hasSpeedBoost(sash))
-					{
-						player.motionY += 0.15F;
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	public ItemStack onItemRightClick (ItemStack s, World w, EntityPlayer p)
-	{
-		if (!w.isRemote && p.isSneaking())
-		{
-			if (s.stackTagCompound == null)
-			{
-				s.setTagCompound(new NBTTagCompound());
-				s.stackTagCompound.setBoolean(TAG_MODE, false);
-			}
-			if (s.stackTagCompound != null)
-			{
-				s.stackTagCompound.setBoolean(TAG_MODE, !s.stackTagCompound.getBoolean(TAG_MODE));
-				HUDHandler.displayString( (hasSpeedBoost(s) ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + StatCollector.translateToLocal("text.sash.mode") + " "
-						+ StatCollector.translateToLocal(hasSpeedBoost(s) ? "text.sash.on" : "text.sash.off"), 300, true);
-			}
-		}
-		return s;
-	}
-
-	public boolean hasSpeedBoost (ItemStack s)
-	{
-		if (s.stackTagCompound == null) return true;
-
-		else return s.stackTagCompound.getBoolean(TAG_MODE);
-	}
+    /**
+     * Returns true if the speed boost feature is enabled.
+     */
+    public static boolean isSpeedEnabled (ItemStack stack)
+    {
+        if (stack.stackTagCompound == null) return true;
+        else return stack.stackTagCompound.getBoolean(TAG_MODE);
+    }
 }

@@ -9,22 +9,23 @@ import thaumcraft.api.IRepairable;
 
 public class ItemShadowmetalSword extends ItemSword implements IRepairable
 {
-	public ItemShadowmetalSword (ToolMaterial m)
-	{
-		super(m);
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setTextureName("taintedmagic:ItemShadowmetalSword");
-		this.setUnlocalizedName("ItemShadowmetalSword");
-	}
+    public ItemShadowmetalSword (ToolMaterial m)
+    {
+        super(m);
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setTextureName("taintedmagic:ItemShadowmetalSword");
+        this.setUnlocalizedName("ItemShadowmetalSword");
+    }
 
-	public boolean getIsRepairable (ItemStack s, ItemStack s2)
-	{
-		return (s2.isItemEqual(new ItemStack(ItemRegistry.ItemMaterial)) && s2.getItemDamage() == 0) ? true : super.getIsRepairable(s, s2);
-	}
+    public boolean getIsRepairable (ItemStack stack, ItemStack repairItem)
+    {
+        return repairItem.isItemEqual(new ItemStack(ItemRegistry.ItemMaterial, 1, 0)) ? true
+                : super.getIsRepairable(stack, repairItem);
+    }
 
-	@Override
-	public EnumRarity getRarity (ItemStack s)
-	{
-		return EnumRarity.uncommon;
-	}
+    @Override
+    public EnumRarity getRarity (ItemStack stack)
+    {
+        return EnumRarity.uncommon;
+    }
 }

@@ -6,5 +6,5 @@ import net.minecraft.item.ItemStack;
 
 public interface IHeldItemHUD
 {
-    abstract void renderHUD (ScaledResolution res, EntityPlayer p, ItemStack s, float partialTicks, float fract);
+    abstract void renderHUD (ScaledResolution res, EntityPlayer player, ItemStack stack, float partialTicks, float fract);
 }

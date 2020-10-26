@@ -12,51 +12,51 @@ import taintedmagic.common.TaintedMagic;
 
 public class ItemLumosRing extends Item implements IBauble
 {
-	public ItemLumosRing ()
-	{
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setTextureName("taintedmagic:ItemLumosRing");
-		this.setMaxDamage(-1);
-		this.setMaxStackSize(1);
-		this.setUnlocalizedName("ItemLumosRing");
-	}
+    public ItemLumosRing ()
+    {
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setTextureName("taintedmagic:ItemLumosRing");
+        this.setMaxDamage(-1);
+        this.setMaxStackSize(1);
+        this.setUnlocalizedName("ItemLumosRing");
+    }
 
-	@SideOnly (Side.CLIENT)
-	public EnumRarity getRarity (ItemStack s)
-	{
-		return EnumRarity.uncommon;
-	}
+    @SideOnly (Side.CLIENT)
+    public EnumRarity getRarity (ItemStack stack)
+    {
+        return EnumRarity.uncommon;
+    }
 
-	@Override
-	public boolean canEquip (ItemStack s, EntityLivingBase e)
-	{
-		return true;
-	}
+    @Override
+    public boolean canEquip (ItemStack stack, EntityLivingBase entity)
+    {
+        return true;
+    }
 
-	@Override
-	public boolean canUnequip (ItemStack s, EntityLivingBase e)
-	{
-		return true;
-	}
+    @Override
+    public boolean canUnequip (ItemStack stack, EntityLivingBase entity)
+    {
+        return true;
+    }
 
-	@Override
-	public BaubleType getBaubleType (ItemStack s)
-	{
-		return BaubleType.RING;
-	}
+    @Override
+    public BaubleType getBaubleType (ItemStack stack)
+    {
+        return BaubleType.RING;
+    }
 
-	@Override
-	public void onEquipped (ItemStack s, EntityLivingBase e)
-	{
-	}
+    @Override
+    public void onEquipped (ItemStack stack, EntityLivingBase entity)
+    {
+    }
 
-	@Override
-	public void onUnequipped (ItemStack s, EntityLivingBase e)
-	{
-	}
+    @Override
+    public void onUnequipped (ItemStack stack, EntityLivingBase entity)
+    {
+    }
 
-	@Override
-	public void onWornTick (ItemStack s, EntityLivingBase e)
-	{
-	}
+    @Override
+    public void onWornTick (ItemStack stack, EntityLivingBase entity)
+    {
+    }
 }

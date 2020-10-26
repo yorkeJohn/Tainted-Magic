@@ -14,88 +14,100 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import taintedmagic.common.TaintedMagic;
-import thaumcraft.common.config.ConfigItems;
 
 public class ItemMaterial extends Item
 {
-	public int SUBTYPES = 13;
-	public IIcon[] icons = new IIcon[SUBTYPES];
+    int SUBTYPES = 13;
+    /**
+     * 0 Shadow Metal Ingot
+     * 1 Shadow-imbued Cloth
+     * 2 Crimson-stained Cloth
+     * 3 Warped Unbalanced Shard
+     * 4 Tainted Unbalanced Shard
+     * 5 Shard of Creation
+     * 6 Thaumic Alloy Plate
+     * 7 Crimson Alloy Plate
+     * 8 Shadow Metal Nugget
+     * 9 Primordial Nodule
+     * 10 Primordial Mote
+     * 11 Fragment of Creation
+     * 12 Warping Fertilizer
+     */
+    IIcon[] icons = new IIcon[SUBTYPES];
 
-	public ItemMaterial ()
-	{
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setUnlocalizedName("ItemMaterial");
-		this.setHasSubtypes(true);
-	}
+    public ItemMaterial ()
+    {
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setUnlocalizedName("ItemMaterial");
+        this.setHasSubtypes(true);
+    }
 
-	public EnumRarity getRarity (ItemStack s)
-	{
-		int m = s.getItemDamage();
-		switch (m)
-		{
-		case 0 :
-			return EnumRarity.uncommon;
-		case 1 :
-			return EnumRarity.uncommon;
-		case 2 :
-			return EnumRarity.uncommon;
-		case 3 :
-			return EnumRarity.common;
-		case 4 :
-			return EnumRarity.common;
-		case 5 :
-			return TaintedMagic.rarityCreation;
-		case 6 :
-			return EnumRarity.uncommon;
-		case 7 :
-			return EnumRarity.uncommon;
-		case 8 :
-			return EnumRarity.uncommon;
-		case 9 :
-			return EnumRarity.epic;
-		case 10 :
-			return EnumRarity.epic;
-		case 11 :
-			return TaintedMagic.rarityCreation;
-		case 12:
-			return EnumRarity.uncommon;
-		}
-		return EnumRarity.common;
-	}
+    public EnumRarity getRarity (ItemStack stack)
+    {
+        int meta = stack.getItemDamage();
+        switch (meta)
+        {
+        case 0 :
+            return EnumRarity.uncommon;
+        case 1 :
+            return EnumRarity.uncommon;
+        case 2 :
+            return EnumRarity.uncommon;
+        case 3 :
+            return EnumRarity.common;
+        case 4 :
+            return EnumRarity.common;
+        case 5 :
+            return TaintedMagic.rarityCreation;
+        case 6 :
+            return EnumRarity.uncommon;
+        case 7 :
+            return EnumRarity.uncommon;
+        case 8 :
+            return EnumRarity.uncommon;
+        case 9 :
+            return EnumRarity.epic;
+        case 10 :
+            return EnumRarity.epic;
+        case 11 :
+            return TaintedMagic.rarityCreation;
+        case 12 :
+            return EnumRarity.uncommon;
+        }
+        return EnumRarity.common;
+    }
 
-	@SideOnly (Side.CLIENT)
-	public void registerIcons (IIconRegister ir)
-	{
-		for (int i = 0; i < icons.length; i++)
-			this.icons[i] = ir.registerIcon("taintedmagic:ItemMaterial" + i);
-	}
+    @SideOnly (Side.CLIENT)
+    public void registerIcons (IIconRegister ir)
+    {
+        for (int i = 0; i < icons.length; i++)
+            this.icons[i] = ir.registerIcon("taintedmagic:ItemMaterial" + i);
+    }
 
-	@SideOnly (Side.CLIENT)
-	public IIcon getIconFromDamage (int i)
-	{
-		return this.icons[i];
-	}
+    @SideOnly (Side.CLIENT)
+    public IIcon getIconFromDamage (int meta)
+    {
+        return this.icons[meta];
+    }
 
-	@Override
-	public void addInformation (ItemStack s, EntityPlayer p, List l, boolean b)
-	{
-		super.addInformation(s, p, l, b);
+    @Override
+    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
+    {
+        super.addInformation(stack, player, list, b);
 
-		if (s.getItemDamage() == 5)
-		{
-			l.add(EnumChatFormatting.LIGHT_PURPLE + StatCollector.translateToLocal("text.shard.1"));
-		}
-	}
+        if (stack.getItemDamage() == 5)
+            list.add(EnumChatFormatting.LIGHT_PURPLE + StatCollector.translateToLocal("text.shard.1"));
+    }
 
-	@SideOnly (Side.CLIENT)
-	public void getSubItems (Item item, CreativeTabs c, List l)
-	{
-		for (int i = 0; i < SUBTYPES; i++)
-			l.add(new ItemStack(this, 1, i));
-	}
+    @SideOnly (Side.CLIENT)
+    public void getSubItems (Item item, CreativeTabs tab, List list)
+    {
+        for (int i = 0; i < SUBTYPES; i++)
+            list.add(new ItemStack(this, 1, i));
+    }
 
-	public String getUnlocalizedName (ItemStack s)
-	{
-		return super.getUnlocalizedName() + "." + s.getItemDamage();
-	}
+    public String getUnlocalizedName (ItemStack stack)
+    {
+        return super.getUnlocalizedName() + "." + stack.getItemDamage();
+    }
 }

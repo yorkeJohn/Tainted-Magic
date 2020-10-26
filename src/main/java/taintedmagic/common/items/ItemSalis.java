@@ -19,8 +19,8 @@ import thaumcraft.client.fx.particles.FXSparkle;
 
 public class ItemSalis extends Item
 {
-    public int SUBTYPES = 2;
-    public IIcon[] icons = new IIcon[SUBTYPES];
+    int SUBTYPES = 2;
+    IIcon[] icons = new IIcon[SUBTYPES];
 
     public ItemSalis ()
     {
@@ -30,7 +30,7 @@ public class ItemSalis extends Item
     }
 
     @Override
-    public EnumRarity getRarity (ItemStack s)
+    public EnumRarity getRarity (ItemStack stack)
     {
         return TaintedMagic.rarityCreation;
     }
@@ -43,66 +43,67 @@ public class ItemSalis extends Item
     }
 
     @SideOnly (Side.CLIENT)
-    public IIcon getIconFromDamage (int i)
+    public IIcon getIconFromDamage (int meta)
     {
-        return this.icons[i];
+        return this.icons[meta];
     }
 
     @SideOnly (Side.CLIENT)
-    public void getSubItems (Item item, CreativeTabs c, List l)
+    public void getSubItems (Item item, CreativeTabs tab, List list)
     {
         for (int i = 0; i < SUBTYPES; i++)
-            l.add(new ItemStack(this, 1, i));
+            list.add(new ItemStack(this, 1, i));
     }
 
-    public String getUnlocalizedName (ItemStack s)
+    public String getUnlocalizedName (ItemStack stack)
     {
-        return super.getUnlocalizedName() + "." + s.getItemDamage();
+        return super.getUnlocalizedName() + "." + stack.getItemDamage();
     }
 
     @Override
-    public ItemStack onItemRightClick (ItemStack s, World w, EntityPlayer p)
+    public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
     {
-        int m = s.getItemDamage();
-        switch (m)
+        int meta = stack.getItemDamage();
+        switch (meta)
         {
         // Weather
         case 0 :
         {
-            w.getWorldInfo().setRainTime(w.isRaining() ? 24000 : 0);
-            w.getWorldInfo().setRaining(!w.isRaining());
-            p.playSound("thaumcraft:wind", 0.3F, 1.0F + w.rand.nextFloat() * 0.5F);
-            throwParticles(w, p, 7);
-            p.inventory.decrStackSize(p.inventory.currentItem, 1);
-            return s;
+            world.getWorldInfo().setRainTime(world.isRaining() ? 24000 : 0);
+            world.getWorldInfo().setRaining(!world.isRaining());
+            player.playSound("thaumcraft:wind", 0.3F, 1.0F + world.rand.nextFloat() * 0.5F);
+            throwParticles(world, player, 7);
+            player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            return stack;
         }
         // Time
         case 1 :
         {
-            w.setWorldTime(w.isDaytime() ? 14000 : 24000);
-            p.playSound("thaumcraft:wind", 0.3F, 1.0F + w.rand.nextFloat() * 0.5F);
-            throwParticles(w, p, 6);
-            p.inventory.decrStackSize(p.inventory.currentItem, 1);
-            return s;
+            world.setWorldTime(world.isDaytime() ? 14000 : 24000);
+            player.playSound("thaumcraft:wind", 0.3F, 1.0F + world.rand.nextFloat() * 0.5F);
+            throwParticles(world, player, 6);
+            player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            return stack;
         }
         }
-        return s;
+        return stack;
     }
 
     @SideOnly (Side.CLIENT)
-    private void throwParticles (World w, EntityPlayer p, int colour)
+    private void throwParticles (World world, EntityPlayer player, int colour)
     {
         for (int a = 0; a < 15; a++)
         {
-            FXSparkle fx = new FXSparkle(w, p.posX + (w.rand.nextDouble() - w.rand.nextDouble()) * 0.2D,
-                    p.boundingBox.minY + 1.25D + (w.rand.nextDouble() - w.rand.nextDouble()) * 0.2D,
-                    p.posZ + (w.rand.nextDouble() - w.rand.nextDouble()) * 0.2D, 1.75F, colour, 3 + w.rand.nextInt(3));
-            Vec3 look = p.getLookVec();
-            fx.motionX += (look.xCoord * 0.5D) + (w.rand.nextGaussian() * 0.05D);
-            fx.motionY += (look.yCoord * 0.5D) + (w.rand.nextGaussian() * 0.05D);
-            fx.motionZ += (look.zCoord * 0.5D) + (w.rand.nextGaussian() * 0.05D);
+            FXSparkle fx = new FXSparkle(world, player.posX + (world.rand.nextDouble() - world.rand.nextDouble()) * 0.2D,
+                    player.boundingBox.minY + 1.25D + (world.rand.nextDouble() - world.rand.nextDouble()) * 0.2D,
+                    player.posZ + (world.rand.nextDouble() - world.rand.nextDouble()) * 0.2D, 1.75F, colour,
+                    3 + world.rand.nextInt(3));
+            Vec3 look = player.getLookVec();
+            fx.motionX += (look.xCoord * 0.5D) + (world.rand.nextGaussian() * 0.05D);
+            fx.motionY += (look.yCoord * 0.5D) + (world.rand.nextGaussian() * 0.05D);
+            fx.motionZ += (look.zCoord * 0.5D) + (world.rand.nextGaussian() * 0.05D);
             fx.setGravity(0.5F);
-            ParticleEngine.instance.addEffect(w, fx);
+            ParticleEngine.instance.addEffect(world, fx);
         }
     }
 }

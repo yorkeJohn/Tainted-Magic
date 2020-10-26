@@ -14,43 +14,43 @@ import taintedmagic.common.TaintedMagic;
 
 public class ItemWandRod extends Item
 {
-	public int SUBTYPES = 2;
-	public IIcon[] icons = new IIcon[SUBTYPES];
+    int SUBTYPES = 2;
+    IIcon[] icons = new IIcon[SUBTYPES];
 
-	public ItemWandRod ()
-	{
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setUnlocalizedName("ItemWandRod");
-		this.setHasSubtypes(true);
-	}
+    public ItemWandRod ()
+    {
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setUnlocalizedName("ItemWandRod");
+        this.setHasSubtypes(true);
+    }
 
-	public EnumRarity getRarity (ItemStack s)
-	{
-		return EnumRarity.uncommon;
-	}
+    public EnumRarity getRarity (ItemStack stack)
+    {
+        return EnumRarity.uncommon;
+    }
 
-	@SideOnly (Side.CLIENT)
-	public void registerIcons (IIconRegister ir)
-	{
-		for (int i = 0; i < icons.length; i++)
-			this.icons[i] = ir.registerIcon("taintedmagic:ItemWandRod" + i);
-	}
+    @SideOnly (Side.CLIENT)
+    public void registerIcons (IIconRegister ir)
+    {
+        for (int i = 0; i < icons.length; i++)
+            this.icons[i] = ir.registerIcon("taintedmagic:ItemWandRod" + i);
+    }
 
-	@SideOnly (Side.CLIENT)
-	public IIcon getIconFromDamage (int i)
-	{
-		return this.icons[i];
-	}
+    @SideOnly (Side.CLIENT)
+    public IIcon getIconFromDamage (int i)
+    {
+        return this.icons[i];
+    }
 
-	@SideOnly (Side.CLIENT)
-	public void getSubItems (Item item, CreativeTabs c, List l)
-	{
-		for (int i = 0; i < SUBTYPES; i++)
-			l.add(new ItemStack(this, 1, i));
-	}
+    @SideOnly (Side.CLIENT)
+    public void getSubItems (Item item, CreativeTabs tab, List list)
+    {
+        for (int i = 0; i < SUBTYPES; i++)
+            list.add(new ItemStack(this, 1, i));
+    }
 
-	public String getUnlocalizedName (ItemStack s)
-	{
-		return super.getUnlocalizedName() + "." + s.getItemDamage();
-	}
+    public String getUnlocalizedName (ItemStack stack)
+    {
+        return super.getUnlocalizedName() + "." + stack.getItemDamage();
+    }
 }

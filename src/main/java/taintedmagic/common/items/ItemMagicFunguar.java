@@ -21,53 +21,51 @@ import thaumcraft.common.lib.research.ResearchManager;
 
 public class ItemMagicFunguar extends ItemFood
 {
-	Aspect[] aspects = new Aspect[]{
-			Aspect.AIR,
-			Aspect.EARTH,
-			Aspect.FIRE,
-			Aspect.WATER,
-			Aspect.ORDER,
-			Aspect.ENTROPY };
+    Aspect aspects[] = Aspect.getPrimalAspects().toArray(new Aspect[0]);
 
-	public ItemMagicFunguar (int i, float j, boolean k)
-	{
-		super(i, j, k);
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setTextureName("taintedmagic:ItemMagicFunguar");
-		this.setAlwaysEdible();
-		this.setUnlocalizedName("ItemMagicFunguar");
-	}
+    public ItemMagicFunguar (int healAmount, float saturation, boolean b)
+    {
+        super(healAmount, saturation, b);
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setTextureName("taintedmagic:ItemMagicFunguar");
+        this.setAlwaysEdible();
+        this.setUnlocalizedName("ItemMagicFunguar");
+    }
 
-	@Override
-	protected void onFoodEaten (ItemStack s, World w, EntityPlayer p)
-	{
-		super.onFoodEaten(s, w, p);
+    @Override
+    protected void onFoodEaten (ItemStack stack, World world, EntityPlayer player)
+    {
+        super.onFoodEaten(stack, world, player);
 
-		Random r = new Random();
-		try
-		{
-			p.addPotionEffect(new PotionEffect(Potion.regeneration.id, 200, 2));
-			p.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 100, 2));
-			p.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 100, 2));
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+        Random random = new Random();
+        try
+        {
+            player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 200, 2));
+            player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 100, 2));
+            player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 100, 2));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
-		int i = r.nextInt(aspects.length);
+        int i = random.nextInt(aspects.length);
 
-		if (!w.isRemote)
-		{
-			Thaumcraft.proxy.playerKnowledge.addAspectPool(p.getCommandSenderName(), aspects[i], Short.valueOf((short) (1)));
-			ResearchManager.scheduleSave(p);
-			PacketHandler.INSTANCE.sendTo(new PacketAspectPool(aspects[i].getTag(), Short.valueOf((short) 1), Short.valueOf(Thaumcraft.proxy.playerKnowledge.getAspectPoolFor(p.getCommandSenderName(), aspects[i]))), (EntityPlayerMP) p);
-		}
-	}
+        if (!world.isRemote)
+        {
+            Thaumcraft.proxy.playerKnowledge.addAspectPool(player.getCommandSenderName(), aspects[i],
+                    Short.valueOf((short) (1)));
+            ResearchManager.scheduleSave(player);
+            PacketHandler.INSTANCE.sendTo(
+                    new PacketAspectPool(aspects[i].getTag(), Short.valueOf((short) 1), Short.valueOf(
+                            Thaumcraft.proxy.playerKnowledge.getAspectPoolFor(player.getCommandSenderName(), aspects[i]))),
+                    (EntityPlayerMP) player);
+        }
+    }
 
-	@SideOnly (Side.CLIENT)
-	public EnumRarity getRarity (ItemStack itemstack)
-	{
-		return EnumRarity.uncommon;
-	}
+    @SideOnly (Side.CLIENT)
+    public EnumRarity getRarity (ItemStack stack)
+    {
+        return EnumRarity.uncommon;
+    }
 }

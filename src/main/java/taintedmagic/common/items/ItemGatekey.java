@@ -1,18 +1,10 @@
 package taintedmagic.common.items;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -26,24 +18,17 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import taintedmagic.api.IHeldItemHUD;
 import taintedmagic.client.handler.ClientHandler;
 import taintedmagic.client.handler.HUDHandler;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXSparkle;
-import thaumcraft.client.lib.UtilsFX;
 
-public class ItemGatekey extends Item implements IWarpingGear
+public class ItemGateKey extends Item implements IWarpingGear
 {
     IIcon icon;
     IIcon overlay;
@@ -54,15 +39,15 @@ public class ItemGatekey extends Item implements IWarpingGear
     private static final String TAG_DIM = "dimID";
     private static final String TAG_COLOUR = "colour";
 
-    public ItemGatekey ()
+    public ItemGateKey ()
     {
         this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-        this.setUnlocalizedName("ItemGatekey");
+        this.setUnlocalizedName("ItemGateKey");
         this.setMaxStackSize(1);
     }
 
     @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (ItemStack s)
+    public EnumRarity getRarity (ItemStack stack)
     {
         return TaintedMagic.rarityCreation;
     }
@@ -70,8 +55,8 @@ public class ItemGatekey extends Item implements IWarpingGear
     @SideOnly (Side.CLIENT)
     public void registerIcons (IIconRegister ir)
     {
-        this.icon = ir.registerIcon("taintedmagic:ItemGatekey");
-        this.overlay = ir.registerIcon("taintedmagic:ItemGatekey_overlay");
+        this.icon = ir.registerIcon("taintedmagic:ItemGateKey");
+        this.overlay = ir.registerIcon("taintedmagic:ItemGateKey_overlay");
     }
 
     @SideOnly (Side.CLIENT)
@@ -81,7 +66,7 @@ public class ItemGatekey extends Item implements IWarpingGear
     }
 
     @SideOnly (Side.CLIENT)
-    public int getRenderPasses (int m)
+    public int getRenderPasses (int meta)
     {
         return 2;
     }
@@ -94,140 +79,140 @@ public class ItemGatekey extends Item implements IWarpingGear
     }
 
     @Override
-    public int getColorFromItemStack (ItemStack s, int pass)
+    public int getColorFromItemStack (ItemStack stack, int pass)
     {
-        if (pass == 1 && s.stackTagCompound != null)
+        if (pass == 1 && stack.stackTagCompound != null)
         {
-            return Color.HSBtoRGB((float) s.stackTagCompound.getInteger(TAG_COLOUR) / 360F, 1.0F,
+            return Color.HSBtoRGB((float) stack.stackTagCompound.getInteger(TAG_COLOUR) / 360F, 1.0F,
                     0.2F * (float) Math.sin((double) ClientHandler.ticks / 150D) + 0.8F);
         }
         return 0xFFFFFF;
     }
 
     @Override
-    public int getWarp (ItemStack s, EntityPlayer p)
+    public int getWarp (ItemStack stack, EntityPlayer player)
     {
         return 3;
     }
 
     @Override
-    public void addInformation (ItemStack s, EntityPlayer p, List l, boolean b)
+    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
     {
-        if (s.stackTagCompound != null)
+        if (stack.stackTagCompound != null)
         {
-            l.add(EnumChatFormatting.GREEN + StatCollector.translateToLocal("gatekey.bound"));
+            list.add(EnumChatFormatting.GREEN + StatCollector.translateToLocal("key.bound"));
 
-            int dim = s.stackTagCompound.getInteger(TAG_DIM);
-            l.add(WorldProvider.getProviderForDimension(dim).getDimensionName());
+            int dim = stack.stackTagCompound.getInteger(TAG_DIM);
+            list.add(WorldProvider.getProviderForDimension(dim).getDimensionName());
 
-            int x = s.stackTagCompound.getInteger(TAG_X);
-            int y = s.stackTagCompound.getInteger(TAG_Y);
-            int z = s.stackTagCompound.getInteger(TAG_Z);
-            l.add(x + ", " + y + ", " + z);
+            int x = stack.stackTagCompound.getInteger(TAG_X);
+            int y = stack.stackTagCompound.getInteger(TAG_Y);
+            int z = stack.stackTagCompound.getInteger(TAG_Z);
+            list.add(x + ", " + y + ", " + z);
         }
-        else l.add(EnumChatFormatting.RED + StatCollector.translateToLocal("gatekey.inactive"));
+        else list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("key.unbound"));
     }
 
     @Override
-    public EnumAction getItemUseAction (ItemStack s)
+    public EnumAction getItemUseAction (ItemStack stack)
     {
         return EnumAction.bow;
     }
 
     @Override
-    public int getMaxItemUseDuration (ItemStack s)
+    public int getMaxItemUseDuration (ItemStack stack)
     {
         return 40;
     }
 
     @Override
-    public ItemStack onItemRightClick (ItemStack s, World w, EntityPlayer p)
+    public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
     {
-        if (s.stackTagCompound != null) p.setItemInUse(s, getMaxItemUseDuration(s));
-        return s;
+        if (stack.stackTagCompound != null) player.setItemInUse(stack, getMaxItemUseDuration(stack));
+        return stack;
     }
 
     @Override
-    public boolean onItemUse (ItemStack s, EntityPlayer p, World w, int x, int y, int z, int face, float hitX, float hitY,
-            float hitZ)
+    public boolean onItemUse (ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int face, float hitX,
+            float hitY, float hitZ)
     {
-        if (s.stackTagCompound == null)
+        if (stack.stackTagCompound == null)
         {
-            s.stackTagCompound = new NBTTagCompound();
+            stack.stackTagCompound = new NBTTagCompound();
 
-            s.stackTagCompound.setInteger(TAG_COLOUR, w.rand.nextInt(360) + 1);
+            stack.stackTagCompound.setInteger(TAG_COLOUR, world.rand.nextInt(360) + 1);
 
-            s.stackTagCompound.setInteger(TAG_X, x);
-            s.stackTagCompound.setInteger(TAG_Y, y + 1);
-            s.stackTagCompound.setInteger(TAG_Z, z);
-            s.stackTagCompound.setInteger(TAG_DIM, w.provider.dimensionId);
+            stack.stackTagCompound.setInteger(TAG_X, x);
+            stack.stackTagCompound.setInteger(TAG_Y, y + 1);
+            stack.stackTagCompound.setInteger(TAG_Z, z);
+            stack.stackTagCompound.setInteger(TAG_DIM, world.provider.dimensionId);
 
-            w.playSoundAtEntity(p, "thaumcraft:wand", 0.5F + ((float) Math.random() * 0.5F), 1.0F);
+            world.playSoundAtEntity(player, "thaumcraft:wand", 0.5F + ((float) Math.random() * 0.5F), 1.0F);
 
-            if (w.isRemote)
+            if (world.isRemote)
             {
-                p.swingItem();
+                player.swingItem();
                 for (int a = 0; a < 9; a++)
-                    sparkle(w, x + 0.5D, y, z + 0.5D);
+                    sparkle(world, x + 0.5D, y, z + 0.5D);
             }
         }
         return false;
     }
 
     @SideOnly (Side.CLIENT)
-    public void sparkle (World w, double x, double y, double z)
+    public void sparkle (World world, double x, double y, double z)
     {
-        FXSparkle fx = new FXSparkle(w, x + 0.33F * w.rand.nextGaussian(), y + 0.5D + w.rand.nextFloat(),
-                z + 0.33F * w.rand.nextGaussian(), 1.75F, 6, 3 + w.rand.nextInt(3));
+        FXSparkle fx = new FXSparkle(world, x + 0.33F * world.rand.nextGaussian(), y + 0.5D + world.rand.nextFloat(),
+                z + 0.33F * world.rand.nextGaussian(), 1.75F, 6, 3 + world.rand.nextInt(3));
         fx.setGravity(0.1F);
-        ParticleEngine.instance.addEffect(w, fx);
+        ParticleEngine.instance.addEffect(world, fx);
     }
 
     @Override
-    public void onUsingTick (ItemStack s, EntityPlayer p, int i)
+    public void onUsingTick (ItemStack stack, EntityPlayer player, int i)
     {
-        super.onUsingTick(s, p, i);
+        super.onUsingTick(stack, player, i);
 
-        if (p.worldObj.isRemote) sparkle(p.worldObj, p.posX, p.boundingBox.minY, p.posZ);
+        if (player.worldObj.isRemote) sparkle(player.worldObj, player.posX, player.boundingBox.minY, player.posZ);
 
         float f = 1.0F + ((float) Math.random() * 0.25F);
-        if (p.ticksExisted % 5 == 0) p.worldObj.playSoundAtEntity(p, "thaumcraft:wind", f * 0.1F, f);
+        if (player.ticksExisted % 5 == 0) player.worldObj.playSoundAtEntity(player, "thaumcraft:wind", f * 0.1F, f);
     }
 
     @Override
-    public ItemStack onEaten (ItemStack s, World w, EntityPlayer p)
+    public ItemStack onEaten (ItemStack stack, World world, EntityPlayer player)
     {
-        super.onEaten(s, w, p);
-        if (s.stackTagCompound != null)
+        super.onEaten(stack, world, player);
+        if (stack.stackTagCompound != null)
         {
-            int x = s.stackTagCompound.getInteger(TAG_X);
-            int y = s.stackTagCompound.getInteger(TAG_Y);
-            int z = s.stackTagCompound.getInteger(TAG_Z);
-            int dim = s.stackTagCompound.getInteger(TAG_DIM);
+            int x = stack.stackTagCompound.getInteger(TAG_X);
+            int y = stack.stackTagCompound.getInteger(TAG_Y);
+            int z = stack.stackTagCompound.getInteger(TAG_Z);
+            int dim = stack.stackTagCompound.getInteger(TAG_DIM);
 
-            if (y > -1 && dim == w.provider.dimensionId && w.getBlock(x, y, z) == Blocks.air
-                    && w.getBlock(x, y + 1, z) == Blocks.air)
+            if (y > -1 && dim == world.provider.dimensionId && world.getBlock(x, y, z) == Blocks.air
+                    && world.getBlock(x, y + 1, z) == Blocks.air)
             {
-                if (!w.isRemote)
+                if (!world.isRemote)
                 {
-                    if (p instanceof EntityPlayerMP)
-                        ((EntityPlayerMP) p).playerNetServerHandler.setPlayerLocation((double) x + 0.5D, (double) y,
-                                (double) z + 0.5D, p.rotationYaw, p.rotationPitch);
-                    w.playSoundAtEntity(p, "mob.endermen.portal", 5.0F, 1.0F);
+                    if (player instanceof EntityPlayerMP)
+                        ((EntityPlayerMP) player).playerNetServerHandler.setPlayerLocation((double) x + 0.5D, (double) y,
+                                (double) z + 0.5D, player.rotationYaw, player.rotationPitch);
+                    world.playSoundAtEntity(player, "mob.endermen.portal", 5.0F, 1.0F);
                 }
                 try
                 {
-                    p.addPotionEffect(new PotionEffect(Potion.confusion.id, 140, 1));
+                    player.addPotionEffect(new PotionEffect(Potion.confusion.id, 140, 1));
                 }
                 catch (Exception e)
                 {
                     e.printStackTrace();
                 }
             }
-            else if (dim != w.provider.dimensionId) HUDHandler
-                    .displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("gatekey.invaliddim"), 300, false);
-            else HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("gatekey.error"), 300, false);
+            else if (dim != world.provider.dimensionId) HUDHandler
+                    .displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("key.invaliddim"), 300, false);
+            else HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("key.error"), 300, false);
         }
-        return s;
+        return stack;
     }
 }

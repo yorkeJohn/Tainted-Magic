@@ -5,12 +5,11 @@ import java.util.HashMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
-import taintedmagic.common.TaintedMagic;
+import taintedmagic.common.handler.ConfigHandler;
 import taintedmagic.common.helper.TaintedMagicHelper;
 import taintedmagic.common.research.TMResearchItem;
 import taintedmagic.common.research.ThaumcraftResearchItem;
 import thaumcraft.api.ItemApi;
-import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.crafting.CrucibleRecipe;
@@ -30,7 +29,7 @@ public class ResearchRegistry
     public static void initResearch ()
     {
         ResearchCategories.registerCategory(categoryTM, new ResourceLocation("taintedmagic:textures/misc/tab_tm.png"),
-                TaintedMagic.configHandler.CUSTOM_RESEARCH_TAB_BACK
+                ConfigHandler.CUSTOM_RESEARCH_TAB_BACK
                         ? new ResourceLocation("taintedmagic:textures/gui/gui_tm_researchback.png")
                         : new ResourceLocation("thaumcraft:textures/gui/gui_researchback.png"));
 
@@ -131,11 +130,11 @@ public class ResearchRegistry
         r.setParents("KNIGHTROBES").setParentsHidden("CRIMSONROBES", "TMELDRITCHMAJOR", "VOIDMETAL").setConcealed()
                 .registerResearchItem();
 
-        r = new TMResearchItem("VOIDSENTBLOOD",
+        r = new TMResearchItem("VOIDBLOOD",
                 new AspectList().add(Aspect.VOID, 14).add(Aspect.DARKNESS, 8).add(Aspect.ARMOR, 18).add(Aspect.AURA, 4), -2, -5,
-                new ItemStack(ItemRegistry.ItemVoidsentBlood), 0, 3);
-        r.setPages(new ResearchPage("1"), arcanePage("ItemVoidsentBlood"));
-        r.setSecondary().setParents("HOLLOWDAGGER").setParentsHidden("ELDRITCHMAJOR", "PRIMPEARL").setConcealed()
+                new ItemStack(ItemRegistry.ItemVoidBlood), 0, 3);
+        r.setPages(new ResearchPage("1"), arcanePage("ItemVoidBlood"));
+        r.setSecondary().setParents("HOLLOWDAGGER").setParentsHidden("ELDRITCHMAJOR", "BREAKPEARL").setConcealed()
                 .registerResearchItem();
 
         r = new TMResearchItem("VOIDWALKERBOOTS",
@@ -310,11 +309,10 @@ public class ResearchRegistry
         r = new TMResearchItem("FOCUSSHARD", new AspectList().add(Aspect.CRYSTAL, 2).add(Aspect.MAGIC, 4).add(Aspect.MOTION, 6),
                 6, 1, new ItemStack(ItemRegistry.ItemFocusVisShard), 0, 0);
         r.setPages(new ResearchPage("1"), arcanePage("ItemFocusVisShard"));
-        r.setParents("UNBALANCEDSHARDS").setParentsHidden("FOCUSFIRE").setConcealed().setSecondary()
-                .registerResearchItem();
+        r.setParents("UNBALANCEDSHARDS").setParentsHidden("FOCUSFIRE").setConcealed().setSecondary().registerResearchItem();
 
-        r = new TMResearchItem("TAINTFOCUS", new AspectList().add(Aspect.TAINT, 4).add(Aspect.LIFE, 4).add(Aspect.MOTION, 4),
-                5, 2, new ItemStack(ItemRegistry.ItemFocusTaintSwarm), 3, 3);
+        r = new TMResearchItem("TAINTFOCUS", new AspectList().add(Aspect.TAINT, 4).add(Aspect.LIFE, 4).add(Aspect.MOTION, 4), 5,
+                2, new ItemStack(ItemRegistry.ItemFocusTaintSwarm), 3, 3);
         r.setPages(new ResearchPage("1"), infusionPage("ItemFocusTaintSwarm"));
         r.setParentsHidden("INFUSION", "BOTTLETAINT").setParents("FOCUSSHARD").setConcealed().registerResearchItem();
 
@@ -337,8 +335,8 @@ public class ResearchRegistry
 
         r = new TMResearchItem("GATEKEY",
                 new AspectList().add(Aspect.TRAVEL, 30).add(Aspect.EXCHANGE, 15).add(Aspect.AURA, 20).add(Aspect.FLIGHT, 10), 9,
-                -4, new ItemStack(ItemRegistry.ItemGatekey), 3, 0);
-        r.setPages(new ResearchPage("1"), infusionPage("ItemGatekey"));
+                -4, new ItemStack(ItemRegistry.ItemGateKey), 3, 0);
+        r.setPages(new ResearchPage("1"), infusionPage("ItemGateKey"));
         r.setParents("CREATION").setConcealed().registerResearchItem();
     }
 

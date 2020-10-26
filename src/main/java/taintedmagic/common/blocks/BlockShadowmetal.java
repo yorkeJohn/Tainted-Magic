@@ -18,7 +18,7 @@ public class BlockShadowmetal extends Block
 	}
 
 	@Override
-	public boolean isBeaconBase (IBlockAccess w, int x, int y, int z, int x2, int y2, int z2)
+    public boolean isBeaconBase (IBlockAccess world, int x, int y, int z, int x2, int y2, int z2)
 	{
 		return true;
 	}

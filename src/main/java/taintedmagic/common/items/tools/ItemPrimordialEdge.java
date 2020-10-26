@@ -24,104 +24,107 @@ import thaumcraft.api.IWarpingGear;
 
 public class ItemPrimordialEdge extends ItemSword implements IWarpingGear, IRepairable
 {
-	public ItemPrimordialEdge (ToolMaterial m)
-	{
-		super(m);
-		this.setTextureName("taintedmagic:ItemPrimordialEdge");
-		this.setUnlocalizedName("ItemPrimordialEdge");
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-	}
+    public ItemPrimordialEdge (ToolMaterial material)
+    {
+        super(material);
+        this.setTextureName("taintedmagic:ItemPrimordialEdge");
+        this.setUnlocalizedName("ItemPrimordialEdge");
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+    }
 
-	public EnumAction getItemUseAction (ItemStack s)
-	{
-		return EnumAction.block;
-	}
+    public EnumAction getItemUseAction (ItemStack stack)
+    {
+        return EnumAction.block;
+    }
 
-	public EnumRarity getRarity (ItemStack s)
-	{
-		return TaintedMagic.rarityCreation;
-	}
+    public EnumRarity getRarity (ItemStack stack)
+    {
+        return TaintedMagic.rarityCreation;
+    }
 
-	public boolean hitEntity (ItemStack s, EntityLivingBase e, EntityLivingBase p)
-	{
-		super.hitEntity(s, e, p);
+    public boolean hitEntity (ItemStack stack, EntityLivingBase entity, EntityLivingBase player)
+    {
+        super.hitEntity(stack, entity, player);
 
-		try
-		{
-			e.addPotionEffect(new PotionEffect(Potion.wither.id, 5, 1));
-			e.addPotionEffect(new PotionEffect(Potion.weakness.id, 5, 1));
-			p.worldObj.playSoundAtEntity(p, "thaumcraft:swing", 1.0F, 1.0F);
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return true;
-	}
+        try
+        {
+            entity.addPotionEffect(new PotionEffect(Potion.wither.id, 5, 1));
+            entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5, 1));
+        }
+        catch (Exception e)
+        {
+        }
 
-	@Override
-	public ItemStack onItemRightClick (ItemStack s, World w, EntityPlayer p)
-	{
-		p.setItemInUse(s, this.getMaxItemUseDuration(s));
-		return s;
-	}
+        player.worldObj.playSoundAtEntity(player, "thaumcraft:swing", 1.0F, 1.0F);
 
-	@Override
-	public void onUsingTick (ItemStack s, EntityPlayer p, int count)
-	{
-		Iterator i$;
+        return true;
+    }
 
-		List ents = p.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(p.posX, p.posY, p.posZ, p.posX + 1, p.posY + 1, p.posZ + 1).expand(15.0D, 15.0D, 15.0D));
+    @Override
+    public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
+    {
+        player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
+        return stack;
+    }
 
-		p.worldObj.playSoundAtEntity(p, "thaumcraft:brain", 0.05F, 0.5F);
-		if ( (ents != null) && (ents.size() > 0)) for (i$ = ents.iterator(); i$.hasNext();)
-		{
-			Object ent = i$.next();
-			Entity eo = (Entity) ent;
+    @Override
+    public void onUsingTick (ItemStack stack, EntityPlayer player, int i)
+    {
+        // Based off of hungry node
+        Iterator i$;
 
-			if (eo != p)
-			{
-				if ( (eo.isEntityAlive()) && (!eo.isEntityInvulnerable()))
-				{
-					double d = TaintedMagicHelper.getDistanceTo(eo.posX, eo.posY, eo.posZ, p);
-					if (d < 2.0D) eo.attackEntityFrom(DamageSource.magic, 5.0F);
+        List ents = player.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB
+                .getBoundingBox(player.posX, player.posY, player.posZ, player.posX + 1, player.posY + 1, player.posZ + 1)
+                .expand(15.0D, 15.0D, 15.0D));
 
-				}
-				double var3 = (p.posX + 0.5D - eo.posX) / 20.0D;
-				double var5 = (p.posY + 0.5D - eo.posY) / 20.0D;
-				double var7 = (p.posZ + 0.5D - eo.posZ) / 20.0D;
-				double var9 = Math.sqrt(var3 * var3 + var5 * var5 + var7 * var7);
-				double var11 = 1.0D - var9;
+        player.worldObj.playSoundAtEntity(player, "thaumcraft:brain", 0.05F, 0.5F);
 
-				if (var11 > 0.0D)
-				{
-					var11 *= var11;
-					eo.motionX += var3 / var9 * var11 * 0.20D;
-					eo.motionY += var5 / var9 * var11 * 0.30D;
-					eo.motionZ += var7 / var9 * var11 * 0.20D;
-				}
-			}
-		}
-	}
+        if (ents != null && ents.size() > 0) for (i$ = ents.iterator(); i$.hasNext();)
+        {
+            Object next = i$.next();
+            Entity entity = (Entity) next;
 
-	@Override
-	public void onUpdate (ItemStack s, World w, Entity e, int i, boolean b)
-	{
-		if ( (!w.isRemote) && (s.isItemDamaged()) && (e.ticksExisted % 20 == 0))
-		{
-			s.damageItem(-1, (EntityLivingBase) e);
-		}
-	}
+            if (entity != player)
+            {
+                if (entity.isEntityAlive() && !entity.isEntityInvulnerable())
+                {
+                    double dist = TaintedMagicHelper.getDistanceTo(player, entity.posX, entity.posY, entity.posZ);
+                    if (dist < 2.0D) entity.attackEntityFrom(DamageSource.magic, 5.0F);
+                }
 
-	@Override
-	public void addInformation (ItemStack s, EntityPlayer p, List l, boolean b)
-	{
-		l.add(EnumChatFormatting.GOLD + StatCollector.translateToLocal("text.eldritchsapping"));
-	}
+                double x = (player.posX + 0.5D - entity.posX) / 20.0D;
+                double y = (player.posY + 0.5D - entity.posY) / 20.0D;
+                double z = (player.posZ + 0.5D - entity.posZ) / 20.0D;
+                double vec = Math.sqrt(x * x + y * y + z * z);
+                double vec2 = 1.0D - vec;
 
-	@Override
-	public int getWarp (ItemStack s, EntityPlayer p)
-	{
-		return 5;
-	}
+                if (vec2 > 0.0D)
+                {
+                    vec2 *= vec2;
+                    entity.motionX += x / vec * vec2 * 0.20D;
+                    entity.motionY += y / vec * vec2 * 0.30D;
+                    entity.motionZ += z / vec * vec2 * 0.20D;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onUpdate (ItemStack stack, World world, Entity entity, int i, boolean b)
+    {
+        if (!world.isRemote && stack.isItemDamaged() && entity.ticksExisted % 20 == 0)
+            stack.damageItem(-1, (EntityLivingBase) entity);
+    }
+
+    @Override
+    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
+    {
+        list.add(EnumChatFormatting.GOLD + StatCollector.translateToLocal("text.eldritchsapping"));
+    }
+
+    @Override
+    public int getWarp (ItemStack stack, EntityPlayer player)
+    {
+        return 5;
+    }
 }

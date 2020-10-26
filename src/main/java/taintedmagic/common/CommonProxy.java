@@ -1,7 +1,6 @@
 package taintedmagic.common;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class CommonProxy

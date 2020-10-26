@@ -2,6 +2,7 @@ package taintedmagic.common.items.equipment;
 
 import java.util.List;
 
+import baubles.common.lib.PlayerHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,9 +34,9 @@ import thaumcraft.common.items.armor.Hover;
 public class ItemVoidwalkerBoots extends ItemArmor
         implements IVisDiscountGear, IWarpingGear, IRunicArmor, IRepairable, ISpecialArmor
 {
-    public ItemVoidwalkerBoots (ArmorMaterial m, int j, int k)
+    public ItemVoidwalkerBoots (ArmorMaterial material, int j, int k)
     {
-        super(m, j, k);
+        super(material, j, k);
         this.setCreativeTab(TaintedMagic.tabTaintedMagic);
         this.setUnlocalizedName("ItemVoidwalkerBoots");
         this.setTextureName("taintedmagic:ItemVoidwalkerBoots");
@@ -43,47 +44,47 @@ public class ItemVoidwalkerBoots extends ItemArmor
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public String getArmorTexture (ItemStack s, Entity e, int slot, String t)
+    public String getArmorTexture (ItemStack stack, Entity entity, int slot, String type)
     {
         return "taintedmagic:textures/models/ModelVoidwalkerBoots.png";
     }
 
-    public EnumRarity getRarity (ItemStack s)
+    public EnumRarity getRarity (ItemStack stack)
     {
         return EnumRarity.epic;
     }
 
     @Override
-    public int getRunicCharge (ItemStack s)
+    public int getRunicCharge (ItemStack stack)
     {
         return 0;
     }
 
     @Override
-    public int getWarp (ItemStack s, EntityPlayer p)
+    public int getWarp (ItemStack stack, EntityPlayer player)
     {
         return 5;
     }
 
     @Override
-    public int getVisDiscount (ItemStack s, EntityPlayer p, Aspect a)
+    public int getVisDiscount (ItemStack stack, EntityPlayer player, Aspect aspect)
     {
         return 5;
     }
 
     @Override
-    public ISpecialArmor.ArmorProperties getProperties (EntityLivingBase e, ItemStack s, DamageSource source, double dmg,
-            int slot)
+    public ISpecialArmor.ArmorProperties getProperties (EntityLivingBase entity, ItemStack stack, DamageSource source,
+            double dmg, int slot)
     {
         int priority = 0;
         double ratio = this.damageReduceAmount / 90.0D;
 
-        if (source.isMagicDamage() == true)
+        if (source.isMagicDamage())
         {
             priority = 1;
             ratio = this.damageReduceAmount / 80.0D;
         }
-        else if ( (source.isFireDamage() == true) || (source.isExplosion()))
+        else if (source.isFireDamage() || source.isExplosion())
         {
             priority = 1;
             ratio = this.damageReduceAmount / 80.0D;
@@ -93,72 +94,69 @@ public class ItemVoidwalkerBoots extends ItemArmor
             priority = 0;
             ratio = 0.0D;
         }
-        return new ISpecialArmor.ArmorProperties(priority, ratio, s.getMaxDamage() + 1 - s.getItemDamage());
+        return new ISpecialArmor.ArmorProperties(priority, ratio, stack.getMaxDamage() + 1 - stack.getItemDamage());
     }
 
     @Override
-    public int getArmorDisplay (EntityPlayer p, ItemStack s, int slot)
+    public int getArmorDisplay (EntityPlayer player, ItemStack stack, int slot)
     {
         return this.damageReduceAmount;
     }
 
     @Override
-    public void damageArmor (EntityLivingBase e, ItemStack s, DamageSource source, int dmg, int slot)
+    public void damageArmor (EntityLivingBase entity, ItemStack stack, DamageSource source, int dmg, int slot)
     {
-        if (source != DamageSource.fall) s.damageItem(dmg, e);
+        if (source != DamageSource.fall) stack.damageItem(dmg, entity);
     }
 
     @Override
-    public void addInformation (ItemStack s, EntityPlayer p, List l, boolean b)
+    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
     {
-        l.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": "
-                + getVisDiscount(s, p, null) + "%");
+        list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": "
+                + getVisDiscount(stack, player, null) + "%");
     }
 
-    public void onUpdate (ItemStack s, World w, Entity e, int j, boolean k)
+    public void onUpdate (ItemStack stack, World world, Entity entity, int j, boolean k)
     {
-        super.onUpdate(s, w, e, j, k);
-
-        if ( (!w.isRemote) && (s.isItemDamaged()) && (e.ticksExisted % 20 == 0) && ( (e instanceof EntityLivingBase)))
-            s.damageItem(-1, (EntityLivingBase) e);
+        super.onUpdate(stack, world, entity, j, k);
+        if (!world.isRemote && stack.isItemDamaged() && entity.ticksExisted % 20 == 0 && entity instanceof EntityLivingBase)
+            stack.damageItem(-1, (EntityLivingBase) entity);
     }
 
-    public void onArmorTick (World w, EntityPlayer p, ItemStack s)
+    public void onArmorTick (World world, EntityPlayer player, ItemStack stack)
     {
-        super.onArmorTick(w, p, s);
-        if ( (!w.isRemote) && (s.getItemDamage() > 0) && (p.ticksExisted % 20 == 0)) s.damageItem(-1, p);
+        super.onArmorTick(world, player, stack);
+        if (!world.isRemote && stack.isItemDamaged() && player.ticksExisted % 20 == 0) stack.damageItem(-1, player);
 
-        double motion = Math.abs(p.motionX) + Math.abs(p.motionZ) + Math.abs(0.5 * p.motionY);
-        if (w.isRemote && (motion > .1D || !p.onGround) && w.rand.nextInt(5) == 0) particles(w, p);
+        double motion = Math.abs(player.motionX) + Math.abs(player.motionZ) + Math.abs(0.5 * player.motionY);
+        if (world.isRemote && (motion > 0.1D || !player.onGround) && world.rand.nextInt(5) == 0) particles(world, player);
 
-        if (p.moveForward > 0.0F)
+        if (player.moveForward > 0.0F)
         {
-            if ( (p.worldObj.isRemote) && (!p.isSneaking()))
+            if (player.worldObj.isRemote && !player.isSneaking())
             {
-                if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(p.getEntityId())))
+                if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId())))
                 {
-                    Thaumcraft.instance.entityEventHandler.prevStep.put(Integer.valueOf(p.getEntityId()),
-                            Float.valueOf(p.stepHeight));
+                    Thaumcraft.instance.entityEventHandler.prevStep.put(Integer.valueOf(player.getEntityId()),
+                            Float.valueOf(player.stepHeight));
                 }
-                p.stepHeight = 1.0F;
+                player.stepHeight = 1.0F;
             }
 
-            if (p.onGround || p.capabilities.isFlying)
+            if (player.onGround || player.capabilities.isFlying)
             {
-                float bonus = 0.20F;
-                p.moveFlying(0.0F, 1.0F, p.capabilities.isFlying ? (bonus - 0.075F) : bonus);
-                p.jumpMovementFactor = 0.00002F;
+                float mul = 0.2F;
+                ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
+                if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash && ItemVoidwalkerSash.isSpeedEnabled(sash))
+                    mul += 0.2F;
+
+                player.moveFlying(0.0F, 1.0F, player.capabilities.isFlying ? (mul - 0.075F) : mul);
+                player.jumpMovementFactor = 0.00002F;
             }
-            else if (Hover.getHover(p.getEntityId()))
-            {
-                p.jumpMovementFactor = 0.03F;
-            }
-            else
-            {
-                p.jumpMovementFactor = 0.05F;
-            }
+            else if (Hover.getHover(player.getEntityId())) player.jumpMovementFactor = 0.03F;
+            else player.jumpMovementFactor = 0.05F;
         }
-        if (p.fallDistance > 3.0F) p.fallDistance = 0.0F;
+        if (player.fallDistance > 3.0F) player.fallDistance = 1.0F;
     }
 
     @SubscribeEvent
@@ -168,20 +166,24 @@ public class ItemVoidwalkerBoots extends ItemArmor
         {
             EntityPlayer player = (EntityPlayer) event.entity;
 
-            if (player.inventory.armorItemInSlot(0) != null
-                    && player.inventory.armorItemInSlot(0).getItem() == ItemRegistry.ItemVoidwalkerBoots)
-            {
-                event.entityLiving.motionY += 0.35D;
-            }
+            double mul = 0.0D;
+
+            ItemStack boots = player.inventory.armorItemInSlot(0);
+            ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
+            if (boots != null && boots.getItem() == ItemRegistry.ItemVoidwalkerBoots) mul += 0.35D;
+            if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash && ItemVoidwalkerSash.isSpeedEnabled(sash))
+                mul += 0.15D;
+
+            player.motionY += mul;
         }
     }
 
     @SideOnly (Side.CLIENT)
-    private void particles (World w, EntityPlayer p)
+    private void particles (World world, EntityPlayer player)
     {
-        FXWispEG ef = new FXWispEG(w, (double) (p.posX + ( (Math.random() - Math.random()) * 0.5F)),
-                (double) (p.boundingBox.minY + .05F + ( (Math.random() - Math.random()) * 0.1F)),
-                (double) (p.posZ + ( (Math.random() - Math.random()) * 0.5F)), p);
-        ParticleEngine.instance.addEffect(w, ef);
+        FXWispEG fx = new FXWispEG(world, (double) (player.posX + ( (Math.random() - Math.random()) * 0.5F)),
+                (double) (player.boundingBox.minY + .05F + ( (Math.random() - Math.random()) * 0.1F)),
+                (double) (player.posZ + ( (Math.random() - Math.random()) * 0.5F)), player);
+        ParticleEngine.instance.addEffect(world, fx);
     }
 }

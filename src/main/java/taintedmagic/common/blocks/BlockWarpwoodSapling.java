@@ -8,64 +8,62 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.registry.BlockRegistry;
 import taintedmagic.common.world.WorldGenWarpwoodTree;
 
 public class BlockWarpwoodSapling extends BlockSapling
 {
-	public BlockWarpwoodSapling ()
-	{
-		super();
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setBlockName("BlockWarpwoodSapling");
-		this.setStepSound(soundTypeGrass);
-	}
+    public BlockWarpwoodSapling ()
+    {
+        super();
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setBlockName("BlockWarpwoodSapling");
+        this.setStepSound(soundTypeGrass);
+    }
 
-	@Override
-	public void func_149878_d (World w, int x, int y, int z, Random rand)
-	{
-		if (!w.isRemote)
-		{
-			int meta = w.getBlockMetadata(x, y, z);
+    @Override
+    public void func_149878_d (World world, int x, int y, int z, Random random)
+    {
+        if (!world.isRemote)
+        {
+            int meta = world.getBlockMetadata(x, y, z);
 
-			w.setBlockToAir(x, y, z);
+            world.setBlockToAir(x, y, z);
 
-			WorldGenWarpwoodTree tree = new WorldGenWarpwoodTree(true, 7, 5);
+            WorldGenWarpwoodTree tree = new WorldGenWarpwoodTree(true, 7, 5);
 
-			if (!tree.generate(w, rand, x, y, z)) w.setBlock(x, y, z, this, meta, 2);
-		}
-	}
+            if (!tree.generate(world, random, x, y, z)) world.setBlock(x, y, z, this, meta, 2);
+        }
+    }
 
-	@Override
-	@SideOnly (Side.CLIENT)
-	public void getSubBlocks (Item s, CreativeTabs t, List l)
-	{
-		l.add(new ItemStack(this, 1, 0));
-	}
+    @Override
+    @SideOnly (Side.CLIENT)
+    public void getSubBlocks (Item item, CreativeTabs tab, List list)
+    {
+        list.add(new ItemStack(this, 1, 0));
+    }
 
-	@Override
-	public Item getItemDropped (int i, Random random, int i2)
-	{
-		return Item.getItemFromBlock(this);
-	}
+    @Override
+    public Item getItemDropped (int i, Random random, int i2)
+    {
+        return Item.getItemFromBlock(this);
+    }
 
-	@SideOnly (Side.CLIENT)
-	@Override
-	public void registerBlockIcons (IIconRegister ir)
-	{
-		this.blockIcon = ir.registerIcon("taintedmagic:BlockWarpwoodSapling");
-	}
+    @SideOnly (Side.CLIENT)
+    @Override
+    public void registerBlockIcons (IIconRegister ir)
+    {
+        this.blockIcon = ir.registerIcon("taintedmagic:BlockWarpwoodSapling");
+    }
 
-	@SideOnly (Side.CLIENT)
-	@Override
-	public IIcon getIcon (int side, int meta)
-	{
-		return this.blockIcon;
-	}
+    @SideOnly (Side.CLIENT)
+    @Override
+    public IIcon getIcon (int side, int meta)
+    {
+        return this.blockIcon;
+    }
 }

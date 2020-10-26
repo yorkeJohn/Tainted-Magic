@@ -18,43 +18,49 @@ import taintedmagic.common.registry.ItemRegistry;
 
 public class BlockNightshadeBush extends BlockBush
 {
-	public BlockNightshadeBush ()
-	{
-		super(Material.plants);
-		this.setBlockName("BlockNightshadeBush");
-		this.setBlockTextureName("taintedmagic:BlockNightshadeBush");
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setStepSound(soundTypeGrass);
-	}
+    public BlockNightshadeBush ()
+    {
+        super(Material.plants);
+        this.setBlockName("BlockNightshadeBush");
+        this.setBlockTextureName("taintedmagic:BlockNightshadeBush");
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setStepSound(soundTypeGrass);
+    }
 
-	public Item getItemDropped (int a, Random r, int b)
-	{
-		return ItemRegistry.ItemNightshadeBerries;
-	}
+    public Item getItemDropped (int a, Random random, int b)
+    {
+        return ItemRegistry.ItemNightshadeBerries;
+    }
 
-	public int quantityDropped (Random r)
-	{
-		return 1 + r.nextInt(3);
-	}
+    public int quantityDropped (Random random)
+    {
+        return 1 + random.nextInt(3);
+    }
 
-	public void onEntityCollidedWithBlock (World w, int x, int y, int z, Entity e)
-	{
-		super.onEntityCollidedWithBlock(w, x, y, z, e);
+    public void onEntityCollidedWithBlock (World world, int x, int y, int z, Entity entity)
+    {
+        super.onEntityCollidedWithBlock(world, x, y, z, entity);
 
-		if (e instanceof EntityLivingBase)
-		{
-			e.attackEntityFrom(new DamageSource("nightshade"), 1.0F);
-			((EntityLivingBase) e).addPotionEffect(new PotionEffect(Potion.poison.id, 100, 0));
-		}
-	}
+        if (entity instanceof EntityLivingBase)
+        {
+            entity.attackEntityFrom(new DamageSource("nightshade"), 1.0F);
+            try
+            {
+                ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 140, 0));
+            }
+            catch (Exception e)
+            {
+            }
+        }
+    }
 
-	public int getFlammability (IBlockAccess w, int x, int y, int z, ForgeDirection face)
-	{
-		return 100;
-	}
+    public int getFlammability (IBlockAccess world, int x, int y, int z, ForgeDirection face)
+    {
+        return 100;
+    }
 
-	public int getFireSpreadSpeed (IBlockAccess w, int x, int y, int z, ForgeDirection face)
-	{
-		return 60;
-	}
+    public int getFireSpreadSpeed (IBlockAccess world, int x, int y, int z, ForgeDirection face)
+    {
+        return 60;
+    }
 }

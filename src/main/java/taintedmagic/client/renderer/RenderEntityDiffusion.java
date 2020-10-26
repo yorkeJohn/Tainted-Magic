@@ -12,64 +12,64 @@ import thaumcraft.client.lib.UtilsFX;
 
 public class RenderEntityDiffusion extends Render
 {
-	public void render (EntityDiffusion e, double x, double y, double z, float f, float pT)
-	{
-		Tessellator t = Tessellator.instance;
+    @Override
+    public void doRender (Entity entity, double x, double y, double z, float f, float partialTicks)
+    {
+        render((EntityDiffusion) entity, x, y, z, f, partialTicks);
+    }
 
-		GL11.glPushMatrix();
+    public void render (EntityDiffusion entity, double x, double y, double z, float f, float partialTicks)
+    {
+        Tessellator t = Tessellator.instance;
 
-		GL11.glTranslated(x, y, z);
+        GL11.glPushMatrix();
 
-		float color = 0.1F;
-		float alpha = (20.0F - (float) e.ticksExisted) / 40.0F;
+        GL11.glTranslated(x, y, z);
 
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        float color = 0.1F;
+        float alpha = (20.0F - (float) entity.ticksExisted) / 40.0F;
 
-		UtilsFX.bindTexture(ParticleEngine.particleTexture);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		float f2 = e.ticksExisted % 13 / 16.0F;
-		float f3 = f2 + 0.0624375F;
-		float f4 = 0.1875F;
-		float f5 = f4 + 0.0624375F;
-		float f6 = 1.0F;
-		float f7 = 0.5F;
-		float f8 = 0.5F;
+        UtilsFX.bindTexture(ParticleEngine.particleTexture);
 
-		GL11.glColor4f(color, color, color, alpha);
+        float f2 = entity.ticksExisted % 13 / 16.0F;
+        float f3 = f2 + 0.0624375F;
+        float f4 = 0.1875F;
+        float f5 = f4 + 0.0624375F;
+        float f6 = 1.0F;
+        float f7 = 0.5F;
+        float f8 = 0.5F;
 
-		GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+        GL11.glColor4f(color, color, color, alpha);
 
-		float s = 0.5F;
-		GL11.glScalef(s, s, s);
+        GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 
-		t.startDrawingQuads();
+        float s = 0.5F;
+        GL11.glScalef(s, s, s);
 
-		t.setNormal(0.0F, 1.0F, 0.0F);
-		t.setColorRGBA_F(color, color, color, alpha);
+        t.startDrawingQuads();
 
-		t.addVertexWithUV(0.0F - f7, 0.0F - f8, 0.0D, f2, f5);
-		t.addVertexWithUV(f6 - f7, 0.0F - f8, 0.0D, f3, f5);
-		t.addVertexWithUV(f6 - f7, 1.0F - f8, 0.0D, f3, f4);
-		t.addVertexWithUV(0.0F - f7, 1.0F - f8, 0.0D, f2, f4);
+        t.setNormal(0.0F, 1.0F, 0.0F);
+        t.setColorRGBA_F(color, color, color, alpha);
 
-		t.draw();
+        t.addVertexWithUV(0.0F - f7, 0.0F - f8, 0.0D, f2, f5);
+        t.addVertexWithUV(f6 - f7, 0.0F - f8, 0.0D, f3, f5);
+        t.addVertexWithUV(f6 - f7, 1.0F - f8, 0.0D, f3, f4);
+        t.addVertexWithUV(0.0F - f7, 1.0F - f8, 0.0D, f2, f4);
 
-		GL11.glDisable(GL11.GL_BLEND);
+        t.draw();
 
-		GL11.glPopMatrix();
-	}
+        GL11.glDisable(GL11.GL_BLEND);
 
-	@Override
-	public void doRender (Entity e, double x, double y, double z, float f, float pT)
-	{
-		render((EntityDiffusion) e, x, y, z, f, pT);
-	}
+        GL11.glPopMatrix();
+    }
 
-	@Override
-	protected ResourceLocation getEntityTexture (Entity e)
-	{
-		return null;
-	}
+    @Override
+    protected ResourceLocation getEntityTexture (Entity entity)
+    {
+        return null;
+    }
 }

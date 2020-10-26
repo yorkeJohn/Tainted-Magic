@@ -18,37 +18,37 @@ import thaumcraft.client.lib.UtilsFX;
 public class RenderItemKatana implements IItemRenderer
 {
 	@Override
-	public boolean handleRenderType (ItemStack s, ItemRenderType t)
+	public boolean handleRenderType (ItemStack stack, ItemRenderType type)
 	{
 		return true;
 	}
 
 	@Override
-	public boolean shouldUseRenderHelper (ItemRenderType t, ItemStack s, ItemRendererHelper h)
+	public boolean shouldUseRenderHelper (ItemRenderType type, ItemStack stack, ItemRendererHelper helper)
 	{
 		return true;
 	}
 
 	@Override
-	public void renderItem (ItemRenderType t, ItemStack s, Object... data)
+	public void renderItem (ItemRenderType type, ItemStack stack, Object... data)
 	{
-		EntityPlayer p = TaintedMagic.proxy.getClientPlayer();
+        EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
 
 		GL11.glPushMatrix();
 
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glScalef(1.4F, 1.4F, 1.4F);
 
-		if ( (p.getHeldItem() == null || p.getHeldItem() != s) && t != ItemRenderType.EQUIPPED)
+		if ( (player.getHeldItem() == null || player.getHeldItem() != stack) && type != ItemRenderType.EQUIPPED)
 		{
 			GL11.glPushMatrix();
-			if (t == ItemRenderType.ENTITY)
+			if (type == ItemRenderType.ENTITY)
 			{
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				GL11.glTranslatef(0F, 0.5F, 0F);
 				GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
 			}
-			else if (t == ItemRenderType.INVENTORY)
+			else if (type == ItemRenderType.INVENTORY)
 			{
 				GL11.glScalef(0.4F, 0.4F, 0.4F);
 				GL11.glRotatef(-65, 1.0F, 0.0F, 0.0F);
@@ -60,24 +60,24 @@ public class RenderItemKatana implements IItemRenderer
 				GL11.glTranslatef(0.0F, -0.7F, 0.0F);
 			}
 			
-			UtilsFX.bindTexture(ItemKatana.getTexture(s));
-			ItemKatana.saya.render(0.0625F);
+			UtilsFX.bindTexture(ItemKatana.getTexture(stack));
+			ItemKatana.SAYA.render(0.0625F);
 			
 			GL11.glPopMatrix();
 		}
 
 		GL11.glPushMatrix();
 
-		if (t == ItemRenderType.ENTITY)
+		if (type == ItemRenderType.ENTITY)
 		{
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
 			GL11.glTranslatef(0F, 0.5F, 0F);
 			GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
 		}
 
-		else if (t == ItemRenderType.EQUIPPED_FIRST_PERSON)
+		else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)
 		{
-			if (p.isUsingItem())
+			if (player.isUsingItem())
 			{
 				GL11.glTranslatef(5.0F, 1.0F, -0.2F);
 				GL11.glRotatef(155.0F, 0.0F, 1.0F, 0.0F);
@@ -89,7 +89,7 @@ public class RenderItemKatana implements IItemRenderer
 			GL11.glRotatef(-10F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(-10F, 0.0F, 0.0F, 1.0F);
 		}
-		else if (t == ItemRenderType.INVENTORY)
+		else if (type == ItemRenderType.INVENTORY)
 		{
 			GL11.glScalef(0.4F, 0.4F, 0.4F);
 			GL11.glRotatef(-65, 1.0F, 0.0F, 0.0F);
@@ -104,12 +104,12 @@ public class RenderItemKatana implements IItemRenderer
 			GL11.glTranslatef(0.0F, 2F, 0.65F);
 		}
 
-		UtilsFX.bindTexture(ItemKatana.getTexture(s));
+		UtilsFX.bindTexture(ItemKatana.getTexture(stack));
 
-		ItemKatana.katana.render(0.0625F);
+		ItemKatana.KATANA.render(0.0625F);
 
 		// Runes
-		if (ItemKatana.hasAnyInscription(s))
+		if (ItemKatana.hasAnyInscription(stack))
 		{
 			GL11.glPushMatrix();
 			int j = 200;
@@ -124,13 +124,13 @@ public class RenderItemKatana implements IItemRenderer
 			for (int a = 0; a < 14; a++)
 			{
 				int rune = (a * 3) % 16;
-				drawRune(-1.65D + a * 0.14D, 0D, -0.03D, rune, p);
+				drawRune(-1.65D + a * 0.14D, 0D, -0.03D, rune, player);
 			}
 			GL11.glRotated(180.0D, 0.0D, 1.0D, 0.0D);
 			for (int a = 0; a < 14; a++)
 			{
 				int rune = (a + 1 * 3) % 16;
-				drawRune(-1.65D + a * 0.14D, 0D, -0.03D, rune, p);
+				drawRune(-1.65D + a * 0.14D, 0D, -0.03D, rune, player);
 			}
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glDisable(GL11.GL_BLEND);

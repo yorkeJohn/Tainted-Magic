@@ -1,15 +1,8 @@
 package taintedmagic.common.items.tools;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +15,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import taintedmagic.api.IHeldItemHUD;
 import taintedmagic.client.handler.HUDHandler;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.aspects.Aspect;
@@ -31,160 +23,144 @@ import thaumcraft.common.items.wands.WandManager;
 
 public class ItemThaumicDisassembler extends Item
 {
-	public static final String TAG_MODE = "mode";
-	public static List<Integer> data = new ArrayList<Integer>();
+    public static final String TAG_MODE = "mode";
 
-	public ItemThaumicDisassembler ()
-	{
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setMaxDamage(500);
-		this.setMaxStackSize(1);
-		this.setUnlocalizedName("ItemThaumicDisassembler");
-		this.setTextureName("taintedmagic:ItemThaumicDisassembler");
-	}
+    public ItemThaumicDisassembler ()
+    {
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setMaxDamage(500);
+        this.setMaxStackSize(1);
+        this.setUnlocalizedName("ItemThaumicDisassembler");
+        this.setTextureName("taintedmagic:ItemThaumicDisassembler");
+    }
 
-	@Override
-	public boolean canHarvestBlock (Block b, ItemStack s)
-	{
-		return b != Blocks.bedrock;
-	}
+    @Override
+    public boolean canHarvestBlock (Block block, ItemStack stack)
+    {
+        return block != Blocks.bedrock;
+    }
 
-	@Override
-	public void addInformation (ItemStack s, EntityPlayer p, List l, boolean b)
-	{
-		super.addInformation(s, p, l, b);
+    @Override
+    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
+    {
+        super.addInformation(stack, player, list, b);
 
-		l.add(StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(s));
-		l.add(StatCollector.translateToLocal("text.disassembler.efficiency") + ": " + (getMode(s) == 3 ? "\u00A7c" : "\u00A7a") + getEfficiency(s));
-		l.add(" ");
-		l.add("\u00A79" + "+20 " + StatCollector.translateToLocal("text.attackdamage"));
-	}
+        list.add(StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(stack));
+        list.add(StatCollector.translateToLocal("text.disassembler.efficiency") + ": "
+                + (getMode(stack) == 3 ? "\u00A7c" : "\u00A7a") + getEfficiency(stack));
+        list.add(" ");
+        list.add("\u00A79" + "+20 " + StatCollector.translateToLocal("text.attackdamage"));
+    }
 
-	@Override
-	public boolean hitEntity (ItemStack s, EntityLivingBase e, EntityLivingBase p)
-	{
-		e.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) p), 20);
-		s.damageItem(2, p);
-		return false;
-	}
+    @Override
+    public boolean hitEntity (ItemStack stack, EntityLivingBase entity, EntityLivingBase player)
+    {
+        entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player), 20);
+        stack.damageItem(2, player);
+        return false;
+    }
 
-	@Override
-	public float getDigSpeed (ItemStack s, Block b, int meta)
-	{
-		return getEfficiency(s);
-	}
+    @Override
+    public float getDigSpeed (ItemStack stack, Block block, int meta)
+    {
+        return getEfficiency(stack);
+    }
 
-	@Override
-	public boolean onBlockDestroyed (ItemStack s, World w, Block b, int x, int y, int z, EntityLivingBase e)
-	{
-		if (b.getBlockHardness(w, x, y, z) != 0.0D) s.damageItem(1, e);
-		return true;
-	}
+    @Override
+    public boolean onBlockDestroyed (ItemStack stack, World world, Block block, int x, int y, int z, EntityLivingBase entity)
+    {
+        if (block.getBlockHardness(world, x, y, z) != 0.0D) stack.damageItem(1, entity);
+        return true;
+    }
 
-	@Override
-	public boolean onBlockStartBreak (ItemStack s, int x, int y, int z, EntityPlayer p)
-	{
-		super.onBlockStartBreak(s, x, y, z, p);
+    @Override
+    public EnumRarity getRarity (ItemStack stack)
+    {
+        return EnumRarity.uncommon;
+    }
 
-		if (!p.worldObj.isRemote)
-		{
-			Block block = p.worldObj.getBlock(x, y, z);
-			int meta = p.worldObj.getBlockMetadata(x, y, z);
+    @Override
+    public boolean isFull3D ()
+    {
+        return true;
+    }
 
-			if (block == Blocks.lit_redstone_ore) block = Blocks.redstone_ore;
+    @Override
+    public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
+    {
+        if (!world.isRemote && player.isSneaking())
+        {
+            if (stack.stackTagCompound == null) stack.setTagCompound(new NBTTagCompound());
+            int mode = getMode(stack);
 
-			ItemStack stack = new ItemStack(block, 1, meta);
-		}
-		return false;
-	}
+            stack.stackTagCompound.setInteger(TAG_MODE, mode < 3 ? mode + 1 : 0);
 
-	@Override
-	public EnumRarity getRarity (ItemStack s)
-	{
-		return EnumRarity.uncommon;
-	}
+            String str = EnumChatFormatting.GRAY + StatCollector.translateToLocal("text.disassembler.mode") + ": "
+                    + getModeName(mode) + (mode == 3 ? "\u00A7c" : "\u00A7a") + " (" + getEfficiency(mode) + ")";
+            HUDHandler.displayString(str, 300, false);
+        }
+        return stack;
+    }
 
-	@Override
-	public boolean isFull3D ()
-	{
-		return true;
-	}
+    public static int getEfficiency (int mode)
+    {
+        switch (mode)
+        {
+        case 0 :
+            return 20;
+        case 1 :
+            return 8;
+        case 2 :
+            return 128;
+        case 3 :
+            return 0;
+        }
+        return 0;
+    }
 
-	@Override
-	public ItemStack onItemRightClick (ItemStack s, World w, EntityPlayer p)
-	{
-		if (!w.isRemote && p.isSneaking())
-		{
-			if (s.stackTagCompound == null) s.setTagCompound(new NBTTagCompound());
-			s.stackTagCompound.setInteger(TAG_MODE, getMode(s) < 3 ? getMode(s) + 1 : 0);
+    public static int getEfficiency (ItemStack stack)
+    {
+        return getEfficiency(getMode(stack));
+    }
 
-			int mode = getMode(s);
-			String str = EnumChatFormatting.GRAY + StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(mode) + (mode == 3 ? "\u00A7c" : "\u00A7a") + " ("
-					+ getEfficiency(mode) + ")";
-			HUDHandler.displayString(str, 300, false);
-		}
+    public static int getMode (ItemStack stack)
+    {
+        if (stack.stackTagCompound == null) return 0;
+        return stack.stackTagCompound.getInteger(TAG_MODE);
+    }
 
-		return s;
-	}
+    public static String getModeName (int mode)
+    {
+        switch (mode)
+        {
+        case 0 :
+            return "\u00A7a" + StatCollector.translateToLocal("text.disassembler.normal");
+        case 1 :
+            return "\u00A7a" + StatCollector.translateToLocal("text.disassembler.slow");
+        case 2 :
+            return "\u00A7a" + StatCollector.translateToLocal("text.disassembler.fast");
+        case 3 :
+            return "\u00A7c" + StatCollector.translateToLocal("text.disassembler.off");
+        }
+        return null;
+    }
 
-	public static int getEfficiency (int mode)
-	{
-		switch (mode)
-		{
-		case 0 :
-			return 20;
-		case 1 :
-			return 8;
-		case 2 :
-			return 128;
-		case 3 :
-			return 0;
-		}
-		return 0;
-	}
+    public static String getModeName (ItemStack stack)
+    {
+        return getModeName(getMode(stack));
+    }
 
-	public static int getEfficiency (ItemStack s)
-	{
-		return getEfficiency(getMode(s));
-	}
-
-	public static int getMode (ItemStack s)
-	{
-		if (s.stackTagCompound == null) return 0;
-		return s.stackTagCompound.getInteger(TAG_MODE);
-	}
-
-	public static String getModeName (int mode)
-	{
-		switch (mode)
-		{
-		case 0 :
-			return "\u00A7a" + StatCollector.translateToLocal("text.disassembler.normal");
-		case 1 :
-			return "\u00A7a" + StatCollector.translateToLocal("text.disassembler.slow");
-		case 2 :
-			return "\u00A7a" + StatCollector.translateToLocal("text.disassembler.fast");
-		case 3 :
-			return "\u00A7c" + StatCollector.translateToLocal("text.disassembler.off");
-		}
-		return null;
-	}
-
-	public static String getModeName (ItemStack s)
-	{
-		return getModeName(getMode(s));
-	}
-
-	public void onUpdate (ItemStack s, World w, Entity e, int i, boolean b)
-	{
-		super.onUpdate(s, w, e, i, b);
-		if (e instanceof EntityPlayer)
-		{
-			EntityPlayer p = (EntityPlayer) e;
-			if (!w.isRemote && s.isItemDamaged() && e.ticksExisted % 20 == 0)
-			{
-				if (WandManager.consumeVisFromInventory(p, new AspectList().add(Aspect.ENTROPY, 5))) s.damageItem(-1, (EntityLivingBase) e);
-			}
-		}
-	}
+    public void onUpdate (ItemStack stack, World world, Entity entity, int i, boolean b)
+    {
+        super.onUpdate(stack, world, entity, i, b);
+        if (entity instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) entity;
+            if (!world.isRemote && stack.isItemDamaged() && entity.ticksExisted % 20 == 0)
+            {
+                if (WandManager.consumeVisFromInventory(player, new AspectList().add(Aspect.ENTROPY, 5)))
+                    stack.damageItem(-1, (EntityLivingBase) entity);
+            }
+        }
+    }
 }

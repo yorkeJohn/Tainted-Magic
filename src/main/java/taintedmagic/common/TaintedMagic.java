@@ -19,80 +19,79 @@ import net.minecraftforge.common.util.EnumHelper;
 import taintedmagic.common.handler.ConfigHandler;
 import taintedmagic.common.handler.TMEventHandler;
 import taintedmagic.common.handler.UpdateHandler;
-import taintedmagic.common.items.wand.foci.FocusUpgrades;
+import taintedmagic.common.items.wand.foci.TMFocusUpgrades;
 import taintedmagic.common.lib.LibInfo;
 import taintedmagic.common.network.PacketHandler;
 import taintedmagic.common.registry.BlockRegistry;
 import taintedmagic.common.registry.ItemRegistry;
-import taintedmagic.common.registry.TMEntityRegistry;
 import taintedmagic.common.registry.OreDictRegistry;
 import taintedmagic.common.registry.RecipeRegistry;
 import taintedmagic.common.registry.ResearchRegistry;
+import taintedmagic.common.registry.TMEntityRegistry;
 
 @Mod (modid = LibInfo.MODID, name = LibInfo.NAME, version = LibInfo.VERSION, dependencies = LibInfo.DEPENDENCIES)
 public class TaintedMagic
 {
-	@Mod.Instance ("TaintedMagic")
-	public static TaintedMagic instance;
+    @Mod.Instance ("TaintedMagic")
+    public static TaintedMagic instance;
 
-	// Proxies
-	@SidedProxy (clientSide = "taintedmagic.client.ClientProxy", serverSide = "taintedmagic.common.CommonProxy")
-	public static CommonProxy proxy;
+    // Proxies
+    @SidedProxy (clientSide = "taintedmagic.client.ClientProxy", serverSide = "taintedmagic.common.CommonProxy")
+    public static CommonProxy proxy;
 
-	public static TMEventHandler taintedMagicEvents;
-	public static CreativeTabs tabTaintedMagic = new TaintedMagicCreativeTab();
-	public static ConfigHandler configHandler;
+    // Tainted Magic creative tab
+    public static CreativeTabs tabTaintedMagic = new TMCreativeTab();
 
-	public static final Logger log = LogManager.getLogger("TAINTEDMAGIC");
+    // TM log
+    public static final Logger log = LogManager.getLogger("TAINTEDMAGIC");
 
-	public static EnumRarity rarityCreation = EnumHelper.addRarity("CREATION", EnumChatFormatting.GOLD, "Creation");
+    // Creation EnumRarity
+    public static EnumRarity rarityCreation = EnumHelper.addRarity("CREATION", EnumChatFormatting.GOLD, "Creation");
 
-	// Pre init
-	@EventHandler
-	public static void preInit (FMLPreInitializationEvent event)
-	{
-		log.info("Please stand back... Pre-initializing Tainted Magic!");
+    // Pre init
+    @EventHandler
+    public static void preInit (FMLPreInitializationEvent event)
+    {
+        log.info("...Pre-initializing Tainted Magic!");
 
-		// Config
-		configHandler.config = new Configuration(event.getSuggestedConfigurationFile());
-		configHandler.init();
+        // Config
+        ConfigHandler.config = new Configuration(event.getSuggestedConfigurationFile());
+        ConfigHandler.initConfig();
 
-		proxy.registerClientHandlers();
+        proxy.registerClientHandlers();
 
-		PacketHandler.init();
-		ItemRegistry.init();
-		BlockRegistry.init();
-		BlockRegistry.initTiles();
-		TMEntityRegistry.init();
-		RecipeRegistry.init();
-		OreDictRegistry.init();
+        PacketHandler.initPackets();
+        ItemRegistry.initItems();
+        BlockRegistry.initBlocks();
+        BlockRegistry.initTiles();
+        TMEntityRegistry.initEntities();
+        RecipeRegistry.initRecipes();
+        OreDictRegistry.initOreDict();
 
-		if (configHandler.UPDATE_HANDLER) UpdateHandler.init();
-	}
+        if (ConfigHandler.NOTIFY_UPDATE) UpdateHandler.checkForUpdate();
+    }
 
-	// Init
-	@EventHandler
-	public static void init (FMLInitializationEvent event)
-	{
-		log.info("Things seem to be going smoothly... Initializing Tainted Magic!");
+    // Init
+    @EventHandler
+    public static void init (FMLInitializationEvent event)
+    {
+        log.info("...Initializing Tainted Magic!");
 
-		taintedMagicEvents = new TMEventHandler();
+        MinecraftForge.EVENT_BUS.register(new TMEventHandler());
+        FMLCommonHandler.instance().bus().register(new TMEventHandler());
+        
+        proxy.registerRenderers();
+        TMFocusUpgrades.initFocusUpgrades();
+    }
 
-		MinecraftForge.EVENT_BUS.register(taintedMagicEvents);
-		FMLCommonHandler.instance().bus().register(taintedMagicEvents);
+    // Post init
+    @EventHandler
+    public static void postInit (FMLPostInitializationEvent event)
+    {
+        log.info("...Post-initializing Tainted Magic!");
 
-		proxy.registerRenderers();
-		FocusUpgrades.init();
-	}
+        ResearchRegistry.initResearch();
 
-	// Post init
-	@EventHandler
-	public static void postInit (FMLPostInitializationEvent event)
-	{
-		log.info("Almost done... Post-initializing Tainted Magic!");
-
-		ResearchRegistry.initResearch();
-
-		log.info("Phew! Tainted Magic has finished loading, enjoy!");
-	}
+        log.info("...Loading complete, enjoy!");
+    }
 }

@@ -2,7 +2,6 @@ package taintedmagic.common.registry;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
@@ -13,12 +12,12 @@ import net.minecraft.util.ResourceLocation;
 import taintedmagic.common.handler.WandHandler;
 import taintedmagic.common.items.ItemCrimsonBlood;
 import taintedmagic.common.items.ItemFlyteCharm;
-import taintedmagic.common.items.ItemGatekey;
+import taintedmagic.common.items.ItemGateKey;
 import taintedmagic.common.items.ItemMagicFunguar;
 import taintedmagic.common.items.ItemMaterial;
 import taintedmagic.common.items.ItemNightshadeBerries;
 import taintedmagic.common.items.ItemSalis;
-import taintedmagic.common.items.ItemVoidsentBlood;
+import taintedmagic.common.items.ItemVoidBlood;
 import taintedmagic.common.items.equipment.ItemLumosRing;
 import taintedmagic.common.items.equipment.ItemShadowFortressArmor;
 import taintedmagic.common.items.equipment.ItemVoidFortressArmor;
@@ -43,7 +42,8 @@ import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
 import taintedmagic.common.items.wand.foci.ItemFocusShockwave;
 import taintedmagic.common.items.wand.foci.ItemFocusTaintSwarm;
 import taintedmagic.common.items.wand.foci.ItemFocusVisShard;
-import taintedmagic.common.lib.LibToolMaterials;
+import taintedmagic.common.lib.LibMaterials;
+import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.wands.StaffRod;
 import thaumcraft.api.wands.WandCap;
 import thaumcraft.api.wands.WandRod;
@@ -53,11 +53,11 @@ public class ItemRegistry
     public static Item ItemMagicFunguar;
     public static Item ItemNightshadeBerries;
     public static Item ItemMaterial;
-    public static Item ItemVoidsentBlood;
+    public static Item ItemVoidBlood;
     public static Item ItemCrimsonBlood;
     public static Item ItemFlyteCharm;
     public static Item ItemSalis;
-    public static Item ItemGatekey;
+    public static Item ItemGateKey;
 
     // Wand
     public static Item ItemWandRod;
@@ -111,13 +111,13 @@ public class ItemRegistry
 
     public static Item ItemKatana;
 
-    public static void init ()
+    public static void initItems ()
     {
         ItemMaterial = new ItemMaterial();
         GameRegistry.registerItem(ItemMaterial, "ItemMaterial");
 
-        ItemVoidsentBlood = new ItemVoidsentBlood();
-        GameRegistry.registerItem(ItemVoidsentBlood, "ItemVoidsentBlood");
+        ItemVoidBlood = new ItemVoidBlood();
+        GameRegistry.registerItem(ItemVoidBlood, "ItemVoidBlood");
 
         ItemCrimsonBlood = new ItemCrimsonBlood();
         GameRegistry.registerItem(ItemCrimsonBlood, "ItemCrimsonBlood");
@@ -134,45 +134,45 @@ public class ItemRegistry
         ItemSalis = new ItemSalis();
         GameRegistry.registerItem(ItemSalis, "ItemSalis");
 
-        ItemGatekey = new ItemGatekey();
-        GameRegistry.registerItem(ItemGatekey, "ItemGatekey");
+        ItemGateKey = new ItemGateKey();
+        GameRegistry.registerItem(ItemGateKey, "ItemGateKey");
 
         // Armor and Baubles
-        ItemWarpedGoggles = new ItemWarpedGoggles(LibToolMaterials.armorMatSpecial, 4, 0);
+        ItemWarpedGoggles = new ItemWarpedGoggles(LibMaterials.armorMatWarped, 4, 0);
         GameRegistry.registerItem(ItemWarpedGoggles, "ItemWarpedGoggles");
 
-        ItemVoidFortressHelmet = new ItemVoidFortressArmor(LibToolMaterials.armorMatVoidFortress, 4, 0)
-                .setUnlocalizedName("ItemVoidFortressHelmet");
+        ItemVoidFortressHelmet =
+                new ItemVoidFortressArmor(LibMaterials.armorMatVoidFortress, 4, 0).setUnlocalizedName("ItemVoidFortressHelmet");
         GameRegistry.registerItem(ItemVoidFortressHelmet, "ItemVoidFortressHelmet");
 
-        ItemVoidFortressChestplate = new ItemVoidFortressArmor(LibToolMaterials.armorMatVoidFortress, 4, 1)
+        ItemVoidFortressChestplate = new ItemVoidFortressArmor(LibMaterials.armorMatVoidFortress, 4, 1)
                 .setUnlocalizedName("ItemVoidFortressChestplate");
         GameRegistry.registerItem(ItemVoidFortressChestplate, "ItemVoidFortressChestplate");
 
-        ItemVoidFortressLeggings = new ItemVoidFortressArmor(LibToolMaterials.armorMatVoidFortress, 4, 2)
+        ItemVoidFortressLeggings = new ItemVoidFortressArmor(LibMaterials.armorMatVoidFortress, 4, 2)
                 .setUnlocalizedName("ItemVoidFortressLeggings");
         GameRegistry.registerItem(ItemVoidFortressLeggings, "ItemVoidFortressLeggings");
 
         ItemVoidwalkerBoots =
-                new ItemVoidwalkerBoots(LibToolMaterials.armorMatSpecial, 4, 3).setUnlocalizedName("ItemVoidwalkerBoots");
+                new ItemVoidwalkerBoots(LibMaterials.armorMatVoidwalker, 4, 3).setUnlocalizedName("ItemVoidwalkerBoots");
         GameRegistry.registerItem(ItemVoidwalkerBoots, "ItemVoidwalkerBoots");
 
         ItemVoidwalkerSash = new ItemVoidwalkerSash();
         GameRegistry.registerItem(ItemVoidwalkerSash, "ItemVoidwalkerSash");
 
-        ItemShadowFortressHelmet = new ItemShadowFortressArmor(LibToolMaterials.armorMatShadowFortress, 4, 0)
+        ItemShadowFortressHelmet = new ItemShadowFortressArmor(LibMaterials.armorMatShadowFortress, 4, 0)
                 .setUnlocalizedName("ItemShadowFortressHelmet");
         GameRegistry.registerItem(ItemShadowFortressHelmet, "ItemShadowFortressHelmet");
 
-        ItemShadowFortressChestplate = new ItemShadowFortressArmor(LibToolMaterials.armorMatShadowFortress, 4, 1)
+        ItemShadowFortressChestplate = new ItemShadowFortressArmor(LibMaterials.armorMatShadowFortress, 4, 1)
                 .setUnlocalizedName("ItemShadowFortressChestplate");
         GameRegistry.registerItem(ItemShadowFortressChestplate, "ItemShadowFortressChestplate");
 
-        ItemShadowFortressLeggings = new ItemShadowFortressArmor(LibToolMaterials.armorMatShadowFortress, 4, 2)
+        ItemShadowFortressLeggings = new ItemShadowFortressArmor(LibMaterials.armorMatShadowFortress, 4, 2)
                 .setUnlocalizedName("ItemShadowFortressLeggings");
         GameRegistry.registerItem(ItemShadowFortressLeggings, "ItemShadowFortressLeggings");
 
-        ItemVoidmetalGoggles = new ItemVoidmetalGoggles(ArmorMaterial.IRON, 4, 0);
+        ItemVoidmetalGoggles = new ItemVoidmetalGoggles(ThaumcraftApi.armorMatSpecial, 4, 0);
         GameRegistry.registerItem(ItemVoidmetalGoggles, "ItemVoidmetalGoggles");
 
         ItemLumosRing = new ItemLumosRing();
@@ -229,25 +229,25 @@ public class ItemRegistry
         ItemThaumicDisassembler = new ItemThaumicDisassembler();
         GameRegistry.registerItem(ItemThaumicDisassembler, "ItemThaumicDisassembler");
 
-        ItemHollowDagger = new ItemHollowDagger(LibToolMaterials.toolMatHollow);
+        ItemHollowDagger = new ItemHollowDagger(LibMaterials.toolMatHollow);
         GameRegistry.registerItem(ItemHollowDagger, "ItemHollowDagger");
 
-        ItemShadowmetalHoe = new ItemShadowmetalHoe(LibToolMaterials.toolMatShadow);
+        ItemShadowmetalHoe = new ItemShadowmetalHoe(LibMaterials.toolMatShadow);
         GameRegistry.registerItem(ItemShadowmetalHoe, "ItemShadowmetalHoe");
 
-        ItemShadowmetalPick = new ItemShadowmetalPick(LibToolMaterials.toolMatShadow);
+        ItemShadowmetalPick = new ItemShadowmetalPick(LibMaterials.toolMatShadow);
         GameRegistry.registerItem(ItemShadowmetalPick, "ItemShadowmetalPick");
 
-        ItemShadowmetalAxe = new ItemShadowmetalAxe(LibToolMaterials.toolMatShadow);
+        ItemShadowmetalAxe = new ItemShadowmetalAxe(LibMaterials.toolMatShadow);
         GameRegistry.registerItem(ItemShadowmetalAxe, "ItemShadowmetalAxe");
 
-        ItemShadowmetalSpade = new ItemShadowmetalSpade(LibToolMaterials.toolMatShadow);
+        ItemShadowmetalSpade = new ItemShadowmetalSpade(LibMaterials.toolMatShadow);
         GameRegistry.registerItem(ItemShadowmetalSpade, "ItemShadowmetalSpade");
 
-        ItemShadowmetalSword = new ItemShadowmetalSword(LibToolMaterials.toolMatShadow);
+        ItemShadowmetalSword = new ItemShadowmetalSword(LibMaterials.toolMatShadow);
         GameRegistry.registerItem(ItemShadowmetalSword, "ItemShadowmetalSword");
 
-        ItemPrimordialEdge = new ItemPrimordialEdge(LibToolMaterials.toolMatPrimal);
+        ItemPrimordialEdge = new ItemPrimordialEdge(LibMaterials.toolMatPrimal);
         GameRegistry.registerItem(ItemPrimordialEdge, "ItemPrimordialEdge");
 
         ItemKatana = new ItemKatana();

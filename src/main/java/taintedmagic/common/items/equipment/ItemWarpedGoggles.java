@@ -14,38 +14,38 @@ import thaumcraft.common.items.armor.ItemGoggles;
 
 public class ItemWarpedGoggles extends ItemGoggles implements IWarpingGear
 {
-	public ItemWarpedGoggles (ArmorMaterial m, int j, int k)
-	{
-		super(m, j, k);
-		this.setMaxDamage(500);
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setUnlocalizedName("ItemWarpedGoggles");
-	}
+    public ItemWarpedGoggles (ArmorMaterial material, int j, int k)
+    {
+        super(material, j, k);
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setUnlocalizedName("ItemWarpedGoggles");
+    }
 
-	@SideOnly (Side.CLIENT)
-	public void registerIcons (IIconRegister ir)
-	{
-		this.icon = ir.registerIcon("taintedmagic:ItemWarpedGoggles");
-	}
+    @SideOnly (Side.CLIENT)
+    public void registerIcons (IIconRegister ir)
+    {
+        this.icon = ir.registerIcon("taintedmagic:ItemWarpedGoggles");
+    }
 
-	public String getArmorTexture (ItemStack s, Entity e, int slot, String type)
-	{
-		return "taintedmagic:textures/models/ModelWarpedGoggles.png";
-	}
+    public String getArmorTexture (ItemStack stack, Entity entity, int slot, String type)
+    {
+        return "taintedmagic:textures/models/ModelWarpedGoggles.png";
+    }
 
-	public EnumRarity getRarity (ItemStack s)
-	{
-		return EnumRarity.rare;
-	}
+    public EnumRarity getRarity (ItemStack stack)
+    {
+        return EnumRarity.rare;
+    }
 
-	@Override
-	public int getWarp (ItemStack s, EntityPlayer p)
-	{
-		return 1;
-	}
+    @Override
+    public int getWarp (ItemStack stack, EntityPlayer player)
+    {
+        return 1;
+    }
 
-	public boolean getIsRepairable (ItemStack s, ItemStack s2)
-	{
-		return (s2.isItemEqual(new ItemStack(ItemRegistry.ItemMaterial)) && s2.getItemDamage() == 0) ? true : super.getIsRepairable(s, s2);
-	}
+    public boolean getIsRepairable (ItemStack stack, ItemStack repairItem)
+    {
+        return repairItem.isItemEqual(new ItemStack(ItemRegistry.ItemMaterial, 1, 0)) ? true
+                : super.getIsRepairable(stack, repairItem);
+    }
 }

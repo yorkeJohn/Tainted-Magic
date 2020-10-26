@@ -14,7 +14,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import taintedmagic.api.IRenderInventoryItem;
@@ -29,8 +28,8 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
 {
     // Vis used per tick while flying
     static final AspectList COST = new AspectList().add(Aspect.AIR, 15);
-    // Magic circle
-    private static final ResourceLocation circle = new ResourceLocation("taintedmagic:textures/misc/circle.png");
+    // Magic circle texture
+    private static final ResourceLocation MAGIC_CIRCLE = new ResourceLocation("taintedmagic:textures/misc/circle.png");
 
     public ItemFlyteCharm ()
     {
@@ -144,7 +143,7 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
         GL11.glScalef(0.4F, 0.4F, 0.4F);
         GL11.glRotatef(player.ticksExisted + partialTicks, 0F, 1F, 0F);
 
-        UtilsFX.bindTexture(circle);
+        UtilsFX.bindTexture(MAGIC_CIRCLE);
 
         t.startDrawingQuads();
         t.addVertexWithUV(-1, 0, -1, 0, 0);

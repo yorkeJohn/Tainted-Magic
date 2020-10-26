@@ -15,64 +15,66 @@ import net.minecraft.world.World;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.IWarpingGear;
-import thaumcraft.api.ItemApi;
 import thaumcraft.api.aspects.Aspect;
+import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.armor.ItemFortressArmor;
 
 public class ItemVoidFortressArmor extends ItemFortressArmor implements IWarpingGear, IVisDiscountGear
 {
-	public ItemVoidFortressArmor (ArmorMaterial m, int j, int k)
-	{
-		super(m, j, k);
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-	}
+    public ItemVoidFortressArmor (ArmorMaterial material, int j, int k)
+    {
+        super(material, j, k);
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+    }
 
-	@SideOnly (Side.CLIENT)
-	public void registerIcons (IIconRegister ir)
-	{
-		this.iconHelm = ir.registerIcon("taintedmagic:ItemVoidFortressHelmet");
-		this.iconChest = ir.registerIcon("taintedmagic:ItemVoidFortressChestplate");
-		this.iconLegs = ir.registerIcon("taintedmagic:ItemVoidFortressLeggings");
-	}
+    @SideOnly (Side.CLIENT)
+    public void registerIcons (IIconRegister ir)
+    {
+        this.iconHelm = ir.registerIcon("taintedmagic:ItemVoidFortressHelmet");
+        this.iconChest = ir.registerIcon("taintedmagic:ItemVoidFortressChestplate");
+        this.iconLegs = ir.registerIcon("taintedmagic:ItemVoidFortressLeggings");
+    }
 
-	public void addInformation (ItemStack s, EntityPlayer p, List l, boolean b)
-	{
-		l.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": " + getVisDiscount(s, p, null) + "%");
-		super.addInformation(s, p, l, b);
-	}
+    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
+    {
+        list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": "
+                + getVisDiscount(stack, player, null) + "%");
+        super.addInformation(stack, player, list, b);
+    }
 
-	public String getArmorTexture (ItemStack s, Entity e, int slot, String t)
-	{
-		return "taintedmagic:textures/models/ModelVoidFortressArmor.png";
-	}
+    public String getArmorTexture (ItemStack stack, Entity entity, int slot, String type)
+    {
+        return "taintedmagic:textures/models/ModelVoidFortressArmor.png";
+    }
 
-	public boolean getIsRepairable (ItemStack s, ItemStack s2)
-	{
-		return s2.isItemEqual(ItemApi.getItem("itemResource", 16)) ? true : super.getIsRepairable(s, s2);
-	}
+    public boolean getIsRepairable (ItemStack stack, ItemStack repairItem)
+    {
+        return repairItem.isItemEqual(new ItemStack(ConfigItems.itemResource, 1, 16)) ? true
+                : super.getIsRepairable(stack, repairItem);
+    }
 
-	public void onUpdate (ItemStack s, World w, Entity e, int j, boolean k)
-	{
-		super.onUpdate(s, w, e, j, k);
+    public void onUpdate (ItemStack stack, World world, Entity entity, int i, boolean b)
+    {
+        super.onUpdate(stack, world, entity, i, b);
+        if (!world.isRemote && stack.isItemDamaged() && entity.ticksExisted % 20 == 0 && entity instanceof EntityLivingBase)
+            stack.damageItem(-1, (EntityLivingBase) entity);
+    }
 
-		if ( (!w.isRemote) && (s.isItemDamaged()) && (e.ticksExisted % 20 == 0) && ( (e instanceof EntityLivingBase))) s.damageItem(-1, (EntityLivingBase) e);
-	}
+    public void onArmorTick (World world, EntityPlayer player, ItemStack stack)
+    {
+        super.onArmorTick(world, player, stack);
+        if (!world.isRemote && stack.isItemDamaged() && player.ticksExisted % 20 == 0) stack.damageItem(-1, player);
+    }
 
-	public void onArmorTick (World w, EntityPlayer p, ItemStack s)
-	{
-		super.onArmorTick(w, p, s);
-		if ( (!w.isRemote) && (s.getItemDamage() > 0) && (p.ticksExisted % 20 == 0)) s.damageItem(-1, p);
-	}
+    @Override
+    public int getWarp (ItemStack stack, EntityPlayer player)
+    {
+        return 3;
+    }
 
-	@Override
-	public int getWarp (ItemStack s, EntityPlayer p)
-	{
-		return 3;
-	}
-
-	@Override
-	public int getVisDiscount (ItemStack s, EntityPlayer p, Aspect a)
-	{
-		return 5;
-	}
+    @Override
+    public int getVisDiscount (ItemStack stack, EntityPlayer player, Aspect aspect)
+    {
+        return 5;
+    }
 }

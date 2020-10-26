@@ -16,51 +16,51 @@ import thaumcraft.common.items.armor.ItemGoggles;
 
 public class ItemVoidmetalGoggles extends ItemGoggles implements IWarpingGear
 {
-	public ItemVoidmetalGoggles (ArmorMaterial m, int j, int k)
-	{
-		super(m, j, k);
-		this.setMaxDamage(250);
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setUnlocalizedName("ItemVoidmetalGoggles");
-	}
+    public ItemVoidmetalGoggles (ArmorMaterial material, int j, int k)
+    {
+        super(material, j, k);
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setUnlocalizedName("ItemVoidmetalGoggles");
+    }
 
-	@SideOnly (Side.CLIENT)
-	public void registerIcons (IIconRegister ir)
-	{
-		this.icon = ir.registerIcon("taintedmagic:ItemVoidmetalGoggles");
-	}
+    @SideOnly (Side.CLIENT)
+    public void registerIcons (IIconRegister ir)
+    {
+        this.icon = ir.registerIcon("taintedmagic:ItemVoidmetalGoggles");
+    }
 
-	public String getArmorTexture (ItemStack s, Entity e, int slot, String type)
-	{
-		return "taintedmagic:textures/models/ModelVoidmetalGoggles.png";
-	}
+    public String getArmorTexture (ItemStack stack, Entity entity, int slot, String type)
+    {
+        return "taintedmagic:textures/models/ModelVoidmetalGoggles.png";
+    }
 
-	public EnumRarity getRarity (ItemStack s)
-	{
-		return EnumRarity.rare;
-	}
+    public EnumRarity getRarity (ItemStack stack)
+    {
+        return EnumRarity.rare;
+    }
 
-	@Override
-	public int getWarp (ItemStack s, EntityPlayer p)
-	{
-		return 5;
-	}
+    @Override
+    public int getWarp (ItemStack stack, EntityPlayer player)
+    {
+        return 5;
+    }
 
-	@Override
-	public int getVisDiscount (ItemStack stack, EntityPlayer player, Aspect aspect)
-	{
-		return 10;
-	}
+    @Override
+    public int getVisDiscount (ItemStack stack, EntityPlayer player, Aspect aspect)
+    {
+        return 12;
+    }
 
-	public void onUpdate (ItemStack s, World w, Entity e, int j, boolean k)
-	{
-		super.onUpdate(s, w, e, j, k);
-		if (!w.isRemote && s.isItemDamaged() && e.ticksExisted % 20 == 0 && e instanceof EntityLivingBase) s.damageItem(-1, (EntityLivingBase) e);
-	}
+    public void onUpdate (ItemStack stack, World world, Entity entity, int i, boolean b)
+    {
+        super.onUpdate(stack, world, entity, i, b);
+        if (!world.isRemote && stack.isItemDamaged() && entity.ticksExisted % 20 == 0 && entity instanceof EntityLivingBase)
+            stack.damageItem(-1, (EntityLivingBase) entity);
+    }
 
-	public void onArmorTick (World w, EntityPlayer p, ItemStack s)
-	{
-		super.onArmorTick(w, p, s);
-		if (!w.isRemote && s.getItemDamage() > 0 && p.ticksExisted % 20 == 0) s.damageItem(-1, p);
-	}
+    public void onArmorTick (World world, EntityPlayer player, ItemStack stack)
+    {
+        super.onArmorTick(world, player, stack);
+        if (!world.isRemote && stack.isItemDamaged() && player.ticksExisted % 20 == 0) stack.damageItem(-1, player);
+    }
 }
