@@ -25,148 +25,139 @@ import thaumcraft.common.lib.utils.EntityUtils;
 
 public class ItemFocusTaintSwarm extends ItemFocusBasic
 {
-	IIcon depthIcon = null;
-	IIcon ornIcon = null;
+    IIcon depthIcon = null;
+    IIcon ornIcon = null;
 
-	private static final AspectList cost = new AspectList().add(Aspect.EARTH, 500).add(Aspect.WATER, 500);
-	private static final AspectList costAntibody = new AspectList().add(Aspect.EARTH, 500).add(Aspect.WATER, 500).add(Aspect.ORDER, 200);
+    private static final AspectList COST = new AspectList().add(Aspect.EARTH, 50).add(Aspect.WATER, 50);
+    private static final AspectList COST_ANTIBODY = COST.copy().add(Aspect.ORDER, 10);
 
-	public ItemFocusTaintSwarm ()
-	{
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setUnlocalizedName("ItemFocusTaintSwarm");
-	}
+    public ItemFocusTaintSwarm ()
+    {
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setUnlocalizedName("ItemFocusTaintSwarm");
+    }
 
-	@SideOnly (Side.CLIENT)
-	public void registerIcons (IIconRegister ir)
-	{
-		this.icon = ir.registerIcon("taintedmagic:ItemFocusTaintSwarm");
-		this.depthIcon = ir.registerIcon("taintedmagic:ItemFocusTaintSwarm_depth");
-		this.ornIcon = ir.registerIcon("thaumcraft:focus_whatever_orn");
-	}
+    @SideOnly (Side.CLIENT)
+    public void registerIcons (IIconRegister ir)
+    {
+        this.icon = ir.registerIcon("taintedmagic:ItemFocusTaintSwarm");
+        this.depthIcon = ir.registerIcon("taintedmagic:ItemFocusTaintSwarm_depth");
+        this.ornIcon = ir.registerIcon("thaumcraft:focus_whatever_orn");
+    }
 
-	public IIcon getFocusDepthLayerIcon (ItemStack s)
-	{
-		return this.depthIcon;
-	}
+    public IIcon getFocusDepthLayerIcon (ItemStack stack)
+    {
+        return this.depthIcon;
+    }
 
-	public IIcon getOrnament (ItemStack s)
-	{
-		return this.ornIcon;
-	}
+    public IIcon getOrnament (ItemStack stack)
+    {
+        return this.ornIcon;
+    }
 
-	@SideOnly (Side.CLIENT)
-	public boolean requiresMultipleRenderPasses ()
-	{
-		return true;
-	}
+    @SideOnly (Side.CLIENT)
+    public boolean requiresMultipleRenderPasses ()
+    {
+        return true;
+    }
 
-	@SideOnly (Side.CLIENT)
-	public int getRenderPasses (int m)
-	{
-		return 2;
-	}
+    @SideOnly (Side.CLIENT)
+    public int getRenderPasses (int meta)
+    {
+        return 2;
+    }
 
-	@Override
-	@SideOnly (Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass (int meta, int pass)
-	{
-		return (pass == 0) ? this.ornIcon : this.icon;
-	}
+    @Override
+    @SideOnly (Side.CLIENT)
+    public IIcon getIconFromDamageForRenderPass (int meta, int pass)
+    {
+        return (pass == 0) ? this.ornIcon : this.icon;
+    }
 
-	public String getSortingHelper (ItemStack s)
-	{
-		return "TAINT" + super.getSortingHelper(s);
-	}
+    public String getSortingHelper (ItemStack stack)
+    {
+        return "TAINT" + super.getSortingHelper(stack);
+    }
 
-	public int getFocusColor (ItemStack s)
-	{
-		return 0x9929BD;
-	}
+    public int getFocusColor (ItemStack stack)
+    {
+        return 0x9929BD;
+    }
 
-	public AspectList getVisCost (ItemStack s)
-	{
-		return isUpgradedWith(s, FocusUpgrades.antibody) ? costAntibody : cost;
-	}
+    public AspectList getVisCost (ItemStack stack)
+    {
+        return isUpgradedWith(stack, TMFocusUpgrades.antibody) ? COST_ANTIBODY : COST;
+    }
 
-	public int getActivationCooldown (ItemStack s)
-	{
-		return 3000;
-	}
+    public int getActivationCooldown (ItemStack stack)
+    {
+        return 3000;
+    }
 
-	public boolean isVisCostPerTick (ItemStack s)
-	{
-		return false;
-	}
+    public boolean isVisCostPerTick (ItemStack stack)
+    {
+        return false;
+    }
 
-	public ItemFocusBasic.WandFocusAnimation getAnimation (ItemStack s)
-	{
-		return ItemFocusBasic.WandFocusAnimation.WAVE;
-	}
+    public ItemFocusBasic.WandFocusAnimation getAnimation (ItemStack stack)
+    {
+        return ItemFocusBasic.WandFocusAnimation.WAVE;
+    }
 
-	public ItemStack onFocusRightClick (ItemStack s, World w, EntityPlayer p, MovingObjectPosition mop)
-	{
-		ItemWandCasting wand = (ItemWandCasting) s.getItem();
+    public ItemStack onFocusRightClick (ItemStack stack, World world, EntityPlayer player, MovingObjectPosition mop)
+    {
+        ItemWandCasting wand = (ItemWandCasting) stack.getItem();
 
-		Entity look = EntityUtils.getPointedEntity(w, p, 0.0D, 32.0D, 1.1F);
+        Entity target = EntityUtils.getPointedEntity(world, player, 0.0D, 32.0D, 1.1F);
 
-		if (look != null && look instanceof EntityLivingBase)
-		{
-			if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
-			{
-				EntityTaintSwarm e = new EntityTaintSwarm(w);
-				Vec3 v = p.getLookVec();
-				e.setLocationAndAngles(p.posX + v.xCoord / 2.0D, p.posY + p.getEyeHeight() + v.yCoord / 2.0D, p.posZ + v.zCoord / 2.0D, p.rotationYaw, p.rotationPitch);
+        if (target != null && target instanceof EntityLivingBase)
+        {
+            if (wand.consumeAllVis(stack, player, getVisCost(stack), true, false))
+            {
+                EntityTaintSwarm swarm = new EntityTaintSwarm(world);
 
-				e.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5.0D + wand.getFocusPotency(s));
-				e.setTarget(look);
-				e.setIsSummoned(true);
+                Vec3 look = player.getLookVec();
+                swarm.setLocationAndAngles(player.posX + look.xCoord / 2.0D,
+                        player.posY + player.getEyeHeight() + look.yCoord / 2.0D, player.posZ + look.zCoord / 2.0D,
+                        player.rotationYaw, player.rotationPitch);
 
-				if (!w.isRemote) w.spawnEntityInWorld(e);
+                swarm.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5.0D + wand.getFocusPotency(stack));
+                swarm.setTarget(target);
+                swarm.setIsSummoned(true);
 
-				if (!isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.antibody))
-				{
-					if (p.worldObj.rand.nextInt(3) == 0)
-					{
-						try
-						{
-							p.addPotionEffect(new PotionEffect(Config.potionTaintPoisonID, 40, 2));
-						}
-						catch (Exception err)
-						{
-							err.printStackTrace();
-						}
-					}
-				}
-			}
-			p.swingItem();
-		}
-		return s;
-	}
+                if (!world.isRemote) world.spawnEntityInWorld(swarm);
 
-	public void onPlayerStoppedUsingFocus (ItemStack s, World w, EntityPlayer p, int count)
-	{
-	}
+                if (!isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.antibody) && player.worldObj.rand.nextInt(3) == 0)
+                {
+                    try
+                    {
+                        player.addPotionEffect(new PotionEffect(Config.potionTaintPoisonID, 40, 2));
+                    }
+                    catch (Exception e)
+                    {
+                    }
+                }
+            }
+            player.swingItem();
+        }
+        return stack;
+    }
 
-	public void onUsingFocusTick (ItemStack s, EntityPlayer p, int count)
-	{
-	}
-
-	public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack s, int rank)
-	{
-		switch (rank)
-		{
-		case 1 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
-		case 2 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
-		case 3 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, FocusUpgrades.antibody };
-		case 4 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
-		case 5 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
-		}
-		return null;
-	}
+    public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack stack, int rank)
+    {
+        switch (rank)
+        {
+        case 1 :
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
+        case 2 :
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
+        case 3 :
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, TMFocusUpgrades.antibody };
+        case 4 :
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
+        case 5 :
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
+        }
+        return null;
+    }
 }

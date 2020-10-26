@@ -1,21 +1,13 @@
 package taintedmagic.common.items.wand.foci;
 
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.entities.EntityDarkMatter;
 import taintedmagic.common.entities.EntityDiffusion;
@@ -24,174 +16,183 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.FocusUpgradeType;
 import thaumcraft.api.wands.ItemFocusBasic;
-import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class ItemFocusDarkMatter extends ItemFocusBasic
 {
-	IIcon depthIcon = null;
-	IIcon ornIcon = null;
+    IIcon depthIcon = null;
+    IIcon ornIcon = null;
 
-	private static final AspectList cost = new AspectList().add(Aspect.ENTROPY, 20).add(Aspect.FIRE, 20);
-	private static final AspectList costSanity = new AspectList().add(Aspect.ENTROPY, 20).add(Aspect.FIRE, 50).add(Aspect.ORDER, 50);
-	private static final AspectList costCorrosive = new AspectList().add(Aspect.ENTROPY, 20).add(Aspect.FIRE, 50).add(Aspect.WATER, 20);
+    private static final AspectList COST = new AspectList().add(Aspect.ENTROPY, 150).add(Aspect.FIRE, 100);
+    private static final AspectList COST_SANITY = COST.copy().add(Aspect.ORDER, 50);
+    private static final AspectList COST_CORROSIVE = COST.copy().add(Aspect.WATER, 50);
 
-	public ItemFocusDarkMatter ()
-	{
-		this.setCreativeTab(TaintedMagic.tabTaintedMagic);
-		this.setUnlocalizedName("ItemFocusDarkMatter");
-	}
+    private static final AspectList COST_DIFFUSION = new AspectList().add(Aspect.ENTROPY, 15).add(Aspect.FIRE, 10);
+    private static final AspectList COST_DIFFUSION_SANITY = COST_DIFFUSION.copy().add(Aspect.ORDER, 5);
+    private static final AspectList COST_DIFFUSION_CORROSIVE = COST_DIFFUSION.copy().add(Aspect.WATER, 5);
 
-	@SideOnly (Side.CLIENT)
-	public void registerIcons (IIconRegister ir)
-	{
-		this.icon = ir.registerIcon("taintedmagic:ItemFocusDarkMatter");
-		this.depthIcon = ir.registerIcon("taintedmagic:ItemFocusDarkMatter_depth");
-		this.ornIcon = ir.registerIcon("thaumcraft:focus_warding_orn");
-	}
+    public ItemFocusDarkMatter ()
+    {
+        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setUnlocalizedName("ItemFocusDarkMatter");
+    }
 
-	public IIcon getFocusDepthLayerIcon (ItemStack s)
-	{
-		return this.depthIcon;
-	}
+    @SideOnly (Side.CLIENT)
+    public void registerIcons (IIconRegister ir)
+    {
+        this.icon = ir.registerIcon("taintedmagic:ItemFocusDarkMatter");
+        this.depthIcon = ir.registerIcon("taintedmagic:ItemFocusDarkMatter_depth");
+        this.ornIcon = ir.registerIcon("thaumcraft:focus_warding_orn");
+    }
 
-	public IIcon getOrnament (ItemStack s)
-	{
-		return this.ornIcon;
-	}
+    public IIcon getFocusDepthLayerIcon (ItemStack stack)
+    {
+        return this.depthIcon;
+    }
 
-	@SideOnly (Side.CLIENT)
-	public boolean requiresMultipleRenderPasses ()
-	{
-		return true;
-	}
+    public IIcon getOrnament (ItemStack stack)
+    {
+        return this.ornIcon;
+    }
 
-	@SideOnly (Side.CLIENT)
-	public int getRenderPasses (int m)
-	{
-		return 2;
-	}
+    @SideOnly (Side.CLIENT)
+    public boolean requiresMultipleRenderPasses ()
+    {
+        return true;
+    }
 
-	@Override
-	@SideOnly (Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass (int meta, int pass)
-	{
-		return (pass == 0) ? this.ornIcon : this.icon;
-	}
+    @SideOnly (Side.CLIENT)
+    public int getRenderPasses (int meta)
+    {
+        return 2;
+    }
 
-	public String getSortingHelper (ItemStack s)
-	{
-		return "ELDRITCH" + super.getSortingHelper(s);
-	}
+    @Override
+    @SideOnly (Side.CLIENT)
+    public IIcon getIconFromDamageForRenderPass (int meta, int pass)
+    {
+        return (pass == 0) ? this.ornIcon : this.icon;
+    }
 
-	public int getFocusColor (ItemStack s)
-	{
-		return 0x000018;
-	}
+    public String getSortingHelper (ItemStack stack)
+    {
+        return "ELDRITCH" + super.getSortingHelper(stack);
+    }
 
-	public AspectList getVisCost (ItemStack s)
-	{
-		return isUpgradedWith(s, FocusUpgrades.corrosive) ? costCorrosive : isUpgradedWith(s, FocusUpgrades.sanity) ? costSanity : cost;
-	}
+    public int getFocusColor (ItemStack stack)
+    {
+        return 0x000018;
+    }
 
-	public int getActivationCooldown (ItemStack s)
-	{
-		return isUpgradedWith(s, FocusUpgrades.diffusion) ? -1 : 1000;
-	}
+    public AspectList getVisCost (ItemStack stack)
+    {
+        return isUpgradedWith(stack, TMFocusUpgrades.diffusion)
+                ? (isUpgradedWith(stack, TMFocusUpgrades.sanity) ? COST_DIFFUSION_SANITY
+                        : isUpgradedWith(stack, TMFocusUpgrades.corrosive) ? COST_DIFFUSION_CORROSIVE : COST_DIFFUSION)
+                : (isUpgradedWith(stack, TMFocusUpgrades.sanity) ? COST_SANITY
+                        : isUpgradedWith(stack, TMFocusUpgrades.corrosive) ? COST_CORROSIVE : COST);
+    }
 
-	public boolean isVisCostPerTick (ItemStack s)
-	{
-		return isUpgradedWith(s, FocusUpgrades.diffusion);
-	}
+    public int getActivationCooldown (ItemStack stack)
+    {
+        return isUpgradedWith(stack, TMFocusUpgrades.diffusion) ? -1 : 1000;
+    }
 
-	public ItemFocusBasic.WandFocusAnimation getAnimation (ItemStack s)
-	{
-		return isUpgradedWith(s, FocusUpgrades.diffusion) ? ItemFocusBasic.WandFocusAnimation.CHARGE : ItemFocusBasic.WandFocusAnimation.WAVE;
-	}
+    public boolean isVisCostPerTick (ItemStack stack)
+    {
+        return isUpgradedWith(stack, TMFocusUpgrades.diffusion);
+    }
 
-	public ItemStack onFocusRightClick (ItemStack s, World w, EntityPlayer p, MovingObjectPosition mop)
-	{
-		ItemWandCasting wand = (ItemWandCasting) s.getItem();
+    public ItemFocusBasic.WandFocusAnimation getAnimation (ItemStack stack)
+    {
+        return isUpgradedWith(stack, TMFocusUpgrades.diffusion) ? ItemFocusBasic.WandFocusAnimation.CHARGE
+                : ItemFocusBasic.WandFocusAnimation.WAVE;
+    }
 
-		if (isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.diffusion))
-		{
-			p.setItemInUse(s, 2147483647);
-		}
-		else
-		{
-			if (!w.isRemote)
-			{
-				if (wand.consumeAllVis(s, p, getVisCost(s), true, false))
-				{
-					EntityDarkMatter proj = new EntityDarkMatter(w, p, 16F + wand.getFocusPotency(s), isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.corrosive));
-					w.spawnEntityInWorld(proj);
-					if (!isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.sanity))
-					{
-						if (w.rand.nextInt(20) == 0)
-						{
-							Thaumcraft.addStickyWarpToPlayer(p, 1);
-						}
-					}
-				}
-				w.playSoundAtEntity(p, "thaumcraft:egattack", 0.4F, 1.0F + w.rand.nextFloat() * 0.1F);
-			}
-			p.swingItem();
-		}
-		return s;
-	}
+    public ItemStack onFocusRightClick (ItemStack stack, World world, EntityPlayer player, MovingObjectPosition mop)
+    {
+        ItemWandCasting wand = (ItemWandCasting) stack.getItem();
 
-	public void onUsingFocusTick (ItemStack s, EntityPlayer p, int i)
-	{
-		ItemWandCasting wand = (ItemWandCasting) s.getItem();
-		if (!wand.consumeAllVis(s, p, getVisCost(s), false, false))
-		{
-			p.stopUsingItem();
-			return;
-		}
-		if (!p.worldObj.isRemote && p.ticksExisted % 5 == 0) p.worldObj.playSoundAtEntity(p, "thaumcraft:wind", 0.33F, 5.0F * (float) Math.random());
+        if (isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.diffusion))
+        {
+            player.setItemInUse(stack, 2147483647);
+        }
+        else
+        {
+            if (!world.isRemote)
+            {
+                if (wand.consumeAllVis(stack, player, getVisCost(stack), true, false))
+                {
+                    EntityDarkMatter proj = new EntityDarkMatter(world, player, 16F + wand.getFocusPotency(stack),
+                            isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.corrosive));
+                    world.spawnEntityInWorld(proj);
 
-		if (!p.worldObj.isRemote && wand.consumeAllVis(s, p, getVisCost(s), true, false))
-		{
-			for (int a = 0; a < 2 + wand.getFocusPotency(s); a++)
-			{
-				EntityDiffusion proj = new EntityDiffusion(p.worldObj, p, isUpgradedWith(wand.getFocusItem(s), FocusUpgradeType.enlarge) ? 15.0F : 9.0F, 12F + wand.getFocusPotency(s),
-						isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.corrosive));
-				proj.posX += proj.motionX;
-				proj.posY += proj.motionY;
-				proj.posZ += proj.motionZ;
-				p.worldObj.spawnEntityInWorld(proj);
-				if (!isUpgradedWith(wand.getFocusItem(s), FocusUpgrades.sanity))
-				{
-					if (p.worldObj.rand.nextInt(200) == 0)
-					{
-						Thaumcraft.addStickyWarpToPlayer(p, 1);
-					}
-				}
-			}
-		}
-	}
+                    if (!isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.sanity) && world.rand.nextInt(20) == 0)
+                        Thaumcraft.addStickyWarpToPlayer(player, 1);
 
-	public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack s, int r)
-	{
-		switch (r)
-		{
-		case 1 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
-		case 2 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
-		case 3 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, FocusUpgrades.corrosive, FocusUpgrades.sanity };
-		case 4 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
-		case 5 :
-			return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, FocusUpgrades.diffusion };
-		}
-		return null;
-	}
+                    world.playSoundAtEntity(player, "thaumcraft:egattack", 0.4F, 1.0F + world.rand.nextFloat() * 0.1F);
+                }
+            }
+            player.swingItem();
+        }
+        return stack;
+    }
 
-	public boolean canApplyUpgrade (ItemStack s, EntityPlayer p, FocusUpgradeType t, int rank)
-	{
-		return (!t.equals(FocusUpgrades.diffusion)) || (ThaumcraftApiHelper.isResearchComplete(p.getCommandSenderName(), "DIFFUSIONUPGRADE"));
-	}
+    public void onUsingFocusTick (ItemStack stack, EntityPlayer player, int i)
+    {
+        ItemWandCasting wand = (ItemWandCasting) stack.getItem();
+
+        if (!wand.consumeAllVis(stack, player, getVisCost(stack), false, false))
+        {
+            player.stopUsingItem();
+            return;
+        }
+        if (!player.worldObj.isRemote && player.ticksExisted % 5 == 0)
+            player.worldObj.playSoundAtEntity(player, "thaumcraft:wind", 0.33F, 5.0F * (float) Math.random());
+
+        if (!player.worldObj.isRemote && wand.consumeAllVis(stack, player, getVisCost(stack), true, false))
+        {
+            for (int a = 0; a < 2 + wand.getFocusPotency(stack); a++)
+            {
+                EntityDiffusion proj = new EntityDiffusion(player.worldObj, player,
+                        isUpgradedWith(wand.getFocusItem(stack), FocusUpgradeType.enlarge) ? 15.0F : 9.0F,
+                        12F + wand.getFocusPotency(stack), isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.corrosive));
+
+                proj.posX += proj.motionX;
+                proj.posY += proj.motionY;
+                proj.posZ += proj.motionZ;
+
+                player.worldObj.spawnEntityInWorld(proj);
+
+                if (!isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.sanity) && player.worldObj.rand.nextInt(200) == 0)
+                    Thaumcraft.addStickyWarpToPlayer(player, 1);
+            }
+        }
+    }
+
+    public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack stack, int rank)
+    {
+        switch (rank)
+        {
+        case 1 :
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
+        case 2 :
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
+        case 3 :
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, TMFocusUpgrades.corrosive,
+                    TMFocusUpgrades.sanity };
+        case 4 :
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
+        case 5 :
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, TMFocusUpgrades.diffusion };
+        }
+        return null;
+    }
+
+    public boolean canApplyUpgrade (ItemStack stack, EntityPlayer player, FocusUpgradeType type, int rank)
+    {
+        return (!type.equals(TMFocusUpgrades.diffusion))
+                || (ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), "DIFFUSIONUPGRADE"));
+    }
 }
