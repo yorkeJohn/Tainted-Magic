@@ -345,7 +345,7 @@ public class RecipeRegistry
                         .add(Aspect.VOID, 22),
                 new ItemStack(ConfigItems.itemHelmetVoid),
                 new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
-                        new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.emerald) }));
+                        new ItemStack(Items.iron_ingot), new ItemStack(Items.iron_ingot), new ItemStack(Items.emerald) }));
 
         // Shadow Fortress Chestplate
         ResearchRegistry.recipes.put("ItemShadowFortressChestplate", ThaumcraftApi.addInfusionCraftingRecipe("SHADOWFORTRESS",
@@ -354,7 +354,7 @@ public class RecipeRegistry
                 new ItemStack(ConfigItems.itemChestVoid),
                 new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
                         new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
-                        new ItemStack(Items.gold_ingot), new ItemStack(Items.leather) }));
+                        new ItemStack(Items.iron_ingot), new ItemStack(Items.leather) }));
 
         // Shadow Fortress Leggings
         ResearchRegistry.recipes.put("ItemShadowFortressLeggings",
@@ -364,7 +364,7 @@ public class RecipeRegistry
                         new ItemStack(ConfigItems.itemLegsVoid),
                         new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
                                 new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
-                                new ItemStack(Items.gold_ingot), new ItemStack(Items.leather) }));
+                                new ItemStack(Items.iron_ingot), new ItemStack(Items.leather) }));
 
         // Thaumium Fortress Blade
         ResearchRegistry.recipes.put("ItemKatana:0",
@@ -547,7 +547,7 @@ public class RecipeRegistry
         // Warpwood Staff Core
         ResearchRegistry.recipes.put("ItemWandRod:1", ThaumcraftApi.addArcaneCraftingRecipe("ROD_warpwood_staff",
                 new ItemStack(ItemRegistry.ItemWandRod, 1, 1), TaintedMagicHelper.getPrimals(120), "  A", " B ", "B  ", 'A',
-                new ItemStack(ItemRegistry.ItemMagicFunguar, 1, 10), 'B', new ItemStack(ItemRegistry.ItemWandRod, 1, 0)));
+                new ItemStack(ItemRegistry.ItemMaterial, 1, 11), 'B', new ItemStack(ItemRegistry.ItemWandRod, 1, 0)));
 
         // Crimson Cult Helm
         ResearchRegistry.recipes.put("ItemHelmetCultistPlate",

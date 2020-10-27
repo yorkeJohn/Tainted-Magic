@@ -81,7 +81,7 @@ public class ResearchRegistry
                 new AspectList().add(Aspect.TREE, 4).add(Aspect.DARKNESS, 4).add(Aspect.ELDRITCH, 4), 10, -1,
                 new ItemStack(ItemRegistry.ItemWandRod, 1, 1), 2, 0);
         r.setPages(new ResearchPage("1"), arcanePage("ItemWandRod:1"));
-        r.setConcealed().setParents("ROD_warpwood").setSecondary().registerResearchItem();
+        r.setConcealed().setParents("ROD_warpwood").setParentsHidden("CREATIONSHARD").setSecondary().registerResearchItem();
 
         r = new TMResearchItem("UNBALANCEDSHARDS", new AspectList().add(Aspect.CRYSTAL, 4).add(Aspect.DARKNESS, 4), 4, -1,
                 new ItemStack(ItemRegistry.ItemMaterial, 1, 4), 0, 1);
