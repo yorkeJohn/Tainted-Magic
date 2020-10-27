@@ -30,17 +30,9 @@ public class RecipeRegistry
      */
     public static void initCrafting ()
     {
-        // Shadow Metal Block
-        GameRegistry.addShapedRecipe(new ItemStack(BlockRegistry.BlockShadowmetal), "AAA", "AAA", "AAA", 'A',
-                new ItemStack(ItemRegistry.ItemMaterial));
-
         // Shadow Metal Ingot from nuggets
         GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemMaterial, 1, 0), "AAA", "AAA", "AAA", 'A',
                 new ItemStack(ItemRegistry.ItemMaterial, 1, 8));
-
-        // Shadow Metal Ingots from block
-        GameRegistry.addRecipe(new ItemStack(ItemRegistry.ItemMaterial, 9), "A", 'A',
-                new ItemStack(BlockRegistry.BlockShadowmetal));
 
         // Shadow Metal Nuggets
         GameRegistry.addRecipe(new ItemStack(ItemRegistry.ItemMaterial, 9, 8), "A", 'A',
@@ -135,11 +127,10 @@ public class RecipeRegistry
                         "VOIDSASH", new ItemStack(ItemRegistry.ItemVoidwalkerSash, 1), 7, new AspectList().add(Aspect.VOID, 56)
                                 .add(Aspect.MAGIC, 40).add(Aspect.ARMOR, 66).add(Aspect.TRAVEL, 16).add(Aspect.FLIGHT, 10),
                         new ItemStack(ConfigItems.itemGirdleRunic),
-                        new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 10),
-                                new ItemStack(ConfigItems.itemResource, 1, 16), new ItemStack(ItemRegistry.ItemMaterial),
-                                new ItemStack(ConfigItems.itemResource, 1, 16), new ItemStack(ItemRegistry.ItemMaterial, 1, 1),
-                                new ItemStack(ConfigItems.itemResource, 1, 16), new ItemStack(ItemRegistry.ItemMaterial),
-                                new ItemStack(ConfigItems.itemResource, 1, 16), }));
+                        new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 10), new ItemStack(Items.iron_ingot),
+                                new ItemStack(ItemRegistry.ItemMaterial), new ItemStack(ConfigItems.itemResource, 1, 16),
+                                new ItemStack(ItemRegistry.ItemMaterial, 1, 1), new ItemStack(Items.iron_ingot),
+                                new ItemStack(ItemRegistry.ItemMaterial), new ItemStack(ConfigItems.itemResource, 1, 16), }));
 
         // Shard of Creation
         ResearchRegistry.recipes.put("ItemMaterial:5",
@@ -353,7 +344,7 @@ public class RecipeRegistry
                 new AspectList().add(Aspect.METAL, 28).add(Aspect.ARMOR, 20).add(Aspect.MAGIC, 12).add(Aspect.DARKNESS, 30)
                         .add(Aspect.VOID, 22),
                 new ItemStack(ConfigItems.itemHelmetVoid),
-                new ItemStack[]{ new ItemStack(BlockRegistry.BlockShadowmetal), new ItemStack(BlockRegistry.BlockShadowmetal),
+                new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
                         new ItemStack(Items.gold_ingot), new ItemStack(Items.gold_ingot), new ItemStack(Items.emerald) }));
 
         // Shadow Fortress Chestplate
@@ -361,8 +352,8 @@ public class RecipeRegistry
                 new ItemStack(ItemRegistry.ItemShadowFortressChestplate), 7, new AspectList().add(Aspect.METAL, 38)
                         .add(Aspect.ARMOR, 26).add(Aspect.MAGIC, 18).add(Aspect.DARKNESS, 34).add(Aspect.VOID, 26),
                 new ItemStack(ConfigItems.itemChestVoid),
-                new ItemStack[]{ new ItemStack(BlockRegistry.BlockShadowmetal), new ItemStack(BlockRegistry.BlockShadowmetal),
-                        new ItemStack(BlockRegistry.BlockShadowmetal), new ItemStack(BlockRegistry.BlockShadowmetal),
+                new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
+                        new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
                         new ItemStack(Items.gold_ingot), new ItemStack(Items.leather) }));
 
         // Shadow Fortress Leggings
@@ -371,8 +362,8 @@ public class RecipeRegistry
                         new ItemStack(ItemRegistry.ItemShadowFortressLeggings), 7, new AspectList().add(Aspect.METAL, 32)
                                 .add(Aspect.ARMOR, 24).add(Aspect.MAGIC, 16).add(Aspect.DARKNESS, 32).add(Aspect.VOID, 24),
                         new ItemStack(ConfigItems.itemLegsVoid),
-                        new ItemStack[]{ new ItemStack(BlockRegistry.BlockShadowmetal),
-                                new ItemStack(BlockRegistry.BlockShadowmetal), new ItemStack(BlockRegistry.BlockShadowmetal),
+                        new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
+                                new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
                                 new ItemStack(Items.gold_ingot), new ItemStack(Items.leather) }));
 
         // Thaumium Fortress Blade

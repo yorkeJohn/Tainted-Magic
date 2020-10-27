@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import taintedmagic.common.blocks.BlockLumos;
 import taintedmagic.common.blocks.BlockNightshadeBush;
 import taintedmagic.common.blocks.BlockShadowOre;
-import taintedmagic.common.blocks.BlockShadowmetal;
 import taintedmagic.common.blocks.BlockWarpwoodLeaves;
 import taintedmagic.common.blocks.BlockWarpwoodLog;
 import taintedmagic.common.blocks.BlockWarpwoodPlanks;
@@ -15,7 +14,6 @@ import taintedmagic.common.blocks.tile.TileLumos;
 public class BlockRegistry
 {
     public static Block BlockShadowOre;
-    public static Block BlockShadowmetal;
 
     public static Block BlockWarpwoodLog;
     public static Block BlockWarpwoodLeaves;
@@ -29,9 +27,6 @@ public class BlockRegistry
     {
         BlockShadowOre = new BlockShadowOre();
         GameRegistry.registerBlock(BlockShadowOre, "BlockShadowOre");
-
-        BlockShadowmetal = new BlockShadowmetal();
-        GameRegistry.registerBlock(BlockShadowmetal, "BlockShadowmetal");
 
         BlockWarpwoodLog = new BlockWarpwoodLog();
         GameRegistry.registerBlock(BlockWarpwoodLog, "BlockWarpwoodLog");
