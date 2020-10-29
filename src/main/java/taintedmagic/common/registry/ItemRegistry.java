@@ -18,6 +18,7 @@ import taintedmagic.common.items.ItemMaterial;
 import taintedmagic.common.items.ItemNightshadeBerries;
 import taintedmagic.common.items.ItemSalis;
 import taintedmagic.common.items.ItemVoidBlood;
+import taintedmagic.common.items.ItemWarpFertilizer;
 import taintedmagic.common.items.equipment.ItemLumosRing;
 import taintedmagic.common.items.equipment.ItemShadowFortressArmor;
 import taintedmagic.common.items.equipment.ItemVoidFortressArmor;
@@ -58,6 +59,7 @@ public class ItemRegistry
     public static Item ItemFlyteCharm;
     public static Item ItemSalis;
     public static Item ItemGateKey;
+    public static Item ItemWarpFertilizer;
 
     // Wand
     public static Item ItemWandRod;
@@ -136,6 +138,9 @@ public class ItemRegistry
 
         ItemGateKey = new ItemGateKey();
         GameRegistry.registerItem(ItemGateKey, "ItemGateKey");
+
+        ItemWarpFertilizer = new ItemWarpFertilizer();
+        GameRegistry.registerItem(ItemWarpFertilizer, "ItemWarpFertilizer");
 
         // Armor and Baubles
         ItemWarpedGoggles = new ItemWarpedGoggles(LibMaterials.armorMatWarped, 4, 0);

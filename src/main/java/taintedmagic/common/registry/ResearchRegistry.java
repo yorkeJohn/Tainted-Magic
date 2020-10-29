@@ -85,12 +85,12 @@ public class ResearchRegistry
 
         r = new TMResearchItem("UNBALANCEDSHARDS", new AspectList().add(Aspect.CRYSTAL, 4).add(Aspect.DARKNESS, 4), 4, -1,
                 new ItemStack(ItemRegistry.ItemMaterial, 1, 4), 0, 1);
-        r.setPages(new ResearchPage("1"), cruciblePage("ItemMaterial:3"), cruciblePage("ItemMaterial:4"));
+        r.setPages(new ResearchPage("1"), cruciblePage("ItemMaterial:4"), cruciblePage("ItemMaterial:3"));
         r.setParents("TAINTEDMAGIC").setConcealed().setSecondary().registerResearchItem();
 
         r = new TMResearchItem("WARPTREE", new AspectList().add(Aspect.MAGIC, 4).add(Aspect.DARKNESS, 4).add(Aspect.TREE, 4), 6,
-                -2, new ItemStack(ItemRegistry.ItemMaterial, 1, 12), 3, 2);
-        r.setPages(new ResearchPage("1"), arcanePage("ItemMaterial:12"), recipePage("BlockWarpwoodPlanks"));
+                -2, new ItemStack(ItemRegistry.ItemWarpFertilizer), 3, 2);
+        r.setPages(new ResearchPage("1"), arcanePage("ItemWarpFertilizer"));
         r.setParents("UNBALANCEDSHARDS").setConcealed().registerResearchItem();
 
         r = new TMResearchItem("CRIMSONROBES",

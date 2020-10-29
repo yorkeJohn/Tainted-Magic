@@ -1,7 +1,5 @@
 package taintedmagic.common.handler;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -11,14 +9,11 @@ import baubles.api.BaublesApi;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,12 +23,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import taintedmagic.common.items.ItemMaterial;
 import taintedmagic.common.items.equipment.ItemLumosRing;
 import taintedmagic.common.items.tools.ItemHollowDagger;
 import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
@@ -43,12 +35,8 @@ import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.wands.ItemFocusBasic;
 import thaumcraft.api.wands.StaffRod;
 import thaumcraft.api.wands.WandRod;
-import thaumcraft.client.fx.ParticleEngine;
-import thaumcraft.client.fx.particles.FXSparkle;
 import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.blocks.BlockCustomPlant;
 import thaumcraft.common.config.Config;
-import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.items.ItemEssence;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumcraft.common.lib.network.playerdata.PacketResearchComplete;
@@ -68,9 +56,6 @@ public class TMEventHandler
             createLumos(player);
             modifyAttackDamage(player);
 
-            for (int i = 0; i < saps.size(); i++)
-                saps.get(i).doWarpSap(player.worldObj, i);
-
             // DELETE THIS UPON RELEASE
             if (Keyboard.getEventKey() == Keyboard.KEY_T && Keyboard.isKeyDown(Keyboard.KEY_DELETE))
                 Minecraft.getMinecraft().refreshResources();
@@ -87,9 +72,7 @@ public class TMEventHandler
             ItemStack stack = player.inventory.getStackInSlot(i);
             if (!player.worldObj.isRemote && stack != null && stack.stackTagCompound != null
                     && stack.stackTagCompound.getBoolean("voidtouched") && stack.isItemDamaged())
-            {
                 if (player.ticksExisted % 20 == 0) stack.setItemDamage(stack.getItemDamage() - 1);
-            }
         }
     }
 
@@ -100,7 +83,7 @@ public class TMEventHandler
     public void createLumos (EntityPlayer player)
     {
         int x = (int) Math.floor(player.posX);
-        int y = (int) Math.floor(player.posY + 1);
+        int y = (int) Math.floor(player.posY) + 1;
         int z = (int) Math.floor(player.posZ);
 
         if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemWandCasting)
@@ -109,14 +92,14 @@ public class TMEventHandler
             ItemWandCasting wand = (ItemWandCasting) held.getItem();
 
             if (wand.getFocus(held) != null && wand.getFocus(held) == ItemRegistry.ItemFocusLumos && !player.worldObj.isRemote
-                    && player.worldObj.getBlock(x, y, z) == Blocks.air)
+                    && player.worldObj.isAirBlock(x, y, z))
                 player.worldObj.setBlock(x, y, z, BlockRegistry.BlockLumos, 1, 3);
         }
 
         IInventory baub = BaublesApi.getBaubles(player);
         if ( (baub.getStackInSlot(1) != null && baub.getStackInSlot(1).getItem() instanceof ItemLumosRing)
                 || (baub.getStackInSlot(2) != null && baub.getStackInSlot(2).getItem() instanceof ItemLumosRing)
-                        && player.worldObj.getBlock(x, y, z) == Blocks.air)
+                        && !player.worldObj.isRemote && player.worldObj.isAirBlock(x, y, z))
             player.worldObj.setBlock(x, y, z, BlockRegistry.BlockLumos, 2, 3);
     }
 
@@ -203,77 +186,6 @@ public class TMEventHandler
                         stack.stackTagCompound.setTag("AttributeModifiers", tags);
                     }
                 }
-            }
-        }
-    }
-
-    /**
-     * Turn Silverwood Saplings into Warpwood Saplings using Warping Fertilizer
-     */
-    @SubscribeEvent
-    public void createWarpSap (PlayerInteractEvent event)
-    {
-        EntityPlayer player = event.entityPlayer;
-        if (player != null)
-        {
-            if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemMaterial
-                    && player.getHeldItem().getItemDamage() == 12 && event.action == event.action.RIGHT_CLICK_BLOCK
-                    && event.world.getBlock(event.x, event.y, event.z) instanceof BlockCustomPlant
-                    && event.world.getBlockMetadata(event.x, event.y, event.z) == 1)
-            {
-                if (player.worldObj.isRemote) player.swingItem();
-                player.inventory.decrStackSize(player.inventory.currentItem, 1);
-                event.world.playSoundAtEntity(player, "thaumcraft:roots", 2.0F, 1.0F);
-                saps.add(new WarpSapHandler(event.x, event.y, event.z));
-            }
-        }
-    }
-
-    List<WarpSapHandler> saps = new ArrayList<WarpSapHandler>();
-
-    private class WarpSapHandler
-    {
-        int time = 0;
-        int sapX, sapY, sapZ;
-
-        public WarpSapHandler (int x, int y, int z)
-        {
-            sapX = x;
-            sapY = y;
-            sapZ = z;
-        }
-
-        public void doWarpSap (World world, int index)
-        {
-            if (world.getBlock(sapX, sapY, sapZ) == ConfigBlocks.blockCustomPlant
-                    && world.getBlockMetadata(sapX, sapY, sapZ) == 1)
-            {
-                time++;
-
-                if (world.isRemote && world.rand.nextBoolean())
-                    warpSapParticles(world, sapX, sapY, sapZ, world.rand.nextInt(2) + 1);
-
-                if (time == 100)
-                {
-                    warpSapParticles(world, sapX, sapY, sapZ, 25);
-                    world.setBlock(sapX, sapY, sapZ, BlockRegistry.BlockWarpwoodSapling);
-                    time = 0;
-                    saps.remove(index);
-                }
-            }
-            else saps.remove(index);
-        }
-
-        @SideOnly (Side.CLIENT)
-        public void warpSapParticles (World world, int x, int y, int z, int count)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                FXSparkle fx = new FXSparkle(world, x + world.rand.nextFloat(), y + world.rand.nextFloat(),
-                        z + world.rand.nextFloat(), 1.75F, 5, 3 + world.rand.nextInt(3));
-                fx.setGravity(0.1F);
-
-                ParticleEngine.instance.addEffect(world, fx);
             }
         }
     }
