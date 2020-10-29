@@ -97,13 +97,13 @@ public class ItemShadowFortressArmor extends ItemFortressArmor implements IWarpi
 
         if (entity instanceof EntityPlayer)
         {
-            double set = 0.875D;
+            double set = 0.750D;
             for (int a = 1; a < 4; a++)
             {
                 ItemStack piece = ((EntityPlayer) entity).inventory.armorInventory[a];
                 if (piece != null && piece.getItem() instanceof ItemFortressArmor)
                 {
-                    set += 0.250D;
+                    set += 0.150D;
                     if (piece.hasTagCompound() && piece.stackTagCompound.hasKey("mask")) set += 0.05D;
                 }
             }
