@@ -3,6 +3,9 @@ package taintedmagic.client;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -23,8 +26,29 @@ import thaumcraft.client.renderers.entity.RenderEldritchOrb;
 public class ClientProxy extends CommonProxy
 {
     @Override
-    public void registerClientHandlers ()
+    public void preInit (FMLPreInitializationEvent event)
     {
+        super.preInit(event);
+    }
+
+    @Override
+    public void init (FMLInitializationEvent event)
+    {
+        super.init(event);
+        registerRenderers();
+    }
+
+    @Override
+    public void postInit (FMLPostInitializationEvent event)
+    {
+        super.postInit(event);
+    }
+
+    @Override
+    public void registerHandlers ()
+    {
+        super.registerHandlers();
+        
         MinecraftForge.EVENT_BUS.register(new HUDHandler());
 
         FMLCommonHandler.instance().bus().register(new ClientHandler());
