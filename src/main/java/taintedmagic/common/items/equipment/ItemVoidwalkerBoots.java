@@ -181,9 +181,9 @@ public class ItemVoidwalkerBoots extends ItemArmor
     @SideOnly (Side.CLIENT)
     private void particles (World world, EntityPlayer player)
     {
-        FXWispEG fx = new FXWispEG(world, (double) (player.posX + ( (Math.random() - Math.random()) * 0.5F)),
-                (double) (player.boundingBox.minY + .05F + ( (Math.random() - Math.random()) * 0.1F)),
-                (double) (player.posZ + ( (Math.random() - Math.random()) * 0.5F)), player);
+        FXWispEG fx = new FXWispEG(world, player.posX + (Math.random() - Math.random()) * 0.5D,
+                player.boundingBox.minY + 0.05D + (Math.random() - Math.random()) * 0.1D,
+                player.posZ + (Math.random() - Math.random()) * 0.5D, player);
         ParticleEngine.instance.addEffect(world, fx);
     }
 }
