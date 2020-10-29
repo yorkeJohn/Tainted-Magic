@@ -17,7 +17,7 @@ import taintedmagic.common.TaintedMagic;
 
 public class ItemMaterial extends Item
 {
-    int SUBTYPES = 13;
+    int SUBTYPES = 12;
     /**
      * 0 Shadow Metal Ingot
      * 1 Shadow-imbued Cloth
@@ -31,7 +31,6 @@ public class ItemMaterial extends Item
      * 9 Primordial Nodule
      * 10 Primordial Mote
      * 11 Fragment of Creation
-     * 12 Warping Fertilizer
      */
     IIcon[] icons = new IIcon[SUBTYPES];
 
@@ -71,8 +70,6 @@ public class ItemMaterial extends Item
             return EnumRarity.epic;
         case 11 :
             return TaintedMagic.rarityCreation;
-        case 12 :
-            return EnumRarity.uncommon;
         }
         return EnumRarity.common;
     }
