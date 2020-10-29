@@ -101,88 +101,80 @@ public class WorldGenWarpwoodTree extends WorldGenAbstractTree
                                 double d4 = (double) (k2 - cty);
                                 double d5 = (double) (zz - z);
                                 double dist = d3 * d3 + d4 * d4 + d5 * d5;
+
                                 if (dist < (double) (10 + random.nextInt(8))
                                         && world.getBlock(xx, k2, zz).canBeReplacedByLeaves(world, xx, k2, zz))
-                                {
                                     this.setBlockAndNotifyAdequately(world, xx, k2, zz, this.leaves, 1);
-                                }
                             }
                         }
                     }
 
-                    int chance = (int) ((double) height * 1.5D);
+                    int chance = height;
                     boolean lastblock = false;
 
-                    for (k2 = 0; k2 < height; ++k2)
+                    for (k2 = 0; k2 < height; k2++)
                     {
                         Block block2 = world.getBlock(x, y + k2, z);
-                        if (block2.isAir(world, x, y + k2, z) || block2.isLeaves(world, x, y + k2, z)
-                                || block2.isReplaceable(world, x, y + k2, z))
+
+                        if (!block2.isAir(world, x, y + k2, z) && !block2.isLeaves(world, x, y + k2, z)
+                                && !block2.isReplaceable(world, x, y + k2, z))
+                            continue;
+
+                        if (k2 > 0 && !lastblock && random.nextInt(chance) == 0)
                         {
-                            this.setBlockAndNotifyAdequately(world, x, y + k2, z, this.trunk, 1);
-                            this.setBlockAndNotifyAdequately(world, x - 1, y + k2, z, this.trunk, 1);
-                            this.setBlockAndNotifyAdequately(world, x + 1, y + k2, z, this.trunk, 1);
-                            this.setBlockAndNotifyAdequately(world, x, y + k2, z - 1, this.trunk, 1);
-                            this.setBlockAndNotifyAdequately(world, x, y + k2, z + 1, this.trunk, 1);
+                            setBlockAndNotifyAdequately(world, x, y + k2, z, this.trunk, 2);
+                            lastblock = true;
                         }
+                        else
+                        {
+                            setBlockAndNotifyAdequately(world, x, y + k2, z, this.trunk, 0);
+                            lastblock = false;
+                            chance--;
+                        }
+                        setBlockAndNotifyAdequately(world, x - 1, y + k2, z, this.trunk, 0);
+                        setBlockAndNotifyAdequately(world, x + 1, y + k2, z, this.trunk, 0);
+                        setBlockAndNotifyAdequately(world, x, y + k2, z - 1, this.trunk, 0);
+                        setBlockAndNotifyAdequately(world, x, y + k2, z + 1, this.trunk, 0);
                     }
 
-                    this.setBlockAndNotifyAdequately(world, x, y + k2, z, this.trunk, 1);
-                    this.setBlockAndNotifyAdequately(world, x - 1, y, z - 1, this.trunk, 1);
-                    this.setBlockAndNotifyAdequately(world, x + 1, y, z + 1, this.trunk, 1);
-                    this.setBlockAndNotifyAdequately(world, x - 1, y, z + 1, this.trunk, 1);
-                    this.setBlockAndNotifyAdequately(world, x + 1, y, z - 1, this.trunk, 1);
-                    if (random.nextInt(3) != 0)
-                    {
-                        this.setBlockAndNotifyAdequately(world, x - 1, y + 1, z - 1, this.trunk, 1);
-                    }
+                    this.setBlockAndNotifyAdequately(world, x, y + k2, z, this.trunk, 0);
+                    this.setBlockAndNotifyAdequately(world, x - 1, y, z - 1, this.trunk, 0);
+                    this.setBlockAndNotifyAdequately(world, x + 1, y, z + 1, this.trunk, 0);
+                    this.setBlockAndNotifyAdequately(world, x - 1, y, z + 1, this.trunk, 0);
+                    this.setBlockAndNotifyAdequately(world, x + 1, y, z - 1, this.trunk, 0);
 
-                    if (random.nextInt(3) != 0)
-                    {
-                        this.setBlockAndNotifyAdequately(world, x + 1, y + 1, z + 1, this.trunk, 1);
-                    }
+                    if (random.nextInt(3) != 0) this.setBlockAndNotifyAdequately(world, x - 1, y + 1, z - 1, this.trunk, 0);
 
-                    if (random.nextInt(3) != 0)
-                    {
-                        this.setBlockAndNotifyAdequately(world, x - 1, y + 1, z + 1, this.trunk, 1);
-                    }
+                    if (random.nextInt(3) != 0) this.setBlockAndNotifyAdequately(world, x + 1, y + 1, z + 1, this.trunk, 0);
 
-                    if (random.nextInt(3) != 0)
-                    {
-                        this.setBlockAndNotifyAdequately(world, x + 1, y + 1, z - 1, this.trunk, 1);
-                    }
+                    if (random.nextInt(3) != 0) this.setBlockAndNotifyAdequately(world, x - 1, y + 1, z + 1, this.trunk, 0);
+
+                    if (random.nextInt(3) != 0) this.setBlockAndNotifyAdequately(world, x + 1, y + 1, z - 1, this.trunk, 0);
 
                     this.setBlockAndNotifyAdequately(world, x - 2, y, z, this.trunk, 5);
                     this.setBlockAndNotifyAdequately(world, x + 2, y, z, this.trunk, 5);
                     this.setBlockAndNotifyAdequately(world, x, y, z - 2, this.trunk, 9);
                     this.setBlockAndNotifyAdequately(world, x, y, z + 2, this.trunk, 9);
-                    this.setBlockAndNotifyAdequately(world, x - 2, y - 1, z, this.trunk, 1);
-                    this.setBlockAndNotifyAdequately(world, x + 2, y - 1, z, this.trunk, 1);
-                    this.setBlockAndNotifyAdequately(world, x, y - 1, z - 2, this.trunk, 1);
-                    this.setBlockAndNotifyAdequately(world, x, y - 1, z + 2, this.trunk, 1);
-                    this.setBlockAndNotifyAdequately(world, x - 1, y + (height - 4), z - 1, this.trunk, 1);
-                    this.setBlockAndNotifyAdequately(world, x + 1, y + (height - 4), z + 1, this.trunk, 1);
-                    this.setBlockAndNotifyAdequately(world, x - 1, y + (height - 4), z + 1, this.trunk, 1);
-                    this.setBlockAndNotifyAdequately(world, x + 1, y + (height - 4), z - 1, this.trunk, 1);
-                    if (random.nextInt(3) == 0)
-                    {
-                        this.setBlockAndNotifyAdequately(world, x - 1, y + (height - 5), z - 1, this.trunk, 1);
-                    }
+                    this.setBlockAndNotifyAdequately(world, x - 2, y - 1, z, this.trunk, 0);
+                    this.setBlockAndNotifyAdequately(world, x + 2, y - 1, z, this.trunk, 0);
+                    this.setBlockAndNotifyAdequately(world, x, y - 1, z - 2, this.trunk, 0);
+                    this.setBlockAndNotifyAdequately(world, x, y - 1, z + 2, this.trunk, 0);
+                    this.setBlockAndNotifyAdequately(world, x - 1, y + (height - 4), z - 1, this.trunk, 0);
+                    this.setBlockAndNotifyAdequately(world, x + 1, y + (height - 4), z + 1, this.trunk, 0);
+                    this.setBlockAndNotifyAdequately(world, x - 1, y + (height - 4), z + 1, this.trunk, 0);
+                    this.setBlockAndNotifyAdequately(world, x + 1, y + (height - 4), z - 1, this.trunk, 0);
 
                     if (random.nextInt(3) == 0)
-                    {
-                        this.setBlockAndNotifyAdequately(world, x + 1, y + (height - 5), z + 1, this.trunk, 1);
-                    }
+                        this.setBlockAndNotifyAdequately(world, x - 1, y + (height - 5), z - 1, this.trunk, 0);
 
                     if (random.nextInt(3) == 0)
-                    {
-                        this.setBlockAndNotifyAdequately(world, x - 1, y + (height - 5), z + 1, this.trunk, 1);
-                    }
+                        this.setBlockAndNotifyAdequately(world, x + 1, y + (height - 5), z + 1, this.trunk, 0);
 
                     if (random.nextInt(3) == 0)
-                    {
-                        this.setBlockAndNotifyAdequately(world, x + 1, y + (height - 5), z - 1, this.trunk, 1);
-                    }
+                        this.setBlockAndNotifyAdequately(world, x - 1, y + (height - 5), z + 1, this.trunk, 0);
+
+                    if (random.nextInt(3) == 0)
+                        this.setBlockAndNotifyAdequately(world, x + 1, y + (height - 5), z - 1, this.trunk, 0);
 
                     this.setBlockAndNotifyAdequately(world, x - 2, y + (height - 4), z, this.trunk, 5);
                     this.setBlockAndNotifyAdequately(world, x + 2, y + (height - 4), z, this.trunk, 5);
