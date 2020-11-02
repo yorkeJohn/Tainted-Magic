@@ -38,6 +38,10 @@ public class RecipeRegistry
         GameRegistry.addRecipe(new ItemStack(ItemRegistry.ItemMaterial, 9, 8), "A", 'A',
                 new ItemStack(ItemRegistry.ItemMaterial, 1, 0));
 
+        // Warpwood Planks
+        GameRegistry.addRecipe(new ItemStack(BlockRegistry.BlockWarpwoodPlanks, 4), "A", 'A',
+                new ItemStack(BlockRegistry.BlockWarpwoodLog));
+
         // Shadow Metal Pick
         ResearchRegistry.recipes.put("ItemShadowmetalPick",
                 GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalPick), "AAA", " B ", " B ", 'A',
@@ -62,10 +66,6 @@ public class RecipeRegistry
         ResearchRegistry.recipes.put("ItemShadowmetalSword",
                 GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalSword), "A", "A", "B", 'A',
                         new ItemStack(ItemRegistry.ItemMaterial), 'B', new ItemStack(Items.stick)));
-
-        // Warpwood Planks
-        ResearchRegistry.recipes.put("BlockWarpwoodPlanks", GameRegistry.addShapedRecipe(
-                new ItemStack(BlockRegistry.BlockWarpwoodPlanks, 4), "A", 'A', new ItemStack(BlockRegistry.BlockWarpwoodLog)));
     }
 
     /**
@@ -125,18 +125,21 @@ public class RecipeRegistry
         ResearchRegistry.recipes.put("ItemVoidwalkerSash",
                 ThaumcraftApi.addInfusionCraftingRecipe(
                         "VOIDSASH", new ItemStack(ItemRegistry.ItemVoidwalkerSash, 1), 7, new AspectList().add(Aspect.VOID, 56)
-                                .add(Aspect.MAGIC, 40).add(Aspect.ARMOR, 66).add(Aspect.TRAVEL, 16).add(Aspect.FLIGHT, 10),
+                                .add(Aspect.MAGIC, 40).add(Aspect.ARMOR, 76).add(Aspect.TRAVEL, 16).add(Aspect.FLIGHT, 10),
                         new ItemStack(ConfigItems.itemGirdleRunic),
-                        new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 10), new ItemStack(Items.iron_ingot),
-                                new ItemStack(ItemRegistry.ItemMaterial), new ItemStack(ConfigItems.itemResource, 1, 16),
-                                new ItemStack(ItemRegistry.ItemMaterial, 1, 1), new ItemStack(Items.iron_ingot),
-                                new ItemStack(ItemRegistry.ItemMaterial), new ItemStack(ConfigItems.itemResource, 1, 16), }));
+                        new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 10),
+                                new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new ItemStack(ConfigItems.itemResource, 1, 16),
+                                new ItemStack(ItemRegistry.ItemMaterial, 1, 1), new ItemStack(ConfigItems.itemResource, 1, 16),
+                                new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new ItemStack(Items.iron_ingot),
+                                new ItemStack(ItemRegistry.ItemMaterial, 1, 0), new ItemStack(ConfigItems.itemResource, 1, 16),
+                                new ItemStack(ItemRegistry.ItemMaterial, 1, 1), new ItemStack(ConfigItems.itemResource, 1, 16),
+                                new ItemStack(ItemRegistry.ItemMaterial, 1, 0) }));
 
         // Shard of Creation
         ResearchRegistry.recipes.put("ItemMaterial:5",
                 ThaumcraftApi.addInfusionCraftingRecipe(
-                        "CREATIONSHARD", new ItemStack(ItemRegistry.ItemMaterial, 1, 5), 8, TaintedMagicHelper.getPrimals(46)
-                                .add(Aspect.AURA, 35).add(Aspect.VOID, 22).add(Aspect.MAGIC, 56).add(Aspect.CRYSTAL, 38),
+                        "CREATIONSHARD", new ItemStack(ItemRegistry.ItemMaterial, 1, 5), 8, TaintedMagicHelper.getPrimals(50)
+                                .add(Aspect.AURA, 40).add(Aspect.VOID, 40).add(Aspect.MAGIC, 40).add(Aspect.ELDRITCH, 40),
                         new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack[]{ new ItemStack(ConfigItems.itemEldritchObject, 1, 3),
                                 new ItemStack(ConfigItems.itemShard, 1, 0), new ItemStack(ConfigItems.itemShard, 1, 1),
@@ -249,12 +252,12 @@ public class RecipeRegistry
                         .add(Aspect.DARKNESS, 32).add(Aspect.MAGIC, 32).add(Aspect.DEATH, 32).add(Aspect.VOID, 32),
                 new ItemStack(ConfigItems.itemFocusPortableHole),
                 new ItemStack[]{ new ItemStack(ConfigItems.itemEldritchObject, 1, 3),
-                        new ItemStack(ConfigItems.itemResource, 1, 16), new ItemStack(ItemRegistry.ItemMaterial, 1, 3),
-                        new ItemStack(ConfigItems.itemBucketDeath), new ItemStack(ItemRegistry.ItemMaterial, 1, 3),
-                        new ItemStack(ConfigItems.itemResource, 1, 16), new ItemStack(ConfigItems.itemResource, 1, 17),
-                        new ItemStack(ConfigItems.itemResource, 1, 16), new ItemStack(ItemRegistry.ItemMaterial, 1, 3),
-                        new ItemStack(ConfigItems.itemBucketDeath), new ItemStack(ItemRegistry.ItemMaterial, 1, 3),
-                        new ItemStack(ConfigItems.itemResource, 1, 16) }));
+                        new ItemStack(ItemRegistry.ItemMaterial, 1, 3), new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
+                        new ItemStack(Items.gold_ingot), new ItemStack(ConfigItems.itemResource, 1, 16),
+                        new ItemStack(ItemRegistry.ItemMaterial, 1, 3), new ItemStack(ConfigItems.itemBucketDeath),
+                        new ItemStack(ItemRegistry.ItemMaterial, 1, 3), new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
+                        new ItemStack(Items.gold_ingot), new ItemStack(ConfigItems.itemResource, 1, 16),
+                        new ItemStack(ItemRegistry.ItemMaterial, 1, 3) }));
 
         // Crimson Alloy Plate
         ResearchRegistry.recipes.put("ItemMaterial:7",
@@ -507,8 +510,8 @@ public class RecipeRegistry
                         new ItemStack(Items.gold_nugget)));
 
         // Warping Fertilizer
-        ResearchRegistry.recipes.put("ItemMaterial:12", ThaumcraftApi.addShapelessArcaneCraftingRecipe("WARPTREE",
-                new ItemStack(ItemRegistry.ItemMaterial, 1, 12), new AspectList().add(Aspect.ENTROPY, 150),
+        ResearchRegistry.recipes.put("ItemWarpFertilizer", ThaumcraftApi.addShapelessArcaneCraftingRecipe("WARPTREE",
+                new ItemStack(ItemRegistry.ItemWarpFertilizer), new AspectList().add(Aspect.ENTROPY, 150),
                 new ItemStack(ConfigItems.itemZombieBrain), new ItemStack(ItemRegistry.ItemMaterial, 1, 3),
                 new ItemStack(ConfigItems.itemWispEssence, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(Items.dye, 1, 15)));
 
@@ -545,9 +548,10 @@ public class RecipeRegistry
                         new ItemStack(ItemRegistry.ItemMaterial, 1, 2)));
 
         // Warpwood Staff Core
-        ResearchRegistry.recipes.put("ItemWandRod:1", ThaumcraftApi.addArcaneCraftingRecipe("ROD_warpwood_staff",
-                new ItemStack(ItemRegistry.ItemWandRod, 1, 1), TaintedMagicHelper.getPrimals(120), "  A", " B ", "B  ", 'A',
-                new ItemStack(ItemRegistry.ItemMaterial, 1, 11), 'B', new ItemStack(ItemRegistry.ItemWandRod, 1, 0)));
+        ResearchRegistry.recipes.put("ItemWandRod:1",
+                ThaumcraftApi.addArcaneCraftingRecipe("ROD_warpwood_staff", new ItemStack(ItemRegistry.ItemWandRod, 1, 1),
+                        TaintedMagicHelper.getPrimals(120), "  A", " B ", "B  ", 'A',
+                        new ItemStack(ItemRegistry.ItemMaterial, 1, 10), 'B', new ItemStack(ItemRegistry.ItemWandRod, 1, 0)));
 
         // Crimson Cult Helm
         ResearchRegistry.recipes.put("ItemHelmetCultistPlate",
