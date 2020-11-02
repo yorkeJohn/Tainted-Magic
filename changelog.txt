@@ -134,6 +134,7 @@ Changes:
 - Removed the Meteorology and Time foci, replaced with Salis Tempestas and Salis Aevus respectively. See additions for details.
 - Warpwood Saplings can no longer be crafted via infusion. Warping Fertilizer must be used on a Silverwood Sapling to create a Warpwood Sapling.
 - Changed how Warpwood trees grow, as well as the leaf and log textures. They now are shaped like Silverwood trees.
+- Similar to the node inside of Silverwood trees, there is a chance that a knot will generate inside of Warpwood trees. The knot drops 1-5 void seeds.
 - Changed the formula with which the Warpwood Wand/Staff's vis replenishment rate is calculated.
 - Slightly changed the visual effects for Lumos light sources.
 - Voidmetal Goggles of Revealing now only provide 1 point of armour (previously 2), and now have a vis discount of 12% (previously 10%).
@@ -147,6 +148,7 @@ Changes:
 - Removed the Flyte Charm's burst feature. It was super janky.
 - Improved the Flyte Charm's glide feature.
 - Changed vis costs for foci.
+- Removed Block of Shadow Metal
 
 Additions:
 - Re-added the old particles when walking with the Boots of the Voidwalker. Not as invasive as the original.
