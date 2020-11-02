@@ -65,7 +65,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
     public ItemKatana ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemKatana");
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);

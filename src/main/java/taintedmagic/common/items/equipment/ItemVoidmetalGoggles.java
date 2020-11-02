@@ -19,7 +19,7 @@ public class ItemVoidmetalGoggles extends ItemGoggles implements IWarpingGear
     public ItemVoidmetalGoggles (ArmorMaterial material, int j, int k)
     {
         super(material, j, k);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemVoidmetalGoggles");
     }
 

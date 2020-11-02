@@ -30,7 +30,7 @@ public class BlockWarpwoodLeaves extends Block implements IShearable
     public BlockWarpwoodLeaves ()
     {
         super(Material.leaves);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setLightOpacity(0);
         this.setHardness(0.1F);
         this.setStepSound(soundTypeGrass);

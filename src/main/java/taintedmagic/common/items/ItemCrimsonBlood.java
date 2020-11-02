@@ -12,7 +12,7 @@ public class ItemCrimsonBlood extends Item
 {
     public ItemCrimsonBlood ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setTextureName("taintedmagic:ItemCrimsonBlood");
         this.setUnlocalizedName("ItemCrimsonBlood");
         this.setContainerItem(ConfigItems.itemEssence);

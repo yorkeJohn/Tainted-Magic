@@ -11,7 +11,7 @@ public class ItemHollowDagger extends ItemSword implements IRepairable
     public ItemHollowDagger (ToolMaterial material)
     {
         super(material);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemHollowDagger");
         this.setMaxStackSize(1);
         this.setTextureName("taintedmagic:ItemHollowDagger");

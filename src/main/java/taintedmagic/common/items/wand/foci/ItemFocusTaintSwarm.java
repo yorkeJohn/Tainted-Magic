@@ -33,7 +33,7 @@ public class ItemFocusTaintSwarm extends ItemFocusBasic
 
     public ItemFocusTaintSwarm ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemFocusTaintSwarm");
     }
 

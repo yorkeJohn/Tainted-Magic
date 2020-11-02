@@ -20,7 +20,7 @@ public class ItemShadowmetalHoe extends ItemHoe implements IRepairable
     public ItemShadowmetalHoe (ToolMaterial material)
     {
         super(material);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setTextureName("taintedmagic:ItemShadowmetalHoe");
         this.setUnlocalizedName("ItemShadowmetalHoe");
 

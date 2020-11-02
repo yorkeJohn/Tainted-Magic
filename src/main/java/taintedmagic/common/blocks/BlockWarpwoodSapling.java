@@ -20,7 +20,7 @@ public class BlockWarpwoodSapling extends BlockSapling
     public BlockWarpwoodSapling ()
     {
         super();
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setBlockName("BlockWarpwoodSapling");
         this.setStepSound(soundTypeGrass);
     }

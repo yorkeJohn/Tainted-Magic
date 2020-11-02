@@ -19,7 +19,7 @@ public class ItemWandCap extends Item
 
     public ItemWandCap ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemWandCap");
         this.setHasSubtypes(true);
     }

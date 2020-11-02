@@ -33,7 +33,7 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
 
     public ItemFlyteCharm ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemFlyteCharm");
         this.setMaxStackSize(1);
         this.setTextureName("taintedmagic:ItemFlyteCharm");
@@ -76,8 +76,8 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
                     // Glide
                     if (player.isSneaking() && !player.onGround && player.fallDistance > 0.5F)
                     {
-                        player.motionY = -0.1D;
                         double speed = 0.1D;
+                        player.motionY = -speed;
                         double x = Math.cos(Math.toRadians(player.rotationYawHead + 90)) * speed;
                         double z = Math.sin(Math.toRadians(player.rotationYawHead + 90)) * speed;
                         player.motionX += x;

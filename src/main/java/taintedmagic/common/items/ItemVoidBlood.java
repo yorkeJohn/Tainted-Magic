@@ -16,7 +16,7 @@ public class ItemVoidBlood extends Item
 {
     public ItemVoidBlood ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setTextureName("taintedmagic:ItemVoidBlood");
         this.setUnlocalizedName("ItemVoidBlood");
         this.setContainerItem(ConfigItems.itemEssence);

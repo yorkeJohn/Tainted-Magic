@@ -41,7 +41,7 @@ public class ItemGateKey extends Item implements IWarpingGear
 
     public ItemGateKey ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemGateKey");
         this.setMaxStackSize(1);
     }

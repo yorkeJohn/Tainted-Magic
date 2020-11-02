@@ -21,7 +21,7 @@ public class ItemSalis extends Item
 
     public ItemSalis ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.hasSubtypes = true;
         this.setUnlocalizedName("ItemSalis");
     }

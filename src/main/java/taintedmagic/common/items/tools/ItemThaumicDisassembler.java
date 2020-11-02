@@ -27,7 +27,7 @@ public class ItemThaumicDisassembler extends Item
 
     public ItemThaumicDisassembler ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setMaxDamage(500);
         this.setMaxStackSize(1);
         this.setUnlocalizedName("ItemThaumicDisassembler");

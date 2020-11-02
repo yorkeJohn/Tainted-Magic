@@ -23,7 +23,7 @@ public class ItemFocusLumos extends ItemFocusBasic
 
     public ItemFocusLumos ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemFocusLumos");
     }
 

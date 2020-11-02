@@ -12,7 +12,7 @@ public class ItemShadowmetalAxe extends ItemAxe implements IRepairable
     public ItemShadowmetalAxe (ToolMaterial material)
     {
         super(material);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setTextureName("taintedmagic:ItemShadowmetalAxe");
         this.setUnlocalizedName("ItemShadowmetalAxe");
     }

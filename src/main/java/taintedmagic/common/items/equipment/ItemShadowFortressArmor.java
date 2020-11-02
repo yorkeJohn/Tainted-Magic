@@ -26,7 +26,7 @@ public class ItemShadowFortressArmor extends ItemFortressArmor implements IWarpi
     public ItemShadowFortressArmor (ArmorMaterial material, int j, int k)
     {
         super(material, j, k);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
     }
 
     @SideOnly (Side.CLIENT)

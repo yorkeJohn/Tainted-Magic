@@ -12,7 +12,7 @@ public class ItemShadowmetalPick extends ItemPickaxe implements IRepairable
     public ItemShadowmetalPick (ToolMaterial material)
     {
         super(material);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setTextureName("taintedmagic:ItemShadowmetalPick");
         this.setUnlocalizedName("ItemShadowmetalPick");
     }

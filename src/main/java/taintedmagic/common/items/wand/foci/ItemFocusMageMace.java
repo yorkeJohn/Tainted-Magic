@@ -28,7 +28,7 @@ public class ItemFocusMageMace extends ItemFocusBasic
 
     public ItemFocusMageMace ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemFocusMageMace");
     }
 

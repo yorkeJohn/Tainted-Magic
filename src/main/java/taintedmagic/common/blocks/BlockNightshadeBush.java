@@ -23,7 +23,7 @@ public class BlockNightshadeBush extends BlockBush
         super(Material.plants);
         this.setBlockName("BlockNightshadeBush");
         this.setBlockTextureName("taintedmagic:BlockNightshadeBush");
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setStepSound(soundTypeGrass);
     }
 

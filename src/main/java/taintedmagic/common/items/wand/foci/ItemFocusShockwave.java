@@ -36,7 +36,7 @@ public class ItemFocusShockwave extends ItemFocusBasic
 
     public ItemFocusShockwave ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemFocusShockwave");
     }
 
@@ -108,10 +108,8 @@ public class ItemFocusShockwave extends ItemFocusBasic
                                     player.posY + 1, player.posZ + 1)
                                     .expand(15.0D + enlarge, 15.0D + enlarge, 15.0D + enlarge));
 
-            if (ents != null && ents.size() > 0) for (int i = 0; i < ents.size(); i++)
+            if (ents != null && ents.size() > 0) for (EntityLivingBase entity : ents)
             {
-                EntityLivingBase entity = ents.get(i);
-
                 if (entity != player && entity.isEntityAlive() && !entity.isEntityInvulnerable())
                 {
                     double dist = TaintedMagicHelper.getDistanceTo(player, entity.posX, entity.posY, entity.posZ);
@@ -139,7 +137,7 @@ public class ItemFocusShockwave extends ItemFocusBasic
         bolt.setType(2);
         bolt.setWidth(0.125F);
         bolt.finalizeBolt();
-        
+
         for (int a = 0; a < 5; a++)
         {
             Random random = player.worldObj.rand;

@@ -25,7 +25,7 @@ public class BlockWarpwoodLog extends BlockRotatedPillar
     public BlockWarpwoodLog ()
     {
         super(Material.wood);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setHardness(2.5F);
         this.setStepSound(soundTypeWood);
         this.setBlockName("BlockWarpwoodLog");

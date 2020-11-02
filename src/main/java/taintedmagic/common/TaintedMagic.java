@@ -26,10 +26,10 @@ public class TaintedMagic
     public static CommonProxy proxy;
 
     // Tainted Magic creative tab
-    public static CreativeTabs tabTaintedMagic = new TMCreativeTab();
+    public static CreativeTabs tabTM = new TMCreativeTab();
 
     // TM log
-    public static final Logger log = LogManager.getLogger("TAINTEDMAGIC");
+    public static final Logger log = LogManager.getLogger("TAINTED MAGIC");
 
     // Creation EnumRarity
     public static EnumRarity rarityCreation = EnumHelper.addRarity("CREATION", EnumChatFormatting.GOLD, "Creation");
@@ -47,7 +47,6 @@ public class TaintedMagic
     public static void init (FMLInitializationEvent event)
     {
         log.info("...Initializing Tainted Magic!");
-
         proxy.init(event);
     }
 
@@ -56,9 +55,7 @@ public class TaintedMagic
     public static void postInit (FMLPostInitializationEvent event)
     {
         log.info("...Post-initializing Tainted Magic!");
-
         proxy.postInit(event);
-
         log.info("...Loading complete, enjoy!");
     }
 }

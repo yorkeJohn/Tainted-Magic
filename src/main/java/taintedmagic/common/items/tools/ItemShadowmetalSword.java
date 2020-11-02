@@ -9,10 +9,10 @@ import thaumcraft.api.IRepairable;
 
 public class ItemShadowmetalSword extends ItemSword implements IRepairable
 {
-    public ItemShadowmetalSword (ToolMaterial m)
+    public ItemShadowmetalSword (ToolMaterial material)
     {
-        super(m);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        super(material);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setTextureName("taintedmagic:ItemShadowmetalSword");
         this.setUnlocalizedName("ItemShadowmetalSword");
     }

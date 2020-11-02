@@ -15,7 +15,7 @@ public class ItemNightshadeBerries extends ItemFood
     public ItemNightshadeBerries (int healAmount, float saturation, boolean b)
     {
         super(healAmount, saturation, b);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemNightshadeBerries");
         this.setTextureName("taintedmagic:ItemNightshadeBerries");
         this.setAlwaysEdible();

@@ -12,7 +12,7 @@ public class ItemShadowmetalSpade extends ItemSpade implements IRepairable
     public ItemShadowmetalSpade (ToolMaterial material)
     {
         super(material);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setTextureName("taintedmagic:ItemShadowmetalSpade");
         this.setUnlocalizedName("ItemShadowmetalSpade");
     }

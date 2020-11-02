@@ -9,7 +9,7 @@ public class BlockShadowOre extends Block
     public BlockShadowOre ()
     {
         super(Material.rock);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setBlockTextureName("taintedmagic:BlockShadowOre");
         this.setBlockName("BlockShadowOre");
         this.setHardness(5.0F);

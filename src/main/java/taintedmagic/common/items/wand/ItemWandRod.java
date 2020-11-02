@@ -19,7 +19,7 @@ public class ItemWandRod extends Item
 
     public ItemWandRod ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemWandRod");
         this.setHasSubtypes(true);
     }

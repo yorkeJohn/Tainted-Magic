@@ -17,7 +17,7 @@ public class ItemWarpedGoggles extends ItemGoggles implements IWarpingGear
     public ItemWarpedGoggles (ArmorMaterial material, int j, int k)
     {
         super(material, j, k);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemWarpedGoggles");
     }
 

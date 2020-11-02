@@ -26,7 +26,7 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
     public ItemVoidwalkerSash ()
     {
         super(20);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setTextureName("taintedmagic:ItemVoidwalkerSash");
         this.setMaxDamage(-1);
         this.setMaxStackSize(1);

@@ -14,7 +14,7 @@ public class ItemLumosRing extends Item implements IBauble
 {
     public ItemLumosRing ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setTextureName("taintedmagic:ItemLumosRing");
         this.setMaxDamage(-1);
         this.setMaxStackSize(1);

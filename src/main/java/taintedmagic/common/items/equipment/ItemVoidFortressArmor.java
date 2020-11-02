@@ -24,7 +24,7 @@ public class ItemVoidFortressArmor extends ItemFortressArmor implements IWarping
     public ItemVoidFortressArmor (ArmorMaterial material, int j, int k)
     {
         super(material, j, k);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
     }
 
     @SideOnly (Side.CLIENT)

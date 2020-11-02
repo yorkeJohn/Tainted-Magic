@@ -34,7 +34,7 @@ public class ItemFocusDarkMatter extends ItemFocusBasic
 
     public ItemFocusDarkMatter ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemFocusDarkMatter");
     }
 

@@ -30,7 +30,7 @@ public class ItemFocusVisShard extends ItemFocusBasic
 
     public ItemFocusVisShard ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemFocusVisShard");
     }
 

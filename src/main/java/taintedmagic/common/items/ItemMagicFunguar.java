@@ -26,7 +26,7 @@ public class ItemMagicFunguar extends ItemFood
     public ItemMagicFunguar (int healAmount, float saturation, boolean b)
     {
         super(healAmount, saturation, b);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setTextureName("taintedmagic:ItemMagicFunguar");
         this.setAlwaysEdible();
         this.setUnlocalizedName("ItemMagicFunguar");

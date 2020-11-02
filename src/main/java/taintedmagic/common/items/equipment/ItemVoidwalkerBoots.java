@@ -37,7 +37,7 @@ public class ItemVoidwalkerBoots extends ItemArmor
     public ItemVoidwalkerBoots (ArmorMaterial material, int j, int k)
     {
         super(material, j, k);
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemVoidwalkerBoots");
         this.setTextureName("taintedmagic:ItemVoidwalkerBoots");
 
@@ -148,7 +148,7 @@ public class ItemVoidwalkerBoots extends ItemArmor
                 float mul = 0.2F;
                 ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
                 if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash && ItemVoidwalkerSash.isSpeedEnabled(sash))
-                    mul += 0.2F;
+                    mul *= 2.0F;
 
                 player.moveFlying(0.0F, 1.0F, player.capabilities.isFlying ? (mul - 0.075F) : mul);
                 player.jumpMovementFactor = 0.00002F;

@@ -18,7 +18,7 @@ public class ItemWarpFertilizer extends Item
 {
     public ItemWarpFertilizer ()
     {
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
         this.setUnlocalizedName("ItemWarpFertilizer");
         this.setTextureName("taintedmagic:ItemWarpFertilizer");
 

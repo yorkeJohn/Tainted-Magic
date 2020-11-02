@@ -29,7 +29,7 @@ public class ItemPrimordialEdge extends ItemSword implements IWarpingGear, IRepa
         super(material);
         this.setTextureName("taintedmagic:ItemPrimordialEdge");
         this.setUnlocalizedName("ItemPrimordialEdge");
-        this.setCreativeTab(TaintedMagic.tabTaintedMagic);
+        this.setCreativeTab(TaintedMagic.tabTM);
     }
 
     public EnumAction getItemUseAction (ItemStack stack)
@@ -73,23 +73,20 @@ public class ItemPrimordialEdge extends ItemSword implements IWarpingGear, IRepa
         // Based off of hungry node
         Iterator i$;
 
-        List ents = player.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB
+        List<Entity> ents = player.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB
                 .getBoundingBox(player.posX, player.posY, player.posZ, player.posX + 1, player.posY + 1, player.posZ + 1)
                 .expand(15.0D, 15.0D, 15.0D));
 
         player.worldObj.playSoundAtEntity(player, "thaumcraft:brain", 0.05F, 0.5F);
 
-        if (ents != null && ents.size() > 0) for (i$ = ents.iterator(); i$.hasNext();)
+        if (ents != null && ents.size() > 0) for (Entity entity : ents)
         {
-            Object next = i$.next();
-            Entity entity = (Entity) next;
-
             if (entity != player)
             {
                 if (entity.isEntityAlive() && !entity.isEntityInvulnerable())
                 {
                     double dist = TaintedMagicHelper.getDistanceTo(player, entity.posX, entity.posY, entity.posZ);
-                    if (dist < 2.0D) entity.attackEntityFrom(DamageSource.magic, 5.0F);
+                    if (dist < 2.0D) entity.attackEntityFrom(DamageSource.magic, 3.0F);
                 }
 
                 double x = (player.posX + 0.5D - entity.posX) / 20.0D;
