@@ -278,10 +278,8 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
                                 player.posZ + 1).expand(10.0D, 10.0D, 10.0D));
                 if (ents != null && ents.size() > 0)
                 {
-                    for (int a = 0; a < ents.size(); a++)
+                    for (EntityLivingBase entity : ents)
                     {
-                        EntityLivingBase entity = ents.get(a);
-
                         if (entity != player && entity.isEntityAlive() && !entity.isEntityInvulnerable())
                         {
                             entity.attackEntityFrom(DamageSource.magic, getAttackDamage(stack) * 0.25F);
@@ -306,8 +304,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
     private boolean isFullyCharged (EntityPlayer player)
     {
         float f = Math.min((float) this.ticksInUse / 10.0F, 1.0F);
-        if (f == 1.0F) return true;
-        else return false;
+        return f == 1.0F;
     }
 
     @Override

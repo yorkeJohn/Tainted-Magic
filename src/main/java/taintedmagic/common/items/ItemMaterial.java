@@ -32,7 +32,7 @@ public class ItemMaterial extends Item
      * 10 Primordial Mote
      * 11 Fragment of Creation
      */
-    
+
     IIcon[] icons = new IIcon[SUBTYPES];
 
     public ItemMaterial ()

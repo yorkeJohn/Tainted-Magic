@@ -88,15 +88,14 @@ public class ItemThaumicDisassembler extends Item
     @Override
     public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
     {
-        if (!world.isRemote && player.isSneaking())
+        if (player.isSneaking())
         {
             if (stack.stackTagCompound == null) stack.setTagCompound(new NBTTagCompound());
-            int mode = getMode(stack);
-
-            stack.stackTagCompound.setInteger(TAG_MODE, mode < 3 ? mode + 1 : 0);
+            stack.stackTagCompound.setInteger(TAG_MODE, getMode(stack) < 3 ? getMode(stack) + 1 : 0);
 
             String str = EnumChatFormatting.GRAY + StatCollector.translateToLocal("text.disassembler.mode") + ": "
-                    + getModeName(mode) + (mode == 3 ? "\u00A7c" : "\u00A7a") + " (" + getEfficiency(mode) + ")";
+                    + getModeName(getMode(stack)) + (getMode(stack) == 3 ? "\u00A7c" : "\u00A7a") + " ("
+                    + getEfficiency(getMode(stack)) + ")";
             HUDHandler.displayString(str, 300, false);
         }
         return stack;

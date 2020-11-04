@@ -84,7 +84,7 @@ public class ItemGateKey extends Item implements IWarpingGear
         if (pass == 1 && stack.stackTagCompound != null)
         {
             return Color.HSBtoRGB((float) stack.stackTagCompound.getInteger(TAG_COLOUR) / 360F, 1.0F,
-                    0.2F * (float) Math.sin((double) ClientHandler.ticks / 150D) + 0.8F);
+                    0.2F * (float) Math.sin((double) TaintedMagic.proxy.getClientPlayer().ticksExisted / 10D) + 0.8F);
         }
         return 0xFFFFFF;
     }
@@ -209,8 +209,8 @@ public class ItemGateKey extends Item implements IWarpingGear
                     e.printStackTrace();
                 }
             }
-            else if (dim != world.provider.dimensionId) HUDHandler
-                    .displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("key.invaliddim"), 300, false);
+            else if (dim != world.provider.dimensionId)
+                HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("key.invaliddim"), 300, false);
             else HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("key.error"), 300, false);
         }
         return stack;

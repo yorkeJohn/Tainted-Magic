@@ -344,22 +344,22 @@ public class ResearchRegistry
      * ResearchPage helpers
      */
 
-    public static ResearchPage recipePage (String key)
+    private static ResearchPage recipePage (String key)
     {
         return new ResearchPage((IRecipe) recipes.get(key));
     }
 
-    public static ResearchPage arcanePage (String key)
+    private static ResearchPage arcanePage (String key)
     {
         return new ResearchPage((IArcaneRecipe) recipes.get(key));
     }
 
-    public static ResearchPage infusionPage (String key)
+    private static ResearchPage infusionPage (String key)
     {
         return new ResearchPage((InfusionRecipe) recipes.get(key));
     }
 
-    public static ResearchPage cruciblePage (String key)
+    private static ResearchPage cruciblePage (String key)
     {
         return new ResearchPage((CrucibleRecipe) recipes.get(key));
     }

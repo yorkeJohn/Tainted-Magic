@@ -17,16 +17,10 @@ import taintedmagic.api.IRenderInventoryItem;
 @SideOnly (Side.CLIENT)
 public class ClientHandler
 {
-    public static int ticks;
-
     @SubscribeEvent
     public void tickEnd (TickEvent event)
     {
-        if (event.phase == TickEvent.Phase.END)
-        {
-            HUDHandler.updateTicks();
-            ticks++;
-        }
+        if (event.phase == TickEvent.Phase.END) HUDHandler.updateTicks();
     }
 
     /*
@@ -40,15 +34,14 @@ public class ClientHandler
 
         ItemStack[] inv = player.inventory.mainInventory;
         List<Item> rendering = new ArrayList<Item>();
-        for (int i = 0; i < 36; i++)
+        for (ItemStack stack : inv)
         {
-            ItemStack stack = inv[i];
             if (stack != null && stack.getItem() instanceof IRenderInventoryItem && !rendering.contains(stack.getItem()))
             {
                 ((IRenderInventoryItem) stack.getItem()).render(player, stack, event.partialRenderTick);
                 rendering.add(stack.getItem());
             }
-            if (i == 36) rendering.clear();
         }
+        rendering.clear();
     }
 }

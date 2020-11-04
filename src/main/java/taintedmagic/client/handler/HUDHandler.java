@@ -18,10 +18,10 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import taintedmagic.api.IHeldItemHUD;
 import taintedmagic.common.TaintedMagic;
 
-@SideOnly (Side.CLIENT)
-public class HUDHandler
+public final class HUDHandler
 {
     @SubscribeEvent
+    @SideOnly (Side.CLIENT)
     public void renderGameOverlayEvent (RenderGameOverlayEvent.Post event)
     {
         if (event.type == ElementType.ALL)
@@ -35,6 +35,7 @@ public class HUDHandler
     private static ItemStack stack = null;
     private static ItemStack last = null;
 
+    @SideOnly (Side.CLIENT)
     private void renderHeldItemHUD (float partialTicks)
     {
         EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
@@ -58,33 +59,34 @@ public class HUDHandler
         else if (!b && ticksEquipped != 0) ((IHeldItemHUD) last.getItem()).renderHUD(res, player, last, partialTicks, fract);
     }
 
-    private static String currentStr;
-    private static int start;
-    private static int ticks;
+    private static String currentText;
+    private static int time, ticks;
     private static boolean gay;
 
     /**
      * Displays text above the health bar for a specified duration.
      * 
-     * @param str The string to display.
+     * @param text The string to display.
      * @param duration The duration to display it for (in ticks).
      * @param rainbow Setting this to true makes things absolutely fabulous.
      */
-    public static void displayString (String str, int duration, boolean rainbow)
+    public static void displayString (String text, int duration, boolean rainbow)
     {
-        currentStr = str;
-        ticks = start = duration;
+        currentText = text;
+        ticks = time = duration;
         gay = rainbow;
     }
 
+    @SideOnly (Side.CLIENT)
     public static void updateTicks ()
     {
         if (ticks > 0) ticks--;
     }
 
+    @SideOnly (Side.CLIENT)
     private void renderString ()
     {
-        if (ticks > 0 && !MathHelper.stringNullOrLengthZero(currentStr))
+        if (ticks > 0 && !MathHelper.stringNullOrLengthZero(currentText))
         {
             Minecraft mc = Minecraft.getMinecraft();
             ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
@@ -92,20 +94,20 @@ public class HUDHandler
             int y = res.getScaledHeight();
             FontRenderer font = mc.fontRenderer;
 
-            int startX = (x - font.getStringWidth(currentStr)) / 2;
+            int startX = (x - font.getStringWidth(currentText)) / 2;
             int startY = y - 72;
 
-            int opacity = ticks > ((float) start * 0.25F) ? 255 : (int) (255F * ((float) ticks / ((float) start * 0.25F)));
+            int opacity = ticks > ((float) time * 0.25F) ? 255 : (int) (255F * ((float) ticks / ((float) time * 0.25F)));
             if (opacity < 5) opacity = 0;
 
-            int rgb = Color.HSBtoRGB( ((float) (start - ticks) / (float) start), 1.0F, 1.0F);
+            int rgb = Color.HSBtoRGB( ((float) (time - ticks) / (float) time), 1.0F, 1.0F);
 
             if (opacity > 0)
             {
                 GL11.glPushMatrix();
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                font.drawStringWithShadow(currentStr, startX, startY, (gay ? rgb : 0xFFFFFF) + (opacity << 24));
+                font.drawStringWithShadow(currentText, startX, startY, (gay ? rgb : 0xFFFFFF) + (opacity << 24));
                 GL11.glDisable(GL11.GL_BLEND);
                 GL11.glPopMatrix();
             }

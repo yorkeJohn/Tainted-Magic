@@ -25,7 +25,7 @@ public class TaintedMagic
     @SidedProxy (clientSide = "taintedmagic.client.ClientProxy", serverSide = "taintedmagic.common.CommonProxy")
     public static CommonProxy proxy;
 
-    // Tainted Magic creative tab
+    // TM creative tab
     public static CreativeTabs tabTM = new TMCreativeTab();
 
     // TM log
