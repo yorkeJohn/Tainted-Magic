@@ -149,6 +149,8 @@ Changes:
 - Improved the Flyte Charm's glide feature.
 - Changed vis costs for foci.
 - Removed Block of Shadow Metal
+- Vis discount for the Shadow Metal Caps, Cloth Caps, Crimson-stained Caps, and Shadow-imbued Caps were changed to 35%, 3%, 7%, and 9% respectively.
+- Removed Shadow Metal Ore
 
 Additions:
 - Re-added the old particles when walking with the Boots of the Voidwalker. Not as invasive as the original.

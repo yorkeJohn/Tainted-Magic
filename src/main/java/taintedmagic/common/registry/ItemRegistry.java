@@ -199,16 +199,16 @@ public class ItemRegistry
         ItemWandCap = new ItemWandCap();
         GameRegistry.registerItem(ItemWandCap, "ItemWandCap");
 
-        WAND_CAP_SHADOWMETAL = new WandCap("shadowmetal", 0.70F, new ItemStack(ItemWandCap, 1, 0), 12);
+        WAND_CAP_SHADOWMETAL = new WandCap("shadowmetal", 0.65F, new ItemStack(ItemWandCap, 1, 0), 12);
         WAND_CAP_SHADOWMETAL.setTexture(new ResourceLocation("taintedmagic:textures/models/ModelWAND_CAP_SHADOWMETAL.png"));
 
-        WAND_CAP_CLOTH = new WandCap("cloth", 0.95F, new ItemStack(ItemWandCap, 1, 1), 3);
+        WAND_CAP_CLOTH = new WandCap("cloth", 0.97F, new ItemStack(ItemWandCap, 1, 1), 2);
         WAND_CAP_CLOTH.setTexture(new ResourceLocation("taintedmagic:textures/models/ModelWAND_CAP_CLOTH.png"));
 
-        WAND_CAP_CRIMSON_CLOTH = new WandCap("crimsoncloth", 0.85F, new ItemStack(ItemWandCap, 1, 2), 5);
+        WAND_CAP_CRIMSON_CLOTH = new WandCap("crimsoncloth", 0.93F, new ItemStack(ItemWandCap, 1, 2), 3);
         WAND_CAP_CRIMSON_CLOTH.setTexture(new ResourceLocation("taintedmagic:textures/models/ModelWAND_CAP_CRIMSON_CLOTH.png"));
 
-        WAND_CAP_SHADOW_CLOTH = new WandCap("shadowcloth", 0.90F, new ItemStack(ItemWandCap, 1, 3), 3);
+        WAND_CAP_SHADOW_CLOTH = new WandCap("shadowcloth", 0.91F, new ItemStack(ItemWandCap, 1, 3), 4);
         WAND_CAP_SHADOW_CLOTH.setTexture(new ResourceLocation("taintedmagic:textures/models/ModelWAND_CAP_SHADOW_CLOTH.png"));
 
         // Foci

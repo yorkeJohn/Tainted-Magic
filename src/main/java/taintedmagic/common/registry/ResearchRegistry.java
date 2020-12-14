@@ -51,9 +51,8 @@ public class ResearchRegistry
 
         r = new TMResearchItem("SHADOWMETAL",
                 new AspectList().add(Aspect.METAL, 1).add(Aspect.DARKNESS, 1).add(Aspect.MAGIC, 1), 0, 1,
-                new ItemStack(BlockRegistry.BlockShadowOre), 0, 1);
-        r.setPages(new ResearchPage("1"), cruciblePage("BlockShadowOre"),
-                new ResearchPage(new ItemStack(BlockRegistry.BlockShadowOre)), recipePage("ItemShadowmetalPick"),
+                new ItemStack(ItemRegistry.ItemMaterial), 0, 1);
+        r.setPages(new ResearchPage("1"), cruciblePage("ItemMaterial:0"), recipePage("ItemShadowmetalPick"),
                 recipePage("ItemShadowmetalSpade"), recipePage("ItemShadowmetalAxe"), recipePage("ItemShadowmetalHoe"),
                 recipePage("ItemShadowmetalSword"));
         r.setParents("TAINTEDMAGIC").setConcealed().registerResearchItem();
@@ -228,8 +227,7 @@ public class ResearchRegistry
                 new AspectList().add(Aspect.MAGIC, 16).add(Aspect.CLOTH, 8).add(Aspect.VOID, 16).add(Aspect.DARKNESS, 8), -3, 5,
                 new ItemStack(ItemRegistry.ItemWandCap, 1, 3), 0, 1);
         r.setPages(new ResearchPage("1"), arcanePage("ItemWandCap:3"));
-        r.setParentsHidden("CAP_cloth", "CAP_thaumium").setSecondary().setConcealed().setParents("SHADOWCLOTH")
-                .registerResearchItem();
+        r.setParentsHidden("CAP_cloth").setSecondary().setConcealed().setParents("SHADOWCLOTH").registerResearchItem();
 
         r = new TMResearchItem("PRIMALBLADE", new AspectList().add(Aspect.MAGIC, 1).add(Aspect.ELDRITCH, 1)
                 .add(Aspect.WEAPON, 1).add(Aspect.VOID, 1).add(Aspect.AURA, 1), 11, -3,

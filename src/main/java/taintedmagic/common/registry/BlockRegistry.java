@@ -4,7 +4,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import taintedmagic.common.blocks.BlockLumos;
 import taintedmagic.common.blocks.BlockNightshadeBush;
-import taintedmagic.common.blocks.BlockShadowOre;
 import taintedmagic.common.blocks.BlockWarpwoodLeaves;
 import taintedmagic.common.blocks.BlockWarpwoodLog;
 import taintedmagic.common.blocks.BlockWarpwoodPlanks;
@@ -13,8 +12,6 @@ import taintedmagic.common.blocks.tile.TileLumos;
 
 public class BlockRegistry
 {
-    public static Block BlockShadowOre;
-
     public static Block BlockWarpwoodLog;
     public static Block BlockWarpwoodLeaves;
     public static Block BlockWarpwoodSapling;
@@ -25,9 +22,6 @@ public class BlockRegistry
 
     public static void initBlocks ()
     {
-        BlockShadowOre = new BlockShadowOre();
-        GameRegistry.registerBlock(BlockShadowOre, "BlockShadowOre");
-
         BlockWarpwoodLog = new BlockWarpwoodLog();
         GameRegistry.registerBlock(BlockWarpwoodLog, "BlockWarpwoodLog");
 

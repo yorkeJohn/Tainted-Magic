@@ -49,22 +49,22 @@ public class RecipeRegistry
 
         // Shadow Metal Axe
         ResearchRegistry.recipes.put("ItemShadowmetalAxe",
-                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalAxe), "AA", "BA", "B ", 'A',
+                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalAxe), " AA", " BA", " B ", 'A',
                         new ItemStack(ItemRegistry.ItemMaterial), 'B', new ItemStack(Items.stick)));
 
         // Shadow Metal Spade
         ResearchRegistry.recipes.put("ItemShadowmetalSpade",
-                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalSpade), "A", "B", "B", 'A',
+                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalSpade), " A ", " B ", " B ", 'A',
                         new ItemStack(ItemRegistry.ItemMaterial), 'B', new ItemStack(Items.stick)));
 
         // Shadow Metal Hoe
         ResearchRegistry.recipes.put("ItemShadowmetalHoe",
-                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalHoe), "AA", "B ", "B ", 'A',
+                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalHoe), " AA", " B ", " B ", 'A',
                         new ItemStack(ItemRegistry.ItemMaterial), 'B', new ItemStack(Items.stick)));
 
         // Shadow Metal Sword
         ResearchRegistry.recipes.put("ItemShadowmetalSword",
-                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalSword), "A", "A", "B", 'A',
+                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalSword), " A ", " A ", " B ", 'A',
                         new ItemStack(ItemRegistry.ItemMaterial), 'B', new ItemStack(Items.stick)));
     }
 
@@ -73,8 +73,6 @@ public class RecipeRegistry
      */
     public static void initSmelting ()
     {
-        // Shadow Metal Ingot
-        GameRegistry.addSmelting(BlockRegistry.BlockShadowOre, new ItemStack(ItemRegistry.ItemMaterial), 2.0F);
     }
 
     /**
@@ -598,8 +596,7 @@ public class RecipeRegistry
         // Shadow-imbued Cloth
         ResearchRegistry.recipes.put("ItemMaterial:1",
                 ThaumcraftApi.addArcaneCraftingRecipe("SHADOWCLOTH", new ItemStack(ItemRegistry.ItemMaterial, 1, 1),
-                        new AspectList().add(Aspect.ORDER, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.AIR, 1)
-                                .add(Aspect.FIRE, 1).add(Aspect.ENTROPY, 1),
+                        new AspectList().add(Aspect.ORDER, 10).add(Aspect.ENTROPY, 10),
                         " A ", "ABA", " A ", 'A', new ItemStack(ItemRegistry.ItemMaterial, 1, 8), 'B',
                         new ItemStack(ConfigItems.itemResource, 1, 7)));
 
@@ -691,11 +688,11 @@ public class RecipeRegistry
                 ThaumcraftApi.addCrucibleRecipe("UNBALANCEDSHARDS", new ItemStack(ItemRegistry.ItemMaterial, 1, 4),
                         new ItemStack(ConfigItems.itemShard, 1, 6), new AspectList().merge(Aspect.TAINT, 4)));
 
-        // Shadow Ore
-        ResearchRegistry.recipes.put("BlockShadowOre",
-                ThaumcraftApi.addCrucibleRecipe("SHADOWMETAL", new ItemStack(BlockRegistry.BlockShadowOre),
-                        new ItemStack(Blocks.stone),
-                        new AspectList().merge(Aspect.DARKNESS, 2).merge(Aspect.METAL, 5).merge(Aspect.MAGIC, 1)));
+        // Shadow Metal Ingot
+        ResearchRegistry.recipes.put("ItemMaterial:0",
+                ThaumcraftApi.addCrucibleRecipe("SHADOWMETAL", new ItemStack(ItemRegistry.ItemMaterial, 1, 0),
+                        new ItemStack(Items.iron_ingot),
+                        new AspectList().merge(Aspect.DARKNESS, 3).merge(Aspect.METAL, 7).merge(Aspect.MAGIC, 2)));
 
         // Vishroom with Brown Mushroom
         ResearchRegistry.recipes.put("Vishroom_brown",
