@@ -12,5 +12,6 @@ public class PacketHandler
     public static void initPackets ()
     {
         INSTANCE.registerMessage(PacketKatanaAttack.class, PacketKatanaAttack.class, 0, Side.SERVER);
+        INSTANCE.registerMessage(PacketUpdateJumpKey.class, PacketUpdateJumpKey.class, 1, Side.SERVER);
     }
 }
