@@ -21,16 +21,12 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 
 public class ItemFocusDarkMatter extends ItemFocusBasic
 {
-    IIcon depthIcon = null;
-    IIcon ornIcon = null;
+    private IIcon depthIcon, ornIcon;
+    private long soundDelay = 0L;
 
     private static final AspectList COST = new AspectList().add(Aspect.ENTROPY, 150).add(Aspect.FIRE, 100);
     private static final AspectList COST_SANITY = COST.copy().add(Aspect.ORDER, 50);
     private static final AspectList COST_CORROSIVE = COST.copy().add(Aspect.WATER, 50);
-
-    private static final AspectList COST_DIFFUSION = new AspectList().add(Aspect.ENTROPY, 15).add(Aspect.FIRE, 10);
-    private static final AspectList COST_DIFFUSION_SANITY = COST_DIFFUSION.copy().add(Aspect.ORDER, 5);
-    private static final AspectList COST_DIFFUSION_CORROSIVE = COST_DIFFUSION.copy().add(Aspect.WATER, 5);
 
     public ItemFocusDarkMatter ()
     {
@@ -87,11 +83,16 @@ public class ItemFocusDarkMatter extends ItemFocusBasic
 
     public AspectList getVisCost (ItemStack stack)
     {
-        return isUpgradedWith(stack, TMFocusUpgrades.diffusion)
-                ? (isUpgradedWith(stack, TMFocusUpgrades.sanity) ? COST_DIFFUSION_SANITY
-                        : isUpgradedWith(stack, TMFocusUpgrades.corrosive) ? COST_DIFFUSION_CORROSIVE : COST_DIFFUSION)
-                : (isUpgradedWith(stack, TMFocusUpgrades.sanity) ? COST_SANITY
-                        : isUpgradedWith(stack, TMFocusUpgrades.corrosive) ? COST_CORROSIVE : COST);
+        AspectList cost = isUpgradedWith(stack, TMFocusUpgrades.sanity) ? COST_SANITY
+                : isUpgradedWith(stack, TMFocusUpgrades.corrosive) ? COST_CORROSIVE : COST;
+
+        if (isUpgradedWith(stack, TMFocusUpgrades.diffusion))
+        {
+            cost = cost.copy();
+            for (Aspect aspect : cost.getAspects())
+                cost.reduce(aspect, (int) (cost.getAmount(aspect) * 0.9));
+        }
+        return cost;
     }
 
     public int getActivationCooldown (ItemStack stack)
@@ -114,25 +115,19 @@ public class ItemFocusDarkMatter extends ItemFocusBasic
     {
         ItemWandCasting wand = (ItemWandCasting) stack.getItem();
 
-        if (isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.diffusion))
-        {
-            player.setItemInUse(stack, 2147483647);
-        }
+        if (isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.diffusion)) player.setItemInUse(stack, 2147483647);
         else
         {
-            if (!world.isRemote)
+            if (!world.isRemote && wand.consumeAllVis(stack, player, getVisCost(wand.getFocusItem(stack)), true, false))
             {
-                if (wand.consumeAllVis(stack, player, getVisCost(stack), true, false))
-                {
-                    EntityDarkMatter proj = new EntityDarkMatter(world, player, 16F + wand.getFocusPotency(stack),
-                            isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.corrosive));
-                    world.spawnEntityInWorld(proj);
+                EntityDarkMatter proj = new EntityDarkMatter(world, player, 16F + wand.getFocusPotency(stack),
+                        wand.getFocusEnlarge(stack), isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.corrosive));
+                world.spawnEntityInWorld(proj);
 
-                    if (!isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.sanity) && world.rand.nextInt(20) == 0)
-                        Thaumcraft.addStickyWarpToPlayer(player, 1);
+                if (!isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.sanity) && world.rand.nextInt(20) == 0)
+                    Thaumcraft.addStickyWarpToPlayer(player, 1);
 
-                    world.playSoundAtEntity(player, "thaumcraft:egattack", 0.4F, 1.0F + world.rand.nextFloat() * 0.1F);
-                }
+                world.playSoundAtEntity(player, "thaumcraft:egattack", 0.4F, 1.0F + world.rand.nextFloat() * 0.1F);
             }
             player.swingItem();
         }
@@ -143,20 +138,26 @@ public class ItemFocusDarkMatter extends ItemFocusBasic
     {
         ItemWandCasting wand = (ItemWandCasting) stack.getItem();
 
-        if (!wand.consumeAllVis(stack, player, getVisCost(stack), false, false))
+        if (!wand.consumeAllVis(stack, player, getVisCost(wand.getFocusItem(stack)), false, false))
         {
             player.stopUsingItem();
             return;
         }
-        if (!player.worldObj.isRemote && player.ticksExisted % 5 == 0)
-            player.worldObj.playSoundAtEntity(player, "thaumcraft:wind", 0.33F, 5.0F * (float) Math.random());
 
-        if (!player.worldObj.isRemote && wand.consumeAllVis(stack, player, getVisCost(stack), true, false))
+        if (!player.worldObj.isRemote && this.soundDelay < System.currentTimeMillis())
+        {
+            player.worldObj.playSoundAtEntity(player, "thaumcraft:wind", 0.3F + 0.2F * (float) Math.random(),
+                    0.75F + 0.25F * (float) Math.random());
+            this.soundDelay = System.currentTimeMillis() + 750L;
+        }
+
+        if (!player.worldObj.isRemote && wand.consumeAllVis(stack, player, getVisCost(wand.getFocusItem(stack)), true, false))
         {
             for (int a = 0; a < 2 + wand.getFocusPotency(stack); a++)
             {
                 EntityDiffusion proj = new EntityDiffusion(player.worldObj, player,
-                        isUpgradedWith(wand.getFocusItem(stack), FocusUpgradeType.enlarge) ? 15.0F : 9.0F,
+                        isUpgradedWith(wand.getFocusItem(stack), FocusUpgradeType.enlarge)
+                                ? (12.0F + wand.getFocusEnlarge(stack)) : 9.0F,
                         12F + wand.getFocusPotency(stack), isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.corrosive));
 
                 proj.posX += proj.motionX;
@@ -164,10 +165,10 @@ public class ItemFocusDarkMatter extends ItemFocusBasic
                 proj.posZ += proj.motionZ;
 
                 player.worldObj.spawnEntityInWorld(proj);
-
-                if (!isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.sanity) && player.worldObj.rand.nextInt(200) == 0)
-                    Thaumcraft.addStickyWarpToPlayer(player, 1);
             }
+
+            if (!isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.sanity) && player.worldObj.rand.nextInt(1000) == 0)
+                Thaumcraft.addStickyWarpToPlayer(player, 1);
         }
     }
 
@@ -176,16 +177,17 @@ public class ItemFocusDarkMatter extends ItemFocusBasic
         switch (rank)
         {
         case 1 :
-            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, FocusUpgradeType.enlarge };
         case 2 :
-            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, FocusUpgradeType.enlarge };
         case 3 :
-            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, TMFocusUpgrades.corrosive,
-                    TMFocusUpgrades.sanity };
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, FocusUpgradeType.enlarge,
+                    TMFocusUpgrades.corrosive, TMFocusUpgrades.sanity };
         case 4 :
-            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, FocusUpgradeType.enlarge };
         case 5 :
-            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, TMFocusUpgrades.diffusion };
+            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency, FocusUpgradeType.enlarge,
+                    TMFocusUpgrades.diffusion };
         }
         return null;
     }

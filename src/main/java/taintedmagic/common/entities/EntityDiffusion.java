@@ -113,35 +113,24 @@ public class EntityDiffusion extends EntityThrowable
                 {
                     if (mop.entityHit != null)
                     {
-                        ((EntityLivingBase) entity)
-                                .attackEntityFrom(DamageSource.causeIndirectMagicDamage(getThrower(), entity), this.dmg);
-                        if (this.corrosive)
+                        ((EntityLivingBase) entity).attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, getThrower()),
+                                this.dmg);
+                        try
                         {
-                            try
-                            {
-                                ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 160, 1));
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.printStackTrace();
-                            }
+                            if (this.corrosive)
+                                ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 40, 1));
+                            ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 40, 1));
                         }
-                        else
+                        catch (Exception e)
                         {
-                            try
-                            {
-                                ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 160, 1));
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.printStackTrace();
-                            }
+                            e.printStackTrace();
                         }
                     }
                 }
             }
+            this.worldObj.setEntityState(this, (byte) 16);
         }
-        this.worldObj.setEntityState(this, (byte) 16);
+        setDead();
     }
 
     protected boolean canTriggerWalking ()
