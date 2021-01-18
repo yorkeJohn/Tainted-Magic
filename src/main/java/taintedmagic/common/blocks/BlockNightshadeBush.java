@@ -2,18 +2,25 @@ package taintedmagic.common.blocks;
 
 import java.util.Random;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemShears;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IShearable;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.event.world.BlockEvent;
 import taintedmagic.common.TaintedMagic;
+import taintedmagic.common.registry.BlockRegistry;
 import taintedmagic.common.registry.ItemRegistry;
 
 public class BlockNightshadeBush extends BlockBush
@@ -25,6 +32,7 @@ public class BlockNightshadeBush extends BlockBush
         this.setBlockTextureName("taintedmagic:BlockNightshadeBush");
         this.setCreativeTab(TaintedMagic.tabTM);
         this.setStepSound(soundTypeGrass);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public Item getItemDropped (int a, Random random, int b)
@@ -56,11 +64,22 @@ public class BlockNightshadeBush extends BlockBush
 
     public int getFlammability (IBlockAccess world, int x, int y, int z, ForgeDirection face)
     {
-        return 100;
+        return 0;
     }
 
     public int getFireSpreadSpeed (IBlockAccess world, int x, int y, int z, ForgeDirection face)
     {
-        return 60;
+        return 0;
+    }
+
+    @SubscribeEvent
+    public void onBreak (BlockEvent.HarvestDropsEvent event)
+    {
+        if (event.harvester != null && event.harvester.getHeldItem() != null
+                && event.harvester.getHeldItem().getItem() instanceof ItemShears)
+        {
+            event.drops.clear();
+            event.drops.add(new ItemStack(BlockRegistry.BlockNightshadeBush, 1, 0));
+        }
     }
 }
