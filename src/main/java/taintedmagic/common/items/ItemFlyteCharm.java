@@ -1,15 +1,9 @@
 package taintedmagic.common.items;
 
-import java.util.HashMap;
-import java.util.UUID;
-
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -25,8 +19,6 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
-import taintedmagic.common.network.PacketHandler;
-import taintedmagic.common.network.PacketUpdateJumpKey;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -41,9 +33,6 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
 
     // Magic circle texture
     private static final ResourceLocation MAGIC_CIRCLE = new ResourceLocation("taintedmagic:textures/misc/circle.png");
-
-    // Stores whether the player has their jump key down (for boost function)
-    public static HashMap<UUID, Boolean> jumpKeyState = new HashMap<UUID, Boolean>();
 
     public ItemFlyteCharm ()
     {
@@ -92,13 +81,6 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
                         player.motionX += Math.cos(Math.toRadians(player.rotationYawHead + 90)) * speed;
                         player.motionZ += Math.sin(Math.toRadians(player.rotationYawHead + 90)) * speed;
                     }
-
-                    // Boost
-                    if (!player.isSneaking() && jumpKeyState.containsKey(player.getUniqueID())
-                            && jumpKeyState.get(player.getUniqueID())
-                            && TaintedMagicHelper.consumeVisFromInventory(player, COST_BOOST, player.motionY > 0.2))
-                        player.motionY = Math.min(player.motionY + 0.2D, 0.6D);
-
                 }
                 // Speed boost
                 if (player.moveForward > 0.0F)
@@ -112,40 +94,6 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
                 player.capabilities.allowFlying = false;
                 player.capabilities.isFlying = false;
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void onPlayerLoggedOut (PlayerLoggedInEvent event)
-    {
-        // Remove the player from the HashMap
-        if (jumpKeyState.containsKey(event.player.getUniqueID())) jumpKeyState.remove(event.player.getUniqueID());
-    }
-
-    /**
-     * Updates the player's jump key status & syncs it to the server
-     * 
-     * @param event
-     */
-    @SubscribeEvent
-    @SideOnly (Side.CLIENT)
-    public void playerTick (ClientTickEvent event)
-    {
-        EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
-        if (player != null)
-        {
-            UUID uuid = player.getUniqueID();
-            if (shouldPlayerHaveFlight(player))
-            {
-                boolean state = Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
-                if (jumpKeyState.containsKey(uuid) && jumpKeyState.get(uuid) != state)
-                {
-                    jumpKeyState.replace(uuid, state);
-                    PacketHandler.INSTANCE.sendToServer(new PacketUpdateJumpKey(uuid, state));
-                }
-                else jumpKeyState.put(uuid, state);
-            }
-            else jumpKeyState.remove(uuid);
         }
     }
 
