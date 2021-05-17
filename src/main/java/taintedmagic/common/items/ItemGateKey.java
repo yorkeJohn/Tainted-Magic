@@ -81,7 +81,7 @@ public class ItemGateKey extends Item implements IWarpingGear
     @Override
     public int getColorFromItemStack (ItemStack stack, int pass)
     {
-        if (pass == 1 && stack.stackTagCompound != null)
+        if (pass == 1 && stack.stackTagCompound != null && stack.stackTagCompound.getInteger(TAG_COLOUR) != 0)
         {
             return Color.HSBtoRGB((float) stack.stackTagCompound.getInteger(TAG_COLOUR) / 360F, 1.0F,
                     0.2F * (float) Math.sin((double) TaintedMagic.proxy.getClientPlayer().ticksExisted / 10D) + 0.8F);
@@ -138,25 +138,24 @@ public class ItemGateKey extends Item implements IWarpingGear
     {
         if (stack.stackTagCompound == null)
         {
-            stack.stackTagCompound = new NBTTagCompound();
-
-            stack.stackTagCompound.setInteger(TAG_COLOUR, world.rand.nextInt(360) + 1);
-
-            stack.stackTagCompound.setInteger(TAG_X, x);
-            stack.stackTagCompound.setInteger(TAG_Y, y + 1);
-            stack.stackTagCompound.setInteger(TAG_Z, z);
-            stack.stackTagCompound.setInteger(TAG_DIM, world.provider.dimensionId);
-
-            world.playSoundAtEntity(player, "thaumcraft:wand", 0.5F + ((float) Math.random() * 0.5F), 1.0F);
-
-            if (world.isRemote)
+            if (!world.isRemote)
+            {
+                stack.stackTagCompound = new NBTTagCompound();
+                stack.stackTagCompound.setInteger(TAG_COLOUR, world.rand.nextInt(360) + 1);
+                stack.stackTagCompound.setInteger(TAG_X, x);
+                stack.stackTagCompound.setInteger(TAG_Y, y + 1);
+                stack.stackTagCompound.setInteger(TAG_Z, z);
+                stack.stackTagCompound.setInteger(TAG_DIM, world.provider.dimensionId);
+            }
+            else
             {
                 player.swingItem();
                 for (int a = 0; a < 9; a++)
                     sparkle(world, x + 0.5D, y, z + 0.5D);
             }
+            world.playSoundAtEntity(player, "thaumcraft:wand", 0.5F + ((float) Math.random() * 0.5F), 1.0F);
         }
-        return false;
+        return true;
     }
 
     @SideOnly (Side.CLIENT)
@@ -200,14 +199,7 @@ public class ItemGateKey extends Item implements IWarpingGear
                                 (double) z + 0.5D, player.rotationYaw, player.rotationPitch);
                     world.playSoundAtEntity(player, "mob.endermen.portal", 5.0F, 1.0F);
                 }
-                try
-                {
-                    player.addPotionEffect(new PotionEffect(Potion.confusion.id, 140, 1));
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+                player.addPotionEffect(new PotionEffect(Potion.confusion.id, 160, 0));
             }
             else if (dim != world.provider.dimensionId)
                 HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("key.invaliddim"), 300, false);
