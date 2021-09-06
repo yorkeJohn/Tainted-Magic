@@ -1,2 +1,1 @@
-These language files are out of date and thus are not included in the latest version.
-If you would like to update them, be my guest. I will add completed translations to the release.
+Out-of-date translations are stored here. These are community translations that were included in previous versions, but are no longer accurate to current versions.
