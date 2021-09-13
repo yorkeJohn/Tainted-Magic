@@ -52,16 +52,16 @@ import thaumcraft.common.entities.projectile.EntityExplosiveOrb;
 
 public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRenderInventoryItem, IHeldItemHUD
 {
-    final int SUBTYPES = 3;
+    private final int SUBTYPES = 3;
 
     // NBT tags
     public static final String TAG_INSCRIPTION = "inscription";
     public static final String TAG_COOLDOWN = "cooldown";
 
-    // ticks to fully charge (20 ticks = 1 second)
+    // ticks to fully charge (1 second)
     public static final int CHARGE_TICKS = 20;
-    // inscription attack cooldown
-    public static final int COOLDOWN = 140;
+    // inscription attack cooldown (7 seconds)
+    public static final int COOLDOWN_TICKS = 140;
 
     public static final ResourceLocation TEXTURE_THAUMIUM =
             new ResourceLocation("taintedmagic:textures/models/ModelKatanaThaumium.png");
@@ -331,7 +331,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
                 default :
                     break;
                 }
-                setCooldown(stack, COOLDOWN);
+                setCooldown(stack, COOLDOWN_TICKS);
             }
         }
     }
@@ -413,21 +413,23 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
     {
         Tessellator t = Tessellator.instance;
 
-        float overlay = Math.min(hasCooldown(stack) ? ((float) getCooldown(stack) / (float) COOLDOWN)
+        float overlay = Math.min(hasCooldown(stack) ? ((float) getCooldown(stack) / (float) COOLDOWN_TICKS)
                 : (float) player.getItemInUseDuration() / (float) CHARGE_TICKS, 1.0F);
 
-        int x = res.getScaledWidth() / 2 + 725;
-        int x2 = x + 16;
-        int y = res.getScaledHeight() / 2 + (player.capabilities.isCreativeMode ? 805 : 755);
-        int y2 = y + 16;
+        float scale = 0.315F;
+
+        double x = (double) res.getScaledWidth() / 2d / scale + 30d;
+        double x2 = x + 16;
+        double y = (double) res.getScaledHeight() / scale - (player.capabilities.isCreativeMode ? 100d : 150d);
+        double y2 = y + 16;
 
         GL11.glPushMatrix();
+
+        GL11.glScalef(scale, scale, scale);
+
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-        float scale = 0.315F;
-        GL11.glScalef(scale, scale, scale);
 
         UtilsFX.bindTexture(new ResourceLocation("thaumcraft:textures/misc/script.png"));
 
