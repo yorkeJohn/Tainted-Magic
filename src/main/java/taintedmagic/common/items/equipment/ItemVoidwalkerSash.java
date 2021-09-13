@@ -1,5 +1,7 @@
 package taintedmagic.common.items.equipment;
 
+import java.util.List;
+
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -39,6 +41,15 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
     public EnumRarity getRarity (ItemStack stack)
     {
         return EnumRarity.epic;
+    }
+
+    @Override
+    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
+    {
+        if (isSpeedEnabled(stack)) list.add(EnumChatFormatting.GREEN + StatCollector.translateToLocal("text.sash.speed.on"));
+        else list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("text.sash.speed.off"));
+
+        list.add(" ");
     }
 
     @Override
@@ -119,4 +130,5 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
         if (stack.stackTagCompound == null) return true;
         else return stack.stackTagCompound.getBoolean(TAG_MODE);
     }
+
 }

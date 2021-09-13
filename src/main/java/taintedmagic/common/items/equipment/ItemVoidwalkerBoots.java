@@ -126,36 +126,39 @@ public class ItemVoidwalkerBoots extends ItemArmor
     public void onArmorTick (World world, EntityPlayer player, ItemStack stack)
     {
         super.onArmorTick(world, player, stack);
+        // repair
         if (!world.isRemote && stack.isItemDamaged() && player.ticksExisted % 20 == 0) stack.damageItem(-1, player);
 
+        // particles
         double motion = Math.abs(player.motionX) + Math.abs(player.motionZ) + Math.abs(0.5 * player.motionY);
-        if (world.isRemote && (motion > 0.1D || !player.onGround) && world.rand.nextInt(5) == 0) particles(world, player);
+        if (world.isRemote && (motion > 0.1D || !player.onGround) && world.rand.nextInt(3) == 0) particles(world, player);
 
         if (player.moveForward > 0.0F)
         {
+            // increased step height
             if (player.worldObj.isRemote && !player.isSneaking())
             {
-                if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(Integer.valueOf(player.getEntityId())))
+                if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(player.getEntityId()))
                 {
-                    Thaumcraft.instance.entityEventHandler.prevStep.put(Integer.valueOf(player.getEntityId()),
-                            Float.valueOf(player.stepHeight));
+                    Thaumcraft.instance.entityEventHandler.prevStep.put(player.getEntityId(), player.stepHeight);
                 }
                 player.stepHeight = 1.0F;
             }
 
+            // speed boost
             if (player.onGround || player.capabilities.isFlying)
             {
-                float mul = 0.2F;
+                float bonus = 0.12F;
                 ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
                 if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash && ItemVoidwalkerSash.isSpeedEnabled(sash))
-                    mul *= 2.0F;
+                    bonus *= 2.0F;
 
-                player.moveFlying(0.0F, 1.0F, player.capabilities.isFlying ? (mul - 0.075F) : mul);
-                player.jumpMovementFactor = 0.00002F;
+                player.moveFlying(0.0F, 1.0F, player.capabilities.isFlying ? (bonus * 0.75F) : bonus);
             }
             else if (Hover.getHover(player.getEntityId())) player.jumpMovementFactor = 0.03F;
-            else player.jumpMovementFactor = 0.05F;
+            else player.jumpMovementFactor = player.isSprinting() ? 0.045F : 0.04F;
         }
+        // negate fall damage
         if (player.fallDistance > 3.0F) player.fallDistance = 1.0F;
     }
 
@@ -165,16 +168,12 @@ public class ItemVoidwalkerBoots extends ItemArmor
         if (event.entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) event.entity;
-
-            double mul = 0.0D;
-
             ItemStack boots = player.inventory.armorItemInSlot(0);
             ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
-            if (boots != null && boots.getItem() == ItemRegistry.ItemVoidwalkerBoots) mul += 0.35D;
-            if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash && ItemVoidwalkerSash.isSpeedEnabled(sash))
-                mul += 0.15D;
 
-            player.motionY += mul;
+            if (boots != null && boots.getItem() == ItemRegistry.ItemVoidwalkerBoots) player.motionY *= 1.25D;
+            if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash && ItemVoidwalkerSash.isSpeedEnabled(sash))
+                player.motionY *= 1.05D;
         }
     }
 
