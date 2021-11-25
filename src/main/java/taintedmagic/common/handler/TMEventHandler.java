@@ -39,6 +39,7 @@ import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.config.Config;
 import thaumcraft.common.items.ItemEssence;
 import thaumcraft.common.items.wands.ItemWandCasting;
+import thaumcraft.common.lib.network.PacketHandler;
 import thaumcraft.common.lib.network.playerdata.PacketResearchComplete;
 
 public class TMEventHandler
@@ -55,10 +56,6 @@ public class TMEventHandler
             repairItems(player);
             createLumos(player);
             modifyAttackDamage(player);
-
-            // DELETE THIS UPON RELEASE
-            if (Keyboard.getEventKey() == Keyboard.KEY_T && Keyboard.isKeyDown(Keyboard.KEY_DELETE))
-                Minecraft.getMinecraft().refreshResources();
         }
     }
 
@@ -265,8 +262,7 @@ public class TMEventHandler
                     && ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), "CREATIONSHARD"))
             {
                 Thaumcraft.proxy.getResearchManager().completeResearch(player, "CREATION");
-                thaumcraft.common.lib.network.PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("CREATION"),
-                        (EntityPlayerMP) player);
+                PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("CREATION"), (EntityPlayerMP) player);
                 player.addChatMessage(new ChatComponentText(
                         EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("text.creation")));
                 player.playSound("thaumcraft:wind", 1.0F, 5.0F);
@@ -275,8 +271,7 @@ public class TMEventHandler
                         && ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), "CREATION"))
                 {
                     Thaumcraft.proxy.getResearchManager().completeResearch(player, "OUTERREV");
-                    thaumcraft.common.lib.network.PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("OUTERREV"),
-                            (EntityPlayerMP) player);
+                    PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("OUTERREV"), (EntityPlayerMP) player);
                 }
 
                 try
