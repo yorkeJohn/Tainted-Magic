@@ -28,7 +28,6 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
 {
     // Vis used per tick while flying / boosting / gliding
     private static final AspectList COST_FLIGHT = new AspectList().add(Aspect.AIR, 15);
-    private static final AspectList COST_BOOST = new AspectList().add(Aspect.AIR, 5).add(Aspect.FIRE, 10);
     private static final AspectList COST_GLIDE = new AspectList().add(Aspect.AIR, 5);
 
     // Magic circle texture
@@ -81,12 +80,6 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
                         player.motionX += Math.cos(Math.toRadians(player.rotationYawHead + 90)) * speed;
                         player.motionZ += Math.sin(Math.toRadians(player.rotationYawHead + 90)) * speed;
                     }
-                }
-                // Speed boost
-                if (player.moveForward > 0.0F)
-                {
-                    float mul = 0.02F;
-                    player.moveFlying(0.0F, 1.0F, mul);
                 }
             }
             else if (!player.capabilities.isCreativeMode)
