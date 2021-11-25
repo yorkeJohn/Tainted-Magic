@@ -149,6 +149,7 @@ Changes:
 - Improved textures.
 - Significantly changed Thaumonomicon entries and research.
 - Removed the Flyte Charm's burst function.
+- Removed the Flyte Charm's speed boost.
 - Improved the Flyte Charm's glide feature.
 - Changed vis costs for foci.
 - Removed Block of Shadow Metal
@@ -157,6 +158,7 @@ Changes:
 - Reduced the speed boost associated with the Boots of the Voidwalker.
 - Reworked the Thaumic Disassembler to be charged using entropy vis.
 - Added hoe function to the Thaumic Disassembler.
+- Edge of the Primordials -> Primal Blade
 
 Additions:
 - Re-added the old particles when walking with the Boots of the Voidwalker. Not as invasive as the original.
