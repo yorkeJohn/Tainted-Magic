@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraftforge.oredict.OreDictionary;
 import taintedmagic.common.helper.TaintedMagicHelper;
+import taintedmagic.common.items.tools.ItemKatana;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -28,7 +29,7 @@ public class RecipeRegistry
     /**
      * Vanilla crafting table recipes
      */
-    public static void initCrafting ()
+    private static void initCrafting ()
     {
         // Shadow Metal Ingot from nuggets
         GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemMaterial, 1, 0), "AAA", "AAA", "AAA", 'A',
@@ -49,36 +50,36 @@ public class RecipeRegistry
 
         // Shadow Metal Axe
         ResearchRegistry.recipes.put("ItemShadowmetalAxe",
-                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalAxe), " AA", " BA", " B ", 'A',
+                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalAxe), "AA", "AB", " B", 'A',
                         new ItemStack(ItemRegistry.ItemMaterial), 'B', new ItemStack(Items.stick)));
 
         // Shadow Metal Spade
         ResearchRegistry.recipes.put("ItemShadowmetalSpade",
-                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalSpade), " A ", " B ", " B ", 'A',
+                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalSpade), "A", "B", "B", 'A',
                         new ItemStack(ItemRegistry.ItemMaterial), 'B', new ItemStack(Items.stick)));
 
         // Shadow Metal Hoe
         ResearchRegistry.recipes.put("ItemShadowmetalHoe",
-                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalHoe), " AA", " B ", " B ", 'A',
+                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalHoe), "AA", " B", " B", 'A',
                         new ItemStack(ItemRegistry.ItemMaterial), 'B', new ItemStack(Items.stick)));
 
         // Shadow Metal Sword
         ResearchRegistry.recipes.put("ItemShadowmetalSword",
-                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalSword), " A ", " A ", " B ", 'A',
+                GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemShadowmetalSword), "A", "A", "B", 'A',
                         new ItemStack(ItemRegistry.ItemMaterial), 'B', new ItemStack(Items.stick)));
     }
 
     /**
      * Furnace recipes
      */
-    public static void initSmelting ()
+    private static void initSmelting ()
     {
     }
 
     /**
      * Arcane Infusion recipes
      */
-    public static void initInfusion ()
+    private static void initInfusion ()
     {
         // Shockwave Focus
         ResearchRegistry.recipes.put("ItemFocusShockwave",
@@ -90,9 +91,9 @@ public class RecipeRegistry
                                 new ItemStack(ConfigItems.itemShard, 1, 0), new ItemStack(Blocks.tnt),
                                 new ItemStack(Items.gunpowder), new ItemStack(ConfigItems.itemShard, 1, 0) }));
 
-        // Edge of the Primordials
-        ResearchRegistry.recipes.put("ItemPrimordialEdge", ThaumcraftApi.addInfusionCraftingRecipe("PRIMALBLADE",
-                new ItemStack(ItemRegistry.ItemPrimordialEdge), 8, new AspectList().add(Aspect.WEAPON, 65)
+        // Primal Blade
+        ResearchRegistry.recipes.put("ItemPrimalBlade", ThaumcraftApi.addInfusionCraftingRecipe("PRIMALBLADE",
+                new ItemStack(ItemRegistry.ItemPrimalBlade), 8, new AspectList().add(Aspect.WEAPON, 65)
                         .add(Aspect.ELDRITCH, 46).add(Aspect.DARKNESS, 16).add(Aspect.METAL, 60).add(Aspect.VOID, 56),
                 new ItemStack(ConfigItems.itemSwordVoid),
                 new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 5), new ItemStack(ConfigItems.itemShard, 1, 0),
@@ -444,7 +445,8 @@ public class RecipeRegistry
          * Special inscription recipes which are displayed in the Thaumonomicon
          */
         ResearchRegistry.recipes.put("ItemKatanaThaumium:inscription0",
-                ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONFIRE", new Object[]{ "inscription", new NBTTagInt(0) }, 8,
+                ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONFIRE",
+                        new Object[]{ ItemKatana.TAG_INSCRIPTION, new NBTTagInt(0) }, 8,
                         new AspectList().add(Aspect.FIRE, 64).add(Aspect.LIGHT, 64).add(Aspect.METAL, 16),
                         new ItemStack(ItemRegistry.ItemKatana, 1, 0),
                         new ItemStack[]{ new ItemStack(ConfigItems.itemFocusFire), new ItemStack(Items.coal),
@@ -452,7 +454,7 @@ public class RecipeRegistry
                                 new ItemStack(Items.blaze_powder), new ItemStack(ConfigItems.itemResource, 1, 1) }));
 
         ResearchRegistry.recipes.put("ItemKatanaThaumium:inscription1", ThaumcraftApi.addInfusionCraftingRecipe(
-                "INSCRIPTIONTHUNDER", new Object[]{ "inscription", new NBTTagInt(1) }, 8,
+                "INSCRIPTIONTHUNDER", new Object[]{ ItemKatana.TAG_INSCRIPTION, new NBTTagInt(1) }, 8,
                 new AspectList().add(Aspect.AIR, 64).add(Aspect.MOTION, 64).add(Aspect.MAGIC, 16),
                 new ItemStack(ItemRegistry.ItemKatana, 1, 0),
                 new ItemStack[]{ new ItemStack(ItemRegistry.ItemFocusShockwave), new ItemStack(ConfigItems.itemShard, 1, 0),
@@ -460,7 +462,8 @@ public class RecipeRegistry
                         new ItemStack(Items.gunpowder) }));
 
         ResearchRegistry.recipes.put("ItemKatanaThaumium:inscription2",
-                ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONUNDEAD", new Object[]{ "inscription", new NBTTagInt(2) }, 8,
+                ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONHEAL",
+                        new Object[]{ ItemKatana.TAG_INSCRIPTION, new NBTTagInt(2) }, 8,
                         new AspectList().add(Aspect.HEAL, 64).add(Aspect.UNDEAD, 64).add(Aspect.MAGIC, 16),
                         new ItemStack(ItemRegistry.ItemKatana, 1, 0),
                         new ItemStack[]{ new ItemStack(ConfigItems.itemFocusPech), new ItemStack(Items.bone),
@@ -471,7 +474,8 @@ public class RecipeRegistry
          * Actual inscription recipes
          */
         ResearchRegistry.recipes.put("ItemKatana:inscription0",
-                ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONFIRE", new Object[]{ "inscription", new NBTTagInt(0) }, 8,
+                ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONFIRE",
+                        new Object[]{ ItemKatana.TAG_INSCRIPTION, new NBTTagInt(0) }, 8,
                         new AspectList().add(Aspect.FIRE, 64).add(Aspect.ENERGY, 64).add(Aspect.MAGIC, 16),
                         new ItemStack(ItemRegistry.ItemKatana, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack[]{ new ItemStack(ConfigItems.itemFocusFire), new ItemStack(Items.coal),
@@ -479,7 +483,7 @@ public class RecipeRegistry
                                 new ItemStack(Items.blaze_powder), new ItemStack(ConfigItems.itemResource, 1, 1) }));
 
         ResearchRegistry.recipes.put("ItemKatana:inscription1", ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONTHUNDER",
-                new Object[]{ "inscription", new NBTTagInt(1) }, 8,
+                new Object[]{ ItemKatana.TAG_INSCRIPTION, new NBTTagInt(1) }, 8,
                 new AspectList().add(Aspect.AIR, 64).add(Aspect.MOTION, 64).add(Aspect.MAGIC, 16),
                 new ItemStack(ItemRegistry.ItemKatana, 1, OreDictionary.WILDCARD_VALUE),
                 new ItemStack[]{ new ItemStack(ItemRegistry.ItemFocusShockwave), new ItemStack(ConfigItems.itemShard, 1, 0),
@@ -487,7 +491,8 @@ public class RecipeRegistry
                         new ItemStack(Items.gunpowder) }));
 
         ResearchRegistry.recipes.put("ItemKatana:inscription2",
-                ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONUNDEAD", new Object[]{ "inscription", new NBTTagInt(2) }, 8,
+                ThaumcraftApi.addInfusionCraftingRecipe("INSCRIPTIONHEAL",
+                        new Object[]{ ItemKatana.TAG_INSCRIPTION, new NBTTagInt(2) }, 8,
                         new AspectList().add(Aspect.HEAL, 64).add(Aspect.UNDEAD, 64).add(Aspect.METAL, 16),
                         new ItemStack(ItemRegistry.ItemKatana, 1, OreDictionary.WILDCARD_VALUE),
                         new ItemStack[]{ new ItemStack(ConfigItems.itemFocusPech), new ItemStack(Items.bone),
@@ -498,7 +503,7 @@ public class RecipeRegistry
     /**
      * Arcane worktable recipes
      */
-    public static void initArcane ()
+    private static void initArcane ()
     {
         // Crimson-stained Cloth
         ResearchRegistry.recipes.put("ItemMaterial:2",
@@ -546,10 +551,9 @@ public class RecipeRegistry
                         new ItemStack(ItemRegistry.ItemMaterial, 1, 2)));
 
         // Warpwood Staff Core
-        ResearchRegistry.recipes.put("ItemWandRod:1",
-                ThaumcraftApi.addArcaneCraftingRecipe("ROD_warpwood_staff", new ItemStack(ItemRegistry.ItemWandRod, 1, 1),
-                        TaintedMagicHelper.getPrimals(120), "  A", " B ", "B  ", 'A',
-                        new ItemStack(ItemRegistry.ItemMaterial, 1, 10), 'B', new ItemStack(ItemRegistry.ItemWandRod, 1, 0)));
+        ResearchRegistry.recipes.put("ItemWandRod:1", ThaumcraftApi.addArcaneCraftingRecipe("ROD_warpwood_staff",
+                new ItemStack(ItemRegistry.ItemWandRod, 1, 1), TaintedMagicHelper.getPrimals(120), "  A", " B ", "B  ", 'A',
+                new ItemStack(ConfigItems.itemEldritchObject, 1, 3), 'B', new ItemStack(ItemRegistry.ItemWandRod, 1, 0)));
 
         // Crimson Cult Helm
         ResearchRegistry.recipes.put("ItemHelmetCultistPlate",
@@ -595,16 +599,16 @@ public class RecipeRegistry
 
         // Shadow-imbued Cloth
         ResearchRegistry.recipes.put("ItemMaterial:1",
-                ThaumcraftApi.addArcaneCraftingRecipe("SHADOWCLOTH", new ItemStack(ItemRegistry.ItemMaterial, 1, 1),
-                        new AspectList().add(Aspect.ORDER, 10).add(Aspect.ENTROPY, 10),
-                        " A ", "ABA", " A ", 'A', new ItemStack(ItemRegistry.ItemMaterial, 1, 8), 'B',
-                        new ItemStack(ConfigItems.itemResource, 1, 7)));
+                ThaumcraftApi.addArcaneCraftingRecipe("SHADOWMETAL", new ItemStack(ItemRegistry.ItemMaterial, 1, 1),
+                        new AspectList().add(Aspect.ORDER, 10).add(Aspect.ENTROPY, 10), " A ", "ABA", " A ", 'A',
+                        new ItemStack(ItemRegistry.ItemMaterial, 1, 8), 'B', new ItemStack(ConfigItems.itemResource, 1, 7)));
 
         // Magic Funguar
         ResearchRegistry.recipes.put("ItemMagicFunguar",
                 ThaumcraftApi.addShapelessArcaneCraftingRecipe("MAGICFUNGUAR", new ItemStack(ItemRegistry.ItemMagicFunguar),
                         TaintedMagicHelper.getPrimals(1), new ItemStack(ConfigBlocks.blockCustomPlant, 1, 5),
-                        new ItemStack(ConfigItems.itemShard, 1, OreDictionary.WILDCARD_VALUE), Items.glowstone_dust));
+                        new ItemStack(ConfigItems.itemShard, 1, OreDictionary.WILDCARD_VALUE), Items.glowstone_dust,
+                        Items.redstone));
 
         // Hollow Dagger
         ResearchRegistry.recipes.put("ItemHollowDagger",
@@ -676,7 +680,7 @@ public class RecipeRegistry
     /**
      * Crucible recipes
      */
-    public static void initCrucible ()
+    private static void initCrucible ()
     {
         // Warped Unbalanced Shard
         ResearchRegistry.recipes.put("ItemMaterial:3",

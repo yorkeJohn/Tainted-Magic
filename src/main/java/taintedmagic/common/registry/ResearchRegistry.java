@@ -23,12 +23,12 @@ import thaumcraft.common.config.ConfigItems;
 
 public class ResearchRegistry
 {
-    public static final String categoryTM = "TAINTEDMAGIC";
+    public static final String CATEGORY_TM = "TAINTEDMAGIC";
     public static HashMap<String, Object> recipes = new HashMap<String, Object>();
 
     public static void initResearch ()
     {
-        ResearchCategories.registerCategory(categoryTM, new ResourceLocation("taintedmagic:textures/misc/tab_tm.png"),
+        ResearchCategories.registerCategory(CATEGORY_TM, new ResourceLocation("taintedmagic:textures/misc/tab_tm.png"),
                 ConfigHandler.CUSTOM_RESEARCH_TAB_BACK
                         ? new ResourceLocation("taintedmagic:textures/gui/gui_tm_researchback.png")
                         : new ResourceLocation("thaumcraft:textures/gui/gui_researchback.png"));
@@ -51,7 +51,7 @@ public class ResearchRegistry
 
         r = new TMResearchItem("SHADOWMETAL",
                 new AspectList().add(Aspect.METAL, 1).add(Aspect.DARKNESS, 1).add(Aspect.MAGIC, 1), 0, 1,
-                new ItemStack(ItemRegistry.ItemMaterial), 0, 1);
+                new ItemStack(ItemRegistry.ItemMaterial), 1, 1);
         r.setPages(new ResearchPage("1"), cruciblePage("ItemMaterial:0"), recipePage("ItemShadowmetalPick"),
                 recipePage("ItemShadowmetalSpade"), recipePage("ItemShadowmetalAxe"), recipePage("ItemShadowmetalHoe"),
                 recipePage("ItemShadowmetalSword"));
@@ -61,8 +61,7 @@ public class ResearchRegistry
                 new AspectList().add(Aspect.METAL, 4).add(Aspect.DARKNESS, 4).add(Aspect.ELDRITCH, 4).add(Aspect.MAGIC, 4), -3,
                 2, new ItemStack(ItemRegistry.ItemWandCap, 1, 0), 2, 4);
         r.setPages(new ResearchPage("1"), infusionPage("ItemWandCap:0"));
-        r.setParents("SHADOWMETAL", "CAP_void", "PRIMPEARL").setParentsHidden("SHADOWCLOTH").setConcealed()
-                .registerResearchItem();
+        r.setParents("SHADOWMETAL", "CAP_void", "PRIMPEARL").setConcealed().registerResearchItem();
 
         r = new TMResearchItem("SHADOWCLOTH", new AspectList().add(Aspect.CLOTH, 1).add(Aspect.DARKNESS, 1), -2, 4,
                 new ItemStack(ItemRegistry.ItemMaterial, 1, 1), 0, 0);
@@ -72,7 +71,7 @@ public class ResearchRegistry
         r = new TMResearchItem("ROD_warpwood",
                 new AspectList().add(Aspect.TREE, 4).add(Aspect.DARKNESS, 4).add(Aspect.ELDRITCH, 4), 8, 0,
                 new ItemStack(ItemRegistry.ItemWandRod, 1, 0), 3, 5);
-        r.setPages(new ResearchPage("1"), infusionPage("ItemWandRod:0"), new ResearchPage("2"));
+        r.setPages(new ResearchPage("1"), infusionPage("ItemWandRod:0"));
         r.setParents("WARPTREE", "VOIDMETAL", "PRIMPEARL", "ROD_primal_staff").setParentsHidden("SHADOWMETAL").setConcealed()
                 .registerResearchItem();
 
@@ -156,7 +155,7 @@ public class ResearchRegistry
         r = new TMResearchItem("CREATION", new AspectList(), 11, -5,
                 new ResourceLocation("taintedmagic:textures/misc/r_creation.png"), 0, 0);
         r.setPages(new ResearchPage("1"), new ResearchPage("2"), new ResearchPage("3"), new ResearchPage("4"),
-                new ResearchPage("5"));
+                new ResearchPage("5"), new ResearchPage("6"));
         r.setParents("CREATIONSHARD").setConcealed().setRound().setSpecial().setHidden().registerResearchItem();
 
         r = new TMResearchItem("SKYSALT", new AspectList().add(TaintedMagicHelper.getPrimals(4)).add(Aspect.WEATHER, 4), 12, -7,
@@ -166,8 +165,8 @@ public class ResearchRegistry
 
         r = new TMResearchItem("TIMESALT", new AspectList().add(TaintedMagicHelper.getPrimals(4)).add(Aspect.EXCHANGE, 4), 13,
                 -6, new ItemStack(ItemRegistry.ItemSalis, 1, 1), 0, 0);
-        r.setConcealed().setParents("CREATION").setSecondary().registerResearchItem();
         r.setPages(new ResearchPage("1"), infusionPage("ItemSalis:1"));
+        r.setConcealed().setParents("CREATION").setSecondary().registerResearchItem();
 
         r = new TMResearchItem("THAUMICDISASSEMBLER",
                 new AspectList().add(Aspect.METAL, 4).add(Aspect.WEAPON, 8).add(Aspect.TOOL, 4), 6, -9,
@@ -231,8 +230,8 @@ public class ResearchRegistry
 
         r = new TMResearchItem("PRIMALBLADE", new AspectList().add(Aspect.MAGIC, 1).add(Aspect.ELDRITCH, 1)
                 .add(Aspect.WEAPON, 1).add(Aspect.VOID, 1).add(Aspect.AURA, 1), 11, -3,
-                new ItemStack(ItemRegistry.ItemPrimordialEdge), 3, 5);
-        r.setPages(new ResearchPage("1"), infusionPage("ItemPrimordialEdge"));
+                new ItemStack(ItemRegistry.ItemPrimalBlade), 3, 5);
+        r.setPages(new ResearchPage("1"), infusionPage("ItemPrimalBlade"));
         r.setParentsHidden("VOIDMETAL", "PRIMALCRUSHER", "UNBALANCEDSHARDS", "HOLLOWDAGGER").setConcealed()
                 .setParents("CREATION").registerResearchItem();
 
@@ -256,20 +255,20 @@ public class ResearchRegistry
         r.setParentsHidden("VOIDMETALKATANA").setParents("SHADOWFORTRESS").setConcealed().setSecondary().registerResearchItem();
 
         r = new TMResearchItem("INSCRIPTIONFIRE",
-                new AspectList().add(Aspect.FIRE, 8).add(Aspect.ENTROPY, 4).add(Aspect.METAL, 6), 14, 2,
-                new ResourceLocation("taintedmagic:textures/misc/r_fire.png"), 0, 0);
+                new AspectList().add(Aspect.FIRE, 8).add(Aspect.ENTROPY, 4).add(Aspect.METAL, 6), 14, 0,
+                new ResourceLocation("taintedmagic:textures/misc/r_inscription0.png"), 0, 0);
         r.setPages(new ResearchPage("1"), infusionPage("ItemKatanaThaumium:inscription0"));
         r.setParents("THAUMIUMKATANA").setParentsHidden("FOCUSFIRE").setConcealed().setSecondary().registerResearchItem();
 
         r = new TMResearchItem("INSCRIPTIONTHUNDER",
                 new AspectList().add(Aspect.ENTROPY, 8).add(Aspect.MOTION, 4).add(Aspect.METAL, 6), 14, 1,
-                new ResourceLocation("taintedmagic:textures/misc/r_thunder.png"), 0, 0);
+                new ResourceLocation("taintedmagic:textures/misc/r_inscription1.png"), 0, 0);
         r.setPages(new ResearchPage("1"), infusionPage("ItemKatanaThaumium:inscription1"));
         r.setParents("THAUMIUMKATANA").setParentsHidden("FOCUSSHOCKWAVE").setConcealed().setSecondary().registerResearchItem();
 
-        r = new TMResearchItem("INSCRIPTIONUNDEAD",
-                new AspectList().add(Aspect.HEAL, 8).add(Aspect.UNDEAD, 4).add(Aspect.METAL, 6), 14, 0,
-                new ResourceLocation("taintedmagic:textures/misc/r_undead.png"), 0, 2);
+        r = new TMResearchItem("INSCRIPTIONHEAL",
+                new AspectList().add(Aspect.HEAL, 8).add(Aspect.UNDEAD, 4).add(Aspect.METAL, 6), 14, 2,
+                new ResourceLocation("taintedmagic:textures/misc/r_inscription2.png"), 0, 2);
         r.setPages(new ResearchPage("1"), infusionPage("ItemKatanaThaumium:inscription2"));
         r.setParents("THAUMIUMKATANA").setParentsHidden("BATHSALTS").setConcealed().setSecondary().registerResearchItem();
 

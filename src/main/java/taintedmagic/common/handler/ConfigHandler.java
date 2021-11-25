@@ -25,22 +25,22 @@ public class ConfigHandler
 
     public static void initConfig ()
     {
-        TaintedMagic.log.info("Loading config...");
+        TaintedMagic.logger.info("Loading config...");
 
         config.load();
 
         NOTIFY_UPDATE = config.getBoolean("NOTIFY_UPDATE", "misc", true,
                 "Setting this to false will disable Tainted Magic update notifications.");
 
-        MAGE_MACE_DMG_INC_BASE = (double) config.getFloat("MAGE_MACE_DMG_INC_BASE", "misc", 8.0F, 1.0F, 100.0F,
-                "Defines the base amount of damage to increase wand / staff attack damage by "
-                        + "when the Mage's Mace focus is equipped.");
-
         RESEARCH_TAGS = config.getBoolean("RESEARCH_TAGS", "research", true,
                 "Setting this to false will disable the '[TM]' tag on Tainted Magic research items.");
 
         CUSTOM_RESEARCH_TAB_BACK = config.getBoolean("CUSTOM_RESEARCH_TAB_BACK", "research", false,
                 "Setting this to true will bring back the old Tainted Magic research tab background.");
+
+        MAGE_MACE_DMG_INC_BASE = (double) config.getFloat("MAGE_MACE_DMG_INC_BASE", "wands_and_foci", 8.0F, 1.0F, 100.0F,
+                "Defines the base amount of damage to increase wand / staff attack damage by "
+                        + "when the Mage's Mace focus is equipped.");
 
         WARP_WAND_REFRESH_BASE = config.getFloat("WARP_WAND_REFRESH_BASE", "wands_and_foci", 10000.0F, 100.0F, 100000.0F,
                 "Defines the base refresh period in ticks for the Warpwood Wand. The delay period between vis refreshes "

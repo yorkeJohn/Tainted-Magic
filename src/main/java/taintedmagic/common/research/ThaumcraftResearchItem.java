@@ -21,7 +21,7 @@ public class ThaumcraftResearchItem extends ResearchItem
 
     public ThaumcraftResearchItem (String tag, String origin, String originCategory, int col, int row, ResourceLocation icon)
     {
-        super(tag, ResearchRegistry.categoryTM, new AspectList(), col, row, 1, icon);
+        super(tag, ResearchRegistry.CATEGORY_TM, new AspectList(), col, row, 1, icon);
         original = ((ResearchCategoryList) ResearchCategories.researchCategories.get(originCategory)).research.get(origin);
         bindToOriginal();
         setStub();
@@ -30,7 +30,7 @@ public class ThaumcraftResearchItem extends ResearchItem
 
     public ThaumcraftResearchItem (String tag, String origin, String originCategory, int col, int row, ItemStack icon)
     {
-        super(tag, ResearchRegistry.categoryTM, new AspectList(), col, row, 1, icon);
+        super(tag, ResearchRegistry.CATEGORY_TM, new AspectList(), col, row, 1, icon);
         original = ((ResearchCategoryList) ResearchCategories.researchCategories.get(originCategory)).research.get(origin);
         bindToOriginal();
         setStub();

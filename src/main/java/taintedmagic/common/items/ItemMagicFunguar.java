@@ -37,19 +37,11 @@ public class ItemMagicFunguar extends ItemFood
     {
         super.onFoodEaten(stack, world, player);
 
-        Random random = new Random();
-        try
-        {
-            player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 200, 2));
-            player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 100, 2));
-            player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 100, 2));
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        // Potion effects
+        player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 60, 1));
+        player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 100, 2));
 
-        int i = random.nextInt(aspects.length);
+        int i = world.rand.nextInt(aspects.length);
 
         if (!world.isRemote)
         {

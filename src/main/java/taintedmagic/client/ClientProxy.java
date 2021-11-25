@@ -50,7 +50,7 @@ public class ClientProxy extends CommonProxy
         super.registerHandlers();
 
         MinecraftForge.EVENT_BUS.register(new HUDHandler());
-
+        
         FMLCommonHandler.instance().bus().register(new ClientHandler());
         MinecraftForge.EVENT_BUS.register(new ClientHandler());
     }

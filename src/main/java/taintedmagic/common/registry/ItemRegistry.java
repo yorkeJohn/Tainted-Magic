@@ -28,7 +28,7 @@ import taintedmagic.common.items.equipment.ItemVoidwalkerSash;
 import taintedmagic.common.items.equipment.ItemWarpedGoggles;
 import taintedmagic.common.items.tools.ItemHollowDagger;
 import taintedmagic.common.items.tools.ItemKatana;
-import taintedmagic.common.items.tools.ItemPrimordialEdge;
+import taintedmagic.common.items.tools.ItemPrimalBlade;
 import taintedmagic.common.items.tools.ItemShadowmetalAxe;
 import taintedmagic.common.items.tools.ItemShadowmetalHoe;
 import taintedmagic.common.items.tools.ItemShadowmetalPick;
@@ -109,7 +109,7 @@ public class ItemRegistry
     public static ItemAxe ItemShadowmetalAxe;
     public static ItemSword ItemShadowmetalSword;
 
-    public static ItemSword ItemPrimordialEdge;
+    public static ItemSword ItemPrimalBlade;
 
     public static Item ItemKatana;
 
@@ -208,7 +208,7 @@ public class ItemRegistry
         WAND_CAP_CRIMSON_CLOTH = new WandCap("crimsoncloth", 0.93F, new ItemStack(ItemWandCap, 1, 2), 3);
         WAND_CAP_CRIMSON_CLOTH.setTexture(new ResourceLocation("taintedmagic:textures/models/ModelWAND_CAP_CRIMSON_CLOTH.png"));
 
-        WAND_CAP_SHADOW_CLOTH = new WandCap("shadowcloth", 0.91F, new ItemStack(ItemWandCap, 1, 3), 4);
+        WAND_CAP_SHADOW_CLOTH = new WandCap("shadowcloth", 0.93F, new ItemStack(ItemWandCap, 1, 3), 4);
         WAND_CAP_SHADOW_CLOTH.setTexture(new ResourceLocation("taintedmagic:textures/models/ModelWAND_CAP_SHADOW_CLOTH.png"));
 
         // Foci
@@ -252,8 +252,8 @@ public class ItemRegistry
         ItemShadowmetalSword = new ItemShadowmetalSword(LibMaterials.toolMatShadow);
         GameRegistry.registerItem(ItemShadowmetalSword, "ItemShadowmetalSword");
 
-        ItemPrimordialEdge = new ItemPrimordialEdge(LibMaterials.toolMatPrimal);
-        GameRegistry.registerItem(ItemPrimordialEdge, "ItemPrimordialEdge");
+        ItemPrimalBlade = new ItemPrimalBlade(LibMaterials.toolMatPrimal);
+        GameRegistry.registerItem(ItemPrimalBlade, "ItemPrimalBlade");
 
         ItemKatana = new ItemKatana();
         GameRegistry.registerItem(ItemKatana, "ItemKatana");

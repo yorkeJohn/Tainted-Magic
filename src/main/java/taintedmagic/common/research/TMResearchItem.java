@@ -23,13 +23,13 @@ public class TMResearchItem extends ResearchItem
 
     public TMResearchItem (String key, AspectList tags, int col, int row, ItemStack icon, int complexity, int warp)
     {
-        super(key, ResearchRegistry.categoryTM, tags, col, row, complexity, icon);
+        super(key, ResearchRegistry.CATEGORY_TM, tags, col, row, complexity, icon);
         this.warp = warp;
     }
 
     public TMResearchItem (String key, AspectList tags, int col, int row, ResourceLocation icon, int complexity, int warp)
     {
-        super(key, ResearchRegistry.categoryTM, tags, col, row, complexity, icon);
+        super(key, ResearchRegistry.CATEGORY_TM, tags, col, row, complexity, icon);
         this.warp = warp;
     }
 

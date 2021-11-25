@@ -29,7 +29,7 @@ public class UpdateHandler
                 show = true;
                 updateStatus = (EnumChatFormatting.RED + "Tainted Magic is out of date! The latest version is "
                         + EnumChatFormatting.GREEN + newestVersion);
-                TaintedMagic.log.warn("Mod out of date! You're still running " + currentVersion + " ... the latest version is "
+                TaintedMagic.logger.warn("Mod out of date! You're still running " + currentVersion + " ... the latest version is "
                         + newestVersion);
             }
         }
@@ -52,7 +52,7 @@ public class UpdateHandler
         catch (Exception e)
         {
             e.printStackTrace();
-            TaintedMagic.log.error("Could not connect to GitHub repository!");
+            TaintedMagic.logger.error("Could not connect to GitHub repository!");
         }
     }
 }
