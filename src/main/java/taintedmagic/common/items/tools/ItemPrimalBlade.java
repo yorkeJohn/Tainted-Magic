@@ -1,6 +1,5 @@
 package taintedmagic.common.items.tools;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
@@ -22,13 +21,13 @@ import taintedmagic.common.helper.TaintedMagicHelper;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
 
-public class ItemPrimordialEdge extends ItemSword implements IWarpingGear, IRepairable
+public class ItemPrimalBlade extends ItemSword implements IWarpingGear, IRepairable
 {
-    public ItemPrimordialEdge (ToolMaterial material)
+    public ItemPrimalBlade (ToolMaterial material)
     {
         super(material);
-        this.setTextureName("taintedmagic:ItemPrimordialEdge");
-        this.setUnlocalizedName("ItemPrimordialEdge");
+        this.setTextureName("taintedmagic:ItemPrimalBlade");
+        this.setUnlocalizedName("ItemPrimalBlade");
         this.setCreativeTab(TaintedMagic.tabTM);
     }
 
@@ -46,14 +45,8 @@ public class ItemPrimordialEdge extends ItemSword implements IWarpingGear, IRepa
     {
         super.hitEntity(stack, entity, player);
 
-        try
-        {
-            entity.addPotionEffect(new PotionEffect(Potion.wither.id, 5, 1));
-            entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5, 1));
-        }
-        catch (Exception e)
-        {
-        }
+        entity.addPotionEffect(new PotionEffect(Potion.wither.id, 60, 1));
+        entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 120, 1));
 
         player.worldObj.playSoundAtEntity(player, "thaumcraft:swing", 1.0F, 1.0F);
 
@@ -71,13 +64,12 @@ public class ItemPrimordialEdge extends ItemSword implements IWarpingGear, IRepa
     public void onUsingTick (ItemStack stack, EntityPlayer player, int i)
     {
         // Based off of hungry node
-        Iterator i$;
 
         List<Entity> ents = player.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB
                 .getBoundingBox(player.posX, player.posY, player.posZ, player.posX + 1, player.posY + 1, player.posZ + 1)
                 .expand(15.0D, 15.0D, 15.0D));
 
-        player.worldObj.playSoundAtEntity(player, "thaumcraft:brain", 0.05F, 0.5F);
+        if (player.ticksExisted % 10 == 0) player.worldObj.playSoundAtEntity(player, "thaumcraft:brain", 0.05F, 0.5F);
 
         if (ents != null && ents.size() > 0) for (Entity entity : ents)
         {
@@ -116,7 +108,7 @@ public class ItemPrimordialEdge extends ItemSword implements IWarpingGear, IRepa
     @Override
     public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
     {
-        list.add(EnumChatFormatting.GOLD + StatCollector.translateToLocal("text.eldritchsapping"));
+        list.add(EnumChatFormatting.GOLD + StatCollector.translateToLocal("text.sapprimal"));
     }
 
     @Override
