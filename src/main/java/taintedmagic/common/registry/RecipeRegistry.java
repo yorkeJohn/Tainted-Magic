@@ -15,10 +15,9 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 
-public class RecipeRegistry
-{
-    public static void initRecipes ()
-    {
+public class RecipeRegistry {
+
+    public static void initRecipes () {
         initCrafting();
         initSmelting();
         initCrucible();
@@ -29,8 +28,7 @@ public class RecipeRegistry
     /**
      * Vanilla crafting table recipes
      */
-    private static void initCrafting ()
-    {
+    private static void initCrafting () {
         // Shadow Metal Ingot from nuggets
         GameRegistry.addShapedRecipe(new ItemStack(ItemRegistry.ItemMaterial, 1, 0), "AAA", "AAA", "AAA", 'A',
                 new ItemStack(ItemRegistry.ItemMaterial, 1, 8));
@@ -72,15 +70,13 @@ public class RecipeRegistry
     /**
      * Furnace recipes
      */
-    private static void initSmelting ()
-    {
+    private static void initSmelting () {
     }
 
     /**
      * Arcane Infusion recipes
      */
-    private static void initInfusion ()
-    {
+    private static void initInfusion () {
         // Shockwave Focus
         ResearchRegistry.recipes.put("ItemFocusShockwave",
                 ThaumcraftApi.addInfusionCraftingRecipe("FOCUSSHOCKWAVE", new ItemStack(ItemRegistry.ItemFocusShockwave), 6,
@@ -93,8 +89,8 @@ public class RecipeRegistry
 
         // Primal Blade
         ResearchRegistry.recipes.put("ItemPrimalBlade", ThaumcraftApi.addInfusionCraftingRecipe("PRIMALBLADE",
-                new ItemStack(ItemRegistry.ItemPrimalBlade), 8, new AspectList().add(Aspect.WEAPON, 65)
-                        .add(Aspect.ELDRITCH, 46).add(Aspect.DARKNESS, 16).add(Aspect.METAL, 60).add(Aspect.VOID, 56),
+                new ItemStack(ItemRegistry.ItemPrimalBlade), 8, new AspectList().add(Aspect.WEAPON, 65).add(Aspect.ELDRITCH, 46)
+                        .add(Aspect.DARKNESS, 16).add(Aspect.METAL, 60).add(Aspect.VOID, 56),
                 new ItemStack(ConfigItems.itemSwordVoid),
                 new ItemStack[]{ new ItemStack(ItemRegistry.ItemMaterial, 1, 5), new ItemStack(ConfigItems.itemShard, 1, 0),
                         new ItemStack(ConfigItems.itemShard, 1, 1), new ItemStack(ConfigItems.itemShard, 1, 2),
@@ -503,8 +499,7 @@ public class RecipeRegistry
     /**
      * Arcane worktable recipes
      */
-    private static void initArcane ()
-    {
+    private static void initArcane () {
         // Crimson-stained Cloth
         ResearchRegistry.recipes.put("ItemMaterial:2",
                 ThaumcraftApi.addShapelessArcaneCraftingRecipe("CRIMSONROBES", new ItemStack(ItemRegistry.ItemMaterial, 1, 2),
@@ -680,8 +675,7 @@ public class RecipeRegistry
     /**
      * Crucible recipes
      */
-    private static void initCrucible ()
-    {
+    private static void initCrucible () {
         // Warped Unbalanced Shard
         ResearchRegistry.recipes.put("ItemMaterial:3",
                 ThaumcraftApi.addCrucibleRecipe("UNBALANCEDSHARDS", new ItemStack(ItemRegistry.ItemMaterial, 1, 3),

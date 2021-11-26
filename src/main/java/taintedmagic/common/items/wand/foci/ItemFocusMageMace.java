@@ -20,101 +20,98 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.FocusUpgradeType;
 import thaumcraft.api.wands.ItemFocusBasic;
 
-public class ItemFocusMageMace extends ItemFocusBasic
-{
-    IIcon ornIcon = null;
+public class ItemFocusMageMace extends ItemFocusBasic {
+
+    private IIcon ornIcon;
 
     private static final AspectList COST = new AspectList().add(Aspect.ENTROPY, 10);
 
-    public ItemFocusMageMace ()
-    {
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setUnlocalizedName("ItemFocusMageMace");
+    public ItemFocusMageMace () {
+        setCreativeTab(TaintedMagic.tabTM);
+        setUnlocalizedName("ItemFocusMageMace");
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public void registerIcons (IIconRegister ir)
-    {
-        this.icon = ir.registerIcon("taintedmagic:ItemFocusMageMace");
-        this.ornIcon = ir.registerIcon("taintedmagic:ItemFocusMageMace_orn");
+    public void registerIcons (final IIconRegister ir) {
+        icon = ir.registerIcon("taintedmagic:ItemFocusMageMace");
+        ornIcon = ir.registerIcon("taintedmagic:ItemFocusMageMace_orn");
     }
 
-    public IIcon getOrnament (ItemStack stack)
-    {
-        return this.ornIcon;
+    @Override
+    public IIcon getOrnament (final ItemStack stack) {
+        return ornIcon;
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public boolean requiresMultipleRenderPasses ()
-    {
+    public boolean requiresMultipleRenderPasses () {
         return true;
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public int getRenderPasses (int meta)
-    {
+    public int getRenderPasses (final int meta) {
         return 2;
     }
 
     @Override
     @SideOnly (Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass (int meta, int pass)
-    {
-        return (pass == 0) ? this.ornIcon : this.icon;
+    public IIcon getIconFromDamageForRenderPass (final int meta, final int pass) {
+        return pass == 0 ? ornIcon : icon;
     }
 
-    public String getSortingHelper (ItemStack stack)
-    {
+    @Override
+    public String getSortingHelper (final ItemStack stack) {
         return "MACE" + super.getSortingHelper(stack);
     }
 
-    public int getFocusColor (ItemStack stack)
-    {
+    @Override
+    public int getFocusColor (final ItemStack stack) {
         return 0xACA9B5;
     }
 
-    public AspectList getVisCost (ItemStack stack)
-    {
-        return this.COST;
+    @Override
+    public AspectList getVisCost (final ItemStack stack) {
+        return COST;
     }
 
-    public int getActivationCooldown (ItemStack stack)
-    {
+    @Override
+    public int getActivationCooldown (final ItemStack stack) {
         return -1;
     }
 
-    public boolean isVisCostPerTick (ItemStack stack)
-    {
+    @Override
+    public boolean isVisCostPerTick (final ItemStack stack) {
         return false;
     }
 
-    public ItemFocusBasic.WandFocusAnimation getAnimation (ItemStack stack)
-    {
+    @Override
+    public ItemFocusBasic.WandFocusAnimation getAnimation (final ItemStack stack) {
         return WandFocusAnimation.WAVE;
     }
 
-    public ItemStack onFocusRightClick (ItemStack stack, World world, EntityPlayer player, MovingObjectPosition mop)
-    {
+    @Override
+    public ItemStack onFocusRightClick (final ItemStack stack, final World world, final EntityPlayer player,
+            final MovingObjectPosition mop) {
         return stack;
     }
 
     @Override
-    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
-    {
+    public void addInformation (final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
         super.addInformation(stack, player, list, b);
         list.add(" ");
 
-        DecimalFormat df = new DecimalFormat("0.#");
-        double dmg = ConfigHandler.MAGE_MACE_DMG_INC_BASE + (double) this.getUpgradeLevel(stack, FocusUpgradeType.potency);
+        final DecimalFormat df = new DecimalFormat("0.#");
+        final double dmg = ConfigHandler.MAGE_MACE_DMG_INC_BASE + getUpgradeLevel(stack, FocusUpgradeType.potency);
 
         list.add(EnumChatFormatting.BLUE + "+" + df.format(dmg) + " "
                 + StatCollector.translateToLocal("text.attackdamageequipped"));
     }
 
-    public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack stack, int rank)
-    {
-        switch (rank)
-        {
+    @Override
+    public FocusUpgradeType[] getPossibleUpgradesByRank (final ItemStack stack, final int rank) {
+        switch (rank) {
         case 1 :
             return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
         case 2 :

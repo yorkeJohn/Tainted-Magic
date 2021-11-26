@@ -16,153 +16,132 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import thaumcraft.common.Thaumcraft;
 
-public class EntityDiffusion extends EntityThrowable
-{
+public class EntityDiffusion extends EntityThrowable {
+
     public static final String TAG_DAMAGE = "dmg";
 
     public boolean corrosive = false;
     public float dmg = 0.0F;
 
-    public EntityDiffusion (World world)
-    {
+    public EntityDiffusion (final World world) {
         super(world);
     }
 
-    public EntityDiffusion (World world, EntityLivingBase entity, float scatter, float dmg, boolean corrosive)
-    {
+    public EntityDiffusion (final World world, final EntityLivingBase entity, final float scatter, final float dmg,
+            final boolean corrosive) {
         super(world, entity);
         this.corrosive = corrosive;
         this.dmg = dmg;
-        setThrowableHeading(this.motionX, this.motionY, this.motionZ, func_70182_d(), scatter);
+        setThrowableHeading(motionX, motionY, motionZ, func_70182_d(), scatter);
     }
 
     @Override
-    public boolean shouldRenderInPass (int pass)
-    {
+    public boolean shouldRenderInPass (final int pass) {
         return pass == 1;
     }
 
-    protected float getGravityVelocity ()
-    {
+    @Override
+    protected float getGravityVelocity () {
         return 0.0F;
     }
 
-    protected float func_70182_d ()
-    {
+    @Override
+    protected float func_70182_d () {
         return 1.0F;
     }
 
-    public void handleHealthUpdate (byte b)
-    {
-        if (b == 16)
-        {
-            if (this.worldObj.isRemote)
-            {
-                float fx = (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
-                float fy = (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
-                float fz = (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.3F;
-                Thaumcraft.proxy.wispFX3(this.worldObj, this.posX + fx, this.posY + fy, this.posZ + fz, this.posX + fx * 8.0F,
-                        this.posY + fy * 8.0F, this.posZ + fz * 8.0F, 0.3F, 5, true, 0.02F);
+    @Override
+    public void handleHealthUpdate (final byte b) {
+        if (b == 16) {
+            if (worldObj.isRemote) {
+                final float fx = (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.3F;
+                final float fy = (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.3F;
+                final float fz = (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.3F;
+                Thaumcraft.proxy.wispFX3(worldObj, posX + fx, posY + fy, posZ + fz, posX + fx * 8.0F, posY + fy * 8.0F,
+                        posZ + fz * 8.0F, 0.3F, 5, true, 0.02F);
             }
         }
-        else
-        {
+        else {
             super.handleHealthUpdate(b);
         }
     }
 
-    public void onUpdate ()
-    {
-        if (this.ticksExisted > 20) setDead();
-
-        this.motionX *= 0.95D;
-        this.motionY *= 0.95D;
-        this.motionZ *= 0.95D;
-
-        if (this.onGround)
-        {
-            this.motionX *= 0.66D;
-            this.motionY *= 0.66D;
-            this.motionZ *= 0.66D;
+    @Override
+    public void onUpdate () {
+        if (ticksExisted > 20) {
+            setDead();
         }
 
+        motionX *= 0.95D;
+        motionY *= 0.95D;
+        motionZ *= 0.95D;
+
+        if (onGround) {
+            motionX *= 0.66D;
+            motionY *= 0.66D;
+            motionZ *= 0.66D;
+        }
         super.onUpdate();
     }
 
-    public void writeSpawnData (ByteBuf buf)
-    {
-        buf.writeFloat(this.dmg);
+    public void writeSpawnData (final ByteBuf buf) {
+        buf.writeFloat(dmg);
     }
 
-    public void readSpawnData (ByteBuf buf)
-    {
-        this.dmg = buf.readFloat();
+    public void readSpawnData (final ByteBuf buf) {
+        dmg = buf.readFloat();
     }
 
-    protected void onImpact (MovingObjectPosition mop)
-    {
-        if (!this.worldObj.isRemote && getThrower() != null)
-        {
-            List entities =
-                    this.worldObj.getEntitiesWithinAABBExcludingEntity(getThrower(), this.boundingBox.expand(1.0D, 1.0D, 1.0D));
+    @Override
+    protected void onImpact (final MovingObjectPosition mop) {
+        if (!worldObj.isRemote && getThrower() != null) {
+            final List<EntityLivingBase> entities =
+                    worldObj.getEntitiesWithinAABBExcludingEntity(getThrower(), boundingBox.expand(1.0D, 1.0D, 1.0D));
 
-            for (int i = 0; i < entities.size(); i++)
-            {
-                Entity entity = (Entity) entities.get(i);
-                if (entity instanceof EntityLivingBase)
-                {
-                    if (mop.entityHit != null)
-                    {
-                        ((EntityLivingBase) entity).attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, getThrower()),
-                                this.dmg);
-                        try
-                        {
-                            if (this.corrosive)
-                                ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 40, 1));
-                            ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 40, 1));
-                        }
-                        catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
+            for (final EntityLivingBase entity : entities) {
+                if (mop.entityHit != null) {
+                    entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, getThrower()), dmg);
+                    if (corrosive) {
+                        entity.addPotionEffect(new PotionEffect(Potion.wither.id, 40, 1));
                     }
+                    entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 40, 1));
                 }
             }
-            this.worldObj.setEntityState(this, (byte) 16);
+            worldObj.setEntityState(this, (byte) 16);
         }
         setDead();
     }
 
-    protected boolean canTriggerWalking ()
-    {
+    @Override
+    protected boolean canTriggerWalking () {
         return false;
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public float getShadowSize ()
-    {
+    public float getShadowSize () {
         return 0.1F;
     }
 
-    public void writeEntityToNBT (NBTTagCompound tag)
-    {
+    @Override
+    public void writeEntityToNBT (final NBTTagCompound tag) {
         super.writeEntityToNBT(tag);
-        tag.setFloat(TAG_DAMAGE, this.dmg);
+        tag.setFloat(TAG_DAMAGE, dmg);
     }
 
-    public void readEntityFromNBT (NBTTagCompound tag)
-    {
+    @Override
+    public void readEntityFromNBT (final NBTTagCompound tag) {
         super.readEntityFromNBT(tag);
-        this.dmg = tag.getInteger(TAG_DAMAGE);
+        dmg = tag.getInteger(TAG_DAMAGE);
     }
 
-    public boolean canBeCollidedWith ()
-    {
+    @Override
+    public boolean canBeCollidedWith () {
         return false;
     }
 
-    public boolean attackEntityFrom (DamageSource dmg, float f)
-    {
+    @Override
+    public boolean attackEntityFrom (final DamageSource dmg, final float f) {
         return false;
     }
 }

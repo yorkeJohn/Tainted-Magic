@@ -24,8 +24,8 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.common.items.wands.WandManager;
 
-public class ItemThaumicDisassembler extends Item
-{
+public class ItemThaumicDisassembler extends Item {
+
     public static final String TAG_MODE = "mode";
     public static final String TAG_CHARGE = "charge";
     public static final int MAX_CHARGE = 50000;
@@ -33,33 +33,29 @@ public class ItemThaumicDisassembler extends Item
     public static final int ENTROPY_USAGE_HOE = ENTROPY_USAGE_BASE * 5;
     public static final int ENTROPY_USAGE_HIT = ENTROPY_USAGE_BASE * 10;
 
-    public ItemThaumicDisassembler ()
-    {
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setMaxStackSize(1);
-        this.setUnlocalizedName("ItemThaumicDisassembler");
-        this.setTextureName("taintedmagic:ItemThaumicDisassembler");
+    public ItemThaumicDisassembler () {
+        setCreativeTab(TaintedMagic.tabTM);
+        setMaxStackSize(1);
+        setUnlocalizedName("ItemThaumicDisassembler");
+        setTextureName("taintedmagic:ItemThaumicDisassembler");
     }
 
     @Override
-    public boolean showDurabilityBar (ItemStack stack)
-    {
+    public boolean showDurabilityBar (final ItemStack stack) {
         return true;
     }
 
     @Override
-    public double getDurabilityForDisplay (ItemStack stack)
-    {
-        return 1d - ((double) getEntropyCharge(stack) / (double) MAX_CHARGE);
+    public double getDurabilityForDisplay (final ItemStack stack) {
+        return 1d - (double) getEntropyCharge(stack) / (double) MAX_CHARGE;
     }
 
     @Override
-    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
-    {
+    public void addInformation (final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
         super.addInformation(stack, player, list, b);
 
         list.add(StatCollector.translateToLocal("text.disassembler.charge") + ": " + EnumChatFormatting.DARK_GRAY
-                + (getEntropyCharge(stack) / 100) + "/" + (MAX_CHARGE / 100));
+                + getEntropyCharge(stack) / 100 + "/" + MAX_CHARGE / 100);
         list.add(StatCollector.translateToLocal("text.disassembler.mode") + ": " + getModeName(stack));
         list.add(StatCollector.translateToLocal("text.disassembler.efficiency") + ": "
                 + (getMode(stack) == 3 ? EnumChatFormatting.RED : EnumChatFormatting.GREEN) + getEfficiency(stack));
@@ -68,59 +64,56 @@ public class ItemThaumicDisassembler extends Item
     }
 
     @Override
-    public boolean canHarvestBlock (Block block, ItemStack stack)
-    {
+    public boolean canHarvestBlock (final Block block, final ItemStack stack) {
         return block != Blocks.bedrock;
     }
 
     @Override
-    public boolean hitEntity (ItemStack stack, EntityLivingBase entity, EntityLivingBase player)
-    {
-        if (getEntropyCharge(stack) > 0)
-        {
+    public boolean hitEntity (final ItemStack stack, final EntityLivingBase entity, final EntityLivingBase player) {
+        if (getEntropyCharge(stack) > 0) {
             entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player), 20);
             consumeEntropy(stack, ENTROPY_USAGE_HIT);
         }
-        else entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player), 4);
+        else {
+            entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player), 4);
+        }
 
         return false;
     }
 
     @Override
-    public float getDigSpeed (ItemStack stack, Block block, int meta)
-    {
+    public float getDigSpeed (final ItemStack stack, final Block block, final int meta) {
         return getEntropyCharge(stack) != 0 ? getEfficiency(stack) : 1f;
     }
 
     @Override
-    public boolean onBlockDestroyed (ItemStack stack, World world, Block block, int x, int y, int z, EntityLivingBase entity)
-    {
-        if (block.getBlockHardness(world, x, y, z) != 0.0D)
+    public boolean onBlockDestroyed (final ItemStack stack, final World world, final Block block, final int x, final int y,
+            final int z, final EntityLivingBase entity) {
+        if (block.getBlockHardness(world, x, y, z) != 0.0D) {
             consumeEntropy(stack, (int) ((double) ENTROPY_USAGE_BASE * (double) getEfficiency(stack) / 8d));
+        }
         return true;
     }
 
     @Override
-    public EnumRarity getRarity (ItemStack stack)
-    {
+    public EnumRarity getRarity (final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 
     @Override
-    public boolean isFull3D ()
-    {
+    public boolean isFull3D () {
         return true;
     }
 
     @Override
-    public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
-    {
-        if (player.isSneaking())
-        {
-            if (stack.stackTagCompound == null) stack.setTagCompound(new NBTTagCompound());
+    public ItemStack onItemRightClick (final ItemStack stack, final World world, final EntityPlayer player) {
+        if (player.isSneaking()) {
+            if (stack.stackTagCompound == null) {
+                stack.setTagCompound(new NBTTagCompound());
+            }
             stack.stackTagCompound.setInteger(TAG_MODE, getMode(stack) < 3 ? getMode(stack) + 1 : 0);
 
-            String str = EnumChatFormatting.GRAY + StatCollector.translateToLocal("text.disassembler.mode") + ": "
+            final String str = EnumChatFormatting.GRAY + StatCollector.translateToLocal("text.disassembler.mode") + ": "
                     + getModeName(getMode(stack)) + (getMode(stack) == 3 ? EnumChatFormatting.RED : EnumChatFormatting.GREEN)
                     + " (" + getEfficiency(getMode(stack)) + ")";
             HUDHandler.displayString(str, 300, false);
@@ -129,20 +122,18 @@ public class ItemThaumicDisassembler extends Item
     }
 
     @Override
-    public boolean onItemUse (ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX,
-            float hitY, float hitZ)
-    {
-        if (!player.isSneaking() && getMode(stack) != 3)
-        {
-            if (!useHoe(stack, player, world, x, y, z, side) && world.getBlock(x, y, z) != Blocks.farmland) return false;
+    public boolean onItemUse (final ItemStack stack, final EntityPlayer player, final World world, final int x, final int y,
+            final int z, final int side, final float hitX, final float hitY, final float hitZ) {
+        if (!player.isSneaking() && getMode(stack) != 3) {
+            if (!useHoe(stack, player, world, x, y, z, side) && world.getBlock(x, y, z) != Blocks.farmland)
+                return false;
 
-            if (getMode(stack) == 1) return true;
+            if (getMode(stack) == 1)
+                return true;
 
-            int rad = getMode(stack) == 0 ? 1 : 2;
-            for (int x1 = x - rad; x1 <= x + rad; x1++)
-            {
-                for (int z1 = z - rad; z1 <= z + rad; z1++)
-                {
+            final int rad = getMode(stack) == 0 ? 1 : 2;
+            for (int x1 = x - rad; x1 <= x + rad; x1++) {
+                for (int z1 = z - rad; z1 <= z + rad; z1++) {
                     useHoe(stack, player, world, x1, y, z1, side);
                 }
             }
@@ -151,48 +142,42 @@ public class ItemThaumicDisassembler extends Item
         return false;
     }
 
-    private boolean useHoe (ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side)
-    {
+    private boolean useHoe (final ItemStack stack, final EntityPlayer player, final World world, final int x, final int y,
+            final int z, final int side) {
         if (!player.canPlayerEdit(x, y, z, side, stack)
-                || (!player.capabilities.isCreativeMode && getEntropyCharge(stack) < ENTROPY_USAGE_HOE))
+                || !player.capabilities.isCreativeMode && getEntropyCharge(stack) < ENTROPY_USAGE_HOE)
             return false;
-        else
-        {
-            UseHoeEvent event = new UseHoeEvent(player, stack, world, x, y, z);
-            if (MinecraftForge.EVENT_BUS.post(event)) return false;
 
-            if (event.getResult() == Result.ALLOW)
-            {
-                consumeEntropy(stack, ENTROPY_USAGE_HOE);
-                return true;
-            }
+        final UseHoeEvent event = new UseHoeEvent(player, stack, world, x, y, z);
+        if (MinecraftForge.EVENT_BUS.post(event))
+            return false;
 
-            Block block = world.getBlock(x, y, z);
-            boolean air = world.isAirBlock(x, y + 1, z);
-
-            if (side != 0 && air && (block == Blocks.grass || block == Blocks.dirt))
-            {
-                Block farm = Blocks.farmland;
-                world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, farm.stepSound.getStepResourcePath(),
-                        (farm.stepSound.getVolume() + 1.0F) / 2.0F, farm.stepSound.getPitch() * 0.8F);
-
-                if (world.isRemote) return true;
-                else
-                {
-                    world.setBlock(x, y, z, farm);
-                    if (!player.capabilities.isCreativeMode) consumeEntropy(stack, ENTROPY_USAGE_HOE);
-
-                    return true;
-                }
-            }
-            else return false;
+        if (event.getResult() == Result.ALLOW) {
+            consumeEntropy(stack, ENTROPY_USAGE_HOE);
+            return true;
         }
+
+        final Block block = world.getBlock(x, y, z);
+        final boolean air = world.isAirBlock(x, y + 1, z);
+
+        if (side == 0 || !air || (block != Blocks.grass && block != Blocks.dirt))
+            return false;
+
+        final Block farm = Blocks.farmland;
+        world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, farm.stepSound.getStepResourcePath(),
+                (farm.stepSound.getVolume() + 1.0F) / 2.0F, farm.stepSound.getPitch() * 0.8F);
+
+        if (!world.isRemote) {
+            world.setBlock(x, y, z, farm);
+            if (!player.capabilities.isCreativeMode) {
+                consumeEntropy(stack, ENTROPY_USAGE_HOE);
+            }
+        }
+        return true;
     }
 
-    public static int getEfficiency (int mode)
-    {
-        switch (mode)
-        {
+    public static int getEfficiency (final int mode) {
+        switch (mode) {
         case 0 :
             return 20;
         case 1 :
@@ -205,21 +190,18 @@ public class ItemThaumicDisassembler extends Item
         return 0;
     }
 
-    public static int getEfficiency (ItemStack stack)
-    {
+    public static int getEfficiency (final ItemStack stack) {
         return getEfficiency(getMode(stack));
     }
 
-    public static int getMode (ItemStack stack)
-    {
-        if (stack.stackTagCompound == null) return 0;
+    public static int getMode (final ItemStack stack) {
+        if (stack.stackTagCompound == null)
+            return 0;
         return stack.stackTagCompound.getInteger(TAG_MODE);
     }
 
-    public static String getModeName (int mode)
-    {
-        switch (mode)
-        {
+    public static String getModeName (final int mode) {
+        switch (mode) {
         case 0 :
             return "\u00A7a" + StatCollector.translateToLocal("text.disassembler.normal");
         case 1 :
@@ -232,43 +214,44 @@ public class ItemThaumicDisassembler extends Item
         return null;
     }
 
-    public static String getModeName (ItemStack stack)
-    {
+    public static String getModeName (final ItemStack stack) {
         return getModeName(getMode(stack));
     }
 
-    private void addEntropy (ItemStack stack, int amount)
-    {
-        if (stack.getTagCompound() == null) stack.stackTagCompound = new NBTTagCompound();
+    private void addEntropy (final ItemStack stack, final int amount) {
+        if (stack.getTagCompound() == null) {
+            stack.stackTagCompound = new NBTTagCompound();
+        }
         stack.getTagCompound().setInteger(TAG_CHARGE, getEntropyCharge(stack) + amount);
     }
 
-    private void consumeEntropy (ItemStack stack, int amount)
-    {
-        if (stack.getTagCompound() == null) stack.stackTagCompound = new NBTTagCompound();
+    private void consumeEntropy (final ItemStack stack, final int amount) {
+        if (stack.getTagCompound() == null) {
+            stack.stackTagCompound = new NBTTagCompound();
+        }
         stack.getTagCompound().setInteger(TAG_CHARGE, getEntropyCharge(stack) - amount);
     }
 
-    private int getEntropyCharge (ItemStack stack)
-    {
-        if (stack.getTagCompound() == null) return 0;
+    private int getEntropyCharge (final ItemStack stack) {
+        if (stack.getTagCompound() == null)
+            return 0;
         return stack.getTagCompound().getInteger(TAG_CHARGE);
     }
 
     @Override
-    public void onUpdate (ItemStack stack, World world, Entity entity, int i, boolean b)
-    {
+    public void onUpdate (final ItemStack stack, final World world, final Entity entity, final int i, final boolean b) {
         super.onUpdate(stack, world, entity, i, b);
-        if (entity instanceof EntityPlayer)
-        {
-            EntityPlayer player = (EntityPlayer) entity;
-            if (!world.isRemote && getEntropyCharge(stack) < MAX_CHARGE && entity.ticksExisted % 20 == 0)
-            {
+        if (entity instanceof EntityPlayer) {
+            final EntityPlayer player = (EntityPlayer) entity;
+            if (!world.isRemote && getEntropyCharge(stack) < MAX_CHARGE && entity.ticksExisted % 20 == 0) {
                 int amount = MAX_CHARGE - getEntropyCharge(stack);
-                if (amount > 100) amount = 100;
+                if (amount > 100) {
+                    amount = 100;
+                }
 
-                if (WandManager.consumeVisFromInventory(player, new AspectList().add(Aspect.ENTROPY, amount)))
+                if (WandManager.consumeVisFromInventory(player, new AspectList().add(Aspect.ENTROPY, amount))) {
                     addEntropy(stack, amount);
+                }
             }
         }
     }

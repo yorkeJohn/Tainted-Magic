@@ -15,48 +15,41 @@ import taintedmagic.common.items.tools.ItemKatana;
 import thaumcraft.client.lib.UtilsFX;
 
 @SideOnly (Side.CLIENT)
-public class RenderItemKatana implements IItemRenderer
-{
+public class RenderItemKatana implements IItemRenderer {
+
     @Override
-    public boolean handleRenderType (ItemStack stack, ItemRenderType type)
-    {
+    public boolean handleRenderType (final ItemStack stack, final ItemRenderType type) {
         return true;
     }
 
     @Override
-    public boolean shouldUseRenderHelper (ItemRenderType type, ItemStack stack, ItemRendererHelper helper)
-    {
+    public boolean shouldUseRenderHelper (final ItemRenderType type, final ItemStack stack, final ItemRendererHelper helper) {
         return true;
     }
 
     @Override
-    public void renderItem (ItemRenderType type, ItemStack stack, Object... data)
-    {
-        EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
+    public void renderItem (final ItemRenderType type, final ItemStack stack, final Object... data) {
+        final EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
 
         GL11.glPushMatrix();
 
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glScalef(1.4F, 1.4F, 1.4F);
 
-        if ( (player.getHeldItem() == null || player.getHeldItem() != stack) && type != ItemRenderType.EQUIPPED)
-        {
+        if ( (player.getHeldItem() == null || player.getHeldItem() != stack) && type != ItemRenderType.EQUIPPED) {
             GL11.glPushMatrix();
-            if (type == ItemRenderType.ENTITY)
-            {
+            if (type == ItemRenderType.ENTITY) {
                 GL11.glScalef(0.5F, 0.5F, 0.5F);
                 GL11.glTranslatef(0F, 0.5F, 0F);
                 GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
             }
-            else if (type == ItemRenderType.INVENTORY)
-            {
+            else if (type == ItemRenderType.INVENTORY) {
                 GL11.glScalef(0.4F, 0.4F, 0.4F);
                 GL11.glRotatef(-65, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(-50, 0.0F, 1.0F, 0.0F);
                 GL11.glTranslatef(1F, 1F, 0.0F);
             }
-            else
-            {
+            else {
                 GL11.glTranslatef(0.0F, -0.7F, 0.0F);
             }
 
@@ -68,17 +61,14 @@ public class RenderItemKatana implements IItemRenderer
 
         GL11.glPushMatrix();
 
-        if (type == ItemRenderType.ENTITY)
-        {
+        if (type == ItemRenderType.ENTITY) {
             GL11.glScalef(0.5F, 0.5F, 0.5F);
             GL11.glTranslatef(0F, 0.5F, 0F);
             GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
         }
 
-        else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)
-        {
-            if (player.isUsingItem())
-            {
+        else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
+            if (player.isUsingItem()) {
                 GL11.glTranslatef(5.0F, 1.0F, -0.2F);
                 GL11.glRotatef(155.0F, 0.0F, 1.0F, 0.0F);
                 GL11.glRotatef(-20.0F, 1.0F, 0.0F, 0.0F);
@@ -89,15 +79,13 @@ public class RenderItemKatana implements IItemRenderer
             GL11.glRotatef(-10F, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(-10F, 0.0F, 0.0F, 1.0F);
         }
-        else if (type == ItemRenderType.INVENTORY)
-        {
+        else if (type == ItemRenderType.INVENTORY) {
             GL11.glScalef(0.4F, 0.4F, 0.4F);
             GL11.glRotatef(-65, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(-50, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(1F, 1F, 0.0F);
         }
-        else
-        {
+        else {
             GL11.glRotatef(60, 0.0F, 0.0F, 1.0F);
             GL11.glRotatef(-40, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(70, 0.0F, 1.0F, 0.0F);
@@ -109,27 +97,24 @@ public class RenderItemKatana implements IItemRenderer
         ItemKatana.KATANA.render(0.0625F);
 
         // Runes
-        if (ItemKatana.hasAnyInscription(stack))
-        {
+        if (ItemKatana.hasAnyInscription(stack)) {
             GL11.glPushMatrix();
-            int j = 200;
-            int k = j % 65536;
-            int l = j / 65536;
+            final int j = 200;
+            final int k = j % 65536;
+            final int l = j / 65536;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, k / 1.0F, l / 1.0F);
 
             GL11.glEnable(GL11.GL_BLEND);
 
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
             GL11.glRotated(90.0D, 0.0D, 1.0D, 0.0D);
-            for (int a = 0; a < 14; a++)
-            {
-                int rune = (a * 3) % 16;
+            for (int a = 0; a < 14; a++) {
+                final int rune = a * 3 % 16;
                 drawRune(-1.65D + a * 0.14D, 0D, -0.03D, rune, player);
             }
             GL11.glRotated(180.0D, 0.0D, 1.0D, 0.0D);
-            for (int a = 0; a < 14; a++)
-            {
-                int rune = (a + 1 * 3) % 16;
+            for (int a = 0; a < 14; a++) {
+                final int rune = (a + 1 * 3) % 16;
                 drawRune(-1.65D + a * 0.14D, 0D, -0.03D, rune, player);
             }
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -149,27 +134,26 @@ public class RenderItemKatana implements IItemRenderer
     /**
      * TC method to draw runes on runed staves
      */
-    public static void drawRune (double x, double y, double z, int rune, EntityPlayer player)
-    {
+    public static void drawRune (final double x, final double y, final double z, final int rune, final EntityPlayer player) {
         GL11.glPushMatrix();
 
         UtilsFX.bindTexture("textures/misc/script.png");
 
-        float r = MathHelper.sin( (player.ticksExisted + rune * 5) / 5.0F) * 0.1F + 0.88F;
-        float g = MathHelper.sin( (player.ticksExisted + rune * 5) / 7.0F) * 0.1F + 0.63F;
-        float alpha = MathHelper.sin( (player.ticksExisted + rune * 5) / 10.0F) * 0.3F;
+        final float r = MathHelper.sin( (player.ticksExisted + rune * 5) / 5.0F) * 0.1F + 0.88F;
+        final float g = MathHelper.sin( (player.ticksExisted + rune * 5) / 7.0F) * 0.1F + 0.63F;
+        final float alpha = MathHelper.sin( (player.ticksExisted + rune * 5) / 10.0F) * 0.3F;
 
         GL11.glColor4f(r, g, 0.2F, alpha + 0.6F);
 
         GL11.glRotated(90.0D, 0.0D, 0.0D, 1.0D);
         GL11.glTranslated(x, y, z);
 
-        Tessellator t = Tessellator.instance;
+        final Tessellator t = Tessellator.instance;
 
-        float f = 0.0625F * rune;
-        float f1 = f + 0.0625F;
-        float f2 = 0.0F;
-        float f3 = 1.0F;
+        final float f = 0.0625F * rune;
+        final float f1 = f + 0.0625F;
+        final float f2 = 0.0F;
+        final float f3 = 1.0F;
 
         t.startDrawingQuads();
 

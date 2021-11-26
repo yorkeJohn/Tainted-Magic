@@ -24,66 +24,59 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.client.lib.UtilsFX;
 
-public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInventoryItem
-{
-    // Vis used per tick while flying / boosting / gliding
+public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInventoryItem {
+
+    // Vis costs per tick
     private static final AspectList COST_FLIGHT = new AspectList().add(Aspect.AIR, 15);
     private static final AspectList COST_GLIDE = new AspectList().add(Aspect.AIR, 5);
 
     // Magic circle texture
     private static final ResourceLocation MAGIC_CIRCLE = new ResourceLocation("taintedmagic:textures/misc/circle.png");
 
-    public ItemFlyteCharm ()
-    {
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setUnlocalizedName("ItemFlyteCharm");
-        this.setMaxStackSize(1);
-        this.setTextureName("taintedmagic:ItemFlyteCharm");
+    public ItemFlyteCharm () {
+        setCreativeTab(TaintedMagic.tabTM);
+        setUnlocalizedName("ItemFlyteCharm");
+        setMaxStackSize(1);
+        setTextureName("taintedmagic:ItemFlyteCharm");
 
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (ItemStack stack)
-    {
+    public EnumRarity getRarity (final ItemStack stack) {
         return TaintedMagic.rarityCreation;
     }
 
     @SubscribeEvent
-    public void updateFlight (LivingEvent.LivingUpdateEvent event)
-    {
-        if (event.entityLiving instanceof EntityPlayer)
-        {
-            EntityPlayer player = (EntityPlayer) event.entityLiving;
+    public void updateFlight (final LivingEvent.LivingUpdateEvent event) {
+        if (event.entityLiving instanceof EntityPlayer) {
+            final EntityPlayer player = (EntityPlayer) event.entityLiving;
 
-            if (shouldPlayerHaveFlight(player))
-            {
-                boolean isFlying = player.capabilities.isFlying;
+            if (shouldPlayerHaveFlight(player)) {
+                final boolean isFlying = player.capabilities.isFlying;
 
-                if (TaintedMagicHelper.consumeVisFromInventory(player, COST_FLIGHT, isFlying))
+                if (TaintedMagicHelper.consumeVisFromInventory(player, COST_FLIGHT, isFlying)) {
                     player.capabilities.allowFlying = true; // Allow flight
-                else if (!player.capabilities.isCreativeMode)
-                {
+                }
+                else if (!player.capabilities.isCreativeMode) {
                     player.capabilities.allowFlying = false;
                     player.capabilities.isFlying = false;
                 }
 
-                if (!isFlying)
-                {
+                if (!isFlying) {
                     // Glide
                     if (player.isSneaking() && !player.onGround && player.fallDistance > 0.5F
-                            && TaintedMagicHelper.consumeVisFromInventory(player, COST_GLIDE, true))
-                    {
-                        double speed = 0.1D;
+                            && TaintedMagicHelper.consumeVisFromInventory(player, COST_GLIDE, true)) {
+                        final double speed = 0.1D;
                         player.motionY = -speed;
                         player.motionX += Math.cos(Math.toRadians(player.rotationYawHead + 90)) * speed;
                         player.motionZ += Math.sin(Math.toRadians(player.rotationYawHead + 90)) * speed;
                     }
                 }
             }
-            else if (!player.capabilities.isCreativeMode)
-            {
+            else if (!player.capabilities.isCreativeMode) {
                 player.capabilities.allowFlying = false;
                 player.capabilities.isFlying = false;
             }
@@ -92,11 +85,10 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
 
     /**
      * Determines if the player should be able to fly.
-     * 
+     *
      * @param player
      */
-    private boolean shouldPlayerHaveFlight (EntityPlayer player)
-    {
+    private boolean shouldPlayerHaveFlight (final EntityPlayer player) {
         for (int i = 0; i < player.inventory.getSizeInventory(); i++)
             if (player.inventory.getStackInSlot(i) != null
                     && player.inventory.getStackInSlot(i).getItem() instanceof ItemFlyteCharm)
@@ -105,16 +97,14 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
     }
 
     @Override
-    public int getWarp (ItemStack stack, EntityPlayer player)
-    {
+    public int getWarp (final ItemStack stack, final EntityPlayer player) {
         return 5;
     }
 
     // Render magic circle
     @Override
-    public void render (EntityPlayer player, ItemStack stack, float partialTicks)
-    {
-        Tessellator t = Tessellator.instance;
+    public void render (final EntityPlayer player, final ItemStack stack, final float partialTicks) {
+        final Tessellator t = Tessellator.instance;
 
         GL11.glPushMatrix();
 

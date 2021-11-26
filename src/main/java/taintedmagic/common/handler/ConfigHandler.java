@@ -4,27 +4,22 @@ import net.minecraftforge.common.config.Configuration;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.wands.FocusUpgradeType;
 
-public class ConfigHandler
-{
+public class ConfigHandler {
+
     public static Configuration config;
 
     public static boolean NOTIFY_UPDATE = true;
-
     public static boolean RESEARCH_TAGS = true;
     public static boolean CUSTOM_RESEARCH_TAB_BACK = false;
-
     public static double MAGE_MACE_DMG_INC_BASE = 8.0D;
-
     public static float WARP_WAND_REFRESH_BASE = 10000.0F;
-
     public static int SANITY_UPGRADE_ID = 64;
     public static int ANTIBODY_UPGRADE_ID = 65;
     public static int CORROSIVE_UPGRADE_ID = 66;
     public static int PERSISTENT_UPGRADE_ID = 67;
     public static int DIFFUSION_UPGRADE_ID = 68;
 
-    public static void initConfig ()
-    {
+    public static void initConfig () {
         TaintedMagic.logger.info("Loading config...");
 
         config.load();
@@ -38,7 +33,7 @@ public class ConfigHandler
         CUSTOM_RESEARCH_TAB_BACK = config.getBoolean("CUSTOM_RESEARCH_TAB_BACK", "research", false,
                 "Setting this to true will bring back the old Tainted Magic research tab background.");
 
-        MAGE_MACE_DMG_INC_BASE = (double) config.getFloat("MAGE_MACE_DMG_INC_BASE", "wands_and_foci", 8.0F, 1.0F, 100.0F,
+        MAGE_MACE_DMG_INC_BASE = config.getFloat("MAGE_MACE_DMG_INC_BASE", "wands_and_foci", 8.0F, 1.0F, 100.0F,
                 "Defines the base amount of damage to increase wand / staff attack damage by "
                         + "when the Mage's Mace focus is equipped.");
 

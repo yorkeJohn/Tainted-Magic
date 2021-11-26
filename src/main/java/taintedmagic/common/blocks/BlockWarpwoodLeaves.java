@@ -21,284 +21,238 @@ import net.minecraftforge.common.util.ForgeDirection;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.registry.BlockRegistry;
 
-public class BlockWarpwoodLeaves extends Block implements IShearable
-{
-    int[] adjacentTreeBlocks;
+public class BlockWarpwoodLeaves extends Block implements IShearable {
+
+    private int[] adjacentTreeBlocks;
     private IIcon opaqueIcon;
     private IIcon transparentIcon;
 
-    public BlockWarpwoodLeaves ()
-    {
+    public BlockWarpwoodLeaves () {
         super(Material.leaves);
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setLightOpacity(0);
-        this.setHardness(0.1F);
-        this.setStepSound(soundTypeGrass);
-        this.setBlockName("BlockWarpwoodLeaves");
+        setCreativeTab(TaintedMagic.tabTM);
+        setLightOpacity(0);
+        setHardness(0.1F);
+        setStepSound(soundTypeGrass);
+        setBlockName("BlockWarpwoodLeaves");
     }
 
     @Override
     @SideOnly (Side.CLIENT)
-    public boolean shouldSideBeRendered (IBlockAccess world, int x, int y, int z, int side)
-    {
+    public boolean shouldSideBeRendered (final IBlockAccess world, final int x, final int y, final int z, final int side) {
         return !Blocks.leaves.isOpaqueCube() || super.shouldSideBeRendered(world, x, y, z, side);
     }
 
     @Override
-    public boolean isOpaqueCube ()
-    {
+    public boolean isOpaqueCube () {
         return Blocks.leaves.isOpaqueCube();
     }
 
     @Override
-    public IIcon getIcon (int side, int meta)
-    {
+    public IIcon getIcon (final int side, final int meta) {
         return !Blocks.leaves.isOpaqueCube() ? transparentIcon : opaqueIcon;
     }
 
     @Override
     @SideOnly (Side.CLIENT)
-    public void registerBlockIcons (IIconRegister ir)
-    {
+    public void registerBlockIcons (final IIconRegister ir) {
         opaqueIcon = ir.registerIcon("taintedmagic:BlockWarpwoodLeaves_opaque");
         transparentIcon = ir.registerIcon("taintedmagic:BlockWarpwoodLeaves_transparent");
     }
 
-    public void breakBlock (World world, int x, int y, int z, Block block, int i)
-    {
-        byte var7 = 1;
-        int var8 = var7 + 1;
+    @Override
+    public void breakBlock (final World world, final int x, final int y, final int z, final Block block, final int meta) {
+        final byte dist = 1;
+        final int off = dist + 1;
 
-        if (world.checkChunksExist(x - var8, y - var8, z - var8, x + var8, y + var8, z + var8))
-        {
-            for (int var9 = -var7; var9 <= var7; var9++)
-            {
-                for (int var10 = -var7; var10 <= var7; var10++)
-                {
-                    for (int var11 = -var7; var11 <= var7; var11++)
-                    {
-                        Block var12 = world.getBlock(x + var9, y + var10, z + var11);
+        if (world.checkChunksExist(x - off, y - off, z - off, x + off, y + off, z + off)) {
+            for (int i = -dist; i <= dist; i++) {
+                for (int j = -dist; j <= dist; j++) {
+                    for (int k = -dist; k <= dist; k++) {
+                        final Block b = world.getBlock(x + i, y + j, z + k);
 
-                        if (var12 == Blocks.air) continue;
-                        var12.beginLeavesDecay(world, x + var9, y + var10, z + var11);
+                        if (b == Blocks.air) {
+                            continue;
+                        }
+                        b.beginLeavesDecay(world, x + i, y + j, z + k);
                     }
                 }
             }
         }
     }
 
-    public void updateTick (World world, int x, int y, int z, Random random)
-    {
-        if (!world.isRemote)
-        {
-            int var6 = world.getBlockMetadata(x, y, z);
+    @Override
+    public void updateTick (final World world, final int x, final int y, final int z, final Random random) {
+        if (!world.isRemote) {
+            final int meta = world.getBlockMetadata(x, y, z);
 
-            if ( ( (var6 & 0x8) != 0) && ( (var6 & 0x4) == 0))
-            {
-                byte var7 = 4;
-                int var8 = var7 + 1;
-                byte var9 = 32;
-                int var10 = var9 * var9;
-                int var11 = var9 / 2;
+            if ( (meta & 0x8) != 0 && (meta & 0x4) == 0) {
+                final byte pos = 4;
+                final int off = pos + 1;
+                final byte dist = 32;
+                final int dist2 = dist * dist;
+                final int half = dist / 2;
 
-                if (this.adjacentTreeBlocks == null)
-                {
-                    this.adjacentTreeBlocks = new int[var9 * var9 * var9];
+                if (adjacentTreeBlocks == null) {
+                    adjacentTreeBlocks = new int[dist * dist * dist];
                 }
 
-                if (world.checkChunksExist(x - var8, y - var8, z - var8, x + var8, y + var8, z + var8))
-                {
-                    for (int var12 = -var7; var12 <= var7; var12++)
-                    {
-                        for (int var13 = -var7; var13 <= var7; var13++)
-                        {
-                            for (int var14 = -var7; var14 <= var7; var14++)
-                            {
-                                Block block = world.getBlock(x + var12, y + var13, z + var14);
+                if (world.checkChunksExist(x - off, y - off, z - off, x + off, y + off, z + off)) {
+                    for (int i = -pos; i <= pos; i++) {
+                        for (int j = -pos; j <= pos; j++) {
+                            for (int k = -pos; k <= pos; k++) {
+                                final Block block = world.getBlock(x + i, y + j, z + k);
 
-                                if ( (block != null) && (block.canSustainLeaves(world, x + var12, y + var13, z + var14)))
-                                {
-                                    this.adjacentTreeBlocks[ ( (var12 + var11) * var10 + (var13 + var11) * var9 + var14
-                                            + var11)] = 0;
+                                if (block != null && block.canSustainLeaves(world, x + i, y + j, z + k)) {
+                                    adjacentTreeBlocks[ (i + half) * dist2 + (j + half) * dist + k + half] = 0;
                                 }
-                                else if ( (block != null) && (block.isLeaves(world, x + var12, y + var13, z + var14)))
-                                {
-                                    this.adjacentTreeBlocks[ ( (var12 + var11) * var10 + (var13 + var11) * var9 + var14
-                                            + var11)] = -2;
+                                else if (block != null && block.isLeaves(world, x + i, y + j, z + k)) {
+                                    adjacentTreeBlocks[ (i + half) * dist2 + (j + half) * dist + k + half] = -2;
                                 }
-                                else
-                                {
-                                    this.adjacentTreeBlocks[ ( (var12 + var11) * var10 + (var13 + var11) * var9 + var14
-                                            + var11)] = -1;
+                                else {
+                                    adjacentTreeBlocks[ (i + half) * dist2 + (j + half) * dist + k + half] = -1;
                                 }
                             }
                         }
                     }
-                    int var15 = 0;
-                    for (int var12 = 1; var12 <= 4; var12++)
-                    {
-                        for (int var13 = -var7; var13 <= var7; var13++)
-                        {
-                            for (int var14 = -var7; var14 <= var7; var14++)
-                            {
-                                for (var15 = -var7; var15 <= var7; var15++)
-                                {
-                                    if (this.adjacentTreeBlocks[ ( (var13 + var11) * var10 + (var14 + var11) * var9 + var15
-                                            + var11)] != var12 - 1)
+                    for (int i = 1; i <= 4; i++) {
+                        for (int j = -pos; j <= pos; j++) {
+                            for (int k = -pos; k <= pos; k++) {
+                                for (int l = -pos; l <= pos; l++) {
+                                    if (adjacentTreeBlocks[ (j + half) * dist2 + (k + half) * dist + l + half] != i - 1) {
                                         continue;
-                                    if (this.adjacentTreeBlocks[ ( (var13 + var11 - 1) * var10 + (var14 + var11) * var9 + var15
-                                            + var11)] == -2)
-                                    {
-                                        this.adjacentTreeBlocks[ ( (var13 + var11 - 1) * var10 + (var14 + var11) * var9 + var15
-                                                + var11)] = var12;
+                                    }
+                                    if (adjacentTreeBlocks[ (j + half - 1) * dist2 + (k + half) * dist + l + half] == -2) {
+                                        adjacentTreeBlocks[ (j + half - 1) * dist2 + (k + half) * dist + l + half] = i;
                                     }
 
-                                    if (this.adjacentTreeBlocks[ ( (var13 + var11 + 1) * var10 + (var14 + var11) * var9 + var15
-                                            + var11)] == -2)
-                                    {
-                                        this.adjacentTreeBlocks[ ( (var13 + var11 + 1) * var10 + (var14 + var11) * var9 + var15
-                                                + var11)] = var12;
+                                    if (adjacentTreeBlocks[ (j + half + 1) * dist2 + (k + half) * dist + l + half] == -2) {
+                                        adjacentTreeBlocks[ (j + half + 1) * dist2 + (k + half) * dist + l + half] = i;
                                     }
 
-                                    if (this.adjacentTreeBlocks[ ( (var13 + var11) * var10 + (var14 + var11 - 1) * var9 + var15
-                                            + var11)] == -2)
-                                    {
-                                        this.adjacentTreeBlocks[ ( (var13 + var11) * var10 + (var14 + var11 - 1) * var9 + var15
-                                                + var11)] = var12;
+                                    if (adjacentTreeBlocks[ (j + half) * dist2 + (k + half - 1) * dist + l + half] == -2) {
+                                        adjacentTreeBlocks[ (j + half) * dist2 + (k + half - 1) * dist + l + half] = i;
                                     }
 
-                                    if (this.adjacentTreeBlocks[ ( (var13 + var11) * var10 + (var14 + var11 + 1) * var9 + var15
-                                            + var11)] == -2)
-                                    {
-                                        this.adjacentTreeBlocks[ ( (var13 + var11) * var10 + (var14 + var11 + 1) * var9 + var15
-                                                + var11)] = var12;
+                                    if (adjacentTreeBlocks[ (j + half) * dist2 + (k + half + 1) * dist + l + half] == -2) {
+                                        adjacentTreeBlocks[ (j + half) * dist2 + (k + half + 1) * dist + l + half] = i;
                                     }
 
-                                    if (this.adjacentTreeBlocks[ ( (var13 + var11) * var10 + (var14 + var11) * var9
-                                            + (var15 + var11 - 1))] == -2)
-                                    {
-                                        this.adjacentTreeBlocks[ ( (var13 + var11) * var10 + (var14 + var11) * var9
-                                                + (var15 + var11 - 1))] = var12;
+                                    if (adjacentTreeBlocks[ (j + half) * dist2 + (k + half) * dist + l + half - 1] == -2) {
+                                        adjacentTreeBlocks[ (j + half) * dist2 + (k + half) * dist + l + half - 1] = i;
                                     }
 
-                                    if (this.adjacentTreeBlocks[ ( (var13 + var11) * var10 + (var14 + var11) * var9 + var15
-                                            + var11 + 1)] != -2)
+                                    if (adjacentTreeBlocks[ (j + half) * dist2 + (k + half) * dist + l + half + 1] != -2) {
                                         continue;
-                                    this.adjacentTreeBlocks[ ( (var13 + var11) * var10 + (var14 + var11) * var9 + var15 + var11
-                                            + 1)] = var12;
+                                    }
+                                    adjacentTreeBlocks[ (j + half) * dist2 + (k + half) * dist + l + half + 1] = i;
                                 }
                             }
                         }
                     }
                 }
 
-                int var12 = this.adjacentTreeBlocks[ (var11 * var10 + var11 * var9 + var11)];
+                final int adj = adjacentTreeBlocks[half * dist2 + half * dist + half];
 
-                if (var12 >= 0)
-                {
-                    world.setBlock(x, y, z, this, var6 & 0xFFFFFFF7, 3);
+                if (adj >= 0) {
+                    world.setBlock(x, y, z, this, meta & 0xFFFFFFF7, 3);
                 }
-                else
-                {
+                else {
                     removeLeaves(world, x, y, z);
                 }
             }
         }
     }
 
-    private void removeLeaves (World world, int x, int y, int z)
-    {
+    private void removeLeaves (final World world, final int x, final int y, final int z) {
         dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
         world.setBlockToAir(x, y, z);
     }
 
-    public void dropBlockAsItemWithChance (World world, int x, int y, int z, int m, float f, int i)
-    {
-        if ( (!world.isRemote) && ( (m & 0x8) != 0) && ( (m & 0x4) == 0))
-        {
-            if ( ( (m & 0x1) == 0) && (world.rand.nextInt(50) == 0))
-            {
+    @Override
+    public void dropBlockAsItemWithChance (final World world, final int x, final int y, final int z, final int m, final float f,
+            final int i) {
+        if (!world.isRemote && (m & 0x8) != 0 && (m & 0x4) == 0) {
+            if ( (m & 0x1) == 0 && world.rand.nextInt(50) == 0) {
                 dropBlockAsItem(world, x, y, z, new ItemStack(BlockRegistry.BlockWarpwoodSapling));
             }
         }
     }
 
-    public void harvestBlock (World world, EntityPlayer player, int x, int y, int z, int i)
-    {
+    @Override
+    public void harvestBlock (final World world, final EntityPlayer player, final int x, final int y, final int z,
+            final int i) {
         super.harvestBlock(world, player, x, y, z, i);
     }
 
-    public int damageDropped (int i)
-    {
+    @Override
+    public int damageDropped (final int i) {
         return i & 0x1;
     }
 
-    public int quantityDropped (Random random)
-    {
+    @Override
+    public int quantityDropped (final Random random) {
         return 0;
     }
 
-    public Item getItemDropped (int i, Random random, int i2)
-    {
+    @Override
+    public Item getItemDropped (final int i, final Random random, final int i2) {
         return Item.getItemById(0);
     }
 
     @Override
-    public boolean isLeaves (IBlockAccess world, int x, int y, int z)
-    {
+    public boolean isLeaves (final IBlockAccess world, final int x, final int y, final int z) {
         return true;
     }
 
-    public void beginLeavesDecay (World world, int x, int y, int z)
-    {
+    @Override
+    public void beginLeavesDecay (final World world, final int x, final int y, final int z) {
         world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z) | 0x8, 4);
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public int getBlockColor ()
-    {
+    public int getBlockColor () {
         return 0xFFFFFF;
     }
 
-    public ItemStack getPickBlock (MovingObjectPosition mop, World world, int x, int y, int z)
-    {
-        int m = world.getBlockMetadata(x, y, z);
+    @Override
+    public ItemStack getPickBlock (final MovingObjectPosition mop, final World world, final int x, final int y, final int z) {
+        final int m = world.getBlockMetadata(x, y, z);
         return new ItemStack(this, 1, m & 0x1);
     }
 
     @SideOnly (Side.CLIENT)
     @Override
-    public int getRenderColor (int m)
-    {
-        return 0xFFFFFF;
-    }
-
-    @SideOnly (Side.CLIENT)
-    public int colorMultiplier (IBlockAccess world, int x, int y, int z)
-    {
+    public int getRenderColor (final int m) {
         return 0xFFFFFF;
     }
 
     @Override
-    public boolean isShearable (ItemStack stack, IBlockAccess world, int x, int y, int z)
-    {
+    @SideOnly (Side.CLIENT)
+    public int colorMultiplier (final IBlockAccess world, final int x, final int y, final int z) {
+        return 0xFFFFFF;
+    }
+
+    @Override
+    public boolean isShearable (final ItemStack stack, final IBlockAccess world, final int x, final int y, final int z) {
         return true;
     }
 
-    public ArrayList<ItemStack> onSheared (ItemStack stack, IBlockAccess world, int x, int y, int z, int fortune)
-    {
-        ArrayList ret = new ArrayList();
-        ret.add(new ItemStack(this, 1, world.getBlockMetadata(x, y, z) & 0x3));
-        return ret;
+    @Override
+    public ArrayList<ItemStack> onSheared (final ItemStack stack, final IBlockAccess world, final int x, final int y,
+            final int z, final int fortune) {
+        final ArrayList drops = new ArrayList();
+        drops.add(new ItemStack(this, 1, world.getBlockMetadata(x, y, z) & 0x3));
+        return drops;
     }
 
-    public int getFlammability (IBlockAccess world, int x, int y, int z, ForgeDirection face)
-    {
+    @Override
+    public int getFlammability (final IBlockAccess world, final int x, final int y, final int z, final ForgeDirection face) {
         return 0;
     }
 
-    public int getFireSpreadSpeed (IBlockAccess world, int x, int y, int z, ForgeDirection face)
-    {
+    @Override
+    public int getFireSpreadSpeed (final IBlockAccess world, final int x, final int y, final int z, final ForgeDirection face) {
         return 0;
     }
 }

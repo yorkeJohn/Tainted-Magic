@@ -12,39 +12,37 @@ import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.common.items.armor.ItemGoggles;
 
-public class ItemWarpedGoggles extends ItemGoggles implements IWarpingGear
-{
-    public ItemWarpedGoggles (ArmorMaterial material, int j, int k)
-    {
+public class ItemWarpedGoggles extends ItemGoggles implements IWarpingGear {
+
+    public ItemWarpedGoggles (final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setUnlocalizedName("ItemWarpedGoggles");
+        setCreativeTab(TaintedMagic.tabTM);
+        setUnlocalizedName("ItemWarpedGoggles");
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public void registerIcons (IIconRegister ir)
-    {
-        this.icon = ir.registerIcon("taintedmagic:ItemWarpedGoggles");
+    public void registerIcons (final IIconRegister ir) {
+        icon = ir.registerIcon("taintedmagic:ItemWarpedGoggles");
     }
 
-    public String getArmorTexture (ItemStack stack, Entity entity, int slot, String type)
-    {
+    @Override
+    public String getArmorTexture (final ItemStack stack, final Entity entity, final int slot, final String type) {
         return "taintedmagic:textures/models/ModelWarpedGoggles.png";
     }
 
-    public EnumRarity getRarity (ItemStack stack)
-    {
+    @Override
+    public EnumRarity getRarity (final ItemStack stack) {
         return EnumRarity.rare;
     }
 
     @Override
-    public int getWarp (ItemStack stack, EntityPlayer player)
-    {
+    public int getWarp (final ItemStack stack, final EntityPlayer player) {
         return 1;
     }
 
-    public boolean getIsRepairable (ItemStack stack, ItemStack repairItem)
-    {
+    @Override
+    public boolean getIsRepairable (final ItemStack stack, final ItemStack repairItem) {
         return repairItem.isItemEqual(new ItemStack(ItemRegistry.ItemMaterial, 1, 0)) ? true
                 : super.getIsRepairable(stack, repairItem);
     }

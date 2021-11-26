@@ -12,69 +12,73 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
 
-public class TMResearchItem extends ResearchItem
-{
-    int warp = 0;
+public class TMResearchItem extends ResearchItem {
 
-    public TMResearchItem (String key, String category)
-    {
+    private int warp = 0;
+
+    public TMResearchItem (final String key, final String category) {
         super(key, category);
     }
 
-    public TMResearchItem (String key, AspectList tags, int col, int row, ItemStack icon, int complexity, int warp)
-    {
+    public TMResearchItem (final String key, final AspectList tags, final int col, final int row, final ItemStack icon,
+            final int complexity, final int warp) {
         super(key, ResearchRegistry.CATEGORY_TM, tags, col, row, complexity, icon);
         this.warp = warp;
     }
 
-    public TMResearchItem (String key, AspectList tags, int col, int row, ResourceLocation icon, int complexity, int warp)
-    {
+    public TMResearchItem (final String key, final AspectList tags, final int col, final int row, final ResourceLocation icon,
+            final int complexity, final int warp) {
         super(key, ResearchRegistry.CATEGORY_TM, tags, col, row, complexity, icon);
         this.warp = warp;
-    }
-
-    @SideOnly (Side.CLIENT)
-    public String getName ()
-    {
-        return StatCollector.translateToLocal("tm.name." + this.key);
-    }
-
-    @SideOnly (Side.CLIENT)
-    public String getText ()
-    {
-        return (ConfigHandler.RESEARCH_TAGS ? "[TM] " : "")
-                + StatCollector.translateToLocal(new StringBuilder("tm.tag.").append(this.key).toString());
     }
 
     @Override
-    public ResearchItem setPages (ResearchPage... pages)
-    {
-        for (ResearchPage page : pages)
-        {
-            if (page.type == ResearchPage.PageType.TEXT) page.text = ("tm.text." + this.key + "." + page.text);
+    @SideOnly (Side.CLIENT)
+    public String getName () {
+        return StatCollector.translateToLocal("tm.name." + key);
+    }
 
-            if (page.type != ResearchPage.PageType.INFUSION_CRAFTING) continue;
+    @Override
+    @SideOnly (Side.CLIENT)
+    public String getText () {
+        return (ConfigHandler.RESEARCH_TAGS ? "[TM] " : "")
+                + StatCollector.translateToLocal(new StringBuilder("tm.tag.").append(key).toString());
+    }
 
-            if (this.parentsHidden == null || this.parentsHidden.length == 0) this.parentsHidden = new String[]{ "INFUSION" };
-            else
-            {
-                String[] newParents = new String[this.parentsHidden.length + 1];
+    @Override
+    public ResearchItem setPages (final ResearchPage... pages) {
+        for (final ResearchPage page : pages) {
+            if (page.type == ResearchPage.PageType.TEXT) {
+                page.text = "tm.text." + key + "." + page.text;
+            }
+
+            if (page.type != ResearchPage.PageType.INFUSION_CRAFTING) {
+                continue;
+            }
+
+            if (parentsHidden == null || parentsHidden.length == 0) {
+                parentsHidden = new String[]{ "INFUSION" };
+            }
+            else {
+                final String[] newParents = new String[parentsHidden.length + 1];
                 newParents[0] = "INFUSION";
 
-                for (int i = 0; i < this.parentsHidden.length; i++)
-                    newParents[ (i + 1)] = this.parentsHidden[i];
+                for (int i = 0; i < parentsHidden.length; i++) {
+                    newParents[i + 1] = parentsHidden[i];
+                }
 
-                this.parentsHidden = newParents;
+                parentsHidden = newParents;
             }
         }
         return super.setPages(pages);
     }
 
     @Override
-    public ResearchItem registerResearchItem ()
-    {
+    public ResearchItem registerResearchItem () {
         super.registerResearchItem();
-        if (warp > 0) ThaumcraftApi.addWarpToResearch(key, warp);
+        if (warp > 0) {
+            ThaumcraftApi.addWarpToResearch(key, warp);
+        }
         return this;
     }
 }

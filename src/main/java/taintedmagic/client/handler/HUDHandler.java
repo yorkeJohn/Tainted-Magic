@@ -18,14 +18,12 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import taintedmagic.api.IHeldItemHUD;
 import taintedmagic.common.TaintedMagic;
 
-public final class HUDHandler
-{
+public final class HUDHandler {
+
     @SubscribeEvent
     @SideOnly (Side.CLIENT)
-    public void renderGameOverlayEvent (RenderGameOverlayEvent.Post event)
-    {
-        if (event.type == ElementType.ALL)
-        {
+    public void renderGameOverlayEvent (final RenderGameOverlayEvent.Post event) {
+        if (event.type == ElementType.ALL) {
             renderHeldItemHUD(event.partialTicks);
             renderString();
         }
@@ -36,78 +34,91 @@ public final class HUDHandler
     private static ItemStack last = null;
 
     @SideOnly (Side.CLIENT)
-    private void renderHeldItemHUD (float partialTicks)
-    {
-        EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
-        Minecraft mc = Minecraft.getMinecraft();
-        ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+    private void renderHeldItemHUD (final float partialTicks) {
+        final EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
+        final Minecraft mc = Minecraft.getMinecraft();
+        final ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 
-        if (stack != null && stack.getItem() instanceof IHeldItemHUD) last = stack.copy();
+        if (stack != null && stack.getItem() instanceof IHeldItemHUD) {
+            last = stack.copy();
+        }
         stack = player.getCurrentEquippedItem();
 
         boolean b = false;
-        if (stack != null && stack.getItem() instanceof IHeldItemHUD) b = true;
-        else b = false;
+        if (stack != null && stack.getItem() instanceof IHeldItemHUD) {
+            b = true;
+        }
+        else {
+            b = false;
+        }
 
-        float time = 30.0F;
-        if (b) ticksEquipped = Math.min(time, ticksEquipped + partialTicks);
-        else ticksEquipped = Math.max(0F, ticksEquipped - partialTicks);
+        final float time = 30.0F;
+        if (b) {
+            ticksEquipped = Math.min(time, ticksEquipped + partialTicks);
+        }
+        else {
+            ticksEquipped = Math.max(0F, ticksEquipped - partialTicks);
+        }
 
-        float fract = ticksEquipped / time;
+        final float fract = ticksEquipped / time;
 
-        if (b) ((IHeldItemHUD) stack.getItem()).renderHUD(res, player, stack, partialTicks, fract);
-        else if (!b && ticksEquipped != 0) ((IHeldItemHUD) last.getItem()).renderHUD(res, player, last, partialTicks, fract);
+        if (b) {
+            ((IHeldItemHUD) stack.getItem()).renderHUD(res, player, stack, partialTicks, fract);
+        }
+        else if (!b && ticksEquipped != 0) {
+            ((IHeldItemHUD) last.getItem()).renderHUD(res, player, last, partialTicks, fract);
+        }
     }
 
     private static String currentText;
-    private static int time, ticks;
-    private static boolean gay;
+    private static int time;
+    private static int ticks;
+    private static boolean isRainbow;
 
     /**
      * Displays text above the health bar for a specified duration.
-     * 
+     *
      * @param text The string to display.
-     * @param duration The duration to display it for (in ticks).
-     * @param rainbow Setting this to true makes things absolutely fabulous.
+     * @param duration The duration to display for (in ticks).
+     * @param rainbow Display the string in rainbow.
      */
-    public static void displayString (String text, int duration, boolean rainbow)
-    {
+    public static void displayString (final String text, final int duration, final boolean rainbow) {
         currentText = text;
         ticks = time = duration;
-        gay = rainbow;
+        isRainbow = rainbow;
     }
 
     @SideOnly (Side.CLIENT)
-    public static void updateTicks ()
-    {
-        if (ticks > 0) ticks--;
+    public static void updateTicks () {
+        if (ticks > 0) {
+            ticks--;
+        }
     }
 
     @SideOnly (Side.CLIENT)
-    private void renderString ()
-    {
-        if (ticks > 0 && !MathHelper.stringNullOrLengthZero(currentText))
-        {
-            Minecraft mc = Minecraft.getMinecraft();
-            ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-            int x = res.getScaledWidth();
-            int y = res.getScaledHeight();
-            FontRenderer font = mc.fontRenderer;
+    private void renderString () {
+        if (ticks > 0 && !MathHelper.stringNullOrLengthZero(currentText)) {
+            final Minecraft mc = Minecraft.getMinecraft();
+            final ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+            final int x = res.getScaledWidth();
+            final int y = res.getScaledHeight();
+            final FontRenderer font = mc.fontRenderer;
 
-            int startX = (x - font.getStringWidth(currentText)) / 2;
-            int startY = y - 72;
+            final int startX = (x - font.getStringWidth(currentText)) / 2;
+            final int startY = y - 72;
 
-            int opacity = ticks > ((float) time * 0.25F) ? 255 : (int) (255F * ((float) ticks / ((float) time * 0.25F)));
-            if (opacity < 5) opacity = 0;
+            int opacity = ticks > time * 0.25F ? 255 : (int) (255F * (ticks / (time * 0.25F)));
+            if (opacity < 5) {
+                opacity = 0;
+            }
 
-            int rgb = Color.HSBtoRGB( ((float) (time - ticks) / (float) time), 1.0F, 1.0F);
+            final int rgb = Color.HSBtoRGB((float) (time - ticks) / (float) time, 1.0F, 1.0F);
 
-            if (opacity > 0)
-            {
+            if (opacity > 0) {
                 GL11.glPushMatrix();
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                font.drawStringWithShadow(currentText, startX, startY, (gay ? rgb : 0xFFFFFF) + (opacity << 24));
+                font.drawStringWithShadow(currentText, startX, startY, (isRainbow ? rgb : 0xFFFFFF) + (opacity << 24));
                 GL11.glDisable(GL11.GL_BLEND);
                 GL11.glPopMatrix();
             }

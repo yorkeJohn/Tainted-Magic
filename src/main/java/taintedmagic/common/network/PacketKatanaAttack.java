@@ -11,55 +11,53 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
-public class PacketKatanaAttack implements IMessage, IMessageHandler<PacketKatanaAttack, IMessage>
-{
+public class PacketKatanaAttack implements IMessage, IMessageHandler<PacketKatanaAttack, IMessage> {
+
     private int entityID;
     private int playerID;
     private int dimensionID;
     private float dmg;
 
-    public PacketKatanaAttack ()
-    {
+    public PacketKatanaAttack () {
     }
 
-    public PacketKatanaAttack (Entity entity, EntityPlayer player, float dmg)
-    {
-        this.entityID = entity.getEntityId();
-        this.playerID = player.getEntityId();
-        this.dimensionID = entity.dimension;
+    public PacketKatanaAttack (final Entity entity, final EntityPlayer player, final float dmg) {
+        entityID = entity.getEntityId();
+        playerID = player.getEntityId();
+        dimensionID = entity.dimension;
         this.dmg = dmg;
     }
 
     @Override
-    public IMessage onMessage (PacketKatanaAttack message, MessageContext ctx)
-    {
-        World world = DimensionManager.getWorld(message.dimensionID);
-        if (world == null) return null;
+    public IMessage onMessage (final PacketKatanaAttack message, final MessageContext ctx) {
+        final World world = DimensionManager.getWorld(message.dimensionID);
+        if (world == null)
+            return null;
 
-        Entity entity = world.getEntityByID(message.entityID);
-        Entity player = world.getEntityByID(message.playerID);
+        final Entity entity = world.getEntityByID(message.entityID);
+        final Entity player = world.getEntityByID(message.playerID);
 
-        if (entity != null && entity instanceof EntityLivingBase && player != null && player instanceof EntityPlayer) entity
-                .attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setDamageBypassesArmor(), message.dmg);
+        if (entity != null && entity instanceof EntityLivingBase && player != null && player instanceof EntityPlayer) {
+            entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setDamageBypassesArmor(),
+                    message.dmg);
+        }
 
         return null;
     }
 
     @Override
-    public void fromBytes (ByteBuf buf)
-    {
-        this.entityID = buf.readInt();
-        this.playerID = buf.readInt();
-        this.dimensionID = buf.readInt();
-        this.dmg = buf.readFloat();
+    public void fromBytes (final ByteBuf buf) {
+        entityID = buf.readInt();
+        playerID = buf.readInt();
+        dimensionID = buf.readInt();
+        dmg = buf.readFloat();
     }
 
     @Override
-    public void toBytes (ByteBuf buf)
-    {
-        buf.writeInt(this.entityID);
-        buf.writeInt(this.playerID);
-        buf.writeInt(this.dimensionID);
-        buf.writeFloat(this.dmg);
+    public void toBytes (final ByteBuf buf) {
+        buf.writeInt(entityID);
+        buf.writeInt(playerID);
+        buf.writeInt(dimensionID);
+        buf.writeFloat(dmg);
     }
 }

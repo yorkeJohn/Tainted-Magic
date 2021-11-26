@@ -20,10 +20,9 @@ import taintedmagic.common.registry.RecipeRegistry;
 import taintedmagic.common.registry.ResearchRegistry;
 import taintedmagic.common.registry.TMEntityRegistry;
 
-public class CommonProxy
-{
-    public void preInit (FMLPreInitializationEvent event)
-    {
+public class CommonProxy {
+
+    public void preInit (final FMLPreInitializationEvent event) {
         ConfigHandler.config = new Configuration(event.getSuggestedConfigurationFile());
         ConfigHandler.initConfig();
 
@@ -35,37 +34,33 @@ public class CommonProxy
         RecipeRegistry.initRecipes();
         OreDictRegistry.initOreDict();
 
-        if (ConfigHandler.NOTIFY_UPDATE) UpdateHandler.checkForUpdate();
+        if (ConfigHandler.NOTIFY_UPDATE) {
+            UpdateHandler.checkForUpdate();
+        }
     }
 
-    public void init (FMLInitializationEvent event)
-    {
+    public void init (final FMLInitializationEvent event) {
         registerHandlers();
         TMFocusUpgrades.initFocusUpgrades();
     }
 
-    public void postInit (FMLPostInitializationEvent event)
-    {
+    public void postInit (final FMLPostInitializationEvent event) {
         ResearchRegistry.initResearch();
     }
 
-    public void registerHandlers ()
-    {
+    public void registerHandlers () {
         MinecraftForge.EVENT_BUS.register(new TMEventHandler());
         FMLCommonHandler.instance().bus().register(new TMEventHandler());
     }
 
-    public void registerRenderers ()
-    {
+    public void registerRenderers () {
     }
 
-    public EntityPlayer getClientPlayer ()
-    {
+    public EntityPlayer getClientPlayer () {
         return null;
     }
 
-    public World getClientWorld ()
-    {
+    public World getClientWorld () {
         return null;
     }
 }

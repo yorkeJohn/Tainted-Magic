@@ -15,9 +15,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import taintedmagic.common.TaintedMagic;
 
-public class ItemMaterial extends Item
-{
-    int SUBTYPES = 12;
+public class ItemMaterial extends Item {
+
     /**
      * 0 Shadow Metal Ingot
      * 1 Shadow-imbued Cloth
@@ -32,21 +31,19 @@ public class ItemMaterial extends Item
      * 10 Primordial Mote
      * 11 Fragment of Creation
      */
+    private static final int SUBTYPES = 12;
+    private IIcon[] icons = new IIcon[SUBTYPES];
 
-    IIcon[] icons = new IIcon[SUBTYPES];
-
-    public ItemMaterial ()
-    {
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setUnlocalizedName("ItemMaterial");
-        this.setHasSubtypes(true);
+    public ItemMaterial () {
+        setCreativeTab(TaintedMagic.tabTM);
+        setUnlocalizedName("ItemMaterial");
+        setHasSubtypes(true);
     }
 
-    public EnumRarity getRarity (ItemStack stack)
-    {
-        int meta = stack.getItemDamage();
-        switch (meta)
-        {
+    @Override
+    public EnumRarity getRarity (final ItemStack stack) {
+        final int meta = stack.getItemDamage();
+        switch (meta) {
         case 0 :
             return EnumRarity.uncommon;
         case 1 :
@@ -75,37 +72,39 @@ public class ItemMaterial extends Item
         return EnumRarity.common;
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public void registerIcons (IIconRegister ir)
-    {
-        for (int i = 0; i < icons.length; i++)
-            this.icons[i] = ir.registerIcon("taintedmagic:ItemMaterial" + i);
-    }
-
-    @SideOnly (Side.CLIENT)
-    public IIcon getIconFromDamage (int meta)
-    {
-        return this.icons[meta];
+    public void registerIcons (final IIconRegister ir) {
+        for (int i = 0; i < icons.length; i++) {
+            icons[i] = ir.registerIcon("taintedmagic:ItemMaterial" + i);
+        }
     }
 
     @Override
-    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
-    {
+    @SideOnly (Side.CLIENT)
+    public IIcon getIconFromDamage (final int meta) {
+        return icons[meta];
+    }
+
+    @Override
+    public void addInformation (final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
         super.addInformation(stack, player, list, b);
 
-        if (stack.getItemDamage() == 5)
+        if (stack.getItemDamage() == 5) {
             list.add(EnumChatFormatting.LIGHT_PURPLE + StatCollector.translateToLocal("text.shard.1"));
+        }
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public void getSubItems (Item item, CreativeTabs tab, List list)
-    {
-        for (int i = 0; i < SUBTYPES; i++)
+    public void getSubItems (final Item item, final CreativeTabs tab, final List list) {
+        for (int i = 0; i < SUBTYPES; i++) {
             list.add(new ItemStack(this, 1, i));
+        }
     }
 
-    public String getUnlocalizedName (ItemStack stack)
-    {
+    @Override
+    public String getUnlocalizedName (final ItemStack stack) {
         return super.getUnlocalizedName() + "." + stack.getItemDamage();
     }
 }

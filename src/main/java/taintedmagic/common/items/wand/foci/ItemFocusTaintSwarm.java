@@ -23,100 +23,97 @@ import thaumcraft.common.entities.monster.EntityTaintSwarm;
 import thaumcraft.common.items.wands.ItemWandCasting;
 import thaumcraft.common.lib.utils.EntityUtils;
 
-public class ItemFocusTaintSwarm extends ItemFocusBasic
-{
-    IIcon depthIcon = null;
-    IIcon ornIcon = null;
+public class ItemFocusTaintSwarm extends ItemFocusBasic {
+
+    private IIcon depthIcon;
+    private IIcon ornIcon;
 
     private static final AspectList COST = new AspectList().add(Aspect.EARTH, 50).add(Aspect.WATER, 50);
     private static final AspectList COST_ANTIBODY = COST.copy().add(Aspect.ORDER, 10);
 
-    public ItemFocusTaintSwarm ()
-    {
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setUnlocalizedName("ItemFocusTaintSwarm");
+    public ItemFocusTaintSwarm () {
+        setCreativeTab(TaintedMagic.tabTM);
+        setUnlocalizedName("ItemFocusTaintSwarm");
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public void registerIcons (IIconRegister ir)
-    {
-        this.icon = ir.registerIcon("taintedmagic:ItemFocusTaintSwarm");
-        this.depthIcon = ir.registerIcon("taintedmagic:ItemFocusTaintSwarm_depth");
-        this.ornIcon = ir.registerIcon("thaumcraft:focus_whatever_orn");
+    public void registerIcons (final IIconRegister ir) {
+        icon = ir.registerIcon("taintedmagic:ItemFocusTaintSwarm");
+        depthIcon = ir.registerIcon("taintedmagic:ItemFocusTaintSwarm_depth");
+        ornIcon = ir.registerIcon("thaumcraft:focus_whatever_orn");
     }
 
-    public IIcon getFocusDepthLayerIcon (ItemStack stack)
-    {
-        return this.depthIcon;
+    @Override
+    public IIcon getFocusDepthLayerIcon (final ItemStack stack) {
+        return depthIcon;
     }
 
-    public IIcon getOrnament (ItemStack stack)
-    {
-        return this.ornIcon;
+    @Override
+    public IIcon getOrnament (final ItemStack stack) {
+        return ornIcon;
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public boolean requiresMultipleRenderPasses ()
-    {
+    public boolean requiresMultipleRenderPasses () {
         return true;
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public int getRenderPasses (int meta)
-    {
+    public int getRenderPasses (final int meta) {
         return 2;
     }
 
     @Override
     @SideOnly (Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass (int meta, int pass)
-    {
-        return (pass == 0) ? this.ornIcon : this.icon;
+    public IIcon getIconFromDamageForRenderPass (final int meta, final int pass) {
+        return pass == 0 ? ornIcon : icon;
     }
 
-    public String getSortingHelper (ItemStack stack)
-    {
+    @Override
+    public String getSortingHelper (final ItemStack stack) {
         return "TAINT" + super.getSortingHelper(stack);
     }
 
-    public int getFocusColor (ItemStack stack)
-    {
+    @Override
+    public int getFocusColor (final ItemStack stack) {
         return 0x9929BD;
     }
 
-    public AspectList getVisCost (ItemStack stack)
-    {
+    @Override
+    public AspectList getVisCost (final ItemStack stack) {
         return isUpgradedWith(stack, TMFocusUpgrades.antibody) ? COST_ANTIBODY : COST;
     }
 
-    public int getActivationCooldown (ItemStack stack)
-    {
+    @Override
+    public int getActivationCooldown (final ItemStack stack) {
         return 3000;
     }
 
-    public boolean isVisCostPerTick (ItemStack stack)
-    {
+    @Override
+    public boolean isVisCostPerTick (final ItemStack stack) {
         return false;
     }
 
-    public ItemFocusBasic.WandFocusAnimation getAnimation (ItemStack stack)
-    {
+    @Override
+    public ItemFocusBasic.WandFocusAnimation getAnimation (final ItemStack stack) {
         return ItemFocusBasic.WandFocusAnimation.WAVE;
     }
 
-    public ItemStack onFocusRightClick (ItemStack stack, World world, EntityPlayer player, MovingObjectPosition mop)
-    {
-        ItemWandCasting wand = (ItemWandCasting) stack.getItem();
+    @Override
+    public ItemStack onFocusRightClick (final ItemStack stack, final World world, final EntityPlayer player,
+            final MovingObjectPosition mop) {
+        final ItemWandCasting wand = (ItemWandCasting) stack.getItem();
 
-        Entity target = EntityUtils.getPointedEntity(world, player, 0.0D, 32.0D, 1.1F);
+        final Entity target = EntityUtils.getPointedEntity(world, player, 0.0D, 32.0D, 1.1F);
 
-        if (target != null && target instanceof EntityLivingBase)
-        {
-            if (wand.consumeAllVis(stack, player, getVisCost(stack), true, false))
-            {
-                EntityTaintSwarm swarm = new EntityTaintSwarm(world);
+        if (target != null && target instanceof EntityLivingBase) {
+            if (wand.consumeAllVis(stack, player, getVisCost(stack), true, false)) {
+                final EntityTaintSwarm swarm = new EntityTaintSwarm(world);
 
-                Vec3 look = player.getLookVec();
+                final Vec3 look = player.getLookVec();
                 swarm.setLocationAndAngles(player.posX + look.xCoord / 2.0D,
                         player.posY + player.getEyeHeight() + look.yCoord / 2.0D, player.posZ + look.zCoord / 2.0D,
                         player.rotationYaw, player.rotationPitch);
@@ -125,17 +122,13 @@ public class ItemFocusTaintSwarm extends ItemFocusBasic
                 swarm.setTarget(target);
                 swarm.setIsSummoned(true);
 
-                if (!world.isRemote) world.spawnEntityInWorld(swarm);
+                if (!world.isRemote) {
+                    world.spawnEntityInWorld(swarm);
+                }
 
-                if (!isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.antibody) && player.worldObj.rand.nextInt(3) == 0)
-                {
-                    try
-                    {
-                        player.addPotionEffect(new PotionEffect(Config.potionTaintPoisonID, 40, 2));
-                    }
-                    catch (Exception e)
-                    {
-                    }
+                if (!isUpgradedWith(wand.getFocusItem(stack), TMFocusUpgrades.antibody)
+                        && player.worldObj.rand.nextInt(3) == 0) {
+                    player.addPotionEffect(new PotionEffect(Config.potionTaintPoisonID, 40, 2));
                 }
             }
             player.swingItem();
@@ -143,10 +136,9 @@ public class ItemFocusTaintSwarm extends ItemFocusBasic
         return stack;
     }
 
-    public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack stack, int rank)
-    {
-        switch (rank)
-        {
+    @Override
+    public FocusUpgradeType[] getPossibleUpgradesByRank (final ItemStack stack, final int rank) {
+        switch (rank) {
         case 1 :
             return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
         case 2 :

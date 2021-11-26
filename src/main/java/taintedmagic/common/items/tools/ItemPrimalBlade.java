@@ -21,28 +21,27 @@ import taintedmagic.common.helper.TaintedMagicHelper;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
 
-public class ItemPrimalBlade extends ItemSword implements IWarpingGear, IRepairable
-{
-    public ItemPrimalBlade (ToolMaterial material)
-    {
+public class ItemPrimalBlade extends ItemSword implements IWarpingGear, IRepairable {
+
+    public ItemPrimalBlade (final ToolMaterial material) {
         super(material);
-        this.setTextureName("taintedmagic:ItemPrimalBlade");
-        this.setUnlocalizedName("ItemPrimalBlade");
-        this.setCreativeTab(TaintedMagic.tabTM);
+        setTextureName("taintedmagic:ItemPrimalBlade");
+        setUnlocalizedName("ItemPrimalBlade");
+        setCreativeTab(TaintedMagic.tabTM);
     }
 
-    public EnumAction getItemUseAction (ItemStack stack)
-    {
+    @Override
+    public EnumAction getItemUseAction (final ItemStack stack) {
         return EnumAction.block;
     }
 
-    public EnumRarity getRarity (ItemStack stack)
-    {
+    @Override
+    public EnumRarity getRarity (final ItemStack stack) {
         return TaintedMagic.rarityCreation;
     }
 
-    public boolean hitEntity (ItemStack stack, EntityLivingBase entity, EntityLivingBase player)
-    {
+    @Override
+    public boolean hitEntity (final ItemStack stack, final EntityLivingBase entity, final EntityLivingBase player) {
         super.hitEntity(stack, entity, player);
 
         entity.addPotionEffect(new PotionEffect(Potion.wither.id, 60, 1));
@@ -54,66 +53,63 @@ public class ItemPrimalBlade extends ItemSword implements IWarpingGear, IRepaira
     }
 
     @Override
-    public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
-    {
-        player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
+    public ItemStack onItemRightClick (final ItemStack stack, final World world, final EntityPlayer player) {
+        player.setItemInUse(stack, getMaxItemUseDuration(stack));
         return stack;
     }
 
     @Override
-    public void onUsingTick (ItemStack stack, EntityPlayer player, int i)
-    {
-        // Based off of hungry node
+    public void onUsingTick (final ItemStack stack, final EntityPlayer player, final int i) {
 
-        List<Entity> ents = player.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB
+        final List<Entity> ents = player.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB
                 .getBoundingBox(player.posX, player.posY, player.posZ, player.posX + 1, player.posY + 1, player.posZ + 1)
                 .expand(15.0D, 15.0D, 15.0D));
 
-        if (player.ticksExisted % 10 == 0) player.worldObj.playSoundAtEntity(player, "thaumcraft:brain", 0.05F, 0.5F);
+        if (player.ticksExisted % 10 == 0) {
+            player.worldObj.playSoundAtEntity(player, "thaumcraft:brain", 0.05F, 0.5F);
+        }
 
-        if (ents != null && ents.size() > 0) for (Entity entity : ents)
-        {
-            if (entity != player)
-            {
-                if (entity.isEntityAlive() && !entity.isEntityInvulnerable())
-                {
-                    double dist = TaintedMagicHelper.getDistanceTo(player, entity.posX, entity.posY, entity.posZ);
-                    if (dist < 2.0D) entity.attackEntityFrom(DamageSource.magic, 3.0F);
-                }
+        if (ents != null && ents.size() > 0) {
+            for (final Entity entity : ents) {
+                if (entity != player) {
+                    if (entity.isEntityAlive() && !entity.isEntityInvulnerable()) {
+                        final double dist = TaintedMagicHelper.getDistanceTo(player, entity.posX, entity.posY, entity.posZ);
+                        if (dist < 2.0D) {
+                            entity.attackEntityFrom(DamageSource.magic, 3.0F);
+                        }
+                    }
 
-                double x = (player.posX + 0.5D - entity.posX) / 20.0D;
-                double y = (player.posY + 0.5D - entity.posY) / 20.0D;
-                double z = (player.posZ + 0.5D - entity.posZ) / 20.0D;
-                double vec = Math.sqrt(x * x + y * y + z * z);
-                double vec2 = 1.0D - vec;
+                    final double x = (player.posX + 0.5D - entity.posX) / 20.0D;
+                    final double y = (player.posY + 0.5D - entity.posY) / 20.0D;
+                    final double z = (player.posZ + 0.5D - entity.posZ) / 20.0D;
+                    final double vec = Math.sqrt(x * x + y * y + z * z);
+                    double vec2 = 1.0D - vec;
 
-                if (vec2 > 0.0D)
-                {
-                    vec2 *= vec2;
-                    entity.motionX += x / vec * vec2 * 0.20D;
-                    entity.motionY += y / vec * vec2 * 0.30D;
-                    entity.motionZ += z / vec * vec2 * 0.20D;
+                    if (vec2 > 0.0D) {
+                        vec2 *= vec2;
+                        entity.motionX += x / vec * vec2 * 0.20D;
+                        entity.motionY += y / vec * vec2 * 0.30D;
+                        entity.motionZ += z / vec * vec2 * 0.20D;
+                    }
                 }
             }
         }
     }
 
     @Override
-    public void onUpdate (ItemStack stack, World world, Entity entity, int i, boolean b)
-    {
-        if (!world.isRemote && stack.isItemDamaged() && entity.ticksExisted % 20 == 0)
+    public void onUpdate (final ItemStack stack, final World world, final Entity entity, final int i, final boolean b) {
+        if (!world.isRemote && stack.isItemDamaged() && entity.ticksExisted % 20 == 0) {
             stack.damageItem(-1, (EntityLivingBase) entity);
+        }
     }
 
     @Override
-    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
-    {
+    public void addInformation (final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
         list.add(EnumChatFormatting.GOLD + StatCollector.translateToLocal("text.sapprimal"));
     }
 
     @Override
-    public int getWarp (ItemStack stack, EntityPlayer player)
-    {
+    public int getWarp (final ItemStack stack, final EntityPlayer player) {
         return 5;
     }
 }

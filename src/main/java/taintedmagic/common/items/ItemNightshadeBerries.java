@@ -10,27 +10,27 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import taintedmagic.common.TaintedMagic;
 
-public class ItemNightshadeBerries extends ItemFood
-{
-    public ItemNightshadeBerries (int healAmount, float saturation, boolean b)
-    {
+public class ItemNightshadeBerries extends ItemFood {
+
+    public ItemNightshadeBerries (final int healAmount, final float saturation, final boolean b) {
         super(healAmount, saturation, b);
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setUnlocalizedName("ItemNightshadeBerries");
-        this.setTextureName("taintedmagic:ItemNightshadeBerries");
-        this.setAlwaysEdible();
+        setCreativeTab(TaintedMagic.tabTM);
+        setUnlocalizedName("ItemNightshadeBerries");
+        setTextureName("taintedmagic:ItemNightshadeBerries");
+        setAlwaysEdible();
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (ItemStack stack)
-    {
+    public EnumRarity getRarity (final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 
     @Override
-    protected void onFoodEaten (ItemStack stack, World world, EntityPlayer player)
-    {
+    protected void onFoodEaten (final ItemStack stack, final World world, final EntityPlayer player) {
         super.onFoodEaten(stack, world, player);
-        if (!world.isRemote) player.attackEntityFrom(new DamageSource("nightshade"), Short.MAX_VALUE);
+        if (!world.isRemote) {
+            player.attackEntityFrom(new DamageSource("nightshade"), Short.MAX_VALUE);
+        }
     }
 }

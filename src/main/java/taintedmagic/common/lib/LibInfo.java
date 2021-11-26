@@ -1,7 +1,7 @@
 package taintedmagic.common.lib;
 
-public class LibInfo
-{
+public class LibInfo {
+
     public static final String MODID = "TaintedMagic";
     public static final String NAME = "Tainted Magic";
     public static final String VERSION = "r7.82";

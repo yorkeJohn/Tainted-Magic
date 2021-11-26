@@ -8,19 +8,18 @@ import net.minecraft.item.ItemStack;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.common.config.ConfigItems;
 
-public class ItemCrimsonBlood extends Item
-{
-    public ItemCrimsonBlood ()
-    {
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setTextureName("taintedmagic:ItemCrimsonBlood");
-        this.setUnlocalizedName("ItemCrimsonBlood");
-        this.setContainerItem(ConfigItems.itemEssence);
+public class ItemCrimsonBlood extends Item {
+
+    public ItemCrimsonBlood () {
+        setCreativeTab(TaintedMagic.tabTM);
+        setTextureName("taintedmagic:ItemCrimsonBlood");
+        setUnlocalizedName("ItemCrimsonBlood");
+        setContainerItem(ConfigItems.itemEssence);
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (ItemStack stack)
-    {
+    public EnumRarity getRarity (final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 }

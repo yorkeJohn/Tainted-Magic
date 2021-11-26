@@ -1,5 +1,7 @@
 package taintedmagic.common.handler;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -7,51 +9,40 @@ import net.minecraft.util.EnumChatFormatting;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.lib.LibInfo;
 
-public class UpdateHandler
-{
+public class UpdateHandler {
     private static String currentVersion = LibInfo.VERSION;
     private static String newestVersion;
     public static String updateStatus = null;
-    public static boolean show = false;
 
-    public static void checkForUpdate ()
-    {
+    public static void checkForUpdate () {
         getNewestVersion();
 
-        if (newestVersion != null)
-        {
-            if (newestVersion.equalsIgnoreCase(currentVersion))
-            {
-                show = false;
+        if (newestVersion != null) {
+            if (newestVersion.equalsIgnoreCase(currentVersion)) {
             }
-            else if (!newestVersion.equalsIgnoreCase(currentVersion))
-            {
-                show = true;
-                updateStatus = (EnumChatFormatting.RED + "Tainted Magic is out of date! The latest version is "
-                        + EnumChatFormatting.GREEN + newestVersion);
-                TaintedMagic.logger.warn("Mod out of date! You're still running " + currentVersion + " ... the latest version is "
-                        + newestVersion);
+            else if (!newestVersion.equalsIgnoreCase(currentVersion)) {
+                updateStatus = EnumChatFormatting.RED + "Tainted Magic is out of date! The latest version is "
+                        + EnumChatFormatting.GREEN + newestVersion;
+                TaintedMagic.logger.warn("Mod out of date! You're still running {} ... the latest version is {}",
+                        currentVersion, newestVersion);
             }
         }
-        else
-        {
-            show = true;
-            updateStatus = (EnumChatFormatting.RED + "Tainted Magic failed to connect to the update server!");
+        else {
+            updateStatus = EnumChatFormatting.RED + "Tainted Magic failed to connect to the update server!";
         }
     }
 
-    private static void getNewestVersion ()
-    {
-        try
-        {
-            URL url = new URL("https://raw.githubusercontent.com/yorkeJohn/Tainted-Magic/master/version.txt");
-            Scanner scan = new Scanner(url.openStream());
+    private static void getNewestVersion () {
+        try {
+            final URL url = new URL("https://raw.githubusercontent.com/yorkeJohn/Tainted-Magic/master/version.txt");
+            final Scanner scan = new Scanner(url.openStream());
             newestVersion = scan.next();
             scan.close();
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+        catch (final MalformedURLException e) {
+            throw new IllegalStateException(e);
+        }
+        catch (IOException e) {
             TaintedMagic.logger.error("Could not connect to GitHub repository!");
         }
     }

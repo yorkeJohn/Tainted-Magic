@@ -4,8 +4,7 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 
-public class LibMaterials
-{
+public class LibMaterials {
     // Tool materials
     public static ToolMaterial toolMatHollow = EnumHelper.addToolMaterial("HOLLOW", 1, 200, 4.0F, -0.5F, 5);
     public static ToolMaterial toolMatShadow = EnumHelper.addToolMaterial("SHADOW", 3, 2500, 17.0F, 6.0F, 30);

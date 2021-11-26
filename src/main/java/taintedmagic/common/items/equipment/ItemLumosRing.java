@@ -10,53 +10,46 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import taintedmagic.common.TaintedMagic;
 
-public class ItemLumosRing extends Item implements IBauble
-{
-    public ItemLumosRing ()
-    {
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setTextureName("taintedmagic:ItemLumosRing");
-        this.setMaxDamage(-1);
-        this.setMaxStackSize(1);
-        this.setUnlocalizedName("ItemLumosRing");
+public class ItemLumosRing extends Item implements IBauble {
+
+    public ItemLumosRing () {
+        setCreativeTab(TaintedMagic.tabTM);
+        setTextureName("taintedmagic:ItemLumosRing");
+        setMaxDamage(-1);
+        setMaxStackSize(1);
+        setUnlocalizedName("ItemLumosRing");
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (ItemStack stack)
-    {
+    public EnumRarity getRarity (final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 
     @Override
-    public boolean canEquip (ItemStack stack, EntityLivingBase entity)
-    {
+    public boolean canEquip (final ItemStack stack, final EntityLivingBase entity) {
         return true;
     }
 
     @Override
-    public boolean canUnequip (ItemStack stack, EntityLivingBase entity)
-    {
+    public boolean canUnequip (final ItemStack stack, final EntityLivingBase entity) {
         return true;
     }
 
     @Override
-    public BaubleType getBaubleType (ItemStack stack)
-    {
+    public BaubleType getBaubleType (final ItemStack stack) {
         return BaubleType.RING;
     }
 
     @Override
-    public void onEquipped (ItemStack stack, EntityLivingBase entity)
-    {
+    public void onEquipped (final ItemStack stack, final EntityLivingBase entity) {
     }
 
     @Override
-    public void onUnequipped (ItemStack stack, EntityLivingBase entity)
-    {
+    public void onUnequipped (final ItemStack stack, final EntityLivingBase entity) {
     }
 
     @Override
-    public void onWornTick (ItemStack stack, EntityLivingBase entity)
-    {
+    public void onWornTick (final ItemStack stack, final EntityLivingBase entity) {
     }
 }

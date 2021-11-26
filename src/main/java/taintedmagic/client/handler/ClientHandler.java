@@ -15,29 +15,28 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import taintedmagic.api.IRenderInventoryItem;
 
 @SideOnly (Side.CLIENT)
-public class ClientHandler
-{
+public class ClientHandler {
+
     @SubscribeEvent
-    public void tickEnd (TickEvent event)
-    {
-        if (event.phase == TickEvent.Phase.END) HUDHandler.updateTicks();
+    public void tickEnd (final TickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            HUDHandler.updateTicks();
+        }
     }
 
     /*
      * Render items implementing IRenderInventoryItem
      */
     @SubscribeEvent
-    public void onPlayerRender (RenderPlayerEvent.Specials.Post event)
-    {
-        EntityPlayer player = event.entityPlayer;
-        if (player.getActivePotionEffect(Potion.invisibility) != null) return;
+    public void onPlayerRender (final RenderPlayerEvent.Specials.Post event) {
+        final EntityPlayer player = event.entityPlayer;
+        if (player.getActivePotionEffect(Potion.invisibility) != null)
+            return;
 
-        ItemStack[] inv = player.inventory.mainInventory;
-        List<Item> rendering = new ArrayList<Item>();
-        for (ItemStack stack : inv)
-        {
-            if (stack != null && stack.getItem() instanceof IRenderInventoryItem && !rendering.contains(stack.getItem()))
-            {
+        final ItemStack[] inv = player.inventory.mainInventory;
+        final List<Item> rendering = new ArrayList<>();
+        for (final ItemStack stack : inv) {
+            if (stack != null && stack.getItem() instanceof IRenderInventoryItem && !rendering.contains(stack.getItem())) {
                 ((IRenderInventoryItem) stack.getItem()).render(player, stack, event.partialRenderTick);
                 rendering.add(stack.getItem());
             }

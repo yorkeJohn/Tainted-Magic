@@ -32,65 +32,53 @@ import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.items.armor.Hover;
 
 public class ItemVoidwalkerBoots extends ItemArmor
-        implements IVisDiscountGear, IWarpingGear, IRunicArmor, IRepairable, ISpecialArmor
-{
-    public ItemVoidwalkerBoots (ArmorMaterial material, int j, int k)
-    {
+        implements IVisDiscountGear, IWarpingGear, IRunicArmor, IRepairable, ISpecialArmor {
+
+    public ItemVoidwalkerBoots (final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setUnlocalizedName("ItemVoidwalkerBoots");
-        this.setTextureName("taintedmagic:ItemVoidwalkerBoots");
+        setCreativeTab(TaintedMagic.tabTM);
+        setUnlocalizedName("ItemVoidwalkerBoots");
+        setTextureName("taintedmagic:ItemVoidwalkerBoots");
 
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public String getArmorTexture (ItemStack stack, Entity entity, int slot, String type)
-    {
+    @Override
+    public String getArmorTexture (final ItemStack stack, final Entity entity, final int slot, final String type) {
         return "taintedmagic:textures/models/ModelVoidwalkerBoots.png";
     }
 
-    public EnumRarity getRarity (ItemStack stack)
-    {
+    @Override
+    public EnumRarity getRarity (final ItemStack stack) {
         return EnumRarity.epic;
     }
 
     @Override
-    public int getRunicCharge (ItemStack stack)
-    {
+    public int getRunicCharge (final ItemStack stack) {
         return 0;
     }
 
     @Override
-    public int getWarp (ItemStack stack, EntityPlayer player)
-    {
+    public int getWarp (final ItemStack stack, final EntityPlayer player) {
         return 5;
     }
 
     @Override
-    public int getVisDiscount (ItemStack stack, EntityPlayer player, Aspect aspect)
-    {
+    public int getVisDiscount (final ItemStack stack, final EntityPlayer player, final Aspect aspect) {
         return 5;
     }
 
     @Override
-    public ISpecialArmor.ArmorProperties getProperties (EntityLivingBase entity, ItemStack stack, DamageSource source,
-            double dmg, int slot)
-    {
+    public ISpecialArmor.ArmorProperties getProperties (final EntityLivingBase entity, final ItemStack stack,
+            final DamageSource source, final double dmg, final int slot) {
         int priority = 0;
-        double ratio = this.damageReduceAmount / 90.0D;
+        double ratio = damageReduceAmount / 90.0D;
 
-        if (source.isMagicDamage())
-        {
+        if (source.isMagicDamage() || (source.isFireDamage() || source.isExplosion())) {
             priority = 1;
-            ratio = this.damageReduceAmount / 80.0D;
+            ratio = damageReduceAmount / 80.0D;
         }
-        else if (source.isFireDamage() || source.isExplosion())
-        {
-            priority = 1;
-            ratio = this.damageReduceAmount / 80.0D;
-        }
-        else if (source.isUnblockable())
-        {
+        else if (source.isUnblockable()) {
             priority = 0;
             ratio = 0.0D;
         }
@@ -98,89 +86,97 @@ public class ItemVoidwalkerBoots extends ItemArmor
     }
 
     @Override
-    public int getArmorDisplay (EntityPlayer player, ItemStack stack, int slot)
-    {
-        return this.damageReduceAmount;
+    public int getArmorDisplay (final EntityPlayer player, final ItemStack stack, final int slot) {
+        return damageReduceAmount;
     }
 
     @Override
-    public void damageArmor (EntityLivingBase entity, ItemStack stack, DamageSource source, int dmg, int slot)
-    {
-        if (source != DamageSource.fall) stack.damageItem(dmg, entity);
+    public void damageArmor (final EntityLivingBase entity, final ItemStack stack, final DamageSource source, final int dmg,
+            final int slot) {
+        if (source != DamageSource.fall) {
+            stack.damageItem(dmg, entity);
+        }
     }
 
     @Override
-    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
-    {
+    public void addInformation (final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
         list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": "
                 + getVisDiscount(stack, player, null) + "%");
     }
 
-    public void onUpdate (ItemStack stack, World world, Entity entity, int j, boolean k)
-    {
+    @Override
+    public void onUpdate (final ItemStack stack, final World world, final Entity entity, final int j, final boolean k) {
         super.onUpdate(stack, world, entity, j, k);
-        if (!world.isRemote && stack.isItemDamaged() && entity.ticksExisted % 20 == 0 && entity instanceof EntityLivingBase)
+        if (!world.isRemote && stack.isItemDamaged() && entity.ticksExisted % 20 == 0 && entity instanceof EntityLivingBase) {
             stack.damageItem(-1, (EntityLivingBase) entity);
+        }
     }
 
-    public void onArmorTick (World world, EntityPlayer player, ItemStack stack)
-    {
+    @Override
+    public void onArmorTick (final World world, final EntityPlayer player, final ItemStack stack) {
         super.onArmorTick(world, player, stack);
         // repair
-        if (!world.isRemote && stack.isItemDamaged() && player.ticksExisted % 20 == 0) stack.damageItem(-1, player);
+        if (!world.isRemote && stack.isItemDamaged() && player.ticksExisted % 20 == 0) {
+            stack.damageItem(-1, player);
+        }
 
         // particles
-        double motion = Math.abs(player.motionX) + Math.abs(player.motionZ) + Math.abs(0.5 * player.motionY);
-        if (world.isRemote && (motion > 0.1D || !player.onGround) && world.rand.nextInt(3) == 0) particles(world, player);
+        final double motion = Math.abs(player.motionX) + Math.abs(player.motionZ) + Math.abs(0.5 * player.motionY);
+        if (world.isRemote && (motion > 0.1D || !player.onGround) && world.rand.nextInt(3) == 0) {
+            particles(world, player);
+        }
 
-        if (player.moveForward > 0.0F)
-        {
+        if (player.moveForward > 0.0F) {
             // increased step height
-            if (player.worldObj.isRemote && !player.isSneaking())
-            {
-                if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(player.getEntityId()))
-                {
+            if (player.worldObj.isRemote && !player.isSneaking()) {
+                if (!Thaumcraft.instance.entityEventHandler.prevStep.containsKey(player.getEntityId())) {
                     Thaumcraft.instance.entityEventHandler.prevStep.put(player.getEntityId(), player.stepHeight);
                 }
                 player.stepHeight = 1.0F;
             }
 
             // speed boost
-            if (player.onGround || player.capabilities.isFlying)
-            {
+            if (player.onGround || player.capabilities.isFlying) {
                 float bonus = 0.12F;
-                ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
-                if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash && ItemVoidwalkerSash.isSpeedEnabled(sash))
+                final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
+                if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash && ItemVoidwalkerSash.isSpeedEnabled(sash)) {
                     bonus *= 2.0F;
+                }
 
-                player.moveFlying(0.0F, 1.0F, player.capabilities.isFlying ? (bonus * 0.75F) : bonus);
+                player.moveFlying(0.0F, 1.0F, player.capabilities.isFlying ? bonus * 0.75F : bonus);
             }
-            else if (Hover.getHover(player.getEntityId())) player.jumpMovementFactor = 0.03F;
-            else player.jumpMovementFactor = player.isSprinting() ? 0.045F : 0.04F;
+            else if (Hover.getHover(player.getEntityId())) {
+                player.jumpMovementFactor = 0.03F;
+            }
+            else {
+                player.jumpMovementFactor = player.isSprinting() ? 0.045F : 0.04F;
+            }
         }
         // negate fall damage
-        if (player.fallDistance > 3.0F) player.fallDistance = 1.0F;
+        if (player.fallDistance > 3.0F) {
+            player.fallDistance = 1.0F;
+        }
     }
 
     @SubscribeEvent
-    public void playerJumps (LivingEvent.LivingJumpEvent event)
-    {
-        if (event.entity instanceof EntityPlayer)
-        {
-            EntityPlayer player = (EntityPlayer) event.entity;
-            ItemStack boots = player.inventory.armorItemInSlot(0);
-            ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
+    public void playerJumps (final LivingEvent.LivingJumpEvent event) {
+        if (event.entity instanceof EntityPlayer) {
+            final EntityPlayer player = (EntityPlayer) event.entity;
+            final ItemStack boots = player.inventory.armorItemInSlot(0);
+            final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
 
-            if (boots != null && boots.getItem() == ItemRegistry.ItemVoidwalkerBoots) player.motionY *= 1.25D;
-            if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash && ItemVoidwalkerSash.isSpeedEnabled(sash))
+            if (boots != null && boots.getItem() == ItemRegistry.ItemVoidwalkerBoots) {
+                player.motionY *= 1.25D;
+            }
+            if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash && ItemVoidwalkerSash.isSpeedEnabled(sash)) {
                 player.motionY *= 1.05D;
+            }
         }
     }
 
     @SideOnly (Side.CLIENT)
-    private void particles (World world, EntityPlayer player)
-    {
-        FXWispEG fx = new FXWispEG(world, player.posX + (Math.random() - Math.random()) * 0.5D,
+    private void particles (final World world, final EntityPlayer player) {
+        final FXWispEG fx = new FXWispEG(world, player.posX + (Math.random() - Math.random()) * 0.5D,
                 player.boundingBox.minY + 0.05D + (Math.random() - Math.random()) * 0.1D,
                 player.posZ + (Math.random() - Math.random()) * 0.5D, player);
         ParticleEngine.instance.addEffect(world, fx);

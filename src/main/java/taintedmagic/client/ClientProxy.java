@@ -23,41 +23,36 @@ import taintedmagic.common.entities.EntityHomingShard;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.client.renderers.entity.RenderEldritchOrb;
 
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
+
     @Override
-    public void preInit (FMLPreInitializationEvent event)
-    {
+    public void preInit (final FMLPreInitializationEvent event) {
         super.preInit(event);
     }
 
     @Override
-    public void init (FMLInitializationEvent event)
-    {
+    public void init (final FMLInitializationEvent event) {
         super.init(event);
         registerRenderers();
     }
 
     @Override
-    public void postInit (FMLPostInitializationEvent event)
-    {
+    public void postInit (final FMLPostInitializationEvent event) {
         super.postInit(event);
     }
 
     @Override
-    public void registerHandlers ()
-    {
+    public void registerHandlers () {
         super.registerHandlers();
 
         MinecraftForge.EVENT_BUS.register(new HUDHandler());
-        
+
         FMLCommonHandler.instance().bus().register(new ClientHandler());
         MinecraftForge.EVENT_BUS.register(new ClientHandler());
     }
 
     @Override
-    public void registerRenderers ()
-    {
+    public void registerRenderers () {
         // Entities
         RenderingRegistry.registerEntityRenderingHandler(EntityDarkMatter.class, new RenderEldritchOrb());
         RenderingRegistry.registerEntityRenderingHandler(EntityHomingShard.class, new RenderEntityHomingShard());
@@ -68,14 +63,12 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public EntityPlayer getClientPlayer ()
-    {
+    public EntityPlayer getClientPlayer () {
         return Minecraft.getMinecraft().thePlayer;
     }
 
     @Override
-    public World getClientWorld ()
-    {
+    public World getClientWorld () {
         return FMLClientHandler.instance().getClient().theWorld;
     }
 }

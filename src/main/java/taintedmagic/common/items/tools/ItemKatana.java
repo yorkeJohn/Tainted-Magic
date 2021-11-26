@@ -47,149 +47,139 @@ import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.codechicken.lib.vec.Vector3;
 import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.config.Config;
 import thaumcraft.common.entities.projectile.EntityExplosiveOrb;
 
-public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRenderInventoryItem, IHeldItemHUD
-{
-    private final int SUBTYPES = 3;
+public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRenderInventoryItem, IHeldItemHUD {
+
+    private static final int SUBTYPES = 3;
 
     // NBT tags
     public static final String TAG_INSCRIPTION = "inscription";
     public static final String TAG_COOLDOWN = "cooldown";
 
     // ticks to fully charge (1 second)
-    public static final int CHARGE_TICKS = 20;
+    private static final int CHARGE_TICKS = 20;
     // inscription attack cooldown (7 seconds)
-    public static final int COOLDOWN_TICKS = 140;
+    private static final int COOLDOWN_TICKS = 140;
 
-    public static final ResourceLocation TEXTURE_THAUMIUM =
+    private static final ResourceLocation TEXTURE_THAUMIUM =
             new ResourceLocation("taintedmagic:textures/models/ModelKatanaThaumium.png");
-    public static final ResourceLocation TEXTURE_VOIDMETAL =
+    private static final ResourceLocation TEXTURE_VOIDMETAL =
             new ResourceLocation("taintedmagic:textures/models/ModelKatanaVoidmetal.png");
-    public static final ResourceLocation TEXTURE_SHADOWMETAL =
+    private static final ResourceLocation TEXTURE_SHADOWMETAL =
             new ResourceLocation("taintedmagic:textures/models/ModelKatanaShadowmetal.png");
 
     public static final ModelKatana KATANA = new ModelKatana();
     public static final ModelSaya SAYA = new ModelSaya();
 
-    int ticksInUse = 0;
+    private int ticksInUse = 0;
 
-    public ItemKatana ()
-    {
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setUnlocalizedName("ItemKatana");
-        this.setHasSubtypes(true);
-        this.setMaxStackSize(1);
+    public ItemKatana () {
+        setCreativeTab(TaintedMagic.tabTM);
+        setUnlocalizedName("ItemKatana");
+        setHasSubtypes(true);
+        setMaxStackSize(1);
     }
 
     @Override
-    public boolean isFull3D ()
-    {
+    public boolean isFull3D () {
         return true;
     }
 
     @Override
-    public boolean canHarvestBlock (Block block, ItemStack stack)
-    {
+    public boolean canHarvestBlock (final Block block, final ItemStack stack) {
         return false;
     }
 
     @Override
-    public EnumAction getItemUseAction (ItemStack stack)
-    {
+    public EnumAction getItemUseAction (final ItemStack stack) {
         return EnumAction.bow;
     }
 
     @SideOnly (Side.CLIENT)
     @Override
-    public void getSubItems (Item item, CreativeTabs tab, List list)
-    {
-        for (int a = 0; a < SUBTYPES; a++)
+    public void getSubItems (final Item item, final CreativeTabs tab, final List list) {
+        for (int a = 0; a < SUBTYPES; a++) {
             list.add(new ItemStack(this, 1, a));
+        }
     }
 
     @Override
-    public String getUnlocalizedName (ItemStack stack)
-    {
+    public String getUnlocalizedName (final ItemStack stack) {
         return super.getUnlocalizedName() + "." + stack.getItemDamage();
     }
 
     @Override
-    public void addInformation (ItemStack stack, EntityPlayer player, List list, boolean b)
-    {
-        if (stack.getItemDamage() == 1)
+    public void addInformation (final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
+        if (stack.getItemDamage() == 1) {
             list.add(EnumChatFormatting.GOLD + StatCollector.translateToLocal("enchantment.special.sapless"));
+        }
 
-        if (stack.getItemDamage() == 2)
+        if (stack.getItemDamage() == 2) {
             list.add(EnumChatFormatting.GOLD + StatCollector.translateToLocal("enchantment.special.sapgreat"));
+        }
 
         list.add(" ");
         list.add("\u00A79+" + getAttackDamage(stack) + " " + StatCollector.translateToLocal("text.attackdamage"));
 
-        if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(TAG_INSCRIPTION))
+        if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(TAG_INSCRIPTION)) {
             list.add(EnumChatFormatting.GOLD + StatCollector
                     .translateToLocal("text.katana.inscription." + stack.stackTagCompound.getInteger(TAG_INSCRIPTION)));
+        }
     }
 
     @Override
-    public EnumRarity getRarity (ItemStack stack)
-    {
+    public EnumRarity getRarity (final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 
     @Override
-    public int getWarp (ItemStack stack, EntityPlayer player)
-    {
+    public int getWarp (final ItemStack stack, final EntityPlayer player) {
         return stack.getItemDamage() == 0 ? 0 : stack.getItemDamage() == 1 ? 3 : 7;
     }
 
     @Override
-    public boolean hitEntity (ItemStack stack, EntityLivingBase entity, EntityLivingBase player)
-    {
+    public boolean hitEntity (final ItemStack stack, final EntityLivingBase entity, final EntityLivingBase player) {
         if (!entity.worldObj.isRemote && (! (entity instanceof EntityPlayer) || ! (player instanceof EntityPlayer)
-                || MinecraftServer.getServer().isPVPEnabled()))
-        {
+                || MinecraftServer.getServer().isPVPEnabled())) {
             // Sapping effects
-            if (stack.getItemDamage() == 1)
-            {
+            if (stack.getItemDamage() == 1) {
                 entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 60)); // lesser sapping
 
             }
-            if (stack.getItemDamage() == 2)
-            {
+            if (stack.getItemDamage() == 2) {
                 entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 60)); // greater sapping
                 entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 120));
             }
 
             // Inscription effects
-            if (hasAnyInscription(stack)) switch (getInscription(stack))
-            {
-            case 0 :
-            {
-                entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setFireDamage(),
-                        getAttackDamage(stack));
-                entity.setFire(3);
-                break;
+            if (hasAnyInscription(stack)) {
+                switch (getInscription(stack)) {
+                case 0 : {
+                    entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setFireDamage(),
+                            getAttackDamage(stack));
+                    entity.setFire(3);
+                    break;
+                }
+                case 1 : {
+                    entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setMagicDamage(),
+                            getAttackDamage(stack));
+                    entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 140));
+                    break;
+                }
+                case 2 : {
+                    entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setMagicDamage(),
+                            getAttackDamage(stack));
+                    entity.addPotionEffect(new PotionEffect(Potion.wither.id, 60));
+                    break;
+                }
+                default :
+                    break;
+                }
             }
-            case 1 :
-            {
-                entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setMagicDamage(),
-                        getAttackDamage(stack));
-                entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 140));
-                break;
+            else {
+                entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player), getAttackDamage(stack));
             }
-            case 2 :
-            {
-                entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setMagicDamage(),
-                        getAttackDamage(stack));
-                entity.addPotionEffect(new PotionEffect(Potion.wither.id, 60));
-                break;
-            }
-            default :
-                break;
-            }
-            else entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player), getAttackDamage(stack));
         }
         // Sound effect
         player.worldObj.playSoundAtEntity(player, "thaumcraft:swing", 0.5F + (float) Math.random(),
@@ -199,66 +189,67 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
     }
 
     @Override
-    public int getMaxItemUseDuration (ItemStack stack)
-    {
+    public int getMaxItemUseDuration (final ItemStack stack) {
         return 72000;
     }
 
     @Override
-    public ItemStack onItemRightClick (ItemStack stack, World world, EntityPlayer player)
-    {
-        if (!hasCooldown(stack)) player.setItemInUse(stack, getMaxItemUseDuration(stack));
+    public ItemStack onItemRightClick (final ItemStack stack, final World world, final EntityPlayer player) {
+        if (!hasCooldown(stack)) {
+            player.setItemInUse(stack, getMaxItemUseDuration(stack));
+        }
         return stack;
     }
 
     @Override
-    public void onUsingTick (ItemStack stack, EntityPlayer player, int i)
-    {
+    public void onUsingTick (final ItemStack stack, final EntityPlayer player, final int i) {
         super.onUsingTick(stack, player, i);
 
-        this.ticksInUse = getMaxItemUseDuration(stack) - i;
+        ticksInUse = getMaxItemUseDuration(stack) - i;
 
-        float j = 0.75F + ((float) Math.random() * 0.25F);
-        if (player.ticksExisted % 5 == 0) player.worldObj.playSoundAtEntity(player, "thaumcraft:wind", j * 0.1F, j);
+        final float j = 0.75F + (float) Math.random() * 0.25F;
+        if (player.ticksExisted % 5 == 0) {
+            player.worldObj.playSoundAtEntity(player, "thaumcraft:wind", j * 0.1F, j);
+        }
     }
 
     @Override
-    public void onPlayerStoppedUsing (ItemStack stack, World world, EntityPlayer player, int i)
-    {
+    public void onPlayerStoppedUsing (final ItemStack stack, final World world, final EntityPlayer player, final int i) {
         super.onPlayerStoppedUsing(stack, world, player, i);
 
-        if (isFullyCharged(player))
-        {
-            if (!hasAnyInscription(stack) || player.isSneaking())
-            {
-                if (world.isRemote)
-                {
-                    MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
+        if (isFullyCharged(player)) {
+            if (!hasAnyInscription(stack) || player.isSneaking()) {
+                if (world.isRemote) {
+                    final MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
 
                     // charged strike damage multiplier
                     float mul = 1.5F;
-                    if (world.rand.nextInt(10) == 0) mul += 1.0F; // crit
+                    if (world.rand.nextInt(10) == 0) {
+                        mul += 1.0F; // crit
+                    }
 
-                    if (mop.entityHit != null) PacketHandler.INSTANCE
-                            .sendToServer(new PacketKatanaAttack(mop.entityHit, player, this.getAttackDamage(stack) * mul));
+                    if (mop.entityHit != null) {
+                        PacketHandler.INSTANCE
+                                .sendToServer(new PacketKatanaAttack(mop.entityHit, player, getAttackDamage(stack) * mul));
+                    }
                 }
                 player.worldObj.playSoundAtEntity(player, "thaumcraft:swing", 0.5F + (float) Math.random(),
                         0.5F + (float) Math.random());
                 player.swingItem();
             }
-            else
-            {
-                switch (getInscription(stack))
-                {
+            else {
+                switch (getInscription(stack)) {
                 case 0 : // fireball
                 {
-                    EntityExplosiveOrb proj = new EntityExplosiveOrb(world, player);
+                    final EntityExplosiveOrb proj = new EntityExplosiveOrb(world, player);
                     proj.strength = getAttackDamage(stack) * .25F;
                     proj.posX += proj.motionX;
                     proj.posY += proj.motionY;
                     proj.posZ += proj.motionZ;
 
-                    if (!world.isRemote) world.spawnEntityInWorld(proj);
+                    if (!world.isRemote) {
+                        world.spawnEntityInWorld(proj);
+                    }
                     player.swingItem();
 
                     break;
@@ -266,20 +257,22 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
                 case 1 : // thunder
                 {
                     // get entities within 10 block radius
-                    List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class,
+                    final List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class,
                             AxisAlignedBB.getBoundingBox(player.posX, player.posY, player.posZ, player.posX + 1,
                                     player.posY + 1, player.posZ + 1).expand(10.0D, 10.0D, 10.0D));
 
-                    if (ents != null && ents.size() > 0) for (EntityLivingBase entity : ents)
-                    {
-                        if (entity != player && entity.isEntityAlive() && !entity.isEntityInvulnerable())
-                        {
-                            entity.attackEntityFrom(DamageSource.magic, getAttackDamage(stack) * 0.25F);
+                    if (ents != null && ents.size() > 0) {
+                        for (final EntityLivingBase entity : ents) {
+                            if (entity != player && entity.isEntityAlive() && !entity.isEntityInvulnerable()) {
+                                entity.attackEntityFrom(DamageSource.magic, getAttackDamage(stack) * 0.25F);
 
-                            Vector3 movement = TaintedMagicHelper.getVectorBetweenEntities(entity, player);
-                            entity.addVelocity(movement.x * 5.0D, 1.5D, movement.z * 5.0D);
+                                final Vector3 movement = TaintedMagicHelper.getVectorBetweenEntities(entity, player);
+                                entity.addVelocity(movement.x * 5.0D, 1.5D, movement.z * 5.0D);
 
-                            if (world.isRemote) ItemFocusShockwave.spawnParticles(world, player, entity);
+                                if (world.isRemote) {
+                                    ItemFocusShockwave.spawnParticles(world, player, entity);
+                                }
+                            }
                         }
                     }
 
@@ -294,24 +287,25 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
                     player.heal( (player.getMaxHealth() - player.getHealth()) * 0.5F);
 
                     // get entities within 5 blocks
-                    List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class,
+                    final List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class,
                             AxisAlignedBB.getBoundingBox(player.posX, player.posY, player.posZ, player.posX + 1,
                                     player.posY + 1, player.posZ + 1).expand(5.0D, 5.0D, 5.0D));
 
                     // add wither to all entities in range
-                    if (ents != null && ents.size() > 0) for (EntityLivingBase entity : ents)
-                        if (entity != player && entity.isEntityAlive() && !entity.isEntityInvulnerable())
-                            entity.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 1));
+                    if (ents != null && ents.size() > 0) {
+                        for (final EntityLivingBase entity : ents)
+                            if (entity != player && entity.isEntityAlive() && !entity.isEntityInvulnerable()) {
+                                entity.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 1));
+                            }
+                    }
 
                     // beneficial effects on the player
                     player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 60, 1));
                     player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120, 1));
 
                     // particles similar to pech focus
-                    if (world.isRemote)
-                    {
-                        for (int a = 0; a < 18; a++)
-                        {
+                    if (world.isRemote) {
+                        for (int a = 0; a < 18; a++) {
                             Thaumcraft.proxy.wispFX2(world, player.posX + world.rand.nextGaussian() * 0.25F,
                                     player.boundingBox.minY + 1.0F + world.rand.nextGaussian() * 0.5F,
                                     player.posZ + world.rand.nextGaussian() * 0.25F, 0.25F + (float) Math.random() * 0.25F, 3,
@@ -337,52 +331,47 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
     }
 
     @Override
-    public void onUpdate (ItemStack stack, World world, Entity entity, int i, boolean b)
-    {
+    public void onUpdate (final ItemStack stack, final World world, final Entity entity, final int i, final boolean b) {
         // update the cooldown every tick
-        if (hasCooldown(stack)) setCooldown(stack, getCooldown(stack) - 1);
+        if (hasCooldown(stack)) {
+            setCooldown(stack, getCooldown(stack) - 1);
+        }
     }
 
-    private boolean isFullyCharged (EntityPlayer player)
-    {
-        float f = Math.min((float) this.ticksInUse / (float) CHARGE_TICKS, 1.0F);
+    private boolean isFullyCharged (final EntityPlayer player) {
+        final float f = Math.min((float) ticksInUse / (float) CHARGE_TICKS, 1.0F);
         return f == 1.0F;
     }
 
-    public static boolean hasAnyInscription (ItemStack stack)
-    {
+    public static boolean hasAnyInscription (final ItemStack stack) {
         return stack.hasTagCompound() && stack.stackTagCompound.hasKey(TAG_INSCRIPTION);
     }
 
-    private int getInscription (ItemStack stack)
-    {
+    private int getInscription (final ItemStack stack) {
         if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(TAG_INSCRIPTION))
             return stack.stackTagCompound.getInteger(TAG_INSCRIPTION);
-        else return 0;
+        return 0;
     }
 
-    private boolean hasCooldown (ItemStack stack)
-    {
+    private boolean hasCooldown (final ItemStack stack) {
         return stack.hasTagCompound() && stack.stackTagCompound.getInteger(TAG_COOLDOWN) > 0;
     }
 
-    private void setCooldown (ItemStack stack, int cooldown)
-    {
-        if (!stack.hasTagCompound()) stack.stackTagCompound = new NBTTagCompound();
+    private void setCooldown (final ItemStack stack, final int cooldown) {
+        if (!stack.hasTagCompound()) {
+            stack.stackTagCompound = new NBTTagCompound();
+        }
         stack.stackTagCompound.setInteger(TAG_COOLDOWN, cooldown);
     }
 
-    private int getCooldown (ItemStack stack)
-    {
+    private int getCooldown (final ItemStack stack) {
         if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(TAG_COOLDOWN))
             return stack.stackTagCompound.getInteger(TAG_COOLDOWN);
-        else return 0;
+        return 0;
     }
 
-    private float getAttackDamage (ItemStack stack)
-    {
-        switch (stack.getItemDamage())
-        {
+    private float getAttackDamage (final ItemStack stack) {
+        switch (stack.getItemDamage()) {
         case 0 :
             return 14.25F;
         case 1 :
@@ -393,11 +382,8 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
         return 0;
     }
 
-    // get texture based on the item damage
-    public static ResourceLocation getTexture (ItemStack stack)
-    {
-        switch (stack.getItemDamage())
-        {
+    public static ResourceLocation getTexture (final ItemStack stack) {
+        switch (stack.getItemDamage()) {
         case 0 :
             return TEXTURE_THAUMIUM;
         case 1 :
@@ -409,19 +395,19 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
     }
 
     @Override
-    public void renderHUD (ScaledResolution res, EntityPlayer player, ItemStack stack, float partialTicks, float fract)
-    {
-        Tessellator t = Tessellator.instance;
+    public void renderHUD (final ScaledResolution res, final EntityPlayer player, final ItemStack stack,
+            final float partialTicks, final float fract) {
+        final Tessellator t = Tessellator.instance;
 
-        float overlay = Math.min(hasCooldown(stack) ? ((float) getCooldown(stack) / (float) COOLDOWN_TICKS)
+        final float overlay = Math.min(hasCooldown(stack) ? (float) getCooldown(stack) / (float) COOLDOWN_TICKS
                 : (float) player.getItemInUseDuration() / (float) CHARGE_TICKS, 1.0F);
 
-        float scale = 0.315F;
+        final float scale = 0.315F;
 
-        double x = (double) res.getScaledWidth() / 2d / scale + 30d;
-        double x2 = x + 16;
-        double y = (double) res.getScaledHeight() / scale - (player.capabilities.isCreativeMode ? 100d : 150d);
-        double y2 = y + 16;
+        final double x = res.getScaledWidth() / 2d / scale + 30d;
+        final double x2 = x + 16;
+        final double y = (double) res.getScaledHeight() / scale - (player.capabilities.isCreativeMode ? 100d : 150d);
+        final double y2 = y + 16;
 
         GL11.glPushMatrix();
 
@@ -433,48 +419,48 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
         UtilsFX.bindTexture(new ResourceLocation("thaumcraft:textures/misc/script.png"));
 
-        for (int rune = 0; rune < 16; rune++)
-        {
+        for (int rune = 0; rune < 16; rune++) {
             float red = MathHelper.sin( (player.ticksExisted + rune * 5) / 5.0F) * 0.1F + 0.8F;
             float green = MathHelper.sin( (player.ticksExisted + rune * 5) / 7.0F) * 0.1F + 0.7F;
             float blue = 0.4F;
-            float alpha = MathHelper.sin( (player.ticksExisted + rune * 5) / 10.0F) * 0.3F;
+            final float alpha = MathHelper.sin( (player.ticksExisted + rune * 5) / 10.0F) * 0.3F;
 
-            float f = 0.0625F * rune;
-            float f1 = f + 0.0625F;
-            float f2 = 0.0F;
-            float f3 = 1.0F;
+            final float f = 0.0625F * rune;
+            final float f1 = f + 0.0625F;
+            final float f2 = 0.0F;
+            final float f3 = 1.0F;
 
             t.startDrawingQuads();
 
             t.setBrightness(240);
             t.setColorRGBA_F(red, green, blue, (alpha + 0.7F) * fract);
-            t.addVertexWithUV(x + (rune * 16) - alpha, y2 + alpha, 0, f, f3);
-            t.addVertexWithUV(x2 + (rune * 16) + alpha, y2 + alpha, 0, f1, f3);
-            t.addVertexWithUV(x2 + (rune * 16) + alpha, y - alpha, 0, f1, f2);
-            t.addVertexWithUV(x + (rune * 16) - alpha, y - alpha, 0, f, f2);
+            t.addVertexWithUV(x + rune * 16 - alpha, y2 + alpha, 0, f, f3);
+            t.addVertexWithUV(x2 + rune * 16 + alpha, y2 + alpha, 0, f1, f3);
+            t.addVertexWithUV(x2 + rune * 16 + alpha, y - alpha, 0, f1, f2);
+            t.addVertexWithUV(x + rune * 16 - alpha, y - alpha, 0, f, f2);
 
             t.draw();
 
-            if (Math.ceil(16 * overlay) > rune)
-            {
+            if (Math.ceil(16 * overlay) > rune) {
                 // red to green gradient
-                Color color = new Color(Color.HSBtoRGB((float) rune / 16F * 0.3F, 1.0F, 1.0F));
+                Color color = new Color(Color.HSBtoRGB(rune / 16F * 0.3F, 1.0F, 1.0F));
                 // flip the gradient when cooling down
-                if (hasCooldown(stack)) color = new Color(Color.HSBtoRGB( (16F - (float) rune) / 16F * 0.3F, 1.0F, 1.0F));
+                if (hasCooldown(stack)) {
+                    color = new Color(Color.HSBtoRGB( (16F - rune) / 16F * 0.3F, 1.0F, 1.0F));
+                }
                 // convert to float rgb
-                red = (float) color.getRed() / 255F;
-                green = (float) color.getGreen() / 255F;
-                blue = (float) color.getBlue() / 255F;
+                red = color.getRed() / 255F;
+                green = color.getGreen() / 255F;
+                blue = color.getBlue() / 255F;
 
                 t.startDrawingQuads();
 
                 t.setBrightness(240);
                 t.setColorRGBA_F(red, green, blue, 0.9F + alpha);
-                t.addVertexWithUV(x + (rune * 16) - alpha, y2 + alpha, 0, f, f3);
-                t.addVertexWithUV(x2 + (rune * 16) + alpha, y2 + alpha, 0, f1, f3);
-                t.addVertexWithUV(x2 + (rune * 16) + alpha, y - alpha, 0, f1, f2);
-                t.addVertexWithUV(x + (rune * 16) - alpha, y - alpha, 0, f, f2);
+                t.addVertexWithUV(x + rune * 16 - alpha, y2 + alpha, 0, f, f3);
+                t.addVertexWithUV(x2 + rune * 16 + alpha, y2 + alpha, 0, f1, f3);
+                t.addVertexWithUV(x2 + rune * 16 + alpha, y - alpha, 0, f1, f2);
+                t.addVertexWithUV(x + rune * 16 - alpha, y - alpha, 0, f, f2);
 
                 t.draw();
             }
@@ -486,13 +472,12 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
     // render katana on hip
     @Override
-    public void render (EntityPlayer player, ItemStack stack, float partialTicks)
-    {
+    public void render (final EntityPlayer player, final ItemStack stack, final float partialTicks) {
         GL11.glPushMatrix();
 
-        int light = player.getBrightnessForRender(0);
-        int lightmapX = light % 65536;
-        int lightmapY = light / 65536;
+        final int light = player.getBrightnessForRender(0);
+        final int lightmapX = light % 65536;
+        final int lightmapY = light / 65536;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lightmapX, lightmapY);
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -510,8 +495,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
         GL11.glPopMatrix();
 
-        if (player.getHeldItem() == null || player.getHeldItem() != stack)
-        {
+        if (player.getHeldItem() == null || player.getHeldItem() != stack) {
             GL11.glPushMatrix();
 
             GL11.glScalef(0.5F, 0.5F, 0.5F);

@@ -18,73 +18,77 @@ import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXWisp;
 import thaumcraft.common.config.ConfigItems;
 
-public class BlockWarpwoodLog extends BlockRotatedPillar
-{
-    IIcon top, side, knot;
+public class BlockWarpwoodLog extends BlockRotatedPillar {
 
-    public BlockWarpwoodLog ()
-    {
+    private IIcon top;
+    private IIcon side;
+    private IIcon knot;
+
+    public BlockWarpwoodLog () {
         super(Material.wood);
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setHardness(2.5F);
-        this.setStepSound(soundTypeWood);
-        this.setBlockName("BlockWarpwoodLog");
+        setCreativeTab(TaintedMagic.tabTM);
+        setHardness(2.5F);
+        setStepSound(soundTypeWood);
+        setBlockName("BlockWarpwoodLog");
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    protected IIcon getTopIcon (int meta)
-    {
+    protected IIcon getTopIcon (final int meta) {
         return top;
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    protected IIcon getSideIcon (int meta)
-    {
+    protected IIcon getSideIcon (final int meta) {
         return meta == 2 ? knot : side;
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public void registerBlockIcons (IIconRegister ir)
-    {
+    public void registerBlockIcons (final IIconRegister ir) {
         side = ir.registerIcon("taintedmagic:BlockWarpwoodLog_side");
         top = ir.registerIcon("taintedmagic:BlockWarpwoodLog_top");
         knot = ir.registerIcon("taintedmagic:BlockWarpwoodLog_knot");
     }
 
     @Override
-    public float getBlockHardness (World world, int x, int y, int z)
-    {
-        if (world.getBlockMetadata(x, y, z) == 2) return 25.0F;
+    public float getBlockHardness (final World world, final int x, final int y, final int z) {
+        if (world.getBlockMetadata(x, y, z) == 2)
+            return 25.0F;
         return super.getBlockHardness(world, x, y, z);
     }
 
     @Override
-    public ArrayList<ItemStack> getDrops (World world, int x, int y, int z, int meta, int fortune)
-    {
-        ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
+    public ArrayList<ItemStack> getDrops (final World world, final int x, final int y, final int z, final int meta,
+            final int fortune) {
+        final ArrayList<ItemStack> drops = new ArrayList<>();
 
-        if (meta == 2) drops.add(new ItemStack(ConfigItems.itemResource, world.rand.nextInt(5) + 1, 17));
-        else drops.add(new ItemStack(this, 1, 0));
-
+        if (meta == 2) {
+            drops.add(new ItemStack(ConfigItems.itemResource, world.rand.nextInt(5) + 1, 17));
+        }
+        else {
+            drops.add(new ItemStack(this, 1, 0));
+        }
         return drops;
     }
 
-    public boolean addDestroyEffects (World world, int x, int y, int z, int meta, EffectRenderer ef)
-    {
-        if (meta == 2)
-        {
-            if (world.isRemote) particles(world, x, y, z);
+    @Override
+    public boolean addDestroyEffects (final World world, final int x, final int y, final int z, final int meta,
+            final EffectRenderer ef) {
+        if (meta == 2) {
+            if (world.isRemote) {
+                particles(world, x, y, z);
+            }
             world.playSound(x + 0.5D, y + 0.5D, z + 0.5D, "thaumcraft:craftfail", 1.0F, 1.0F, false);
         }
         return super.addDestroyEffects(world, x, y, z, meta, ef);
     }
 
     @SideOnly (Side.CLIENT)
-    private void particles (World world, int x, int y, int z)
-    {
-        for (int i = 0; i < 15; i++)
-        {
-            FXWisp fx = new FXWisp(world, x + 0.5D + (Math.random() - Math.random()) * 0.5D,
+    private void particles (final World world, final int x, final int y, final int z) {
+        for (int i = 0; i < 15; i++) {
+            final FXWisp fx = new FXWisp(world, x + 0.5D + (Math.random() - Math.random()) * 0.5D,
                     y + 0.5D + (Math.random() - Math.random()) * 0.5D, z + 0.5D + (Math.random() - Math.random()) * 0.5D,
                     0.25F + (float) Math.random() * 0.25F, 5);
 
@@ -97,23 +101,23 @@ public class BlockWarpwoodLog extends BlockRotatedPillar
         }
     }
 
-    public boolean canSustainLeaves (IBlockAccess world, int x, int y, int z)
-    {
+    @Override
+    public boolean canSustainLeaves (final IBlockAccess world, final int x, final int y, final int z) {
         return true;
     }
 
-    public boolean isWood (IBlockAccess world, int x, int y, int z)
-    {
+    @Override
+    public boolean isWood (final IBlockAccess world, final int x, final int y, final int z) {
         return true;
     }
 
-    public int getFlammability (IBlockAccess world, int x, int y, int z, ForgeDirection face)
-    {
+    @Override
+    public int getFlammability (final IBlockAccess world, final int x, final int y, final int z, final ForgeDirection face) {
         return 0;
     }
 
-    public int getFireSpreadSpeed (IBlockAccess world, int x, int y, int z, ForgeDirection face)
-    {
+    @Override
+    public int getFireSpreadSpeed (final IBlockAccess world, final int x, final int y, final int z, final ForgeDirection face) {
         return 0;
     }
 }

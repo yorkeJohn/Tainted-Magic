@@ -21,13 +21,12 @@ import thaumcraft.api.research.ResearchPage;
 import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 
-public class ResearchRegistry
-{
-    public static final String CATEGORY_TM = "TAINTEDMAGIC";
-    public static HashMap<String, Object> recipes = new HashMap<String, Object>();
+public class ResearchRegistry {
 
-    public static void initResearch ()
-    {
+    public static final String CATEGORY_TM = "TAINTEDMAGIC";
+    public static HashMap<String, Object> recipes = new HashMap<>();
+
+    public static void initResearch () {
         ResearchCategories.registerCategory(CATEGORY_TM, new ResourceLocation("taintedmagic:textures/misc/tab_tm.png"),
                 ConfigHandler.CUSTOM_RESEARCH_TAB_BACK
                         ? new ResourceLocation("taintedmagic:textures/gui/gui_tm_researchback.png")
@@ -341,23 +340,19 @@ public class ResearchRegistry
      * ResearchPage helpers
      */
 
-    private static ResearchPage recipePage (String key)
-    {
+    private static ResearchPage recipePage (final String key) {
         return new ResearchPage((IRecipe) recipes.get(key));
     }
 
-    private static ResearchPage arcanePage (String key)
-    {
+    private static ResearchPage arcanePage (final String key) {
         return new ResearchPage((IArcaneRecipe) recipes.get(key));
     }
 
-    private static ResearchPage infusionPage (String key)
-    {
+    private static ResearchPage infusionPage (final String key) {
         return new ResearchPage((InfusionRecipe) recipes.get(key));
     }
 
-    private static ResearchPage cruciblePage (String key)
-    {
+    private static ResearchPage cruciblePage (final String key) {
         return new ResearchPage((CrucibleRecipe) recipes.get(key));
     }
 }

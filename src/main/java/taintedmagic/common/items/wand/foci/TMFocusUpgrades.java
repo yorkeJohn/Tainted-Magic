@@ -6,16 +6,16 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.wands.FocusUpgradeType;
 
-public class TMFocusUpgrades
-{
+public class TMFocusUpgrades {
+
     public static FocusUpgradeType sanity;
     public static FocusUpgradeType antibody;
     public static FocusUpgradeType corrosive;
     public static FocusUpgradeType persistent;
     public static FocusUpgradeType diffusion;
 
-    public static void initFocusUpgrades ()
-    {
+    public static void initFocusUpgrades () {
+
         sanity = new FocusUpgradeType(ConfigHandler.SANITY_UPGRADE_ID,
                 new ResourceLocation("taintedmagic:textures/foci/IconSanity.png"), "focus.upgrade.sanity.name",
                 "focus.upgrade.sanity.text", new AspectList().add(Aspect.MIND, 1).add(Aspect.HEAL, 1));

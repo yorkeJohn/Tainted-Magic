@@ -10,18 +10,16 @@ import taintedmagic.common.blocks.BlockWarpwoodPlanks;
 import taintedmagic.common.blocks.BlockWarpwoodSapling;
 import taintedmagic.common.blocks.tile.TileLumos;
 
-public class BlockRegistry
-{
+public class BlockRegistry {
+
     public static Block BlockWarpwoodLog;
     public static Block BlockWarpwoodLeaves;
     public static Block BlockWarpwoodSapling;
     public static Block BlockWarpwoodPlanks;
     public static Block BlockNightshadeBush;
-
     public static Block BlockLumos;
 
-    public static void initBlocks ()
-    {
+    public static void initBlocks () {
         BlockWarpwoodLog = new BlockWarpwoodLog();
         GameRegistry.registerBlock(BlockWarpwoodLog, "BlockWarpwoodLog");
 
@@ -41,8 +39,7 @@ public class BlockRegistry
         GameRegistry.registerBlock(BlockLumos, "BlockLumos");
     }
 
-    public static void initTiles ()
-    {
+    public static void initTiles () {
         GameRegistry.registerTileEntity(TileLumos.class, "TileLumos");
     }
 }

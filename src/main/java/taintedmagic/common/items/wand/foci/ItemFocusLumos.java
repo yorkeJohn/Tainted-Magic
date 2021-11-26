@@ -17,92 +17,93 @@ import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXSparkle;
 import thaumcraft.common.items.wands.ItemWandCasting;
 
-public class ItemFocusLumos extends ItemFocusBasic
-{
+public class ItemFocusLumos extends ItemFocusBasic {
+
     private static final AspectList COST = new AspectList().add(Aspect.AIR, 10).add(Aspect.FIRE, 25);
 
-    public ItemFocusLumos ()
-    {
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setUnlocalizedName("ItemFocusLumos");
+    public ItemFocusLumos () {
+        setCreativeTab(TaintedMagic.tabTM);
+        setUnlocalizedName("ItemFocusLumos");
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public void registerIcons (IIconRegister ir)
-    {
-        this.icon = ir.registerIcon("taintedmagic:ItemFocusLumos");
+    public void registerIcons (final IIconRegister ir) {
+        icon = ir.registerIcon("taintedmagic:ItemFocusLumos");
     }
 
-    public String getSortingHelper (ItemStack stack)
-    {
+    @Override
+    public String getSortingHelper (final ItemStack stack) {
         return "LUMOS" + super.getSortingHelper(stack);
     }
 
-    public int getFocusColor (ItemStack stack)
-    {
+    @Override
+    public int getFocusColor (final ItemStack stack) {
         return 0xC9D2F8;
     }
 
-    public AspectList getVisCost (ItemStack stack)
-    {
-        return this.COST;
+    @Override
+    public AspectList getVisCost (final ItemStack stack) {
+        return COST;
     }
 
-    public int getActivationCooldown (ItemStack stack)
-    {
+    @Override
+    public int getActivationCooldown (final ItemStack stack) {
         return 1000;
     }
 
-    public boolean isVisCostPerTick (ItemStack stack)
-    {
+    @Override
+    public boolean isVisCostPerTick (final ItemStack stack) {
         return false;
     }
 
-    public ItemFocusBasic.WandFocusAnimation getAnimation (ItemStack stack)
-    {
+    @Override
+    public ItemFocusBasic.WandFocusAnimation getAnimation (final ItemStack stack) {
         return ItemFocusBasic.WandFocusAnimation.WAVE;
     }
 
-    public ItemStack onFocusRightClick (ItemStack stack, World world, EntityPlayer player, MovingObjectPosition mop)
-    {
-        ItemWandCasting wand = (ItemWandCasting) stack.getItem();
+    @Override
+    public ItemStack onFocusRightClick (final ItemStack stack, final World world, final EntityPlayer player,
+            final MovingObjectPosition mop) {
+        final ItemWandCasting wand = (ItemWandCasting) stack.getItem();
 
-        if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
-        {
+        if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
             int x = mop.blockX;
             int y = mop.blockY;
             int z = mop.blockZ;
 
-            if (!world.getBlock(x, y, z).getMaterial().isReplaceable()) switch (mop.sideHit)
-            {
-            case 0 :
-                y--;
-                break;
-            case 1 :
-                y++;
-                break;
-            case 2 :
-                z--;
-                break;
-            case 3 :
-                z++;
-                break;
-            case 4 :
-                x--;
-                break;
-            case 5 :
-                x++;
-            }
-            if (world.getBlock(x, y, z).isReplaceable(world, x, y, z))
-            {
-                if (wand.consumeAllVis(stack, player, getVisCost(stack), true, false))
-                {
-                    if (!world.isRemote) world.setBlock(x, y, z, BlockRegistry.BlockLumos, 0, 3);
-                    world.playSoundAtEntity(player, "thaumcraft:ice", 0.3F, 1.1F + world.rand.nextFloat() * 0.1F);
-
-                    for (int a = 0; a < 9; a++)
-                        if (world.isRemote) spawnLumosParticles(world, x, y, z);
+            if (!world.getBlock(x, y, z).getMaterial().isReplaceable()) {
+                switch (mop.sideHit) {
+                case 0 :
+                    y--;
+                    break;
+                case 1 :
+                    y++;
+                    break;
+                case 2 :
+                    z--;
+                    break;
+                case 3 :
+                    z++;
+                    break;
+                case 4 :
+                    x--;
+                    break;
+                case 5 :
+                    x++;
                 }
+            }
+            if (world.getBlock(x, y, z).isReplaceable(world, x, y, z)
+                    && wand.consumeAllVis(stack, player, getVisCost(stack), true, false)) {
+                if (!world.isRemote) {
+                    world.setBlock(x, y, z, BlockRegistry.BlockLumos, 0, 3);
+                }
+                world.playSoundAtEntity(player, "thaumcraft:ice", 0.3F, 1.1F + world.rand.nextFloat() * 0.1F);
+
+                for (int a = 0; a < 9; a++)
+                    if (world.isRemote) {
+                        spawnLumosParticles(world, x, y, z);
+                    }
             }
         }
         player.swingItem();
@@ -110,18 +111,16 @@ public class ItemFocusLumos extends ItemFocusBasic
     }
 
     @SideOnly (Side.CLIENT)
-    void spawnLumosParticles (World world, double x, double y, double z)
-    {
-        FXSparkle fx = new FXSparkle(world, x + world.rand.nextFloat(), y + world.rand.nextFloat(), z + world.rand.nextFloat(),
-                1.75F, 6, 3 + world.rand.nextInt(3));
+    void spawnLumosParticles (final World world, final double x, final double y, final double z) {
+        final FXSparkle fx = new FXSparkle(world, x + world.rand.nextFloat(), y + world.rand.nextFloat(),
+                z + world.rand.nextFloat(), 1.75F, 6, 3 + world.rand.nextInt(3));
         fx.setGravity(0.1F);
         ParticleEngine.instance.addEffect(world, fx);
     }
 
-    public FocusUpgradeType[] getPossibleUpgradesByRank (ItemStack stack, int rank)
-    {
-        switch (rank)
-        {
+    @Override
+    public FocusUpgradeType[] getPossibleUpgradesByRank (final ItemStack stack, final int rank) {
+        switch (rank) {
         case 1 :
             return new FocusUpgradeType[]{ FocusUpgradeType.frugal };
         case 2 :

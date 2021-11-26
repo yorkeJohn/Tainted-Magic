@@ -7,7 +7,6 @@ import net.minecraft.util.ResourceLocation;
 import taintedmagic.common.registry.ResearchRegistry;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchCategories;
-import thaumcraft.api.research.ResearchCategoryList;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
 
@@ -15,77 +14,75 @@ import thaumcraft.api.research.ResearchPage;
  * This class was created by <flaxbeard> as part of Thaumic Exploration.
  * It is being distributed as part of Tainted Magic.
  */
-public class ThaumcraftResearchItem extends ResearchItem
-{
-    public ResearchItem original;
+public class ThaumcraftResearchItem extends ResearchItem {
 
-    public ThaumcraftResearchItem (String tag, String origin, String originCategory, int col, int row, ResourceLocation icon)
-    {
+    private ResearchItem original;
+
+    public ThaumcraftResearchItem (final String tag, final String origin, final String originCategory, final int col,
+            final int row, final ResourceLocation icon) {
         super(tag, ResearchRegistry.CATEGORY_TM, new AspectList(), col, row, 1, icon);
-        original = ((ResearchCategoryList) ResearchCategories.researchCategories.get(originCategory)).research.get(origin);
+        original = ResearchCategories.researchCategories.get(originCategory).research.get(origin);
         bindToOriginal();
         setStub();
         setHidden();
     }
 
-    public ThaumcraftResearchItem (String tag, String origin, String originCategory, int col, int row, ItemStack icon)
-    {
+    public ThaumcraftResearchItem (final String tag, final String origin, final String originCategory, final int col,
+            final int row, final ItemStack icon) {
         super(tag, ResearchRegistry.CATEGORY_TM, new AspectList(), col, row, 1, icon);
-        original = ((ResearchCategoryList) ResearchCategories.researchCategories.get(originCategory)).research.get(origin);
+        original = ResearchCategories.researchCategories.get(originCategory).research.get(origin);
         bindToOriginal();
         setStub();
         setHidden();
     }
 
-    private void bindToOriginal ()
-    {
-        if (original.siblings == null) original.setSiblings(new String[]{ key });
-        else
-        {
-            String[] family = original.siblings;
-            String[] newFamily = new String[family.length + 1];
-            for (int x = 0; x < family.length; x++)
-            {
+    private void bindToOriginal () {
+        if (original.siblings == null) {
+            original.setSiblings(key);
+        }
+        else {
+            final String[] family = original.siblings;
+            final String[] newFamily = new String[family.length + 1];
+            for (int x = 0; x < family.length; x++) {
                 newFamily[x] = family[x];
             }
             newFamily[family.length] = key;
             original.setSiblings(newFamily);
         }
-        if (original.isSecondary())
-        {
-            this.setSecondary();
+        if (original.isSecondary()) {
+            setSecondary();
         }
     }
 
-    public ResearchPage[] getPages ()
-    {
+    @Override
+    public ResearchPage[] getPages () {
         return original.getPages();
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public String getName ()
-    {
+    public String getName () {
         return original.getName();
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public String getText ()
-    {
+    public String getText () {
         return original.getText();
     }
 
-    public boolean isStub ()
-    {
+    @Override
+    public boolean isStub () {
         return true;
     }
 
-    public boolean isHidden ()
-    {
+    @Override
+    public boolean isHidden () {
         return true;
     }
 
-    public int getComplexity ()
-    {
+    @Override
+    public int getComplexity () {
         return 1;
     }
 }

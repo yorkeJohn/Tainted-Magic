@@ -16,8 +16,8 @@ import net.minecraftforge.common.util.EnumHelper;
 import taintedmagic.common.lib.LibInfo;
 
 @Mod (modid = LibInfo.MODID, name = LibInfo.NAME, version = LibInfo.VERSION, dependencies = LibInfo.DEPENDENCIES)
-public class TaintedMagic
-{
+public class TaintedMagic {
+
     @Mod.Instance ("TaintedMagic")
     public static TaintedMagic instance;
 
@@ -36,24 +36,21 @@ public class TaintedMagic
 
     // Pre init
     @EventHandler
-    public static void preInit (FMLPreInitializationEvent event)
-    {
+    public static void preInit (final FMLPreInitializationEvent event) {
         logger.info("Pre-initializing Tainted Magic!");
         proxy.preInit(event);
     }
 
     // Init
     @EventHandler
-    public static void init (FMLInitializationEvent event)
-    {
+    public static void init (final FMLInitializationEvent event) {
         logger.info("Initializing Tainted Magic!");
         proxy.init(event);
     }
 
     // Post init
     @EventHandler
-    public static void postInit (FMLPostInitializationEvent event)
-    {
+    public static void postInit (final FMLPostInitializationEvent event) {
         logger.info("Post-initializing Tainted Magic!");
         proxy.postInit(event);
         logger.info("Loading complete!");

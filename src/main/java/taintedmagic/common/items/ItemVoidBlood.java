@@ -12,22 +12,21 @@ import taintedmagic.api.RecipeVoidBlood;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.common.config.ConfigItems;
 
-public class ItemVoidBlood extends Item
-{
-    public ItemVoidBlood ()
-    {
-        this.setCreativeTab(TaintedMagic.tabTM);
-        this.setTextureName("taintedmagic:ItemVoidBlood");
-        this.setUnlocalizedName("ItemVoidBlood");
-        this.setContainerItem(ConfigItems.itemEssence);
+public class ItemVoidBlood extends Item {
+
+    public ItemVoidBlood () {
+        setCreativeTab(TaintedMagic.tabTM);
+        setTextureName("taintedmagic:ItemVoidBlood");
+        setUnlocalizedName("ItemVoidBlood");
+        setContainerItem(ConfigItems.itemEssence);
 
         GameRegistry.addRecipe(new RecipeVoidBlood());
         RecipeSorter.register("taintedmagic:ItemVoidBlood", RecipeVoidBlood.class, Category.SHAPELESS, "");
     }
 
+    @Override
     @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (ItemStack stack)
-    {
+    public EnumRarity getRarity (final ItemStack stack) {
         return EnumRarity.rare;
     }
 }

@@ -49,8 +49,8 @@ import thaumcraft.api.wands.StaffRod;
 import thaumcraft.api.wands.WandCap;
 import thaumcraft.api.wands.WandRod;
 
-public class ItemRegistry
-{
+public class ItemRegistry {
+
     public static Item ItemMagicFunguar;
     public static Item ItemNightshadeBerries;
     public static Item ItemMaterial;
@@ -113,8 +113,7 @@ public class ItemRegistry
 
     public static Item ItemKatana;
 
-    public static void initItems ()
-    {
+    public static void initItems () {
         ItemMaterial = new ItemMaterial();
         GameRegistry.registerItem(ItemMaterial, "ItemMaterial");
 
