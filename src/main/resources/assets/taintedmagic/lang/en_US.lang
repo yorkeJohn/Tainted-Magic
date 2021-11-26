@@ -323,7 +323,7 @@ tm.text.FOCUSSHOCKWAVE.1=You have designed a defensive, lightning-aspected, area
 #PRIMALBLADE
 tm.name.PRIMALBLADE=Primal Blade
 tm.tag.PRIMALBLADE=Kamui
-tm.text.PRIMALBLADE.1=You have expanded your primal tool set by designing a blade imbued with primal aspects.<BR>The Primal Blade offers excellent attack damage, and will never break. While holding right-click, a gravitational field is created which will draw all nearby enemies towards you. The blade also possesses Primal Sapping, which inflicts withering and weakness effects.<BR>One should take care while wielding this blade, as it posesses a strong warping effect.
+tm.text.PRIMALBLADE.1=You have expanded your primal tool set by designing a blade imbued with primal aspects.<BR>The Primal Blade offers excellent attack damage, and will repair iteself over time. While holding right-click, a gravitational field is created which will draw all nearby enemies towards you. The blade also possesses Primal Sapping, which inflicts withering and weakness effects.<BR>One should take care while wielding this blade, as it posesses a strong warping effect.
 
 #VOIDBLOOD
 tm.name.VOIDBLOOD=Void-infused Blood
