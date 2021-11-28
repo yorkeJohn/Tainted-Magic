@@ -95,16 +95,19 @@ public class EntityDiffusion extends EntityThrowable {
     @Override
     protected void onImpact (final MovingObjectPosition mop) {
         if (!worldObj.isRemote && getThrower() != null) {
-            final List<EntityLivingBase> entities =
+            final List<Entity> entities =
                     worldObj.getEntitiesWithinAABBExcludingEntity(getThrower(), boundingBox.expand(1.0D, 1.0D, 1.0D));
 
-            for (final EntityLivingBase entity : entities) {
-                if (mop.entityHit != null) {
-                    entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, getThrower()), dmg);
-                    if (corrosive) {
-                        entity.addPotionEffect(new PotionEffect(Potion.wither.id, 40, 1));
+            for (final Entity e : entities) {
+                if (e instanceof EntityLivingBase) {
+                    final EntityLivingBase entity = (EntityLivingBase) e;
+                    if (mop.entityHit != null) {
+                        entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, getThrower()), dmg);
+                        if (corrosive) {
+                            entity.addPotionEffect(new PotionEffect(Potion.wither.id, 40, 1));
+                        }
+                        entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 40, 1));
                     }
-                    entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 40, 1));
                 }
             }
             worldObj.setEntityState(this, (byte) 16);

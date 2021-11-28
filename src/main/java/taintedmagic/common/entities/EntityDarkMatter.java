@@ -2,6 +2,7 @@ package taintedmagic.common.entities;
 
 import java.util.List;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -37,12 +38,12 @@ public class EntityDarkMatter extends EntityEldritchOrb {
     protected void onImpact (final MovingObjectPosition mop) {
         if (!worldObj.isRemote && getThrower() != null) {
             final double expand = 1.5D + enlarge * 0.5D;
-            System.out.println(expand);
-            final List<EntityLivingBase> list =
+            final List<Entity> entities =
                     worldObj.getEntitiesWithinAABBExcludingEntity(getThrower(), boundingBox.expand(expand, expand, expand));
 
-            for (final EntityLivingBase entity : list) {
-                if (mop.entityHit != null) {
+            for (final Entity e : entities) {
+                if (e instanceof EntityLivingBase) {
+                    final EntityLivingBase entity = (EntityLivingBase) e;
                     entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, getThrower()), dmg);
                     if (corrosive) {
                         entity.addPotionEffect(new PotionEffect(Potion.wither.id, 160, 1));
