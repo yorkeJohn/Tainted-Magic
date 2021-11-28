@@ -175,3 +175,7 @@ Additions:
 - Added the Celestial Gate Key. Bind it to a location to return to that location from anywhere within the same dimension. One location per key, bound location is permanent.
 - Added the Vengeful Spirit Inscription, can be added to Fortress Blades. Casts a mini shockwave focus.
 - Added the Benevolent Goddess Inscription, can be added to Fortress Blades. Heals the user while inflicting Wither on nearby entities.
+
+----------------------------------------------------------- r8.1 ---------------------------------------------------------------
+
+- Fixed a bug where the game would crash when using the Dark Matter focus.
