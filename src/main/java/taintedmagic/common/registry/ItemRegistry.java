@@ -123,7 +123,7 @@ public class ItemRegistry {
         ItemCrimsonBlood = new ItemCrimsonBlood();
         GameRegistry.registerItem(ItemCrimsonBlood, "ItemCrimsonBlood");
 
-        ItemMagicFunguar = new ItemMagicFunguar(5, 1.0F, false);
+        ItemMagicFunguar = new ItemMagicFunguar(3, 0.2F, false);
         GameRegistry.registerItem(ItemMagicFunguar, "ItemMagicFunguar");
 
         ItemNightshadeBerries = new ItemNightshadeBerries(0, 0.0F, false);
