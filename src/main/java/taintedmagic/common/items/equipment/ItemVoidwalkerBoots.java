@@ -74,7 +74,7 @@ public class ItemVoidwalkerBoots extends ItemArmor
         int priority = 0;
         double ratio = damageReduceAmount / 90.0D;
 
-        if (source.isMagicDamage() || (source.isFireDamage() || source.isExplosion())) {
+        if (source.isMagicDamage() || source.isFireDamage() || source.isExplosion()) {
             priority = 1;
             ratio = damageReduceAmount / 80.0D;
         }

@@ -35,7 +35,7 @@ public class ItemMagicFunguar extends ItemFood {
         player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 60, 1));
         player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 100, 2));
 
-        Aspect[] aspects = Aspect.getPrimalAspects().toArray(new Aspect[0]);
+        final Aspect[] aspects = Aspect.getPrimalAspects().toArray(new Aspect[0]);
         final int i = world.rand.nextInt(aspects.length);
 
         if (!world.isRemote) {

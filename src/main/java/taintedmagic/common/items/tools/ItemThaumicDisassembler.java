@@ -160,7 +160,7 @@ public class ItemThaumicDisassembler extends Item {
         final Block block = world.getBlock(x, y, z);
         final boolean air = world.isAirBlock(x, y + 1, z);
 
-        if (side == 0 || !air || (block != Blocks.grass && block != Blocks.dirt))
+        if (side == 0 || !air || block != Blocks.grass && block != Blocks.dirt)
             return false;
 
         final Block farm = Blocks.farmland;

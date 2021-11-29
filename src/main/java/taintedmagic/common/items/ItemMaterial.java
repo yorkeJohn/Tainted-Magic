@@ -32,7 +32,7 @@ public class ItemMaterial extends Item {
      * 11 Fragment of Creation
      */
     private static final int SUBTYPES = 12;
-    private IIcon[] icons = new IIcon[SUBTYPES];
+    private final IIcon[] icons = new IIcon[SUBTYPES];
 
     public ItemMaterial () {
         setCreativeTab(TaintedMagic.tabTM);

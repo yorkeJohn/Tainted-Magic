@@ -16,7 +16,7 @@ import thaumcraft.api.research.ResearchPage;
  */
 public class ThaumcraftResearchItem extends ResearchItem {
 
-    private ResearchItem original;
+    private final ResearchItem original;
 
     public ThaumcraftResearchItem (final String tag, final String origin, final String originCategory, final int col,
             final int row, final ResourceLocation icon) {

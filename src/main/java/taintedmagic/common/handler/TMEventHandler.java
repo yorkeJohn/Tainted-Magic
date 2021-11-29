@@ -1,6 +1,5 @@
 package taintedmagic.common.handler;
 
-import java.util.Random;
 import java.util.UUID;
 
 import baubles.api.BaublesApi;
@@ -186,7 +185,6 @@ public class TMEventHandler {
 
                 if (focus != null && focus instanceof ItemFocusMageMace) {
                     if (wand.consumeAllVis(held, player, focus.getVisCost(held), true, false)) {
-                        ;
                     }
                     else {
                         event.setCanceled(true);
@@ -238,8 +236,8 @@ public class TMEventHandler {
      * Give the player the Creation research upon crafting the Shard of Creation
      */
     public void giveResearch (final EntityPlayer player) {
-        if (!player.worldObj.isRemote && (!ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), "CREATION")
-                && ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), "CREATIONSHARD"))) {
+        if (!player.worldObj.isRemote && !ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), "CREATION")
+                && ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), "CREATIONSHARD")) {
             Thaumcraft.proxy.getResearchManager().completeResearch(player, "CREATION");
             PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("CREATION"), (EntityPlayerMP) player);
             player.addChatMessage(

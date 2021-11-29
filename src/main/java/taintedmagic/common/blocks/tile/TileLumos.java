@@ -33,7 +33,7 @@ public class TileLumos extends TileEntity {
         if (block instanceof BlockLumos) {
             final EntityPlayer player = worldObj.getClosestPlayer(xCoord, yCoord, zCoord, 4);
 
-            if ( (meta == 0 && worldObj.rand.nextInt(15) == 0) && worldObj.isRemote) {
+            if (meta == 0 && worldObj.rand.nextInt(15) == 0 && worldObj.isRemote) {
                 spawnParticles();
             }
             if ( (meta == 1 || meta == 2) && player == null) {

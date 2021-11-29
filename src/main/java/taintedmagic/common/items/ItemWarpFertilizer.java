@@ -36,7 +36,7 @@ public class ItemWarpFertilizer extends Item {
     public boolean onItemUse (final ItemStack stack, final EntityPlayer player, final World world, final int x, final int y,
             final int z, final int side, final float hitX, final float hitY, final float hitZ) {
         super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
-        if (! (world.getBlock(x, y, z) instanceof BlockCustomPlant) || (world.getBlockMetadata(x, y, z) != 1))
+        if (! (world.getBlock(x, y, z) instanceof BlockCustomPlant) || world.getBlockMetadata(x, y, z) != 1)
             return false;
         if (world.isRemote) {
             particles(world, x, y, z, 10 + world.rand.nextInt(11));

@@ -25,7 +25,7 @@ public class WandHandler implements IWandRodOnUpdate {
             final int roundPeriod = period < 1.0F ? 1 : Math.round(period);
 
             if (player.ticksExisted % roundPeriod == 0) {
-                Aspect[] primals = Aspect.getPrimalAspects().toArray(new Aspect[0]);
+                final Aspect[] primals = Aspect.getPrimalAspects().toArray(new Aspect[0]);
                 for (final Aspect primal : primals) {
                     ((ItemWandCasting) stack.getItem()).addVis(stack, primal, 1, true);
                 }

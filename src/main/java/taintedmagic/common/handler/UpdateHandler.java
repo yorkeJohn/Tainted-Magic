@@ -41,7 +41,7 @@ public class UpdateHandler {
         catch (final MalformedURLException e) {
             throw new IllegalStateException(e);
         }
-        catch (IOException e) {
+        catch (final IOException e) {
             TaintedMagic.logger.error("Could not connect to GitHub repository!");
         }
     }

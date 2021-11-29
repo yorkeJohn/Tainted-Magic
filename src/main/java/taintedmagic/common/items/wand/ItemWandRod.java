@@ -15,7 +15,7 @@ import taintedmagic.common.TaintedMagic;
 public class ItemWandRod extends Item {
 
     private static final int SUBTYPES = 2;
-    private IIcon[] icons = new IIcon[SUBTYPES];
+    private final IIcon[] icons = new IIcon[SUBTYPES];
 
     public ItemWandRod () {
         setCreativeTab(TaintedMagic.tabTM);

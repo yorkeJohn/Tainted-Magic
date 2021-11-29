@@ -41,7 +41,7 @@ public class EntityHomingShard extends EntityThrowable implements IEntityAdditio
             final int strength, final boolean persistent) {
         super(world, thrower);
         this.target = target;
-        this.targetClass = target.getClass();
+        targetClass = target.getClass();
         this.persistent = persistent;
         setStrength(strength);
         final Vec3 vec = thrower.getLookVec();

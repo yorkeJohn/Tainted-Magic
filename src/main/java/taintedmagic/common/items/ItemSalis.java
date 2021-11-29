@@ -17,7 +17,7 @@ import taintedmagic.common.TaintedMagic;
 public class ItemSalis extends Item {
 
     private static final int SUBTYPES = 2;
-    private IIcon[] icons = new IIcon[SUBTYPES];
+    private final IIcon[] icons = new IIcon[SUBTYPES];
 
     public ItemSalis () {
         setCreativeTab(TaintedMagic.tabTM);
