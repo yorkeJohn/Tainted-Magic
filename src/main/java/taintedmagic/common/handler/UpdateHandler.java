@@ -7,10 +7,9 @@ import java.util.Scanner;
 
 import net.minecraft.util.EnumChatFormatting;
 import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.lib.LibInfo;
 
 public class UpdateHandler {
-    private static String currentVersion = LibInfo.VERSION;
+    private static String currentVersion = TaintedMagic.VERSION;
     private static String newestVersion;
     public static String updateStatus = null;
 

@@ -1,6 +1,5 @@
 package taintedmagic.common;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -8,7 +7,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagByte;
 import taintedmagic.common.helper.TaintedMagicHelper;
-import taintedmagic.common.lib.LibInfo;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.common.config.ConfigItems;
 import thaumcraft.common.items.wands.ItemWandCasting;
@@ -16,7 +14,7 @@ import thaumcraft.common.items.wands.ItemWandCasting;
 public class TMCreativeTab extends CreativeTabs {
 
     public TMCreativeTab () {
-        super(LibInfo.MODID);
+        super(TaintedMagic.MOD_ID);
     }
 
     @Override
