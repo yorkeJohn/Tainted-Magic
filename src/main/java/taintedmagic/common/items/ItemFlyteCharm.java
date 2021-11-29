@@ -1,9 +1,13 @@
 package taintedmagic.common.items;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -33,6 +37,9 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
     // Magic circle texture
     private static final ResourceLocation MAGIC_CIRCLE = new ResourceLocation("taintedmagic:textures/misc/circle.png");
 
+    // Stores flying players
+    public static final Set<String> FLIGHT_MANAGER = new HashSet<>();
+
     public ItemFlyteCharm () {
         setCreativeTab(TaintedMagic.tabTM);
         setUnlocalizedName("ItemFlyteCharm");
@@ -53,47 +60,60 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
     public void updateFlight (final LivingEvent.LivingUpdateEvent event) {
         if (event.entityLiving instanceof EntityPlayer) {
             final EntityPlayer player = (EntityPlayer) event.entityLiving;
+            final String entry = getPlayerEntry(player, player.worldObj.isRemote);
 
-            if (shouldPlayerHaveFlight(player)) {
-                final boolean isFlying = player.capabilities.isFlying;
-
-                if (TaintedMagicHelper.consumeVisFromInventory(player, COST_FLIGHT, isFlying)) {
+            if (FLIGHT_MANAGER.contains(entry)) {
+                if (canFly(player)) {
                     player.capabilities.allowFlying = true; // Allow flight
-                }
-                else if (!player.capabilities.isCreativeMode) {
-                    player.capabilities.allowFlying = false;
-                    player.capabilities.isFlying = false;
-                }
 
-                if (!isFlying) {
-                    // Glide
-                    if (player.isSneaking() && !player.onGround && player.fallDistance > 0.5F
-                            && TaintedMagicHelper.consumeVisFromInventory(player, COST_GLIDE, true)) {
-                        final double speed = 0.1D;
-                        player.motionY = -speed;
-                        player.motionX += Math.cos(Math.toRadians(player.rotationYawHead + 90)) * speed;
-                        player.motionZ += Math.sin(Math.toRadians(player.rotationYawHead + 90)) * speed;
+                    final boolean isFlying = player.capabilities.isFlying;
+                    // use vis
+                    TaintedMagicHelper.consumeVisFromInventory(player, COST_FLIGHT, isFlying);
+
+                    if (!isFlying) {
+                        // Glide
+                        if (player.isSneaking() && !player.onGround && player.fallDistance > 0.5F
+                                && TaintedMagicHelper.consumeVisFromInventory(player, COST_GLIDE, true)) {
+                            final double speed = 0.1D;
+                            player.motionY = -speed;
+                            player.motionX += Math.cos(Math.toRadians(player.rotationYawHead + 90)) * speed;
+                            player.motionZ += Math.sin(Math.toRadians(player.rotationYawHead + 90)) * speed;
+                        }
                     }
                 }
+                else {
+                    if (!player.capabilities.isCreativeMode) {
+                        player.capabilities.allowFlying = false;
+                        player.capabilities.isFlying = false;
+                    }
+                    FLIGHT_MANAGER.remove(entry);
+                }
             }
-            else if (!player.capabilities.isCreativeMode) {
-                player.capabilities.allowFlying = false;
-                player.capabilities.isFlying = false;
+            else if (canFly(player)) {
+                FLIGHT_MANAGER.add(entry);
+                player.capabilities.allowFlying = true;
             }
         }
     }
 
-    /**
-     * Determines if the player should be able to fly.
-     *
-     * @param player
-     */
-    private boolean shouldPlayerHaveFlight (final EntityPlayer player) {
-        for (int i = 0; i < player.inventory.getSizeInventory(); i++)
-            if (player.inventory.getStackInSlot(i) != null
-                    && player.inventory.getStackInSlot(i).getItem() instanceof ItemFlyteCharm)
-                return true;
+    private boolean canFly (final EntityPlayer player) {
+        final boolean hasVis = TaintedMagicHelper.consumeVisFromInventory(player, COST_FLIGHT, false);
+        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+            final ItemStack stack = player.inventory.getStackInSlot(i);
+            if (stack != null && stack.getItem() instanceof ItemFlyteCharm)
+                return hasVis;
+        }
         return false;
+    }
+
+    private static String getPlayerEntry (final EntityPlayer player, final boolean remote) {
+        return player.getUniqueID().toString() + ":" + remote;
+    }
+
+    @SubscribeEvent
+    private void onLogout (final PlayerEvent.PlayerLoggedOutEvent event) {
+        FLIGHT_MANAGER.remove(getPlayerEntry(event.player, true));
+        FLIGHT_MANAGER.remove(getPlayerEntry(event.player, false));
     }
 
     @Override
