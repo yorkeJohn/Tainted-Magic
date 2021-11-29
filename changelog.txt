@@ -179,3 +179,8 @@ Additions:
 ----------------------------------------------------------- r8.1 ---------------------------------------------------------------
 
 - Fixed a bug where the game would crash when using the Dark Matter focus.
+
+----------------------------------------------------------- r8.1 ---------------------------------------------------------------
+
+- Fixed a bug where the Flyte Charm would disable all other flight.
+- Decreased the Magic Funguar's food and saturation values.
