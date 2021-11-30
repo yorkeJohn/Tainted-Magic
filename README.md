@@ -1,5 +1,5 @@
 # Tainted Magic
-![](https://www.dropbox.com/s/5rpyobe2lg3eq74/tainted_magic_logo.png?dl=1)
+![](https://github.com/yorkeJohn/Tainted-Magic/raw/master/tainted_magic_logo.png)
 
 This is the GitHub repo for Tainted Magic. 
 
