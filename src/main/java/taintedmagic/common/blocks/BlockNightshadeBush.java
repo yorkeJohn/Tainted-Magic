@@ -65,7 +65,7 @@ public class BlockNightshadeBush extends BlockBush {
 
     @SubscribeEvent
     public void onBreak (final BlockEvent.HarvestDropsEvent event) {
-        if (event.harvester != null && event.harvester.getHeldItem() != null
+        if (event.block instanceof BlockNightshadeBush && event.harvester != null && event.harvester.getHeldItem() != null
                 && event.harvester.getHeldItem().getItem() instanceof ItemShears) {
             event.drops.clear();
             event.drops.add(new ItemStack(BlockRegistry.BlockNightshadeBush, 1, 0));
