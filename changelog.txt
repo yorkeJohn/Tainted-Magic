@@ -185,3 +185,9 @@ Additions:
 - Changed versioning scheme: [major version].[minor version].[patch]
 - Fixed a bug where the Flyte Charm would disable all other flight.
 - Decreased the Magic Funguar's food and saturation values.
+
+----------------------------------------------------------- 8.0.3 --------------------------------------------------------------
+
+- Fixed a bug where inscription recipes were incorrect in the Thaumonomicon.
+- Tweaked inscription recipes.
+- New logo displays in mod list.
