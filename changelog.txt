@@ -190,4 +190,8 @@ Additions:
 
 - Fixed a bug where inscription recipes were incorrect in the Thaumonomicon.
 - Tweaked inscription recipes.
-- New logo displays in mod list.
+
+----------------------------------------------------------- 8.0.4 --------------------------------------------------------------
+
+- Fixed a bug where breaking any block with shears would drop Atropa Belladona.
+- Removed logo from mcmod.info - reduces archive size.
