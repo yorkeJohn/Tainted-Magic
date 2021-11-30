@@ -1,13 +1,12 @@
 # Tainted Magic
 ![](https://github.com/yorkeJohn/Tainted-Magic/raw/master/tainted_magic_logo.png)
 
-This is the GitHub repo for Tainted Magic. 
+Tainted Magic is an addon to [Thaumcraft 4 (1.7.10)](https://www.curseforge.com/minecraft/mc-mods/thaumcraft). This addon expands on the darker side of Thaumaturgy, setting new goals for even the most experienced Thaumaturges.
 
-Tainted Magic is an addon to Thaumcraft 4. This addon expands on the darker side of Thaumaturgy, setting new goals for even the most experienced Thaumaturges.
+#Download
+Get the mod from [Curseforge](https://www.curseforge.com/minecraft/mc-mods/tainted-magic)
 
-You can find the official Tainted Magic MCF thread [HERE](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2437825-tainted-magic-1-1-6-4-a-thaumcraft-addon)
-And the official Thaumcraft 4 MCF thread [HERE](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1292130-thaumcraft-5-2-4-updated-2016-3-17)
-
+#Legal
 This mod was created with a deobf version of Thaumcraft used as a library. Thaumcraft is copyrighted by Azanor, all rights reserved.
 
 Tainted Magic was created by John Yorke and is distributed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) Lisence](https://creativecommons.org/licenses/by-nc-nd/4.0/)
