@@ -195,3 +195,7 @@ Additions:
 
 - Fixed a bug where breaking any block with shears would drop Atropa Belladona.
 - Removed logo from mcmod.info - reduces archive size.
+
+----------------------------------------------------------- 8.1.0 --------------------------------------------------------------
+
+- Changed the way Salis Aevus and Salis Tempestas work, and added visual effects.

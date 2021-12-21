@@ -263,12 +263,12 @@ tm.text.THAUMICDISASSEMBLER.1=You have constructed a high-tech magical multitool
 #SKYSALT
 tm.name.SKYSALT=Salis Tempestas
 tm.tag.SKYSALT=Susano'o
-tm.text.SKYSALT.1=By combining a Fragment of Creation with some other magical ingredients, you have created a peculiar new type of salis.<BR>When this salis is thrown into the air (via right-click), it instantly interacts with the primal aspects of the atmosphere. If the skies are stormy, they will soon become clear, or if the skies are clear, they will soon become stormy.
+tm.text.SKYSALT.1=By combining a Fragment of Creation with some other magical ingredients, you have created a useful new type of salis.<BR>When thrown into the world, the salis will begin to interact with the worlds creation magics. After a few seconds, the item will dissipate. When the salis dissipates, if the skies are stormy, they will become clear, or if the skies are clear, they will become stormy.
 
 #TIMESALT
 tm.name.TIMESALT=Salis Aevus
 tm.tag.TIMESALT=Amaterasu
-tm.text.TIMESALT.1=By combining a Fragment of Creation with some other magical ingredients, you have created a peculiar new type of salis.<BR>When this salis is thrown into the air (via right-click), it instantly interacts with the primal aspects of the space-time continuum. If it is nighttime, it will instantly become day, or if it is daytime, it will instantly become night.
+tm.text.TIMESALT.1=By combining a Fragment of Creation with some other magical ingredients, you have created a useful new type of salis.<BR>When thrown into the world, the salis will begin to interact with the world's creation magics. After a few seconds, the item will dissipate. When salis dissipates, if it is nighttime, it will become day, or if it is daytime, it will become night.
 
 #VOIDSASH
 tm.name.VOIDSASH=Voidwalker's Sash of Runic Shielding
