@@ -153,8 +153,8 @@ public class ItemRegistry {
                 .setUnlocalizedName("ItemVoidFortressChestplate");
         GameRegistry.registerItem(ItemVoidFortressChestplate, "ItemVoidFortressChestplate");
 
-        ItemVoidFortressLeggings = new ItemVoidFortressArmor(TMMaterials.ARMOR_VOIDFORTRESS, 4, 2)
-                .setUnlocalizedName("ItemVoidFortressLeggings");
+        ItemVoidFortressLeggings =
+                new ItemVoidFortressArmor(TMMaterials.ARMOR_VOIDFORTRESS, 4, 2).setUnlocalizedName("ItemVoidFortressLeggings");
         GameRegistry.registerItem(ItemVoidFortressLeggings, "ItemVoidFortressLeggings");
 
         ItemVoidwalkerBoots =

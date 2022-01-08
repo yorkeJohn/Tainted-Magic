@@ -77,8 +77,8 @@ public class TMEventHandler {
         boolean lumos = false;
 
         final IInventory baub = BaublesApi.getBaubles(player);
-        if ( (baub.getStackInSlot(1) != null && baub.getStackInSlot(1).getItem() instanceof ItemLumosRing)
-                || (baub.getStackInSlot(2) != null && baub.getStackInSlot(2).getItem() instanceof ItemLumosRing)) {
+        if (baub.getStackInSlot(1) != null && baub.getStackInSlot(1).getItem() instanceof ItemLumosRing
+                || baub.getStackInSlot(2) != null && baub.getStackInSlot(2).getItem() instanceof ItemLumosRing) {
             lumos = true;
         }
         else if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemWandCasting) {
@@ -232,8 +232,8 @@ public class TMEventHandler {
      */
     @SubscribeEvent
     public void playerLoggedIn (final PlayerEvent.PlayerLoggedInEvent event) {
-        if (UpdateHandler.updateStatus != null) {
-            event.player.addChatMessage(new ChatComponentText(UpdateHandler.updateStatus));
+        if (UpdateHandler.message != null) {
+            event.player.addChatMessage(new ChatComponentText(UpdateHandler.message));
         }
     }
 
