@@ -9,25 +9,26 @@ import net.minecraft.util.EnumChatFormatting;
 import taintedmagic.common.TaintedMagic;
 
 public class UpdateHandler {
-    private static String currentVersion = TaintedMagic.VERSION;
-    private static String newestVersion;
-    public static String updateStatus = null;
+    private static String latestVersion = null;
+    public static String message = null;
 
     public static void checkForUpdate () {
         getNewestVersion();
 
-        if (newestVersion != null) {
-            if (newestVersion.equalsIgnoreCase(currentVersion)) {
+        if (latestVersion != null) {
+            if (TaintedMagic.VERSION.equals("@VERSION@")) {
+                message = String.format("%sTainted Magic is running in DEV!", EnumChatFormatting.GREEN);
+                TaintedMagic.logger.info("Tainted Magic is running in DEV!");
             }
-            else if (!newestVersion.equalsIgnoreCase(currentVersion)) {
-                updateStatus = EnumChatFormatting.RED + "Tainted Magic is out of date! The latest version is "
-                        + EnumChatFormatting.GREEN + newestVersion;
+            else if (!latestVersion.equalsIgnoreCase(TaintedMagic.VERSION)) {
+                message = String.format("%sTainted Magic is out of date! The latest version is %s%s", EnumChatFormatting.RED,
+                        EnumChatFormatting.GREEN, latestVersion);
                 TaintedMagic.logger.warn("Mod out of date! You're still running {} ... the latest version is {}",
-                        currentVersion, newestVersion);
+                        TaintedMagic.VERSION, latestVersion);
             }
         }
         else {
-            updateStatus = EnumChatFormatting.RED + "Tainted Magic failed to connect to the update server!";
+            message = String.format("%sTainted Magic failed to connect to the update server!", EnumChatFormatting.RED);
         }
     }
 
@@ -35,7 +36,7 @@ public class UpdateHandler {
         try {
             final URL url = new URL("https://raw.githubusercontent.com/yorkeJohn/Tainted-Magic/master/version.txt");
             final Scanner scan = new Scanner(url.openStream());
-            newestVersion = scan.next();
+            latestVersion = scan.next();
             scan.close();
         }
         catch (final MalformedURLException e) {
