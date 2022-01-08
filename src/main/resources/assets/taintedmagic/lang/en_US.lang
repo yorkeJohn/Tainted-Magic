@@ -141,7 +141,7 @@ item.Wand.cloth.cap=Enchanted Cloth Bound
 item.Wand.crimsoncloth.cap=Crimson Cloth Bound
 item.Wand.shadowcloth.cap=Shadow Cloth Bound
 
-#--------------------------------------------------------- RESEARCH ------------------------------------------------------------
+#------------------- RESEARCH -------------------
 
 tc.research_category.TAINTEDMAGIC=Obscura
 
@@ -250,7 +250,7 @@ tm.name.CREATION=Creation
 tm.tag.CREATION=That which came before
 tm.text.CREATION.1=The moment you touched the Shard of Creation, forged from power you barely comprehend, you felt something. You felt as if the entire universe had shifted.<BR>Your body went numb, and for the first time since you opened the Thaumonomicon, the voices, they stopped.<BR>You saw through what the voices have always kept hidden. You saw through the lies, through the insanity, through the veil between worlds. You saw §5Creation§0...<LINE>
 tm.text.CREATION.2=Eons ago, when the world you know was yet to exist, the formation of another universe began. The primal energies, in the form of vis, flowing from beyond reality clashed, combined, and given time, created.<BR>A blank universe, exploding from nothing, into existence.<BR>The energies which created this world, however, did not leave. They stayed, they twisted, and became a part of this new place, just as water and air are in your world.
-tm.text.CREATION.3=If enough time is given to any universe, it will eventually develop life, and this universe was no exception. A race of beings, warped by power and twisted by magic-- every reference to them you've ever read always names them The Eldritch.<BR>Time passed, and the Eldritch developed magic. They practiced it, refined it, and it became quite similar to the Thaumaturgy you practice, except for one difference.<BR>Warp was in every word they wrote. Twisting, fluxing, and tainting. Their magic couldn't do anything without a far greater than equal reaction.
+tm.text.CREATION.3=If enough time is given to any universe, it will eventually develop life, and this universe was no exception. A race of beings, warped by power and twisted by magic, every reference to them you've ever read always names them The Eldritch.<BR>Time passed, and the Eldritch developed magic. They practiced it, refined it, and it became quite similar to the Thaumaturgy you practice, except for one difference.<BR>Warp was in every word they wrote. Twisting, fluxing, and tainting. Their magic couldn't do anything without a far greater than equal reaction.
 tm.text.CREATION.4=So, they decided they would break the rules. They decided to create a new universe. A universe without their limits, without the warp their universe was burdened with.<BR>They began to manipulate primal energy, clashing it into the forms that would spark and create. However, right before this universe was created, they split the forces in two.<BR>The power of creation was placed into one half, and the matter created was placed into the other.
 tm.text.CREATION.5=They ended up with two worlds... A never ending Voidscape, and the Overworld.<BR>Nonetheless, the veil between these two worlds was weak, and the power contained within the voidscape was too dangerous to let the untrained hold.<BR>So, the Eldritch condensed pieces of the energy of creation into Primordial Pearls and created labyrinths in which they would be sealed... The Outer Lands. To protect the Pearls, they created the Guardians, which ensured only those worthy would be able to obtain this power, as it would be devastating if used incorrectly.
 tm.text.CREATION.6=Eons later, here you stand; one who has marched into eternity and emerged triumphant.<BR>You hold a piece of the power used to create the universe...<BR>With this piece of Creation, you have forged the final piece of the puzzle, the Shard of Creation.<BR>The limits you once were bound by have been cast aside, just as the Eldritch cast aside theirs. With this, even gods would flee before you.
@@ -318,7 +318,7 @@ tm.text.CAP_shadowcloth.1=Making Wand Caps from Enchanted Cloth proved successfu
 #FOCUSSHOCKWAVE
 tm.name.FOCUSSHOCKWAVE=Wand Focus: Shockwave
 tm.tag.FOCUSSHOCKWAVE=Magical opposition
-tm.text.FOCUSSHOCKWAVE.1=You have designed a defensive, lightning-aspected, area-of-effect wand focus.<BR>When cast, this focus hurls a violent bolt of lightning to each nearby enemy-- dealing a hefty blow of damage, picking them up, and knocking them far away from you.
+tm.text.FOCUSSHOCKWAVE.1=You have designed a defensive, lightning-aspected, area-of-effect wand focus.<BR>When cast, this focus hurls a violent bolt of lightning to each nearby enemy, dealing a hefty blow of damage, picking them up, and knocking them far away from you.
 
 #PRIMALBLADE
 tm.name.PRIMALBLADE=Primal Blade
