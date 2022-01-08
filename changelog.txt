@@ -1,15 +1,15 @@
 
-#Tainted Magic Changelog
+Tainted Magic Changelog
 
------------------------------------------------------------- r7.0 --------------------------------------------------------------
+--------------- r7.0 ---------------
 
 Initial release of Release 7. Significant changes from Release 6. Release 6 worlds are not compatible with this update.
 
------------------------------------------------------------- r7.1 --------------------------------------------------------------
+--------------- r7.1 ---------------
 
 - Bug fixes, fixed crashes.
 
------------------------------------------------------------- r7.2 --------------------------------------------------------------
+--------------- r7.2 ---------------
 
 Fixes:
 - Various bug fixes and texture improvements.
@@ -25,7 +25,7 @@ Additions:
 - Upgrades to the Fortress Blades as inscriptions.
 - Hold down right click to charge a fortress blade, releasing a powered strike.
 
------------------------------------------------------------- r7.3 --------------------------------------------------------------
+--------------- r7.3 ---------------
 
 Fixes:
 - Fixed some Thaumonomicon entries.
@@ -34,7 +34,7 @@ Fixes:
 Additions:
 - Voidmetal Goggles of Revealing.
 
------------------------------------------------------------- r7.4 --------------------------------------------------------------
+--------------- r7.4 ---------------
 
 Fixes:
 - Fixed some Thaumonomicon entries.
@@ -44,11 +44,11 @@ Changes:
 - HUD changes.
 - Changes to the Stormbound Inscription
 
------------------------------------------------------------- r7.5 --------------------------------------------------------------
+--------------- r7.5 ---------------
 
 - Bug fixes.
 
------------------------------------------------------------- r7.6 --------------------------------------------------------------
+--------------- r7.6 ---------------
 
 Fixes:
 - Fixed some oredict stuff.
@@ -65,7 +65,7 @@ Additions:
 - Added the Undead Inscription.
 - Added the Vis Shard focus from TC5.
 
------------------------------------------------------------- r7.7 --------------------------------------------------------------
+--------------- r7.7 ---------------
 
 Fixes:
 - Bug fixes and code cleanup.
@@ -88,7 +88,7 @@ Additions:
 - Shadowmetal nuggets.
 - Particles when using the Time and Meteorology foci.
 
------------------------------------------------------------- r7.8 --------------------------------------------------------------
+--------------- r7.8 ---------------
 
 Fixes:
 - Fixed bugs where servers would crash under certain conditions.
@@ -104,16 +104,16 @@ Additions:
 - Flyte Charm.
 - New materials (stolen from Thaumcraft 6)
 
------------------------------------------------------------ r7.81 --------------------------------------------------------------
+--------------- r7.81 ---------------
 
 - Bug fixes.
 
------------------------------------------------------------ r7.82 --------------------------------------------------------------
+--------------- r7.82 ---------------
 
 - Bug fixes.
 - Thaumonomicon layout improvements.
 
------------------------------------------------------------ r8.0 ---------------------------------------------------------------
+--------------- r8.0 ---------------
 
 Fixes:
 - Fixed a bug in which foci could not be upgraded when playing on a server.
@@ -176,26 +176,29 @@ Additions:
 - Added the Vengeful Spirit Inscription, can be added to Fortress Blades. Casts a mini shockwave focus.
 - Added the Benevolent Goddess Inscription, can be added to Fortress Blades. Heals the user while inflicting Wither on nearby entities.
 
------------------------------------------------------------ r8.1 ---------------------------------------------------------------
+--------------- r8.1 ---------------
 
 - Fixed a bug where the game would crash when using the Dark Matter focus.
 
------------------------------------------------------------ 8.0.2 --------------------------------------------------------------
+--------------- 8.0.2 ---------------
 
 - Changed versioning scheme: [major version].[minor version].[patch]
 - Fixed a bug where the Flyte Charm would disable all other flight.
 - Decreased the Magic Funguar's food and saturation values.
 
------------------------------------------------------------ 8.0.3 --------------------------------------------------------------
+--------------- 8.0.3 ---------------
 
 - Fixed a bug where inscription recipes were incorrect in the Thaumonomicon.
 - Tweaked inscription recipes.
 
------------------------------------------------------------ 8.0.4 --------------------------------------------------------------
+--------------- 8.0.4 ---------------
 
 - Fixed a bug where breaking any block with shears would drop Atropa Belladona.
 - Removed logo from mcmod.info - reduces archive size.
 
------------------------------------------------------------ 8.1.0 --------------------------------------------------------------
+--------------- 8.1.0 ---------------
 
 - Changed the way Salis Aevus and Salis Tempestas work, and added visual effects.
+- Changed the way Wand Focus: Lumos and Ring of Lumos work - no more laggy dynamic lighting.
+- Improved the effects when completing the Shard of Creation infusion.
+- Refined localization (fixed grammar, wording, typos).
