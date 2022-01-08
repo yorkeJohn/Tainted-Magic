@@ -26,6 +26,7 @@ public class BlockLumos extends Block implements ITileEntityProvider {
         setTickRandomly(false);
         setLightLevel(1.0F);
         setBlockTextureName("thaumcraft:blank");
+        setBlockBounds(0.3F, 0.3F, 0.3F, 0.7F, 0.7F, 0.7F);
     }
 
     @Override
@@ -50,17 +51,6 @@ public class BlockLumos extends Block implements ITileEntityProvider {
         fx.motionZ += world.rand.nextGaussian() * 0.1D;
         fx.setGravity(0.5F);
         ParticleEngine.instance.addEffect(world, fx);
-    }
-
-    @Override
-    public void setBlockBoundsBasedOnState (final IBlockAccess world, final int x, final int y, final int z) {
-        final int meta = world.getBlockMetadata(x, y, z);
-        if (meta == 0) {
-            setBlockBounds(0.3F, 0.3F, 0.3F, 0.7F, 0.7F, 0.7F);
-        }
-        else {
-            setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        }
     }
 
     @Override

@@ -25,7 +25,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import taintedmagic.common.items.equipment.ItemLumosRing;
 import taintedmagic.common.items.tools.ItemHollowDagger;
 import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
-import taintedmagic.common.registry.BlockRegistry;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.wands.ItemFocusBasic;
@@ -46,7 +45,7 @@ public class TMEventHandler {
             final EntityPlayer player = (EntityPlayer) event.entity;
 
             repairItems(player);
-            createLumos(player);
+            applyNightVision(player);
             modifyAttackDamage(player);
         }
     }
@@ -65,30 +64,46 @@ public class TMEventHandler {
         }
     }
 
+    private boolean hasNightVision = false;
+
     /**
-     * Create Lumos lightsource blocks when the player is holding a wand or staff
+     * Apply Night Vision effect when the player is holding a wand or staff
      * with the Lumos focus equipped or when the Lumos ring is equipped.
      */
-    public void createLumos (final EntityPlayer player) {
-        final int x = (int) Math.floor(player.posX);
-        final int y = (int) Math.floor(player.posY) + 1;
-        final int z = (int) Math.floor(player.posZ);
+    public void applyNightVision (final EntityPlayer player) {
+        if (player.worldObj.isRemote)
+            return;
 
-        if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemWandCasting) {
+        boolean lumos = false;
+
+        final IInventory baub = BaublesApi.getBaubles(player);
+        if ( (baub.getStackInSlot(1) != null && baub.getStackInSlot(1).getItem() instanceof ItemLumosRing)
+                || (baub.getStackInSlot(2) != null && baub.getStackInSlot(2).getItem() instanceof ItemLumosRing)) {
+            lumos = true;
+        }
+        else if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemWandCasting) {
             final ItemStack held = player.getHeldItem();
             final ItemWandCasting wand = (ItemWandCasting) held.getItem();
 
-            if (wand.getFocus(held) != null && wand.getFocus(held) == ItemRegistry.ItemFocusLumos && !player.worldObj.isRemote
-                    && player.worldObj.isAirBlock(x, y, z)) {
-                player.worldObj.setBlock(x, y, z, BlockRegistry.BlockLumos, 1, 3);
+            if (wand.getFocus(held) != null && wand.getFocus(held) == ItemRegistry.ItemFocusLumos) {
+                lumos = true;
             }
         }
 
-        final IInventory baub = BaublesApi.getBaubles(player);
-        if (baub.getStackInSlot(1) != null && baub.getStackInSlot(1).getItem() instanceof ItemLumosRing
-                || baub.getStackInSlot(2) != null && baub.getStackInSlot(2).getItem() instanceof ItemLumosRing
-                        && !player.worldObj.isRemote && player.worldObj.isAirBlock(x, y, z)) {
-            player.worldObj.setBlock(x, y, z, BlockRegistry.BlockLumos, 2, 3);
+        if (lumos) {
+            if (!hasNightVision) {
+                if (!player.isPotionActive(Potion.nightVision.id)) {
+                    player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 260, -1));
+                    hasNightVision = true;
+                }
+            }
+            else if (player.ticksExisted % 20 == 0) {
+                player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 260, -1));
+            }
+        }
+        else if (hasNightVision) {
+            player.removePotionEffect(Potion.nightVision.id);
+            hasNightVision = false;
         }
     }
 
