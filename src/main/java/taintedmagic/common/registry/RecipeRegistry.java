@@ -132,10 +132,8 @@ public class RecipeRegistry {
 
         // Shard of Creation
         ResearchRegistry.recipes.put("ItemMaterial:5",
-                ThaumcraftApi.addInfusionCraftingRecipe(
-                        "CREATIONSHARD", new ItemStack(ItemRegistry.ItemMaterial, 1, 5), 8, TaintedMagicHelper.getPrimals(50)
-                                .add(Aspect.AURA, 40).add(Aspect.VOID, 40).add(Aspect.MAGIC, 40).add(Aspect.ELDRITCH, 40),
-                        new ItemStack(ConfigItems.itemShard, 1, 6),
+                ThaumcraftApi.addInfusionCraftingRecipe("CREATIONSHARD", new ItemStack(ItemRegistry.ItemMaterial, 1, 5), 8,
+                        TaintedMagicHelper.getPrimals(55), new ItemStack(ConfigItems.itemShard, 1, 6),
                         new ItemStack[]{ new ItemStack(ConfigItems.itemEldritchObject, 1, 3),
                                 new ItemStack(ConfigItems.itemShard, 1, 0), new ItemStack(ConfigItems.itemShard, 1, 1),
                                 new ItemStack(ConfigItems.itemShard, 1, 2), new ItemStack(Items.nether_star),
