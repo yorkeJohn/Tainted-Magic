@@ -345,7 +345,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
         return 0;
     }
 
-    private boolean hasCooldown (final ItemStack stack) {
+    public boolean hasCooldown (final ItemStack stack) {
         return stack.hasTagCompound() && stack.stackTagCompound.getInteger(TAG_COOLDOWN) > 0;
     }
 
