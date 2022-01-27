@@ -221,16 +221,8 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
             if (!hasAnyInscription(stack) || player.isSneaking()) {
                 if (world.isRemote) {
                     final MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
-
-                    // charged strike damage multiplier
-                    float mul = 1.5F;
-                    if (world.rand.nextInt(10) == 0) {
-                        mul += 1.0F; // crit
-                    }
-
                     if (mop.entityHit != null) {
-                        PacketHandler.INSTANCE
-                                .sendToServer(new PacketKatanaAttack(mop.entityHit, player, getAttackDamage(stack) * mul));
+                        PacketHandler.INSTANCE.sendToServer(new PacketKatanaAttack(mop.entityHit, player));
                     }
                 }
                 player.worldObj.playSoundAtEntity(player, "thaumcraft:swing", 0.5F + (float) Math.random(),
