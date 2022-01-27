@@ -16,31 +16,54 @@ public class PacketKatanaAttack implements IMessage, IMessageHandler<PacketKatan
     private int entityID;
     private int playerID;
     private int dimensionID;
-    private float dmg;
 
     public PacketKatanaAttack () {
     }
 
-    public PacketKatanaAttack (final Entity entity, final EntityPlayer player, final float dmg) {
+    public PacketKatanaAttack (final Entity entity, final EntityPlayer player) {
         entityID = entity.getEntityId();
         playerID = player.getEntityId();
         dimensionID = entity.dimension;
-        this.dmg = dmg;
     }
 
     @Override
     public IMessage onMessage (final PacketKatanaAttack message, final MessageContext ctx) {
-        final World world = DimensionManager.getWorld(message.dimensionID);
-        if (world == null)
+		final EntityPlayer attacker = ctx.getServerHandler().playerEntity;
+		if (attacker == null || attacker.dimension != message.dimensionID
+				|| attacker.getEntityId() != message.playerID) {
+			return null;
+		}
+
+		final ItemStack heldItem = attacker.getHeldItem();
+		if (heldItem == null || heldItem.stackSize <= 0 || !(heldItem.getItem() instanceof ItemKatana)) {
+			return null;
+		}
+
+		final ItemKatana itemKatana = (ItemKatana) heldItem.getItem();
+        if (itemKatana.hasCooldown(heldItem)) {
             return null;
-
-        final Entity entity = world.getEntityByID(message.entityID);
-        final Entity player = world.getEntityByID(message.playerID);
-
-        if (entity != null && entity instanceof EntityLivingBase && player != null && player instanceof EntityPlayer) {
-            entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setDamageBypassesArmor(),
-                    message.dmg);
         }
+
+		// charged strike damage multiplier
+		float mul = 1.5F;
+		if (attacker.getRNG().nextInt(10) == 0) {
+			mul += 1.0F; // crit
+		}
+
+        float damage = itemKatana.getAttackDamage(heldItem) * mul;
+
+		final Entity target = attacker.worldObj.getEntityByID(message.entityID);
+		if (!(target instanceof EntityLivingBase) || target.isDead) {
+			return null;
+		}
+
+		if (attacker.getDistanceSqToEntity(target) > 64) {
+			return null;
+		}
+
+		if (target instanceof EntityLivingBase && attacker instanceof EntityPlayer) {
+			target.attackEntityFrom(DamageSource.causePlayerDamage(attacker).setDamageBypassesArmor(), damage);
+		}
 
         return null;
     }
@@ -50,7 +73,6 @@ public class PacketKatanaAttack implements IMessage, IMessageHandler<PacketKatan
         entityID = buf.readInt();
         playerID = buf.readInt();
         dimensionID = buf.readInt();
-        dmg = buf.readFloat();
     }
 
     @Override
@@ -58,6 +80,5 @@ public class PacketKatanaAttack implements IMessage, IMessageHandler<PacketKatan
         buf.writeInt(entityID);
         buf.writeInt(playerID);
         buf.writeInt(dimensionID);
-        buf.writeFloat(dmg);
     }
 }
