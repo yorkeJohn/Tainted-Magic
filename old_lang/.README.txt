@@ -1,1 +1,0 @@
-Out-of-date translations are stored here. These are community translations that were included in previous versions, but are no longer accurate to current versions.
