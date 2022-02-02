@@ -202,3 +202,7 @@ Additions:
 - Changed the way Wand Focus: Lumos and Ring of Lumos work - no more laggy dynamic lighting.
 - Improved the effects when completing the Shard of Creation infusion.
 - Refined localization (fixed grammar, wording, typos).
+
+--------------- 8.1.1 ---------------
+
+- Added Chinese (zh_CN) and Russian (ru_RU) localization.
