@@ -5,6 +5,8 @@ import java.util.List;
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -91,34 +93,43 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
 
     @Override
     public void onWornTick (final ItemStack stack, final EntityLivingBase entity) {
+        // ignore
     }
 
     @Override
     public ItemStack onItemRightClick (final ItemStack stack, final World world, final EntityPlayer player) {
-        if (!world.isRemote && player.isSneaking()) {
-            if (stack.stackTagCompound == null) {
-                stack.setTagCompound(new NBTTagCompound());
-                stack.stackTagCompound.setBoolean(TAG_MODE, true);
-            }
-            if (stack.stackTagCompound != null) {
-                stack.stackTagCompound.setBoolean(TAG_MODE, !stack.stackTagCompound.getBoolean(TAG_MODE));
-                if (isSpeedEnabled(stack)) {
-                    HUDHandler.displayString(EnumChatFormatting.GREEN + StatCollector.translateToLocal("text.sash.speed.on"),
-                            300, false);
-                }
-                else {
-                    HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("text.sash.speed.off"),
-                            300, false);
-                }
+        if (player.isSneaking()) {
+
+            toggleMode(stack);
+
+            if (world.isRemote) {
+                sendToggleNotification(stack);
             }
         }
         return stack;
     }
 
-    /**
-     * Returns true if the speed boost feature is enabled.
-     */
-    public static boolean isSpeedEnabled (final ItemStack stack) {
+    public static void toggleMode(ItemStack stack) {
+        if (stack.stackTagCompound == null) {
+            stack.setTagCompound(new NBTTagCompound());
+            stack.stackTagCompound.setBoolean(TAG_MODE, true);
+        } else {
+            stack.stackTagCompound.setBoolean(TAG_MODE, !stack.stackTagCompound.getBoolean(TAG_MODE));
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void sendToggleNotification(ItemStack stack) {
+        if (isSpeedEnabled(stack)) {
+            HUDHandler.displayString(EnumChatFormatting.GREEN + StatCollector.translateToLocal("text.sash.speed.on"),
+                    300, false);
+        } else {
+            HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("text.sash.speed.off"),
+                    300, false);
+        }
+    }
+
+    public static boolean isSpeedEnabled (final  ItemStack stack) {
         if (stack.stackTagCompound == null)
             return true;
         return stack.stackTagCompound.getBoolean(TAG_MODE);
