@@ -137,7 +137,7 @@ public class ItemVoidwalkerBoots extends ItemArmor
 
             // speed boost
             if (player.onGround || player.capabilities.isFlying) {
-                float bonus = 0.12F;
+                float bonus = 0.15F;
                 final ItemStack sash = PlayerHandler.getPlayerBaubles(player).getStackInSlot(3);
                 if (sash != null && sash.getItem() instanceof ItemVoidwalkerSash && ItemVoidwalkerSash.isSpeedEnabled(sash)) {
                     bonus *= 2.0F;

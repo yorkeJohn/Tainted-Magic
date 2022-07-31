@@ -13,6 +13,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import taintedmagic.client.handler.ClientHandler;
 import taintedmagic.client.handler.HUDHandler;
+import taintedmagic.client.handler.SashKeyListener;
 import taintedmagic.client.renderer.RenderEntityDiffusion;
 import taintedmagic.client.renderer.RenderEntityHomingShard;
 import taintedmagic.client.renderer.RenderItemKatana;
@@ -49,6 +50,7 @@ public class ClientProxy extends CommonProxy {
 
         FMLCommonHandler.instance().bus().register(new ClientHandler());
         MinecraftForge.EVENT_BUS.register(new ClientHandler());
+        MinecraftForge.EVENT_BUS.register(new SashKeyListener());
     }
 
     @Override
