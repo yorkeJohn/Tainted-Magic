@@ -10,7 +10,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import taintedmagic.common.handler.ConfigHandler;
 import taintedmagic.common.handler.TMEventHandler;
-import taintedmagic.common.handler.UpdateHandler;
 import taintedmagic.common.items.wand.foci.TMFocusUpgrades;
 import taintedmagic.common.network.PacketHandler;
 import taintedmagic.common.registry.BlockRegistry;
@@ -33,10 +32,6 @@ public class CommonProxy {
         TMEntityRegistry.initEntities();
         RecipeRegistry.initRecipes();
         OreDictRegistry.initOreDict();
-
-        if (ConfigHandler.NOTIFY_UPDATE) {
-            UpdateHandler.checkForUpdate();
-        }
     }
 
     public void init (final FMLInitializationEvent event) {

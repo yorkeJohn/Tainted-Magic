@@ -13,17 +13,13 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.EnumHelper;
+import taintedmagic.Tags;
 
-@Mod (modid = TaintedMagic.MOD_ID, name = TaintedMagic.MOD_NAME, version = TaintedMagic.VERSION,
-        dependencies = TaintedMagic.DEPENDENCIES)
+@Mod (modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION,
+        dependencies = "required-after:Forge@[10.13.4.1448,);required-after:Thaumcraft@[4.2.3.5,)")
 public class TaintedMagic {
 
-    public static final String MOD_ID = "TaintedMagic";
-    public static final String MOD_NAME = "Tainted Magic";
-    public static final String VERSION = "@VERSION@";
-    public static final String DEPENDENCIES = "required-after:Forge@[10.13.4.1448,);required-after:Thaumcraft@[4.2.3.5,)";
-
-    @Mod.Instance ("TaintedMagic")
+    @Mod.Instance (Tags.MOD_ID)
     public static TaintedMagic instance;
 
     // Proxies

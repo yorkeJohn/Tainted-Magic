@@ -8,7 +8,6 @@ public class ConfigHandler {
 
     public static Configuration config;
 
-    public static boolean NOTIFY_UPDATE = true;
     public static boolean RESEARCH_TAGS = true;
     public static boolean CUSTOM_RESEARCH_TAB_BACK = false;
     public static double MAGE_MACE_DMG_INC_BASE = 8.0D;
@@ -23,9 +22,6 @@ public class ConfigHandler {
         TaintedMagic.logger.info("Loading config...");
 
         config.load();
-
-        NOTIFY_UPDATE = config.getBoolean("NOTIFY_UPDATE", "misc", true,
-                "Setting this to false will disable Tainted Magic update notifications.");
 
         RESEARCH_TAGS = config.getBoolean("RESEARCH_TAGS", "research", true,
                 "Setting this to false will disable the '[TM]' tag on Tainted Magic research items.");

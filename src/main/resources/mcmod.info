@@ -1,7 +1,7 @@
 [
 {
-  "modid": "TaintedMagic",
-  "name": "Tainted Magic",
+  "modid": "${mod_id}",
+  "name": "${mod_name}",
   "description": "Tainted Magic is an addon to Thaumcraft 4 which focuses on the dark side of Thaumaturgy.",
   "version": "${mod_version}",
   "mcversion": "${mc_version}",
