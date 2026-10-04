@@ -5,8 +5,8 @@ import org.jetbrains.gradle.ext.RunConfigurationContainer
 plugins {
   id("java")
   id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.8"
-  id("eclipse")
   id("com.gtnewhorizons.retrofuturagradle") version "2.0.2"
+  id("com.diffplug.spotless") version "8.10.3"
 }
 
 // Project properties
@@ -90,14 +90,15 @@ dependencies {
   implementation(files("libs/Thaumcraft-deobf-1.7.10-4.2.3.5.jar", "libs/Baubles-deobf-1.7.10-1.0.1.10.jar"))
 }
 
-// IDE Settings
-eclipse {
-  classpath {
-    isDownloadSources = true
-    isDownloadJavadoc = true
+// Code formatting, run ./gradlew spotlessApply to format
+spotless {
+  java {
+    target("src/*/java/**/*.java")
+    palantirJavaFormat("2.101.0")
   }
 }
 
+// IDE Settings
 idea {
   module {
     isDownloadJavadoc = true
