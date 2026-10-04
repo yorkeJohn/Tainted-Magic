@@ -14,7 +14,7 @@ import thaumcraft.common.config.ConfigItems;
 
 public class ItemVoidBlood extends Item {
 
-    public ItemVoidBlood () {
+    public ItemVoidBlood() {
         setCreativeTab(TaintedMagic.tabTM);
         setTextureName("taintedmagic:ItemVoidBlood");
         setUnlocalizedName("ItemVoidBlood");
@@ -25,8 +25,8 @@ public class ItemVoidBlood extends Item {
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (final ItemStack stack) {
+    @SideOnly(Side.CLIENT)
+    public EnumRarity getRarity(final ItemStack stack) {
         return EnumRarity.rare;
     }
 }

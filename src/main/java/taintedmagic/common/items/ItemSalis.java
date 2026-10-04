@@ -1,10 +1,9 @@
 package taintedmagic.common.items;
 
-import java.util.List;
-import java.util.Random;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+import java.util.Random;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
@@ -22,66 +21,66 @@ public class ItemSalis extends Item {
     private static final int SUBTYPES = 2;
     private final IIcon[] icons = new IIcon[SUBTYPES];
 
-    public ItemSalis () {
+    public ItemSalis() {
         setCreativeTab(TaintedMagic.tabTM);
         hasSubtypes = true;
         setUnlocalizedName("ItemSalis");
     }
 
     @Override
-    public EnumRarity getRarity (final ItemStack stack) {
+    public EnumRarity getRarity(final ItemStack stack) {
         return TaintedMagic.rarityCreation;
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public void registerIcons (final IIconRegister ir) {
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(final IIconRegister ir) {
         for (int i = 0; i < icons.length; i++) {
             icons[i] = ir.registerIcon("taintedmagic:ItemSalis" + i);
         }
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public IIcon getIconFromDamage (final int meta) {
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamage(final int meta) {
         return icons[meta];
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public void getSubItems (final Item item, final CreativeTabs tab, final List list) {
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(final Item item, final CreativeTabs tab, final List list) {
         for (int i = 0; i < SUBTYPES; i++) {
             list.add(new ItemStack(this, 1, i));
         }
     }
 
     @Override
-    public String getUnlocalizedName (final ItemStack stack) {
+    public String getUnlocalizedName(final ItemStack stack) {
         return super.getUnlocalizedName() + "." + stack.getItemDamage();
     }
 
     @Override
-    public boolean onEntityItemUpdate (final EntityItem entity) {
+    public boolean onEntityItemUpdate(final EntityItem entity) {
         super.onEntityItemUpdate(entity);
         final World world = entity.worldObj;
         final int meta = entity.getEntityItem().getItemDamage();
 
         if (entity.ticksExisted == 100) {
             switch (meta) {
-            // Weather
-            case 0 : {
-                world.getWorldInfo().setRainTime(world.isRaining() ? 24000 : 0);
-                world.getWorldInfo().setRaining(!world.isRaining());
-                if (world.isRaining() && world.rand.nextInt(10) == 0) {
-                    world.getWorldInfo().setThundering(true);
+                // Weather
+                case 0: {
+                    world.getWorldInfo().setRainTime(world.isRaining() ? 24000 : 0);
+                    world.getWorldInfo().setRaining(!world.isRaining());
+                    if (world.isRaining() && world.rand.nextInt(10) == 0) {
+                        world.getWorldInfo().setThundering(true);
+                    }
+                    break;
                 }
-                break;
-            }
-            // Time
-            case 1 : {
-                world.setWorldTime(world.isDaytime() ? 14000 : 24000);
-                break;
-            }
+                // Time
+                case 1: {
+                    world.setWorldTime(world.isDaytime() ? 14000 : 24000);
+                    break;
+                }
             }
             world.playSoundAtEntity(entity, "thaumcraft:ice", 0.3F, 1.0F + world.rand.nextFloat() * 0.25F);
             entity.setDead();
@@ -101,8 +100,8 @@ public class ItemSalis extends Item {
         return false;
     }
 
-    @SideOnly (Side.CLIENT)
-    private void spawnParticles (final EntityItem entity, final int meta, final boolean death) {
+    @SideOnly(Side.CLIENT)
+    private void spawnParticles(final EntityItem entity, final int meta, final boolean death) {
         final Random rand = entity.worldObj.rand;
 
         final double theta = Math.random() * Math.PI;
@@ -112,8 +111,14 @@ public class ItemSalis extends Item {
         final double y = Math.sin(phi) * Math.sin(theta) * 0.25d;
         final double z = Math.cos(theta) * 0.25d;
 
-        final FXSparkle fx = new FXSparkle(entity.worldObj, entity.posX + x, entity.boundingBox.maxY + y, entity.posZ + z,
-                1.75f, meta == 0 ? 7 : 6, death ? 30 + rand.nextInt(5) : 3 + rand.nextInt(2));
+        final FXSparkle fx = new FXSparkle(
+                entity.worldObj,
+                entity.posX + x,
+                entity.boundingBox.maxY + y,
+                entity.posZ + z,
+                1.75f,
+                meta == 0 ? 7 : 6,
+                death ? 30 + rand.nextInt(5) : 3 + rand.nextInt(2));
         fx.setGravity(death ? 0f : -0.1f);
         fx.noClip = true;
 

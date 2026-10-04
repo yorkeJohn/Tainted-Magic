@@ -10,7 +10,7 @@ import thaumcraft.common.config.ConfigItems;
 
 public class ItemCrimsonBlood extends Item {
 
-    public ItemCrimsonBlood () {
+    public ItemCrimsonBlood() {
         setCreativeTab(TaintedMagic.tabTM);
         setTextureName("taintedmagic:ItemCrimsonBlood");
         setUnlocalizedName("ItemCrimsonBlood");
@@ -18,8 +18,8 @@ public class ItemCrimsonBlood extends Item {
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (final ItemStack stack) {
+    @SideOnly(Side.CLIENT)
+    public EnumRarity getRarity(final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 }

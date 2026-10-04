@@ -1,13 +1,12 @@
 package taintedmagic.client.renderer;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import taintedmagic.common.entities.EntityHomingShard;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.lib.UtilsFX;
@@ -17,17 +16,27 @@ import thaumcraft.client.lib.UtilsFX;
  */
 public class RenderEntityHomingShard extends Render {
 
-    public RenderEntityHomingShard () {
+    public RenderEntityHomingShard() {
         shadowSize = 0.0F;
     }
 
     @Override
-    public void doRender (final Entity entity, final double x, final double y, final double z, final float f,
+    public void doRender(
+            final Entity entity,
+            final double x,
+            final double y,
+            final double z,
+            final float f,
             final float partialTicks) {
         render((EntityHomingShard) entity, x, y, z, f, partialTicks);
     }
 
-    public void render (final EntityHomingShard entity, final double x, final double y, final double z, final float f,
+    public void render(
+            final EntityHomingShard entity,
+            final double x,
+            final double y,
+            final double z,
+            final float f,
             final float partialTicks) {
         final Tessellator t = Tessellator.instance;
 
@@ -61,7 +70,9 @@ public class RenderEntityHomingShard extends Render {
 
         GL11.glRotatef(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(-renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-        GL11.glScalef(0.4F + 0.1F * entity.getStrength(), 0.4F + 0.1F * entity.getStrength(),
+        GL11.glScalef(
+                0.4F + 0.1F * entity.getStrength(),
+                0.4F + 0.1F * entity.getStrength(),
                 0.4F + 0.1F * entity.getStrength());
 
         t.startDrawingQuads();
@@ -87,7 +98,7 @@ public class RenderEntityHomingShard extends Render {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture (final Entity entity) {
+    protected ResourceLocation getEntityTexture(final Entity entity) {
         return TextureMap.locationBlocksTexture;
     }
 }

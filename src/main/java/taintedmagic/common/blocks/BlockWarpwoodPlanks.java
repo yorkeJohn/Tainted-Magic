@@ -6,7 +6,7 @@ import taintedmagic.common.TaintedMagic;
 
 public class BlockWarpwoodPlanks extends Block {
 
-    public BlockWarpwoodPlanks () {
+    public BlockWarpwoodPlanks() {
         super(Material.wood);
         setCreativeTab(TaintedMagic.tabTM);
         setBlockName("BlockWarpwoodPlanks");

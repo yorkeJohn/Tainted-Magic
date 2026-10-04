@@ -8,7 +8,7 @@ import thaumcraft.api.IRepairable;
 
 public class ItemHollowDagger extends ItemSword implements IRepairable {
 
-    public ItemHollowDagger (final ToolMaterial material) {
+    public ItemHollowDagger(final ToolMaterial material) {
         super(material);
         setCreativeTab(TaintedMagic.tabTM);
         setUnlocalizedName("ItemHollowDagger");
@@ -17,7 +17,7 @@ public class ItemHollowDagger extends ItemSword implements IRepairable {
     }
 
     @Override
-    public EnumRarity getRarity (final ItemStack stack) {
+    public EnumRarity getRarity(final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 }

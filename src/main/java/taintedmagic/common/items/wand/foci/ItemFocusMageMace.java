@@ -1,10 +1,9 @@
 package taintedmagic.common.items.wand.foci;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.text.DecimalFormat;
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -26,79 +25,79 @@ public class ItemFocusMageMace extends ItemFocusBasic {
 
     private static final AspectList COST = new AspectList().add(Aspect.ENTROPY, 10);
 
-    public ItemFocusMageMace () {
+    public ItemFocusMageMace() {
         setCreativeTab(TaintedMagic.tabTM);
         setUnlocalizedName("ItemFocusMageMace");
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public void registerIcons (final IIconRegister ir) {
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(final IIconRegister ir) {
         icon = ir.registerIcon("taintedmagic:ItemFocusMageMace");
         ornIcon = ir.registerIcon("taintedmagic:ItemFocusMageMace_orn");
     }
 
     @Override
-    public IIcon getOrnament (final ItemStack stack) {
+    public IIcon getOrnament(final ItemStack stack) {
         return ornIcon;
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public boolean requiresMultipleRenderPasses () {
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses() {
         return true;
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public int getRenderPasses (final int meta) {
+    @SideOnly(Side.CLIENT)
+    public int getRenderPasses(final int meta) {
         return 2;
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass (final int meta, final int pass) {
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamageForRenderPass(final int meta, final int pass) {
         return pass == 0 ? ornIcon : icon;
     }
 
     @Override
-    public String getSortingHelper (final ItemStack stack) {
+    public String getSortingHelper(final ItemStack stack) {
         return "MACE" + super.getSortingHelper(stack);
     }
 
     @Override
-    public int getFocusColor (final ItemStack stack) {
+    public int getFocusColor(final ItemStack stack) {
         return 0xACA9B5;
     }
 
     @Override
-    public AspectList getVisCost (final ItemStack stack) {
+    public AspectList getVisCost(final ItemStack stack) {
         return COST;
     }
 
     @Override
-    public int getActivationCooldown (final ItemStack stack) {
+    public int getActivationCooldown(final ItemStack stack) {
         return -1;
     }
 
     @Override
-    public boolean isVisCostPerTick (final ItemStack stack) {
+    public boolean isVisCostPerTick(final ItemStack stack) {
         return false;
     }
 
     @Override
-    public ItemFocusBasic.WandFocusAnimation getAnimation (final ItemStack stack) {
+    public ItemFocusBasic.WandFocusAnimation getAnimation(final ItemStack stack) {
         return WandFocusAnimation.WAVE;
     }
 
     @Override
-    public ItemStack onFocusRightClick (final ItemStack stack, final World world, final EntityPlayer player,
-            final MovingObjectPosition mop) {
+    public ItemStack onFocusRightClick(
+            final ItemStack stack, final World world, final EntityPlayer player, final MovingObjectPosition mop) {
         return stack;
     }
 
     @Override
-    public void addInformation (final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
+    public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
         super.addInformation(stack, player, list, b);
         list.add(" ");
 
@@ -110,18 +109,18 @@ public class ItemFocusMageMace extends ItemFocusBasic {
     }
 
     @Override
-    public FocusUpgradeType[] getPossibleUpgradesByRank (final ItemStack stack, final int rank) {
+    public FocusUpgradeType[] getPossibleUpgradesByRank(final ItemStack stack, final int rank) {
         switch (rank) {
-        case 1 :
-            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
-        case 2 :
-            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
-        case 3 :
-            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
-        case 4 :
-            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
-        case 5 :
-            return new FocusUpgradeType[]{ FocusUpgradeType.frugal, FocusUpgradeType.potency };
+            case 1:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal, FocusUpgradeType.potency};
+            case 2:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal, FocusUpgradeType.potency};
+            case 3:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal, FocusUpgradeType.potency};
+            case 4:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal, FocusUpgradeType.potency};
+            case 5:
+                return new FocusUpgradeType[] {FocusUpgradeType.frugal, FocusUpgradeType.potency};
         }
         return null;
     }

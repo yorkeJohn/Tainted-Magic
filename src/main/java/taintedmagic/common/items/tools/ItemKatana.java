@@ -1,13 +1,9 @@
 package taintedmagic.common.items.tools;
 
-import java.awt.Color;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.awt.Color;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -33,6 +29,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import taintedmagic.api.IHeldItemHUD;
 import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.client.model.ModelKatana;
@@ -74,7 +72,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
     private int ticksInUse = 0;
 
-    public ItemKatana () {
+    public ItemKatana() {
         setCreativeTab(TaintedMagic.tabTM);
         setUnlocalizedName("ItemKatana");
         setHasSubtypes(true);
@@ -82,35 +80,35 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
     }
 
     @Override
-    public boolean isFull3D () {
+    public boolean isFull3D() {
         return true;
     }
 
     @Override
-    public boolean canHarvestBlock (final Block block, final ItemStack stack) {
+    public boolean canHarvestBlock(final Block block, final ItemStack stack) {
         return false;
     }
 
     @Override
-    public EnumAction getItemUseAction (final ItemStack stack) {
+    public EnumAction getItemUseAction(final ItemStack stack) {
         return EnumAction.bow;
     }
 
-    @SideOnly (Side.CLIENT)
+    @SideOnly(Side.CLIENT)
     @Override
-    public void getSubItems (final Item item, final CreativeTabs tab, final List list) {
+    public void getSubItems(final Item item, final CreativeTabs tab, final List list) {
         for (int a = 0; a < SUBTYPES; a++) {
             list.add(new ItemStack(this, 1, a));
         }
     }
 
     @Override
-    public String getUnlocalizedName (final ItemStack stack) {
+    public String getUnlocalizedName(final ItemStack stack) {
         return super.getUnlocalizedName() + "." + stack.getItemDamage();
     }
 
     @Override
-    public void addInformation (final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
+    public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
         if (stack.getItemDamage() == 1) {
             list.add(EnumChatFormatting.GOLD + StatCollector.translateToLocal("enchantment.special.sapless"));
         }
@@ -123,29 +121,31 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
         list.add("\u00A79+" + getAttackDamage(stack) + " " + StatCollector.translateToLocal("text.attackdamage"));
 
         if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(TAG_INSCRIPTION)) {
-            list.add(EnumChatFormatting.GOLD + StatCollector
-                    .translateToLocal("text.katana.inscription." + stack.stackTagCompound.getInteger(TAG_INSCRIPTION)));
+            list.add(EnumChatFormatting.GOLD
+                    + StatCollector.translateToLocal(
+                            "text.katana.inscription." + stack.stackTagCompound.getInteger(TAG_INSCRIPTION)));
         }
     }
 
     @Override
-    public EnumRarity getRarity (final ItemStack stack) {
+    public EnumRarity getRarity(final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 
     @Override
-    public int getWarp (final ItemStack stack, final EntityPlayer player) {
+    public int getWarp(final ItemStack stack, final EntityPlayer player) {
         return stack.getItemDamage() == 0 ? 0 : stack.getItemDamage() == 1 ? 3 : 7;
     }
 
     @Override
-    public boolean hitEntity (final ItemStack stack, final EntityLivingBase entity, final EntityLivingBase player) {
-        if (!entity.worldObj.isRemote && (! (entity instanceof EntityPlayer) || ! (player instanceof EntityPlayer)
-                || MinecraftServer.getServer().isPVPEnabled())) {
+    public boolean hitEntity(final ItemStack stack, final EntityLivingBase entity, final EntityLivingBase player) {
+        if (!entity.worldObj.isRemote
+                && (!(entity instanceof EntityPlayer)
+                        || !(player instanceof EntityPlayer)
+                        || MinecraftServer.getServer().isPVPEnabled())) {
             // Sapping effects
             if (stack.getItemDamage() == 1) {
                 entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 60)); // lesser sapping
-
             }
             if (stack.getItemDamage() == 2) {
                 entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 60)); // greater sapping
@@ -155,46 +155,51 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
             // Inscription effects
             if (hasAnyInscription(stack)) {
                 switch (getInscription(stack)) {
-                case 0 : {
-                    entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setFireDamage(),
-                            getAttackDamage(stack));
-                    entity.setFire(3);
-                    break;
+                    case 0: {
+                        entity.attackEntityFrom(
+                                DamageSource.causePlayerDamage((EntityPlayer) player)
+                                        .setFireDamage(),
+                                getAttackDamage(stack));
+                        entity.setFire(3);
+                        break;
+                    }
+                    case 1: {
+                        entity.attackEntityFrom(
+                                DamageSource.causePlayerDamage((EntityPlayer) player)
+                                        .setMagicDamage(),
+                                getAttackDamage(stack));
+                        entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 140));
+                        break;
+                    }
+                    case 2: {
+                        entity.attackEntityFrom(
+                                DamageSource.causePlayerDamage((EntityPlayer) player)
+                                        .setMagicDamage(),
+                                getAttackDamage(stack));
+                        entity.addPotionEffect(new PotionEffect(Potion.wither.id, 60));
+                        break;
+                    }
+                    default:
+                        break;
                 }
-                case 1 : {
-                    entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setMagicDamage(),
-                            getAttackDamage(stack));
-                    entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 140));
-                    break;
-                }
-                case 2 : {
-                    entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setMagicDamage(),
-                            getAttackDamage(stack));
-                    entity.addPotionEffect(new PotionEffect(Potion.wither.id, 60));
-                    break;
-                }
-                default :
-                    break;
-                }
-            }
-            else {
+            } else {
                 entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player), getAttackDamage(stack));
             }
         }
         // Sound effect
-        player.worldObj.playSoundAtEntity(player, "thaumcraft:swing", 0.5F + (float) Math.random(),
-                0.5F + (float) Math.random());
+        player.worldObj.playSoundAtEntity(
+                player, "thaumcraft:swing", 0.5F + (float) Math.random(), 0.5F + (float) Math.random());
 
         return super.hitEntity(stack, entity, player);
     }
 
     @Override
-    public int getMaxItemUseDuration (final ItemStack stack) {
+    public int getMaxItemUseDuration(final ItemStack stack) {
         return 72000;
     }
 
     @Override
-    public ItemStack onItemRightClick (final ItemStack stack, final World world, final EntityPlayer player) {
+    public ItemStack onItemRightClick(final ItemStack stack, final World world, final EntityPlayer player) {
         if (!hasCooldown(stack)) {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
         }
@@ -202,7 +207,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
     }
 
     @Override
-    public void onUsingTick (final ItemStack stack, final EntityPlayer player, final int i) {
+    public void onUsingTick(final ItemStack stack, final EntityPlayer player, final int i) {
         super.onUsingTick(stack, player, i);
 
         ticksInUse = getMaxItemUseDuration(stack) - i;
@@ -214,7 +219,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
     }
 
     @Override
-    public void onPlayerStoppedUsing (final ItemStack stack, final World world, final EntityPlayer player, final int i) {
+    public void onPlayerStoppedUsing(final ItemStack stack, final World world, final EntityPlayer player, final int i) {
         super.onPlayerStoppedUsing(stack, world, player, i);
 
         if (isFullyCharged(player)) {
@@ -229,101 +234,125 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
                     }
 
                     if (mop.entityHit != null) {
-                        PacketHandler.INSTANCE
-                                .sendToServer(new PacketKatanaAttack(mop.entityHit, player, getAttackDamage(stack) * mul));
+                        PacketHandler.INSTANCE.sendToServer(
+                                new PacketKatanaAttack(mop.entityHit, player, getAttackDamage(stack) * mul));
                     }
                 }
-                player.worldObj.playSoundAtEntity(player, "thaumcraft:swing", 0.5F + (float) Math.random(),
-                        0.5F + (float) Math.random());
+                player.worldObj.playSoundAtEntity(
+                        player, "thaumcraft:swing", 0.5F + (float) Math.random(), 0.5F + (float) Math.random());
                 player.swingItem();
-            }
-            else {
+            } else {
                 switch (getInscription(stack)) {
-                case 0 : // fireball
-                {
-                    final EntityExplosiveOrb proj = new EntityExplosiveOrb(world, player);
-                    proj.strength = getAttackDamage(stack) * .25F;
-                    proj.posX += proj.motionX;
-                    proj.posY += proj.motionY;
-                    proj.posZ += proj.motionZ;
+                    case 0: // fireball
+                    {
+                        final EntityExplosiveOrb proj = new EntityExplosiveOrb(world, player);
+                        proj.strength = getAttackDamage(stack) * .25F;
+                        proj.posX += proj.motionX;
+                        proj.posY += proj.motionY;
+                        proj.posZ += proj.motionZ;
 
-                    if (!world.isRemote) {
-                        world.spawnEntityInWorld(proj);
+                        if (!world.isRemote) {
+                            world.spawnEntityInWorld(proj);
+                        }
+                        player.swingItem();
+
+                        break;
                     }
-                    player.swingItem();
+                    case 1: // thunder
+                    {
+                        // get entities within 10 block radius
+                        final List<EntityLivingBase> ents = world.getEntitiesWithinAABB(
+                                EntityLivingBase.class,
+                                AxisAlignedBB.getBoundingBox(
+                                                player.posX,
+                                                player.posY,
+                                                player.posZ,
+                                                player.posX + 1,
+                                                player.posY + 1,
+                                                player.posZ + 1)
+                                        .expand(10.0D, 10.0D, 10.0D));
 
-                    break;
-                }
-                case 1 : // thunder
-                {
-                    // get entities within 10 block radius
-                    final List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class,
-                            AxisAlignedBB.getBoundingBox(player.posX, player.posY, player.posZ, player.posX + 1,
-                                    player.posY + 1, player.posZ + 1).expand(10.0D, 10.0D, 10.0D));
+                        if (ents != null && ents.size() > 0) {
+                            for (final EntityLivingBase entity : ents) {
+                                if (entity != player && entity.isEntityAlive() && !entity.isEntityInvulnerable()) {
+                                    entity.attackEntityFrom(DamageSource.magic, getAttackDamage(stack) * 0.25F);
 
-                    if (ents != null && ents.size() > 0) {
-                        for (final EntityLivingBase entity : ents) {
-                            if (entity != player && entity.isEntityAlive() && !entity.isEntityInvulnerable()) {
-                                entity.attackEntityFrom(DamageSource.magic, getAttackDamage(stack) * 0.25F);
+                                    final Vector3 movement =
+                                            TaintedMagicHelper.getVectorBetweenEntities(entity, player);
+                                    entity.addVelocity(movement.x * 5.0D, 1.5D, movement.z * 5.0D);
 
-                                final Vector3 movement = TaintedMagicHelper.getVectorBetweenEntities(entity, player);
-                                entity.addVelocity(movement.x * 5.0D, 1.5D, movement.z * 5.0D);
-
-                                if (world.isRemote) {
-                                    ItemFocusShockwave.spawnParticles(world, player, entity);
+                                    if (world.isRemote) {
+                                        ItemFocusShockwave.spawnParticles(world, player, entity);
+                                    }
                                 }
                             }
                         }
+
+                        world.playSoundAtEntity(player, "taintedmagic:shockwave", 5.0F, 1.5F * (float) Math.random());
+                        player.swingItem();
+
+                        break;
                     }
+                    case 2: // heal
+                    {
+                        // heal 50% of missing health
+                        player.heal((player.getMaxHealth() - player.getHealth()) * 0.5F);
 
-                    world.playSoundAtEntity(player, "taintedmagic:shockwave", 5.0F, 1.5F * (float) Math.random());
-                    player.swingItem();
+                        // get entities within 5 blocks
+                        final List<EntityLivingBase> ents = world.getEntitiesWithinAABB(
+                                EntityLivingBase.class,
+                                AxisAlignedBB.getBoundingBox(
+                                                player.posX,
+                                                player.posY,
+                                                player.posZ,
+                                                player.posX + 1,
+                                                player.posY + 1,
+                                                player.posZ + 1)
+                                        .expand(5.0D, 5.0D, 5.0D));
 
-                    break;
-                }
-                case 2 : // heal
-                {
-                    // heal 50% of missing health
-                    player.heal( (player.getMaxHealth() - player.getHealth()) * 0.5F);
-
-                    // get entities within 5 blocks
-                    final List<EntityLivingBase> ents = world.getEntitiesWithinAABB(EntityLivingBase.class,
-                            AxisAlignedBB.getBoundingBox(player.posX, player.posY, player.posZ, player.posX + 1,
-                                    player.posY + 1, player.posZ + 1).expand(5.0D, 5.0D, 5.0D));
-
-                    // add wither to all entities in range
-                    if (ents != null && ents.size() > 0) {
-                        for (final EntityLivingBase entity : ents)
-                            if (entity != player && entity.isEntityAlive() && !entity.isEntityInvulnerable()) {
-                                entity.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 1));
-                            }
-                    }
-
-                    // beneficial effects on the player
-                    player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 60, 1));
-                    player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120, 1));
-
-                    // particles similar to pech focus
-                    if (world.isRemote) {
-                        for (int a = 0; a < 18; a++) {
-                            Thaumcraft.proxy.wispFX2(world, player.posX + world.rand.nextGaussian() * 0.25F,
-                                    player.boundingBox.minY + 1.0F + world.rand.nextGaussian() * 0.5F,
-                                    player.posZ + world.rand.nextGaussian() * 0.25F, 0.25F + (float) Math.random() * 0.25F, 3,
-                                    true, false, 0.02F);
-
-                            Thaumcraft.proxy.sparkle((float) player.posX + (float) world.rand.nextGaussian() * 0.25F,
-                                    (float) player.boundingBox.minY + 1.0F + (float) world.rand.nextGaussian() * 0.5F,
-                                    (float) player.posZ + (float) world.rand.nextGaussian() * 0.25F, 5);
+                        // add wither to all entities in range
+                        if (ents != null && ents.size() > 0) {
+                            for (final EntityLivingBase entity : ents)
+                                if (entity != player && entity.isEntityAlive() && !entity.isEntityInvulnerable()) {
+                                    entity.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 1));
+                                }
                         }
+
+                        // beneficial effects on the player
+                        player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 60, 1));
+                        player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120, 1));
+
+                        // particles similar to pech focus
+                        if (world.isRemote) {
+                            for (int a = 0; a < 18; a++) {
+                                Thaumcraft.proxy.wispFX2(
+                                        world,
+                                        player.posX + world.rand.nextGaussian() * 0.25F,
+                                        player.boundingBox.minY + 1.0F + world.rand.nextGaussian() * 0.5F,
+                                        player.posZ + world.rand.nextGaussian() * 0.25F,
+                                        0.25F + (float) Math.random() * 0.25F,
+                                        3,
+                                        true,
+                                        false,
+                                        0.02F);
+
+                                Thaumcraft.proxy.sparkle(
+                                        (float) player.posX + (float) world.rand.nextGaussian() * 0.25F,
+                                        (float) player.boundingBox.minY
+                                                + 1.0F
+                                                + (float) world.rand.nextGaussian() * 0.5F,
+                                        (float) player.posZ + (float) world.rand.nextGaussian() * 0.25F,
+                                        5);
+                            }
+                        }
+
+                        world.playSoundAtEntity(player, "thaumcraft:wand", 1.0F, 0.9F + (float) Math.random() * 0.1F);
+                        player.swingItem();
+
+                        break;
                     }
-
-                    world.playSoundAtEntity(player, "thaumcraft:wand", 1.0F, 0.9F + (float) Math.random() * 0.1F);
-                    player.swingItem();
-
-                    break;
-                }
-                default :
-                    break;
+                    default:
+                        break;
                 }
                 setCooldown(stack, COOLDOWN_TICKS);
             }
@@ -331,76 +360,83 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
     }
 
     @Override
-    public void onUpdate (final ItemStack stack, final World world, final Entity entity, final int i, final boolean b) {
+    public void onUpdate(final ItemStack stack, final World world, final Entity entity, final int i, final boolean b) {
         // update the cooldown every tick
         if (hasCooldown(stack)) {
             setCooldown(stack, getCooldown(stack) - 1);
         }
     }
 
-    private boolean isFullyCharged (final EntityPlayer player) {
+    private boolean isFullyCharged(final EntityPlayer player) {
         final float f = Math.min((float) ticksInUse / (float) CHARGE_TICKS, 1.0F);
         return f == 1.0F;
     }
 
-    public static boolean hasAnyInscription (final ItemStack stack) {
+    public static boolean hasAnyInscription(final ItemStack stack) {
         return stack.hasTagCompound() && stack.stackTagCompound.hasKey(TAG_INSCRIPTION);
     }
 
-    private int getInscription (final ItemStack stack) {
+    private int getInscription(final ItemStack stack) {
         if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(TAG_INSCRIPTION))
             return stack.stackTagCompound.getInteger(TAG_INSCRIPTION);
         return 0;
     }
 
-    private boolean hasCooldown (final ItemStack stack) {
+    private boolean hasCooldown(final ItemStack stack) {
         return stack.hasTagCompound() && stack.stackTagCompound.getInteger(TAG_COOLDOWN) > 0;
     }
 
-    private void setCooldown (final ItemStack stack, final int cooldown) {
+    private void setCooldown(final ItemStack stack, final int cooldown) {
         if (!stack.hasTagCompound()) {
             stack.stackTagCompound = new NBTTagCompound();
         }
         stack.stackTagCompound.setInteger(TAG_COOLDOWN, cooldown);
     }
 
-    private int getCooldown (final ItemStack stack) {
+    private int getCooldown(final ItemStack stack) {
         if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(TAG_COOLDOWN))
             return stack.stackTagCompound.getInteger(TAG_COOLDOWN);
         return 0;
     }
 
-    private float getAttackDamage (final ItemStack stack) {
+    private float getAttackDamage(final ItemStack stack) {
         switch (stack.getItemDamage()) {
-        case 0 :
-            return 14.25F;
-        case 1 :
-            return 17.5F;
-        case 2 :
-            return 20.75F;
+            case 0:
+                return 14.25F;
+            case 1:
+                return 17.5F;
+            case 2:
+                return 20.75F;
         }
         return 0;
     }
 
-    public static ResourceLocation getTexture (final ItemStack stack) {
+    public static ResourceLocation getTexture(final ItemStack stack) {
         switch (stack.getItemDamage()) {
-        case 0 :
-            return TEXTURE_THAUMIUM;
-        case 1 :
-            return TEXTURE_VOIDMETAL;
-        case 2 :
-            return TEXTURE_SHADOWMETAL;
+            case 0:
+                return TEXTURE_THAUMIUM;
+            case 1:
+                return TEXTURE_VOIDMETAL;
+            case 2:
+                return TEXTURE_SHADOWMETAL;
         }
         return null;
     }
 
     @Override
-    public void renderHUD (final ScaledResolution res, final EntityPlayer player, final ItemStack stack,
-            final float partialTicks, final float fract) {
+    public void renderHUD(
+            final ScaledResolution res,
+            final EntityPlayer player,
+            final ItemStack stack,
+            final float partialTicks,
+            final float fract) {
         final Tessellator t = Tessellator.instance;
 
-        final float overlay = Math.min(hasCooldown(stack) ? (float) getCooldown(stack) / (float) COOLDOWN_TICKS
-                : (float) player.getItemInUseDuration() / (float) CHARGE_TICKS, 1.0F);
+        final float overlay = Math.min(
+                hasCooldown(stack)
+                        ? (float) getCooldown(stack) / (float) COOLDOWN_TICKS
+                        : (float) player.getItemInUseDuration() / (float) CHARGE_TICKS,
+                1.0F);
 
         final float scale = 0.315F;
 
@@ -420,10 +456,10 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
         UtilsFX.bindTexture(new ResourceLocation("thaumcraft:textures/misc/script.png"));
 
         for (int rune = 0; rune < 16; rune++) {
-            float red = MathHelper.sin( (player.ticksExisted + rune * 5) / 5.0F) * 0.1F + 0.8F;
-            float green = MathHelper.sin( (player.ticksExisted + rune * 5) / 7.0F) * 0.1F + 0.7F;
+            float red = MathHelper.sin((player.ticksExisted + rune * 5) / 5.0F) * 0.1F + 0.8F;
+            float green = MathHelper.sin((player.ticksExisted + rune * 5) / 7.0F) * 0.1F + 0.7F;
             float blue = 0.4F;
-            final float alpha = MathHelper.sin( (player.ticksExisted + rune * 5) / 10.0F) * 0.3F;
+            final float alpha = MathHelper.sin((player.ticksExisted + rune * 5) / 10.0F) * 0.3F;
 
             final float f = 0.0625F * rune;
             final float f1 = f + 0.0625F;
@@ -446,7 +482,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
                 Color color = new Color(Color.HSBtoRGB(rune / 16F * 0.3F, 1.0F, 1.0F));
                 // flip the gradient when cooling down
                 if (hasCooldown(stack)) {
-                    color = new Color(Color.HSBtoRGB( (16F - rune) / 16F * 0.3F, 1.0F, 1.0F));
+                    color = new Color(Color.HSBtoRGB((16F - rune) / 16F * 0.3F, 1.0F, 1.0F));
                 }
                 // convert to float rgb
                 red = color.getRed() / 255F;
@@ -472,7 +508,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
     // render katana on hip
     @Override
-    public void render (final EntityPlayer player, final ItemStack stack, final float partialTicks) {
+    public void render(final EntityPlayer player, final ItemStack stack, final float partialTicks) {
         GL11.glPushMatrix();
 
         final int light = player.getBrightnessForRender(0);

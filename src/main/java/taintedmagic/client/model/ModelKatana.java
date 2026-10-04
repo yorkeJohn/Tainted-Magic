@@ -11,7 +11,7 @@ public class ModelKatana extends ModelBase {
     public ModelRenderer grip1;
     public ModelRenderer grip2;
 
-    public ModelKatana () {
+    public ModelKatana() {
         textureWidth = 32;
         textureHeight = 64;
 
@@ -29,7 +29,7 @@ public class ModelKatana extends ModelBase {
         grip1.addChild(grip2);
     }
 
-    public void render (final float size) {
+    public void render(final float size) {
         blade.render(size);
         grip1.render(size);
     }

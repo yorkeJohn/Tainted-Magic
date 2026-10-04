@@ -16,7 +16,7 @@ import thaumcraft.common.blocks.BlockCustomPlant;
 
 public class ItemWarpFertilizer extends Item {
 
-    public ItemWarpFertilizer () {
+    public ItemWarpFertilizer() {
         setCreativeTab(TaintedMagic.tabTM);
         setUnlocalizedName("ItemWarpFertilizer");
         setTextureName("taintedmagic:ItemWarpFertilizer");
@@ -25,7 +25,7 @@ public class ItemWarpFertilizer extends Item {
     }
 
     @Override
-    public EnumRarity getRarity (final ItemStack stack) {
+    public EnumRarity getRarity(final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 
@@ -33,10 +33,19 @@ public class ItemWarpFertilizer extends Item {
      * Turn Silverwood Saplings into Warpwood Saplings
      */
     @Override
-    public boolean onItemUse (final ItemStack stack, final EntityPlayer player, final World world, final int x, final int y,
-            final int z, final int side, final float hitX, final float hitY, final float hitZ) {
+    public boolean onItemUse(
+            final ItemStack stack,
+            final EntityPlayer player,
+            final World world,
+            final int x,
+            final int y,
+            final int z,
+            final int side,
+            final float hitX,
+            final float hitY,
+            final float hitZ) {
         super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
-        if (! (world.getBlock(x, y, z) instanceof BlockCustomPlant) || world.getBlockMetadata(x, y, z) != 1)
+        if (!(world.getBlock(x, y, z) instanceof BlockCustomPlant) || world.getBlockMetadata(x, y, z) != 1)
             return false;
         if (world.isRemote) {
             particles(world, x, y, z, 10 + world.rand.nextInt(11));
@@ -49,12 +58,16 @@ public class ItemWarpFertilizer extends Item {
         return true;
     }
 
-    @SideOnly (Side.CLIENT)
-    public void particles (final World world, final int x, final int y, final int z, final int count) {
+    @SideOnly(Side.CLIENT)
+    public void particles(final World world, final int x, final int y, final int z, final int count) {
         for (int i = 0; i < count; i++) {
-            final FXWisp fx = new FXWisp(world, x + 0.5D + (Math.random() - Math.random()) * 0.5D,
-                    y + 0.5D + (Math.random() - Math.random()) * 0.5D, z + 0.5D + (Math.random() - Math.random()) * 0.5D,
-                    0.25F + (float) Math.random() * 0.25F, 5);
+            final FXWisp fx = new FXWisp(
+                    world,
+                    x + 0.5D + (Math.random() - Math.random()) * 0.5D,
+                    y + 0.5D + (Math.random() - Math.random()) * 0.5D,
+                    z + 0.5D + (Math.random() - Math.random()) * 0.5D,
+                    0.25F + (float) Math.random() * 0.25F,
+                    5);
 
             fx.setGravity(0.01F);
 

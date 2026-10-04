@@ -1,9 +1,8 @@
 package taintedmagic.common.blocks;
 
-import java.util.Random;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.Item;
@@ -19,7 +18,7 @@ import thaumcraft.common.config.Config;
 
 public class BlockLumos extends Block implements ITileEntityProvider {
 
-    public BlockLumos () {
+    public BlockLumos() {
         super(Config.airyMaterial);
         setStepSound(new Block.SoundType("stone", -1, -1));
         setBlockName("BlockLumos");
@@ -30,7 +29,7 @@ public class BlockLumos extends Block implements ITileEntityProvider {
     }
 
     @Override
-    public void onBlockDestroyedByPlayer (final World world, final int x, final int y, final int z, final int meta) {
+    public void onBlockDestroyedByPlayer(final World world, final int x, final int y, final int z, final int meta) {
         super.onBlockDestroyedByPlayer(world, x, y, z, meta);
 
         world.playSound(x, y, z, "thaumcraft:ice", 0.3F, 1.1F + world.rand.nextFloat() * 0.1F, true);
@@ -42,10 +41,16 @@ public class BlockLumos extends Block implements ITileEntityProvider {
         }
     }
 
-    @SideOnly (Side.CLIENT)
-    void spawnBreakParticles (final World world, final double x, final double y, final double z) {
-        final FXSparkle fx = new FXSparkle(world, x + world.rand.nextFloat(), y + world.rand.nextFloat(),
-                z + world.rand.nextFloat(), 1.75F, 6, 3 + world.rand.nextInt(3));
+    @SideOnly(Side.CLIENT)
+    void spawnBreakParticles(final World world, final double x, final double y, final double z) {
+        final FXSparkle fx = new FXSparkle(
+                world,
+                x + world.rand.nextFloat(),
+                y + world.rand.nextFloat(),
+                z + world.rand.nextFloat(),
+                1.75F,
+                6,
+                3 + world.rand.nextInt(3));
         fx.motionX += world.rand.nextGaussian() * 0.1D;
         fx.motionY += world.rand.nextGaussian() * 0.1D;
         fx.motionZ += world.rand.nextGaussian() * 0.1D;
@@ -54,57 +59,58 @@ public class BlockLumos extends Block implements ITileEntityProvider {
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool (final World world, final int x, final int y, final int z) {
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(final World world, final int x, final int y, final int z) {
         return null;
     }
 
     @Override
-    public int getRenderType () {
+    public int getRenderType() {
         return -1;
     }
 
     @Override
-    public boolean isSideSolid (final IBlockAccess world, final int x, final int y, final int z, final ForgeDirection side) {
+    public boolean isSideSolid(
+            final IBlockAccess world, final int x, final int y, final int z, final ForgeDirection side) {
         return false;
     }
 
     @Override
-    public boolean isBlockNormalCube () {
+    public boolean isBlockNormalCube() {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube () {
+    public boolean isOpaqueCube() {
         return false;
     }
 
     @Override
-    public boolean isReplaceable (final IBlockAccess world, final int x, final int y, final int z) {
+    public boolean isReplaceable(final IBlockAccess world, final int x, final int y, final int z) {
         return true;
     }
 
     @Override
-    public boolean canBeReplacedByLeaves (final IBlockAccess world, final int x, final int y, final int z) {
+    public boolean canBeReplacedByLeaves(final IBlockAccess world, final int x, final int y, final int z) {
         return true;
     }
 
     @Override
-    public boolean renderAsNormalBlock () {
+    public boolean renderAsNormalBlock() {
         return false;
     }
 
     @Override
-    public Item getItemDropped (final int a, final Random random, final int b) {
+    public Item getItemDropped(final int a, final Random random, final int b) {
         return null;
     }
 
     @Override
-    public Item getItem (final World world, final int x, final int y, final int z) {
+    public Item getItem(final World world, final int x, final int y, final int z) {
         return null;
     }
 
     @Override
-    public TileEntity createNewTileEntity (final World world, final int m) {
+    public TileEntity createNewTileEntity(final World world, final int m) {
         return new TileLumos();
     }
 }

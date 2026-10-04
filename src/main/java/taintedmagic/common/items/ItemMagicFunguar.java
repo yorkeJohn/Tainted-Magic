@@ -19,7 +19,7 @@ import thaumcraft.common.lib.research.ResearchManager;
 
 public class ItemMagicFunguar extends ItemFood {
 
-    public ItemMagicFunguar (final int healAmount, final float saturation, final boolean b) {
+    public ItemMagicFunguar(final int healAmount, final float saturation, final boolean b) {
         super(healAmount, saturation, b);
         setCreativeTab(TaintedMagic.tabTM);
         setTextureName("taintedmagic:ItemMagicFunguar");
@@ -28,7 +28,7 @@ public class ItemMagicFunguar extends ItemFood {
     }
 
     @Override
-    protected void onFoodEaten (final ItemStack stack, final World world, final EntityPlayer player) {
+    protected void onFoodEaten(final ItemStack stack, final World world, final EntityPlayer player) {
         super.onFoodEaten(stack, world, player);
 
         // Potion effects
@@ -42,15 +42,18 @@ public class ItemMagicFunguar extends ItemFood {
             Thaumcraft.proxy.playerKnowledge.addAspectPool(player.getCommandSenderName(), aspects[i], (short) 1);
             ResearchManager.scheduleSave(player);
             PacketHandler.INSTANCE.sendTo(
-                    new PacketAspectPool(aspects[i].getTag(), (short) 1,
-                            Thaumcraft.proxy.playerKnowledge.getAspectPoolFor(player.getCommandSenderName(), aspects[i])),
+                    new PacketAspectPool(
+                            aspects[i].getTag(),
+                            (short) 1,
+                            Thaumcraft.proxy.playerKnowledge.getAspectPoolFor(
+                                    player.getCommandSenderName(), aspects[i])),
                     (EntityPlayerMP) player);
         }
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (final ItemStack stack) {
+    @SideOnly(Side.CLIENT)
+    public EnumRarity getRarity(final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 }

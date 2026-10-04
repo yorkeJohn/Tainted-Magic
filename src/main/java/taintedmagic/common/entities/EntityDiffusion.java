@@ -1,10 +1,9 @@
 package taintedmagic.common.entities;
 
-import java.util.List;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -23,11 +22,15 @@ public class EntityDiffusion extends EntityThrowable {
     public boolean corrosive = false;
     public float dmg = 0.0F;
 
-    public EntityDiffusion (final World world) {
+    public EntityDiffusion(final World world) {
         super(world);
     }
 
-    public EntityDiffusion (final World world, final EntityLivingBase entity, final float scatter, final float dmg,
+    public EntityDiffusion(
+            final World world,
+            final EntityLivingBase entity,
+            final float scatter,
+            final float dmg,
             final boolean corrosive) {
         super(world, entity);
         this.corrosive = corrosive;
@@ -36,38 +39,47 @@ public class EntityDiffusion extends EntityThrowable {
     }
 
     @Override
-    public boolean shouldRenderInPass (final int pass) {
+    public boolean shouldRenderInPass(final int pass) {
         return pass == 1;
     }
 
     @Override
-    protected float getGravityVelocity () {
+    protected float getGravityVelocity() {
         return 0.0F;
     }
 
     @Override
-    protected float func_70182_d () {
+    protected float func_70182_d() {
         return 1.0F;
     }
 
     @Override
-    public void handleHealthUpdate (final byte b) {
+    public void handleHealthUpdate(final byte b) {
         if (b == 16) {
             if (worldObj.isRemote) {
                 final float fx = (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.3F;
                 final float fy = (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.3F;
                 final float fz = (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.3F;
-                Thaumcraft.proxy.wispFX3(worldObj, posX + fx, posY + fy, posZ + fz, posX + fx * 8.0F, posY + fy * 8.0F,
-                        posZ + fz * 8.0F, 0.3F, 5, true, 0.02F);
+                Thaumcraft.proxy.wispFX3(
+                        worldObj,
+                        posX + fx,
+                        posY + fy,
+                        posZ + fz,
+                        posX + fx * 8.0F,
+                        posY + fy * 8.0F,
+                        posZ + fz * 8.0F,
+                        0.3F,
+                        5,
+                        true,
+                        0.02F);
             }
-        }
-        else {
+        } else {
             super.handleHealthUpdate(b);
         }
     }
 
     @Override
-    public void onUpdate () {
+    public void onUpdate() {
         if (ticksExisted > 20) {
             setDead();
         }
@@ -84,16 +96,16 @@ public class EntityDiffusion extends EntityThrowable {
         super.onUpdate();
     }
 
-    public void writeSpawnData (final ByteBuf buf) {
+    public void writeSpawnData(final ByteBuf buf) {
         buf.writeFloat(dmg);
     }
 
-    public void readSpawnData (final ByteBuf buf) {
+    public void readSpawnData(final ByteBuf buf) {
         dmg = buf.readFloat();
     }
 
     @Override
-    protected void onImpact (final MovingObjectPosition mop) {
+    protected void onImpact(final MovingObjectPosition mop) {
         if (!worldObj.isRemote && getThrower() != null) {
             final List<Entity> entities =
                     worldObj.getEntitiesWithinAABBExcludingEntity(getThrower(), boundingBox.expand(1.0D, 1.0D, 1.0D));
@@ -116,35 +128,35 @@ public class EntityDiffusion extends EntityThrowable {
     }
 
     @Override
-    protected boolean canTriggerWalking () {
+    protected boolean canTriggerWalking() {
         return false;
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public float getShadowSize () {
+    @SideOnly(Side.CLIENT)
+    public float getShadowSize() {
         return 0.1F;
     }
 
     @Override
-    public void writeEntityToNBT (final NBTTagCompound tag) {
+    public void writeEntityToNBT(final NBTTagCompound tag) {
         super.writeEntityToNBT(tag);
         tag.setFloat(TAG_DAMAGE, dmg);
     }
 
     @Override
-    public void readEntityFromNBT (final NBTTagCompound tag) {
+    public void readEntityFromNBT(final NBTTagCompound tag) {
         super.readEntityFromNBT(tag);
         dmg = tag.getInteger(TAG_DAMAGE);
     }
 
     @Override
-    public boolean canBeCollidedWith () {
+    public boolean canBeCollidedWith() {
         return false;
     }
 
     @Override
-    public boolean attackEntityFrom (final DamageSource dmg, final float f) {
+    public boolean attackEntityFrom(final DamageSource dmg, final float f) {
         return false;
     }
 }

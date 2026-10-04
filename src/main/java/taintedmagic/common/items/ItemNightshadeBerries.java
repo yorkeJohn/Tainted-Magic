@@ -12,7 +12,7 @@ import taintedmagic.common.TaintedMagic;
 
 public class ItemNightshadeBerries extends ItemFood {
 
-    public ItemNightshadeBerries (final int healAmount, final float saturation, final boolean b) {
+    public ItemNightshadeBerries(final int healAmount, final float saturation, final boolean b) {
         super(healAmount, saturation, b);
         setCreativeTab(TaintedMagic.tabTM);
         setUnlocalizedName("ItemNightshadeBerries");
@@ -21,13 +21,13 @@ public class ItemNightshadeBerries extends ItemFood {
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (final ItemStack stack) {
+    @SideOnly(Side.CLIENT)
+    public EnumRarity getRarity(final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 
     @Override
-    protected void onFoodEaten (final ItemStack stack, final World world, final EntityPlayer player) {
+    protected void onFoodEaten(final ItemStack stack, final World world, final EntityPlayer player) {
         super.onFoodEaten(stack, world, player);
         if (!world.isRemote) {
             player.attackEntityFrom(new DamageSource("nightshade"), Short.MAX_VALUE);

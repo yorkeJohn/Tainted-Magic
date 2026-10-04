@@ -1,12 +1,9 @@
 package taintedmagic.client.handler;
 
-import java.awt.Color;
-
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.awt.Color;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -15,14 +12,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import org.lwjgl.opengl.GL11;
 import taintedmagic.api.IHeldItemHUD;
 import taintedmagic.common.TaintedMagic;
 
 public final class HUDHandler {
 
     @SubscribeEvent
-    @SideOnly (Side.CLIENT)
-    public void renderGameOverlayEvent (final RenderGameOverlayEvent.Post event) {
+    @SideOnly(Side.CLIENT)
+    public void renderGameOverlayEvent(final RenderGameOverlayEvent.Post event) {
         if (event.type == ElementType.ALL) {
             renderHeldItemHUD(event.partialTicks);
             renderString();
@@ -33,8 +31,8 @@ public final class HUDHandler {
     private static ItemStack stack = null;
     private static ItemStack last = null;
 
-    @SideOnly (Side.CLIENT)
-    private void renderHeldItemHUD (final float partialTicks) {
+    @SideOnly(Side.CLIENT)
+    private void renderHeldItemHUD(final float partialTicks) {
         final EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
         final Minecraft mc = Minecraft.getMinecraft();
         final ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
@@ -47,16 +45,14 @@ public final class HUDHandler {
         boolean b = false;
         if (stack != null && stack.getItem() instanceof IHeldItemHUD) {
             b = true;
-        }
-        else {
+        } else {
             b = false;
         }
 
         final float time = 30.0F;
         if (b) {
             ticksEquipped = Math.min(time, ticksEquipped + partialTicks);
-        }
-        else {
+        } else {
             ticksEquipped = Math.max(0F, ticksEquipped - partialTicks);
         }
 
@@ -64,8 +60,7 @@ public final class HUDHandler {
 
         if (b) {
             ((IHeldItemHUD) stack.getItem()).renderHUD(res, player, stack, partialTicks, fract);
-        }
-        else if (!b && ticksEquipped != 0) {
+        } else if (!b && ticksEquipped != 0) {
             ((IHeldItemHUD) last.getItem()).renderHUD(res, player, last, partialTicks, fract);
         }
     }
@@ -82,21 +77,21 @@ public final class HUDHandler {
      * @param duration The duration to display for (in ticks).
      * @param rainbow Display the string in rainbow.
      */
-    public static void displayString (final String text, final int duration, final boolean rainbow) {
+    public static void displayString(final String text, final int duration, final boolean rainbow) {
         currentText = text;
         ticks = time = duration;
         isRainbow = rainbow;
     }
 
-    @SideOnly (Side.CLIENT)
-    public static void updateTicks () {
+    @SideOnly(Side.CLIENT)
+    public static void updateTicks() {
         if (ticks > 0) {
             ticks--;
         }
     }
 
-    @SideOnly (Side.CLIENT)
-    private void renderString () {
+    @SideOnly(Side.CLIENT)
+    private void renderString() {
         if (ticks > 0 && !MathHelper.stringNullOrLengthZero(currentText)) {
             final Minecraft mc = Minecraft.getMinecraft();
             final ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);

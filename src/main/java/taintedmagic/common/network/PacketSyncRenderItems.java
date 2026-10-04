@@ -1,12 +1,11 @@
 package taintedmagic.common.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,22 +17,21 @@ public class PacketSyncRenderItems implements IMessage, IMessageHandler<PacketSy
     private int playerID;
     private List<RenderedItem> items;
 
-    public PacketSyncRenderItems () {
-    }
+    public PacketSyncRenderItems() {}
 
-    public PacketSyncRenderItems (final EntityPlayer player, final List<RenderedItem> items) {
+    public PacketSyncRenderItems(final EntityPlayer player, final List<RenderedItem> items) {
         playerID = player.getEntityId();
         this.items = items;
     }
 
     @Override
-    public IMessage onMessage (final PacketSyncRenderItems message, final MessageContext ctx) {
+    public IMessage onMessage(final PacketSyncRenderItems message, final MessageContext ctx) {
         RenderItemSyncHandler.CLIENT_RENDERED_ITEMS.put(message.playerID, message.items);
         return null;
     }
 
     @Override
-    public void fromBytes (final ByteBuf buf) {
+    public void fromBytes(final ByteBuf buf) {
         playerID = buf.readInt();
         final int size = buf.readByte();
         items = new ArrayList<>(size);
@@ -48,7 +46,7 @@ public class PacketSyncRenderItems implements IMessage, IMessageHandler<PacketSy
     }
 
     @Override
-    public void toBytes (final ByteBuf buf) {
+    public void toBytes(final ByteBuf buf) {
         buf.writeInt(playerID);
         buf.writeByte(items.size());
         for (final RenderedItem item : items) {

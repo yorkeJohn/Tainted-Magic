@@ -1,17 +1,14 @@
 package taintedmagic.common.items;
 
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -22,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import org.lwjgl.opengl.GL11;
 import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
@@ -39,11 +37,12 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
     // Magic circle texture
     private static final ResourceLocation MAGIC_CIRCLE = new ResourceLocation("taintedmagic:textures/misc/circle.png");
 
-    // Players the charm has allowed to fly, kept per side as the client and server threads share this class in singleplayer
+    // Players the charm has allowed to fly, kept per side as the client and server threads share this class in
+    // singleplayer
     private static final Set<UUID> FLYING_CLIENT = ConcurrentHashMap.newKeySet();
     private static final Set<UUID> FLYING_SERVER = ConcurrentHashMap.newKeySet();
 
-    public ItemFlyteCharm () {
+    public ItemFlyteCharm() {
         setCreativeTab(TaintedMagic.tabTM);
         setUnlocalizedName("ItemFlyteCharm");
         setMaxStackSize(1);
@@ -54,13 +53,13 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (final ItemStack stack) {
+    @SideOnly(Side.CLIENT)
+    public EnumRarity getRarity(final ItemStack stack) {
         return TaintedMagic.rarityCreation;
     }
 
     @SubscribeEvent
-    public void updateFlight (final LivingEvent.LivingUpdateEvent event) {
+    public void updateFlight(final LivingEvent.LivingUpdateEvent event) {
         if (event.entityLiving instanceof EntityPlayer) {
             final EntityPlayer player = (EntityPlayer) event.entityLiving;
             final Set<UUID> flyingPlayers = player.worldObj.isRemote ? FLYING_CLIENT : FLYING_SERVER;
@@ -76,7 +75,9 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
 
                     if (!isFlying) {
                         // Glide
-                        if (player.isSneaking() && !player.onGround && player.fallDistance > 0.5F
+                        if (player.isSneaking()
+                                && !player.onGround
+                                && player.fallDistance > 0.5F
                                 && TaintedMagicHelper.consumeVisFromInventory(player, COST_GLIDE, true)) {
                             final double speed = 0.1D;
                             player.motionY = -speed;
@@ -84,50 +85,47 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
                             player.motionZ += Math.sin(Math.toRadians(player.rotationYawHead + 90)) * speed;
                         }
                     }
-                }
-                else {
+                } else {
                     if (!player.capabilities.isCreativeMode) {
                         player.capabilities.allowFlying = false;
                         player.capabilities.isFlying = false;
                     }
                     flyingPlayers.remove(entry);
                 }
-            }
-            else if (canFly(player)) {
+            } else if (canFly(player)) {
                 flyingPlayers.add(entry);
                 player.capabilities.allowFlying = true;
             }
         }
     }
 
-    private boolean canFly (final EntityPlayer player) {
+    private boolean canFly(final EntityPlayer player) {
         final boolean hasVis = TaintedMagicHelper.consumeVisFromInventory(player, COST_FLIGHT, false);
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             final ItemStack stack = player.inventory.getStackInSlot(i);
-            if (stack != null && stack.getItem() instanceof ItemFlyteCharm)
-                return hasVis;
+            if (stack != null && stack.getItem() instanceof ItemFlyteCharm) return hasVis;
         }
         return false;
     }
 
     @SubscribeEvent
-    public void onLogout (final PlayerEvent.PlayerLoggedOutEvent event) {
+    public void onLogout(final PlayerEvent.PlayerLoggedOutEvent event) {
         FLYING_SERVER.remove(event.player.getUniqueID());
     }
 
     @SubscribeEvent
-    public void onClientDisconnect (final ClientDisconnectionFromServerEvent event) {
+    public void onClientDisconnect(final ClientDisconnectionFromServerEvent event) {
         FLYING_CLIENT.clear();
     }
 
     @Override
-    public int getWarp (final ItemStack stack, final EntityPlayer player) {
+    public int getWarp(final ItemStack stack, final EntityPlayer player) {
         return 5;
     }
 
     // Render magic circle
     @Override
-    public void render (final EntityPlayer player, final ItemStack stack, final float partialTicks) {
+    public void render(final EntityPlayer player, final ItemStack stack, final float partialTicks) {
         final Tessellator t = Tessellator.instance;
 
         GL11.glPushMatrix();
@@ -135,8 +133,12 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        GL11.glTranslated(0, (player != Minecraft.getMinecraft().thePlayer ? 1.62F : 0F) - player.getDefaultEyeHeight()
-                + (player.isSneaking() ? 0.0625 : 0), 0);
+        GL11.glTranslated(
+                0,
+                (player != Minecraft.getMinecraft().thePlayer ? 1.62F : 0F)
+                        - player.getDefaultEyeHeight()
+                        + (player.isSneaking() ? 0.0625 : 0),
+                0);
 
         GL11.glRotatef(45, -1, 0, -1);
         GL11.glTranslatef(0.0F, -0.5F, -0.2F);

@@ -10,7 +10,7 @@ public class PacketHandler {
     public static final SimpleNetworkWrapper INSTANCE =
             NetworkRegistry.INSTANCE.newSimpleChannel(Tags.MOD_ID.toLowerCase());
 
-    public static void initPackets () {
+    public static void initPackets() {
         INSTANCE.registerMessage(PacketKatanaAttack.class, PacketKatanaAttack.class, 0, Side.SERVER);
         INSTANCE.registerMessage(PacketSyncRenderItems.class, PacketSyncRenderItems.class, 1, Side.CLIENT);
     }

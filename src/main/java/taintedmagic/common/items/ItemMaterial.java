@@ -1,9 +1,8 @@
 package taintedmagic.common.items;
 
-import java.util.List;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,62 +31,63 @@ public class ItemMaterial extends Item {
      * 11 Fragment of Creation
      */
     private static final int SUBTYPES = 12;
+
     private final IIcon[] icons = new IIcon[SUBTYPES];
 
-    public ItemMaterial () {
+    public ItemMaterial() {
         setCreativeTab(TaintedMagic.tabTM);
         setUnlocalizedName("ItemMaterial");
         setHasSubtypes(true);
     }
 
     @Override
-    public EnumRarity getRarity (final ItemStack stack) {
+    public EnumRarity getRarity(final ItemStack stack) {
         final int meta = stack.getItemDamage();
         switch (meta) {
-        case 0 :
-            return EnumRarity.uncommon;
-        case 1 :
-            return EnumRarity.uncommon;
-        case 2 :
-            return EnumRarity.uncommon;
-        case 3 :
-            return EnumRarity.common;
-        case 4 :
-            return EnumRarity.common;
-        case 5 :
-            return TaintedMagic.rarityCreation;
-        case 6 :
-            return EnumRarity.uncommon;
-        case 7 :
-            return EnumRarity.uncommon;
-        case 8 :
-            return EnumRarity.uncommon;
-        case 9 :
-            return EnumRarity.epic;
-        case 10 :
-            return EnumRarity.epic;
-        case 11 :
-            return TaintedMagic.rarityCreation;
+            case 0:
+                return EnumRarity.uncommon;
+            case 1:
+                return EnumRarity.uncommon;
+            case 2:
+                return EnumRarity.uncommon;
+            case 3:
+                return EnumRarity.common;
+            case 4:
+                return EnumRarity.common;
+            case 5:
+                return TaintedMagic.rarityCreation;
+            case 6:
+                return EnumRarity.uncommon;
+            case 7:
+                return EnumRarity.uncommon;
+            case 8:
+                return EnumRarity.uncommon;
+            case 9:
+                return EnumRarity.epic;
+            case 10:
+                return EnumRarity.epic;
+            case 11:
+                return TaintedMagic.rarityCreation;
         }
         return EnumRarity.common;
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public void registerIcons (final IIconRegister ir) {
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(final IIconRegister ir) {
         for (int i = 0; i < icons.length; i++) {
             icons[i] = ir.registerIcon("taintedmagic:ItemMaterial" + i);
         }
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public IIcon getIconFromDamage (final int meta) {
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamage(final int meta) {
         return icons[meta];
     }
 
     @Override
-    public void addInformation (final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
+    public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
         super.addInformation(stack, player, list, b);
 
         if (stack.getItemDamage() == 5) {
@@ -96,15 +96,15 @@ public class ItemMaterial extends Item {
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public void getSubItems (final Item item, final CreativeTabs tab, final List list) {
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(final Item item, final CreativeTabs tab, final List list) {
         for (int i = 0; i < SUBTYPES; i++) {
             list.add(new ItemStack(this, 1, i));
         }
     }
 
     @Override
-    public String getUnlocalizedName (final ItemStack stack) {
+    public String getUnlocalizedName(final ItemStack stack) {
         return super.getUnlocalizedName() + "." + stack.getItemDamage();
     }
 }

@@ -18,29 +18,44 @@ public class ThaumcraftResearchItem extends ResearchItem {
 
     private final ResearchItem original;
 
-    public ThaumcraftResearchItem (final String tag, final String origin, final String originCategory, final int col,
-            final int row, final ResourceLocation icon) {
+    public ThaumcraftResearchItem(
+            final String tag,
+            final String origin,
+            final String originCategory,
+            final int col,
+            final int row,
+            final ResourceLocation icon) {
         super(tag, ResearchRegistry.CATEGORY_TM, new AspectList(), col, row, 1, icon);
-        original = ResearchCategories.researchCategories.get(originCategory).research.get(origin);
+        original = ResearchCategories.researchCategories
+                .get(originCategory)
+                .research
+                .get(origin);
         bindToOriginal();
         setStub();
         setHidden();
     }
 
-    public ThaumcraftResearchItem (final String tag, final String origin, final String originCategory, final int col,
-            final int row, final ItemStack icon) {
+    public ThaumcraftResearchItem(
+            final String tag,
+            final String origin,
+            final String originCategory,
+            final int col,
+            final int row,
+            final ItemStack icon) {
         super(tag, ResearchRegistry.CATEGORY_TM, new AspectList(), col, row, 1, icon);
-        original = ResearchCategories.researchCategories.get(originCategory).research.get(origin);
+        original = ResearchCategories.researchCategories
+                .get(originCategory)
+                .research
+                .get(origin);
         bindToOriginal();
         setStub();
         setHidden();
     }
 
-    private void bindToOriginal () {
+    private void bindToOriginal() {
         if (original.siblings == null) {
             original.setSiblings(key);
-        }
-        else {
+        } else {
             final String[] family = original.siblings;
             final String[] newFamily = new String[family.length + 1];
             for (int x = 0; x < family.length; x++) {
@@ -55,34 +70,34 @@ public class ThaumcraftResearchItem extends ResearchItem {
     }
 
     @Override
-    public ResearchPage[] getPages () {
+    public ResearchPage[] getPages() {
         return original.getPages();
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public String getName () {
+    @SideOnly(Side.CLIENT)
+    public String getName() {
         return original.getName();
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public String getText () {
+    @SideOnly(Side.CLIENT)
+    public String getText() {
         return original.getText();
     }
 
     @Override
-    public boolean isStub () {
+    public boolean isStub() {
         return true;
     }
 
     @Override
-    public boolean isHidden () {
+    public boolean isHidden() {
         return true;
     }
 
     @Override
-    public int getComplexity () {
+    public int getComplexity() {
         return 1;
     }
 }

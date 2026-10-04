@@ -1,11 +1,10 @@
 package taintedmagic.client.renderer;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import taintedmagic.common.entities.EntityDiffusion;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.lib.UtilsFX;
@@ -13,12 +12,22 @@ import thaumcraft.client.lib.UtilsFX;
 public class RenderEntityDiffusion extends Render {
 
     @Override
-    public void doRender (final Entity entity, final double x, final double y, final double z, final float f,
+    public void doRender(
+            final Entity entity,
+            final double x,
+            final double y,
+            final double z,
+            final float f,
             final float partialTicks) {
         render((EntityDiffusion) entity, x, y, z, f, partialTicks);
     }
 
-    public void render (final EntityDiffusion entity, final double x, final double y, final double z, final float f,
+    public void render(
+            final EntityDiffusion entity,
+            final double x,
+            final double y,
+            final double z,
+            final float f,
             final float partialTicks) {
         final Tessellator t = Tessellator.instance;
 
@@ -67,7 +76,7 @@ public class RenderEntityDiffusion extends Render {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture (final Entity entity) {
+    protected ResourceLocation getEntityTexture(final Entity entity) {
         return null;
     }
 }

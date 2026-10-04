@@ -12,7 +12,7 @@ import taintedmagic.common.TaintedMagic;
 
 public class ItemLumosRing extends Item implements IBauble {
 
-    public ItemLumosRing () {
+    public ItemLumosRing() {
         setCreativeTab(TaintedMagic.tabTM);
         setTextureName("taintedmagic:ItemLumosRing");
         setMaxDamage(-1);
@@ -21,35 +21,32 @@ public class ItemLumosRing extends Item implements IBauble {
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public EnumRarity getRarity (final ItemStack stack) {
+    @SideOnly(Side.CLIENT)
+    public EnumRarity getRarity(final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 
     @Override
-    public boolean canEquip (final ItemStack stack, final EntityLivingBase entity) {
+    public boolean canEquip(final ItemStack stack, final EntityLivingBase entity) {
         return true;
     }
 
     @Override
-    public boolean canUnequip (final ItemStack stack, final EntityLivingBase entity) {
+    public boolean canUnequip(final ItemStack stack, final EntityLivingBase entity) {
         return true;
     }
 
     @Override
-    public BaubleType getBaubleType (final ItemStack stack) {
+    public BaubleType getBaubleType(final ItemStack stack) {
         return BaubleType.RING;
     }
 
     @Override
-    public void onEquipped (final ItemStack stack, final EntityLivingBase entity) {
-    }
+    public void onEquipped(final ItemStack stack, final EntityLivingBase entity) {}
 
     @Override
-    public void onUnequipped (final ItemStack stack, final EntityLivingBase entity) {
-    }
+    public void onUnequipped(final ItemStack stack, final EntityLivingBase entity) {}
 
     @Override
-    public void onWornTick (final ItemStack stack, final EntityLivingBase entity) {
-    }
+    public void onWornTick(final ItemStack stack, final EntityLivingBase entity) {}
 }

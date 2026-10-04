@@ -17,7 +17,7 @@ import thaumcraft.api.IRepairable;
 
 public class ItemShadowmetalHoe extends ItemHoe implements IRepairable {
 
-    public ItemShadowmetalHoe (final ToolMaterial material) {
+    public ItemShadowmetalHoe(final ToolMaterial material) {
         super(material);
         setCreativeTab(TaintedMagic.tabTM);
         setTextureName("taintedmagic:ItemShadowmetalHoe");
@@ -28,14 +28,24 @@ public class ItemShadowmetalHoe extends ItemHoe implements IRepairable {
     }
 
     @Override
-    public boolean getIsRepairable (final ItemStack stack, final ItemStack repairItem) {
-        return repairItem.isItemEqual(new ItemStack(ItemRegistry.ItemMaterial, 1, 0)) ? true
+    public boolean getIsRepairable(final ItemStack stack, final ItemStack repairItem) {
+        return repairItem.isItemEqual(new ItemStack(ItemRegistry.ItemMaterial, 1, 0))
+                ? true
                 : super.getIsRepairable(stack, repairItem);
     }
 
     @Override
-    public boolean onItemUse (final ItemStack stack, final EntityPlayer player, final World world, final int x, final int y,
-            final int z, final int i, final float f, final float f1, final float f2) {
+    public boolean onItemUse(
+            final ItemStack stack,
+            final EntityPlayer player,
+            final World world,
+            final int x,
+            final int y,
+            final int z,
+            final int i,
+            final float f,
+            final float f1,
+            final float f2) {
         super.onItemUse(stack, player, world, x, y, z, i, f, f1, f2);
 
         if (!player.worldObj.isRemote) {
@@ -44,17 +54,28 @@ public class ItemShadowmetalHoe extends ItemHoe implements IRepairable {
             if (player.worldObj.getBlock(x, y, z) == Blocks.farmland) {
                 player.worldObj.setBlock(x, y, z, Blocks.dirt);
                 stack.damageItem(1, player);
-                world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, dirt.stepSound.getStepResourcePath(),
-                        (dirt.stepSound.getVolume() + 1.0F) / 2.0F, dirt.stepSound.getPitch() * 0.8F);
-            }
-            else if (player.worldObj.getBlock(x, y, z) == Blocks.dirt || player.worldObj.getBlock(x, y, z) == Blocks.grass) {
+                world.playSoundEffect(
+                        x + 0.5F,
+                        y + 0.5F,
+                        z + 0.5F,
+                        dirt.stepSound.getStepResourcePath(),
+                        (dirt.stepSound.getVolume() + 1.0F) / 2.0F,
+                        dirt.stepSound.getPitch() * 0.8F);
+            } else if (player.worldObj.getBlock(x, y, z) == Blocks.dirt
+                    || player.worldObj.getBlock(x, y, z) == Blocks.grass) {
                 player.worldObj.setBlock(x, y, z, Blocks.farmland);
                 stack.damageItem(1, player);
-                world.playSoundEffect(x + 0.5F, y + 0.5F, z + 0.5F, dirt.stepSound.getStepResourcePath(),
-                        (dirt.stepSound.getVolume() + 1.0F) / 2.0F, dirt.stepSound.getPitch() * 0.8F);
+                world.playSoundEffect(
+                        x + 0.5F,
+                        y + 0.5F,
+                        z + 0.5F,
+                        dirt.stepSound.getStepResourcePath(),
+                        (dirt.stepSound.getVolume() + 1.0F) / 2.0F,
+                        dirt.stepSound.getPitch() * 0.8F);
             }
         }
-        if (player.worldObj.getBlock(x, y, z) == Blocks.dirt || player.worldObj.getBlock(x, y, z) == Blocks.grass
+        if (player.worldObj.getBlock(x, y, z) == Blocks.dirt
+                || player.worldObj.getBlock(x, y, z) == Blocks.grass
                 || player.worldObj.getBlock(x, y, z) == Blocks.farmland) {
             player.swingItem();
         }
@@ -62,14 +83,14 @@ public class ItemShadowmetalHoe extends ItemHoe implements IRepairable {
     }
 
     @SubscribeEvent
-    public void useHoe (final UseHoeEvent event) {
+    public void useHoe(final UseHoeEvent event) {
         if (event.current.getItem() == ItemRegistry.ItemShadowmetalHoe) {
             event.setCanceled(true);
         }
     }
 
     @Override
-    public EnumRarity getRarity (final ItemStack stack) {
+    public EnumRarity getRarity(final ItemStack stack) {
         return EnumRarity.uncommon;
     }
 }

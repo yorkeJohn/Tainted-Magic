@@ -1,9 +1,8 @@
 package taintedmagic.common.items.equipment;
 
-import java.util.List;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,47 +20,51 @@ import thaumcraft.common.items.armor.ItemFortressArmor;
 
 public class ItemVoidFortressArmor extends ItemFortressArmor implements IWarpingGear, IVisDiscountGear {
 
-    public ItemVoidFortressArmor (final ArmorMaterial material, final int j, final int k) {
+    public ItemVoidFortressArmor(final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);
         setCreativeTab(TaintedMagic.tabTM);
     }
 
     @Override
-    @SideOnly (Side.CLIENT)
-    public void registerIcons (final IIconRegister ir) {
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(final IIconRegister ir) {
         iconHelm = ir.registerIcon("taintedmagic:ItemVoidFortressHelmet");
         iconChest = ir.registerIcon("taintedmagic:ItemVoidFortressChestplate");
         iconLegs = ir.registerIcon("taintedmagic:ItemVoidFortressLeggings");
     }
 
     @Override
-    public void addInformation (final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
+    public void addInformation(final ItemStack stack, final EntityPlayer player, final List list, final boolean b) {
         list.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("tc.visdiscount") + ": "
                 + getVisDiscount(stack, player, null) + "%");
         super.addInformation(stack, player, list, b);
     }
 
     @Override
-    public String getArmorTexture (final ItemStack stack, final Entity entity, final int slot, final String type) {
+    public String getArmorTexture(final ItemStack stack, final Entity entity, final int slot, final String type) {
         return "taintedmagic:textures/models/ModelVoidFortressArmor.png";
     }
 
     @Override
-    public boolean getIsRepairable (final ItemStack stack, final ItemStack repairItem) {
-        return repairItem.isItemEqual(new ItemStack(ConfigItems.itemResource, 1, 16)) ? true
+    public boolean getIsRepairable(final ItemStack stack, final ItemStack repairItem) {
+        return repairItem.isItemEqual(new ItemStack(ConfigItems.itemResource, 1, 16))
+                ? true
                 : super.getIsRepairable(stack, repairItem);
     }
 
     @Override
-    public void onUpdate (final ItemStack stack, final World world, final Entity entity, final int i, final boolean b) {
+    public void onUpdate(final ItemStack stack, final World world, final Entity entity, final int i, final boolean b) {
         super.onUpdate(stack, world, entity, i, b);
-        if (!world.isRemote && stack.isItemDamaged() && entity.ticksExisted % 20 == 0 && entity instanceof EntityLivingBase) {
+        if (!world.isRemote
+                && stack.isItemDamaged()
+                && entity.ticksExisted % 20 == 0
+                && entity instanceof EntityLivingBase) {
             stack.damageItem(-1, (EntityLivingBase) entity);
         }
     }
 
     @Override
-    public void onArmorTick (final World world, final EntityPlayer player, final ItemStack stack) {
+    public void onArmorTick(final World world, final EntityPlayer player, final ItemStack stack) {
         super.onArmorTick(world, player, stack);
         if (!world.isRemote && stack.isItemDamaged() && player.ticksExisted % 20 == 0) {
             stack.damageItem(-1, player);
@@ -69,12 +72,12 @@ public class ItemVoidFortressArmor extends ItemFortressArmor implements IWarping
     }
 
     @Override
-    public int getWarp (final ItemStack stack, final EntityPlayer player) {
+    public int getWarp(final ItemStack stack, final EntityPlayer player) {
         return 3;
     }
 
     @Override
-    public int getVisDiscount (final ItemStack stack, final EntityPlayer player, final Aspect aspect) {
+    public int getVisDiscount(final ItemStack stack, final EntityPlayer player, final Aspect aspect) {
         return 5;
     }
 }

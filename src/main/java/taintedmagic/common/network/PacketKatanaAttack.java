@@ -18,10 +18,9 @@ public class PacketKatanaAttack implements IMessage, IMessageHandler<PacketKatan
     private int dimensionID;
     private float dmg;
 
-    public PacketKatanaAttack () {
-    }
+    public PacketKatanaAttack() {}
 
-    public PacketKatanaAttack (final Entity entity, final EntityPlayer player, final float dmg) {
+    public PacketKatanaAttack(final Entity entity, final EntityPlayer player, final float dmg) {
         entityID = entity.getEntityId();
         playerID = player.getEntityId();
         dimensionID = entity.dimension;
@@ -29,24 +28,23 @@ public class PacketKatanaAttack implements IMessage, IMessageHandler<PacketKatan
     }
 
     @Override
-    public IMessage onMessage (final PacketKatanaAttack message, final MessageContext ctx) {
+    public IMessage onMessage(final PacketKatanaAttack message, final MessageContext ctx) {
         final World world = DimensionManager.getWorld(message.dimensionID);
-        if (world == null)
-            return null;
+        if (world == null) return null;
 
         final Entity entity = world.getEntityByID(message.entityID);
         final Entity player = world.getEntityByID(message.playerID);
 
         if (entity != null && entity instanceof EntityLivingBase && player != null && player instanceof EntityPlayer) {
-            entity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player).setDamageBypassesArmor(),
-                    message.dmg);
+            entity.attackEntityFrom(
+                    DamageSource.causePlayerDamage((EntityPlayer) player).setDamageBypassesArmor(), message.dmg);
         }
 
         return null;
     }
 
     @Override
-    public void fromBytes (final ByteBuf buf) {
+    public void fromBytes(final ByteBuf buf) {
         entityID = buf.readInt();
         playerID = buf.readInt();
         dimensionID = buf.readInt();
@@ -54,7 +52,7 @@ public class PacketKatanaAttack implements IMessage, IMessageHandler<PacketKatan
     }
 
     @Override
-    public void toBytes (final ByteBuf buf) {
+    public void toBytes(final ByteBuf buf) {
         buf.writeInt(entityID);
         buf.writeInt(playerID);
         buf.writeInt(dimensionID);

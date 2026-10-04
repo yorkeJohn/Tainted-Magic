@@ -1,7 +1,5 @@
 package taintedmagic.client.renderer;
 
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -10,25 +8,27 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.IItemRenderer;
+import org.lwjgl.opengl.GL11;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.items.tools.ItemKatana;
 import thaumcraft.client.lib.UtilsFX;
 
-@SideOnly (Side.CLIENT)
+@SideOnly(Side.CLIENT)
 public class RenderItemKatana implements IItemRenderer {
 
     @Override
-    public boolean handleRenderType (final ItemStack stack, final ItemRenderType type) {
+    public boolean handleRenderType(final ItemStack stack, final ItemRenderType type) {
         return true;
     }
 
     @Override
-    public boolean shouldUseRenderHelper (final ItemRenderType type, final ItemStack stack, final ItemRendererHelper helper) {
+    public boolean shouldUseRenderHelper(
+            final ItemRenderType type, final ItemStack stack, final ItemRendererHelper helper) {
         return true;
     }
 
     @Override
-    public void renderItem (final ItemRenderType type, final ItemStack stack, final Object... data) {
+    public void renderItem(final ItemRenderType type, final ItemStack stack, final Object... data) {
         final EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
 
         GL11.glPushMatrix();
@@ -36,20 +36,18 @@ public class RenderItemKatana implements IItemRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glScalef(1.4F, 1.4F, 1.4F);
 
-        if ( (player.getHeldItem() == null || player.getHeldItem() != stack) && type != ItemRenderType.EQUIPPED) {
+        if ((player.getHeldItem() == null || player.getHeldItem() != stack) && type != ItemRenderType.EQUIPPED) {
             GL11.glPushMatrix();
             if (type == ItemRenderType.ENTITY) {
                 GL11.glScalef(0.5F, 0.5F, 0.5F);
                 GL11.glTranslatef(0F, 0.5F, 0F);
                 GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
-            }
-            else if (type == ItemRenderType.INVENTORY) {
+            } else if (type == ItemRenderType.INVENTORY) {
                 GL11.glScalef(0.4F, 0.4F, 0.4F);
                 GL11.glRotatef(-65, 1.0F, 0.0F, 0.0F);
                 GL11.glRotatef(-50, 0.0F, 1.0F, 0.0F);
                 GL11.glTranslatef(1F, 1F, 0.0F);
-            }
-            else {
+            } else {
                 GL11.glTranslatef(0.0F, -0.7F, 0.0F);
             }
 
@@ -65,9 +63,7 @@ public class RenderItemKatana implements IItemRenderer {
             GL11.glScalef(0.5F, 0.5F, 0.5F);
             GL11.glTranslatef(0F, 0.5F, 0F);
             GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
-        }
-
-        else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
+        } else if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
             if (player.isUsingItem()) {
                 GL11.glTranslatef(5.0F, 1.0F, -0.2F);
                 GL11.glRotatef(155.0F, 0.0F, 1.0F, 0.0F);
@@ -78,14 +74,12 @@ public class RenderItemKatana implements IItemRenderer {
             GL11.glTranslatef(2.0F, 1.85F, -0.25F);
             GL11.glRotatef(-10F, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(-10F, 0.0F, 0.0F, 1.0F);
-        }
-        else if (type == ItemRenderType.INVENTORY) {
+        } else if (type == ItemRenderType.INVENTORY) {
             GL11.glScalef(0.4F, 0.4F, 0.4F);
             GL11.glRotatef(-65, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(-50, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(1F, 1F, 0.0F);
-        }
-        else {
+        } else {
             GL11.glRotatef(60, 0.0F, 0.0F, 1.0F);
             GL11.glRotatef(-40, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(70, 0.0F, 1.0F, 0.0F);
@@ -134,14 +128,15 @@ public class RenderItemKatana implements IItemRenderer {
     /**
      * TC method to draw runes on runed staves
      */
-    public static void drawRune (final double x, final double y, final double z, final int rune, final EntityPlayer player) {
+    public static void drawRune(
+            final double x, final double y, final double z, final int rune, final EntityPlayer player) {
         GL11.glPushMatrix();
 
         UtilsFX.bindTexture("textures/misc/script.png");
 
-        final float r = MathHelper.sin( (player.ticksExisted + rune * 5) / 5.0F) * 0.1F + 0.88F;
-        final float g = MathHelper.sin( (player.ticksExisted + rune * 5) / 7.0F) * 0.1F + 0.63F;
-        final float alpha = MathHelper.sin( (player.ticksExisted + rune * 5) / 10.0F) * 0.3F;
+        final float r = MathHelper.sin((player.ticksExisted + rune * 5) / 5.0F) * 0.1F + 0.88F;
+        final float g = MathHelper.sin((player.ticksExisted + rune * 5) / 7.0F) * 0.1F + 0.63F;
+        final float alpha = MathHelper.sin((player.ticksExisted + rune * 5) / 10.0F) * 0.3F;
 
         GL11.glColor4f(r, g, 0.2F, alpha + 0.6F);
 
