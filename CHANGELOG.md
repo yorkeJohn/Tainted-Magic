@@ -21,7 +21,8 @@
 - Fixed charged Fortress Blade strikes being calculated by the client. Strikes are now handled by the server, which uses normal melee reach and respects the server's PvP setting.
 - Fixed Fortress Blade charge being shared between players.
 - Fixed Lumos night vision being shared between players, which could remove other players' night vision. Lumos also no longer removes night vision from potions.
-- Fixed HUD messages disappearing too quickly, and the Fortress Blade gauge fading at different speeds depending on frame rate. Status messages now show for 2 seconds and the Creation message for 10 seconds, and all messages fade out over 1 second.
+- Fixed HUD messages disappearing too quickly, and the Fortress Blade gauge fading at different speeds depending on frame rate. Status messages now show for 2 seconds and the Creation message for 10 seconds, and all messages fade out over 500 ms.
+- Fixed the Creation message and Voidwalker's Sash speed toggle messages not showing on servers. These messages are now shown in the player's own language.
 - Fixed typos and outdated research text in the English, Russian and Chinese localizations.
 
 ## 8.1.1

@@ -63,6 +63,16 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
+    public void displayString(final String text) {
+        HUDHandler.displayString(text);
+    }
+
+    @Override
+    public void displayString(final String text, final int duration, final boolean rainbow) {
+        HUDHandler.displayString(text, duration, rainbow);
+    }
+
+    @Override
     public EntityPlayer getClientPlayer() {
         return Minecraft.getMinecraft().thePlayer;
     }

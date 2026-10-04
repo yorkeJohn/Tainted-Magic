@@ -19,10 +19,10 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import taintedmagic.client.handler.HUDHandler;
 import taintedmagic.common.items.equipment.ItemLumosRing;
 import taintedmagic.common.items.tools.ItemHollowDagger;
 import taintedmagic.common.items.wand.foci.ItemFocusMageMace;
+import taintedmagic.common.network.PacketDisplayString;
 import taintedmagic.common.registry.ItemRegistry;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.wands.ItemFocusBasic;
@@ -249,8 +249,7 @@ public class TMEventHandler {
             PacketHandler.INSTANCE.sendTo(new PacketResearchComplete("CREATION"), (EntityPlayerMP) player);
 
             // effects
-            HUDHandler.displayString(
-                    EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("text.creation"), 200, false);
+            PacketDisplayString.send((EntityPlayerMP) player, EnumChatFormatting.DARK_PURPLE, "text.creation", 200);
             player.worldObj.playSoundAtEntity(player, "thaumcraft:egidle", 1.0F, 1.0F);
             player.worldObj.playSoundAtEntity(player, "thaumcraft:heartbeat", 1.0F, 1.0F);
             player.addPotionEffect(new PotionEffect(Potion.blindness.id, 200, -1));

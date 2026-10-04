@@ -6,6 +6,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import java.util.List;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,8 +14,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import taintedmagic.client.handler.HUDHandler;
 import taintedmagic.common.TaintedMagic;
+import taintedmagic.common.network.PacketDisplayString;
 import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.ItemRunic;
@@ -99,12 +100,14 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
             }
             if (stack.stackTagCompound != null) {
                 stack.stackTagCompound.setBoolean(TAG_MODE, !stack.stackTagCompound.getBoolean(TAG_MODE));
-                if (isSpeedEnabled(stack)) {
-                    HUDHandler.displayString(
-                            EnumChatFormatting.GREEN + StatCollector.translateToLocal("text.sash.speed.on"));
-                } else {
-                    HUDHandler.displayString(
-                            EnumChatFormatting.RED + StatCollector.translateToLocal("text.sash.speed.off"));
+                if (player instanceof EntityPlayerMP) {
+                    if (isSpeedEnabled(stack)) {
+                        PacketDisplayString.send(
+                                (EntityPlayerMP) player, EnumChatFormatting.GREEN, "text.sash.speed.on");
+                    } else {
+                        PacketDisplayString.send(
+                                (EntityPlayerMP) player, EnumChatFormatting.RED, "text.sash.speed.off");
+                    }
                 }
             }
         }

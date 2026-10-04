@@ -20,7 +20,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
-import taintedmagic.client.handler.HUDHandler;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.fx.ParticleEngine;
@@ -205,10 +204,10 @@ public class ItemGateKey extends Item implements IWarpingGear {
                     world.playSoundAtEntity(player, "mob.endermen.portal", 5.0F, 1.0F);
                 }
                 player.addPotionEffect(new PotionEffect(Potion.confusion.id, 160, 0));
-            } else if (dim != world.provider.dimensionId) {
-                HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("key.invaliddim"));
-            } else {
-                HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("key.error"));
+            } else if (world.isRemote) {
+                TaintedMagic.proxy.displayString(EnumChatFormatting.RED
+                        + StatCollector.translateToLocal(
+                                dim != world.provider.dimensionId ? "key.invaliddim" : "key.error"));
             }
         }
         return stack;

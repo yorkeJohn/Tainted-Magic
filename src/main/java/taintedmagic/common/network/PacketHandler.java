@@ -12,5 +12,6 @@ public class PacketHandler {
 
     public static void initPackets() {
         INSTANCE.registerMessage(PacketSyncRenderItems.class, PacketSyncRenderItems.class, 0, Side.CLIENT);
+        INSTANCE.registerMessage(PacketDisplayString.class, PacketDisplayString.class, 1, Side.CLIENT);
     }
 }

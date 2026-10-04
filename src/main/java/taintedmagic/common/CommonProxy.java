@@ -55,6 +55,13 @@ public class CommonProxy {
 
     public void registerRenderers() {}
 
+    /**
+     * Displays text above the health bar on the client. Does nothing on the server.
+     */
+    public void displayString(final String text) {}
+
+    public void displayString(final String text, final int duration, final boolean rainbow) {}
+
     public EntityPlayer getClientPlayer() {
         return null;
     }

@@ -17,7 +17,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
-import taintedmagic.client.handler.HUDHandler;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -121,7 +120,9 @@ public class ItemThaumicDisassembler extends Item {
                     + getModeName(getMode(stack))
                     + (getMode(stack) == 3 ? EnumChatFormatting.RED : EnumChatFormatting.GREEN)
                     + " (" + getEfficiency(getMode(stack)) + ")";
-            HUDHandler.displayString(str);
+            if (world.isRemote) {
+                TaintedMagic.proxy.displayString(str);
+            }
         }
         return stack;
     }
