@@ -1,18 +1,19 @@
 package taintedmagic.client.handler;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import taintedmagic.api.IRenderInventoryItem;
+import taintedmagic.common.handler.RenderItemSyncHandler;
+import taintedmagic.common.handler.RenderItemSyncHandler.RenderedItem;
 
 @SideOnly (Side.CLIENT)
 public class ClientHandler {
@@ -30,17 +31,20 @@ public class ClientHandler {
     @SubscribeEvent
     public void onPlayerRender (final RenderPlayerEvent.Specials.Post event) {
         final EntityPlayer player = event.entityPlayer;
-        if (player.getActivePotionEffect(Potion.invisibility) != null)
+        // Invisibility potion effects aren't synced for other players, but the invisible flag is
+        if (player.isInvisible())
             return;
 
-        final ItemStack[] inv = player.inventory.mainInventory;
-        final List<Item> rendering = new ArrayList<>();
-        for (final ItemStack stack : inv) {
-            if (stack != null && stack.getItem() instanceof IRenderInventoryItem && !rendering.contains(stack.getItem())) {
-                ((IRenderInventoryItem) stack.getItem()).render(player, stack, event.partialRenderTick);
-                rendering.add(stack.getItem());
-            }
+        // Only the local player's inventory is known on the client, other players' items come from the server
+        final List<RenderedItem> items = player == Minecraft.getMinecraft().thePlayer
+                ? RenderItemSyncHandler.getRenderedItems(player)
+                : RenderItemSyncHandler.CLIENT_RENDERED_ITEMS.getOrDefault(player.getEntityId(), Collections.emptyList());
+
+        for (final RenderedItem item : items) {
+            // Pass the held stack itself so renderers can tell the item is in the player's hand
+            final ItemStack held = player.getHeldItem();
+            final ItemStack stack = item.held && held != null && held.getItem() == item.stack.getItem() ? held : item.stack;
+            ((IRenderInventoryItem) stack.getItem()).render(player, stack, event.partialRenderTick);
         }
-        rendering.clear();
     }
 }

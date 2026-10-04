@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import baubles.api.BaublesApi;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -16,7 +15,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -225,16 +223,6 @@ public class TMEventHandler {
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * Update notifications
-     */
-    @SubscribeEvent
-    public void playerLoggedIn (final PlayerEvent.PlayerLoggedInEvent event) {
-        if (UpdateHandler.message != null) {
-            event.player.addChatMessage(new ChatComponentText(UpdateHandler.message));
         }
     }
 
