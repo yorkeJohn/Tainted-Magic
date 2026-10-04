@@ -64,7 +64,8 @@ public class TMEventHandler {
         }
     }
 
-    private boolean hasNightVision = false;
+    // Amplifier used to tell Lumos night vision apart from night vision potions
+    private static final int LUMOS_AMPLIFIER = -1;
 
     /**
      * Apply Night Vision effect when the player is holding a wand or staff
@@ -88,18 +89,16 @@ public class TMEventHandler {
             }
         }
 
+        final PotionEffect current = player.getActivePotionEffect(Potion.nightVision);
+        final boolean fromLumos = current != null && current.getAmplifier() == LUMOS_AMPLIFIER;
+
         if (lumos) {
-            if (!hasNightVision) {
-                if (!player.isPotionActive(Potion.nightVision.id)) {
-                    player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 260, -1));
-                    hasNightVision = true;
-                }
-            } else if (player.ticksExisted % 20 == 0) {
-                player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 260, -1));
+            // Don't override a night vision potion, Lumos takes over once it runs out
+            if (current == null || fromLumos && player.ticksExisted % 20 == 0) {
+                player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 260, LUMOS_AMPLIFIER));
             }
-        } else if (hasNightVision) {
+        } else if (fromLumos) {
             player.removePotionEffect(Potion.nightVision.id);
-            hasNightVision = false;
         }
     }
 
