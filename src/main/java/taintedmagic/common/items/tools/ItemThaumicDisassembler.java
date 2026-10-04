@@ -83,7 +83,7 @@ public class ItemThaumicDisassembler extends Item {
 
     @Override
     public float getDigSpeed (final ItemStack stack, final Block block, final int meta) {
-        return getEntropyCharge(stack) != 0 ? getEfficiency(stack) : 1f;
+        return getEntropyCharge(stack) > 0 ? getEfficiency(stack) : 1f;
     }
 
     @Override
@@ -229,7 +229,7 @@ public class ItemThaumicDisassembler extends Item {
         if (stack.getTagCompound() == null) {
             stack.stackTagCompound = new NBTTagCompound();
         }
-        stack.getTagCompound().setInteger(TAG_CHARGE, getEntropyCharge(stack) - amount);
+        stack.getTagCompound().setInteger(TAG_CHARGE, Math.max(0, getEntropyCharge(stack) - amount));
     }
 
     private int getEntropyCharge (final ItemStack stack) {
