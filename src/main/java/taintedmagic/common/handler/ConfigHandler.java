@@ -2,7 +2,6 @@ package taintedmagic.common.handler;
 
 import net.minecraftforge.common.config.Configuration;
 import taintedmagic.common.TaintedMagic;
-import thaumcraft.api.wands.FocusUpgradeType;
 
 public class ConfigHandler {
 
@@ -17,6 +16,9 @@ public class ConfigHandler {
     public static int CORROSIVE_UPGRADE_ID = 66;
     public static int PERSISTENT_UPGRADE_ID = 67;
     public static int DIFFUSION_UPGRADE_ID = 68;
+
+    // Thaumcraft reserves focus upgrade IDs 0-19 for its own upgrades
+    private static final int MIN_UPGRADE_ID = 20;
 
     public static void initConfig () {
         TaintedMagic.logger.info("Loading config...");
@@ -40,19 +42,19 @@ public class ConfigHandler {
         /**
          * Focus upgrade IDs
          */
-        SANITY_UPGRADE_ID = config.getInt("SANITY_UPGRADE_ID", "wands_and_foci", 64, FocusUpgradeType.types.length + 1,
+        SANITY_UPGRADE_ID = config.getInt("SANITY_UPGRADE_ID", "wands_and_foci", 64, MIN_UPGRADE_ID,
                 Short.MAX_VALUE, "The ID for the Sanity focus upgrade.");
 
-        ANTIBODY_UPGRADE_ID = config.getInt("ANTIBODY_UPGRADE_ID", "wands_and_foci", 65, FocusUpgradeType.types.length + 1,
+        ANTIBODY_UPGRADE_ID = config.getInt("ANTIBODY_UPGRADE_ID", "wands_and_foci", 65, MIN_UPGRADE_ID,
                 Short.MAX_VALUE, "The ID for the Antibody focus upgrade.");
 
-        CORROSIVE_UPGRADE_ID = config.getInt("CORROSIVE_UPGRADE_ID", "wands_and_foci", 66, FocusUpgradeType.types.length + 1,
+        CORROSIVE_UPGRADE_ID = config.getInt("CORROSIVE_UPGRADE_ID", "wands_and_foci", 66, MIN_UPGRADE_ID,
                 Short.MAX_VALUE, "The ID for the Corrosive focus upgrade.");
 
-        PERSISTENT_UPGRADE_ID = config.getInt("PERSISTENT_UPGRADE_ID", "wands_and_foci", 67, FocusUpgradeType.types.length + 1,
+        PERSISTENT_UPGRADE_ID = config.getInt("PERSISTENT_UPGRADE_ID", "wands_and_foci", 67, MIN_UPGRADE_ID,
                 Short.MAX_VALUE, "The ID for the Persistent focus upgrade.");
 
-        DIFFUSION_UPGRADE_ID = config.getInt("DIFFUSION_UPGRADE_ID", "wands_and_foci", 68, FocusUpgradeType.types.length + 1,
+        DIFFUSION_UPGRADE_ID = config.getInt("DIFFUSION_UPGRADE_ID", "wands_and_foci", 68, MIN_UPGRADE_ID,
                 Short.MAX_VALUE, "The ID for the Diffusion focus upgrade.");
 
         config.save();
