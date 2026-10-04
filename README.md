@@ -1,5 +1,10 @@
-# Tainted Magic   [![](http://cf.way2muchnoise.eu/full_tainted-magic_downloads.svg)](https://minecraft.curseforge.com/projects/tainted-magic)
-![](https://github.com/yorkeJohn/Tainted-Magic/raw/master/tainted_magic_logo.png)
+# Tainted Magic
+[![](https://www.modpackindex.com/badge/mod/1095/tainted-magic/downloads-curseforge.svg)](https://www.modpackindex.com/mod/1095/tainted-magic)
+[![](https://www.modpackindex.com/badge/mod/1095/tainted-magic/modpacks.svg)](https://www.modpackindex.com/mod/1095/tainted-magic)
+[![](https://www.modpackindex.com/badge/mod/1095/tainted-magic/version.svg)](https://www.modpackindex.com/mod/1095/tainted-magic)
+[![](https://www.modpackindex.com/badge/mod/1095/tainted-magic/updated.svg)](https://www.modpackindex.com/mod/1095/tainted-magic)
+
+![](https://github.com/yorkeJohn/Tainted-Magic/raw/main/tainted_magic_logo.png)
 
 Tainted Magic is an addon to [Thaumcraft 4 (1.7.10)](https://www.curseforge.com/minecraft/mc-mods/thaumcraft). This addon expands on the darker side of Thaumaturgy, setting new goals for even the most experienced Thaumaturges.
 
