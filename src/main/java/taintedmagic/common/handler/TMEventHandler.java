@@ -250,7 +250,7 @@ public class TMEventHandler {
 
             // effects
             HUDHandler.displayString(
-                    EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("text.creation"), 3200, false);
+                    EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("text.creation"), 200, false);
             player.worldObj.playSoundAtEntity(player, "thaumcraft:egidle", 1.0F, 1.0F);
             player.worldObj.playSoundAtEntity(player, "thaumcraft:heartbeat", 1.0F, 1.0F);
             player.addPotionEffect(new PotionEffect(Potion.blindness.id, 200, -1));

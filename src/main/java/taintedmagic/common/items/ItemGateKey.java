@@ -206,11 +206,9 @@ public class ItemGateKey extends Item implements IWarpingGear {
                 }
                 player.addPotionEffect(new PotionEffect(Potion.confusion.id, 160, 0));
             } else if (dim != world.provider.dimensionId) {
-                HUDHandler.displayString(
-                        EnumChatFormatting.RED + StatCollector.translateToLocal("key.invaliddim"), 300, false);
+                HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("key.invaliddim"));
             } else {
-                HUDHandler.displayString(
-                        EnumChatFormatting.RED + StatCollector.translateToLocal("key.error"), 300, false);
+                HUDHandler.displayString(EnumChatFormatting.RED + StatCollector.translateToLocal("key.error"));
             }
         }
         return stack;

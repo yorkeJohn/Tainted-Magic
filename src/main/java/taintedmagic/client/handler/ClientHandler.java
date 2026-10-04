@@ -18,7 +18,7 @@ import taintedmagic.common.handler.RenderItemSyncHandler.RenderedItem;
 public class ClientHandler {
 
     @SubscribeEvent
-    public void tickEnd(final TickEvent event) {
+    public void tickEnd(final TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             HUDHandler.updateTicks();
         }

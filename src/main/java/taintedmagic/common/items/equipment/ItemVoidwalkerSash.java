@@ -101,12 +101,10 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
                 stack.stackTagCompound.setBoolean(TAG_MODE, !stack.stackTagCompound.getBoolean(TAG_MODE));
                 if (isSpeedEnabled(stack)) {
                     HUDHandler.displayString(
-                            EnumChatFormatting.GREEN + StatCollector.translateToLocal("text.sash.speed.on"),
-                            300,
-                            false);
+                            EnumChatFormatting.GREEN + StatCollector.translateToLocal("text.sash.speed.on"));
                 } else {
                     HUDHandler.displayString(
-                            EnumChatFormatting.RED + StatCollector.translateToLocal("text.sash.speed.off"), 300, false);
+                            EnumChatFormatting.RED + StatCollector.translateToLocal("text.sash.speed.off"));
                 }
             }
         }

@@ -121,7 +121,7 @@ public class ItemThaumicDisassembler extends Item {
                     + getModeName(getMode(stack))
                     + (getMode(stack) == 3 ? EnumChatFormatting.RED : EnumChatFormatting.GREEN)
                     + " (" + getEfficiency(getMode(stack)) + ")";
-            HUDHandler.displayString(str, 300, false);
+            HUDHandler.displayString(str);
         }
         return stack;
     }

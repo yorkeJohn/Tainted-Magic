@@ -23,12 +23,12 @@ public final class HUDHandler {
     public void renderGameOverlayEvent(final RenderGameOverlayEvent.Post event) {
         if (event.type == ElementType.ALL) {
             renderHeldItemHUD(event.partialTicks);
-            renderString();
+            renderString(event.partialTicks);
         }
     }
 
-    private static float ticksEquipped = 0.0F;
-    private static ItemStack stack = null;
+    private static int ticksEquipped = 0;
+    private static int prevTicksEquipped = 0;
     private static ItemStack last = null;
 
     @SideOnly(Side.CLIENT)
@@ -37,30 +37,12 @@ public final class HUDHandler {
         final Minecraft mc = Minecraft.getMinecraft();
         final ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 
+        final float fract = (prevTicksEquipped + (ticksEquipped - prevTicksEquipped) * partialTicks) / FADE_TICKS;
+        final ItemStack stack = player.getCurrentEquippedItem();
+
         if (stack != null && stack.getItem() instanceof IHeldItemHUD) {
-            last = stack.copy();
-        }
-        stack = player.getCurrentEquippedItem();
-
-        boolean b = false;
-        if (stack != null && stack.getItem() instanceof IHeldItemHUD) {
-            b = true;
-        } else {
-            b = false;
-        }
-
-        final float time = 30.0F;
-        if (b) {
-            ticksEquipped = Math.min(time, ticksEquipped + partialTicks);
-        } else {
-            ticksEquipped = Math.max(0F, ticksEquipped - partialTicks);
-        }
-
-        final float fract = ticksEquipped / time;
-
-        if (b) {
             ((IHeldItemHUD) stack.getItem()).renderHUD(res, player, stack, partialTicks, fract);
-        } else if (!b && ticksEquipped != 0) {
+        } else if (fract > 0 && last != null) {
             ((IHeldItemHUD) last.getItem()).renderHUD(res, player, last, partialTicks, fract);
         }
     }
@@ -69,6 +51,18 @@ public final class HUDHandler {
     private static int time;
     private static int ticks;
     private static boolean isRainbow;
+
+    // Default duration of displayed text (2 seconds)
+    private static final int DEFAULT_DURATION = 40;
+
+    /**
+     * Displays text above the health bar for 2 seconds.
+     *
+     * @param text The string to display.
+     */
+    public static void displayString(final String text) {
+        displayString(text, DEFAULT_DURATION, false);
+    }
 
     /**
      * Displays text above the health bar for a specified duration.
@@ -83,15 +77,28 @@ public final class HUDHandler {
         isRainbow = rainbow;
     }
 
+    // Ticks taken to fade the held item HUD and messages in or out
+    private static final int FADE_TICKS = 10;
+
     @SideOnly(Side.CLIENT)
     public static void updateTicks() {
         if (ticks > 0) {
             ticks--;
         }
+
+        final EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
+        final ItemStack stack = player != null ? player.getCurrentEquippedItem() : null;
+        final boolean holding = stack != null && stack.getItem() instanceof IHeldItemHUD;
+        if (holding) {
+            last = stack.copy();
+        }
+
+        prevTicksEquipped = ticksEquipped;
+        ticksEquipped = holding ? Math.min(FADE_TICKS, ticksEquipped + 1) : Math.max(0, ticksEquipped - 1);
     }
 
     @SideOnly(Side.CLIENT)
-    private void renderString() {
+    private void renderString(final float partialTicks) {
         if (ticks > 0 && !MathHelper.stringNullOrLengthZero(currentText)) {
             final Minecraft mc = Minecraft.getMinecraft();
             final ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
@@ -102,7 +109,7 @@ public final class HUDHandler {
             final int startX = (x - font.getStringWidth(currentText)) / 2;
             final int startY = y - 72;
 
-            int opacity = ticks > time * 0.25F ? 255 : (int) (255F * (ticks / (time * 0.25F)));
+            int opacity = (int) (255F * Math.min(1.0F, (ticks - partialTicks) / FADE_TICKS));
             if (opacity < 5) {
                 opacity = 0;
             }
