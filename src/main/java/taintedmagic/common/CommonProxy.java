@@ -29,7 +29,6 @@ public class CommonProxy {
         PacketHandler.initPackets();
         ItemRegistry.initItems();
         BlockRegistry.initBlocks();
-        BlockRegistry.initTiles();
         TMEntityRegistry.initEntities();
         RecipeRegistry.initRecipes();
         OreDictRegistry.initOreDict();

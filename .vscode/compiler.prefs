@@ -1,0 +1,2 @@
+org.eclipse.jdt.core.compiler.problem.rawTypeReference=ignore
+org.eclipse.jdt.core.compiler.problem.uncheckedTypeOperation=ignore

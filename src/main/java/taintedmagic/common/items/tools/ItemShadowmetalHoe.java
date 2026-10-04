@@ -1,6 +1,5 @@
 package taintedmagic.common.items.tools;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +23,6 @@ public class ItemShadowmetalHoe extends ItemHoe implements IRepairable {
         setUnlocalizedName("ItemShadowmetalHoe");
 
         MinecraftForge.EVENT_BUS.register(this);
-        FMLCommonHandler.instance().bus().register(this);
     }
 
     @Override
@@ -46,6 +44,8 @@ public class ItemShadowmetalHoe extends ItemHoe implements IRepairable {
             final float f,
             final float f1,
             final float f2) {
+        if (!player.canPlayerEdit(x, y, z, i, stack)) return false;
+
         super.onItemUse(stack, player, world, x, y, z, i, f, f1, f2);
 
         if (!player.worldObj.isRemote) {

@@ -2,7 +2,6 @@ package taintedmagic.common.items.equipment;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
-import cpw.mods.fml.common.FMLCommonHandler;
 import java.util.List;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,15 +12,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.network.PacketDisplayString;
-import thaumcraft.api.IRunicArmor;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.ItemRunic;
 import thaumcraft.common.Thaumcraft;
 
-public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpingGear, IBauble {
+public class ItemVoidwalkerSash extends ItemRunic implements IWarpingGear, IBauble {
 
     public static final String TAG_MODE = "mode";
 
@@ -32,9 +29,6 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
         setMaxDamage(-1);
         setMaxStackSize(1);
         setUnlocalizedName("ItemVoidwalkerSash");
-
-        MinecraftForge.EVENT_BUS.register(this);
-        FMLCommonHandler.instance().bus().register(this);
     }
 
     @Override
@@ -49,7 +43,6 @@ public class ItemVoidwalkerSash extends ItemRunic implements IRunicArmor, IWarpi
         } else {
             list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("text.sash.speed.off"));
         }
-
         list.add(" ");
     }
 

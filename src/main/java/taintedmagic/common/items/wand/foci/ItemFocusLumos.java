@@ -94,6 +94,8 @@ public class ItemFocusLumos extends ItemFocusBasic {
                 }
             }
             if (world.getBlock(x, y, z).isReplaceable(world, x, y, z)
+                    && player.canPlayerEdit(x, y, z, mop.sideHit, stack)
+                    && world.canMineBlock(player, x, y, z)
                     && wand.consumeAllVis(stack, player, getVisCost(stack), true, false)) {
                 if (!world.isRemote) {
                     world.setBlock(x, y, z, BlockRegistry.BlockLumos, 0, 3);

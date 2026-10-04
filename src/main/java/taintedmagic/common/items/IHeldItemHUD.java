@@ -1,4 +1,4 @@
-package taintedmagic.api;
+package taintedmagic.common.items;
 
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;

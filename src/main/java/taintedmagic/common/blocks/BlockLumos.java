@@ -4,19 +4,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Random;
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import taintedmagic.common.blocks.tile.TileLumos;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXSparkle;
 import thaumcraft.common.config.Config;
 
-public class BlockLumos extends Block implements ITileEntityProvider {
+public class BlockLumos extends Block {
 
     public BlockLumos() {
         super(Config.airyMaterial);
@@ -38,6 +35,26 @@ public class BlockLumos extends Block implements ITileEntityProvider {
             if (world.isRemote) {
                 spawnBreakParticles(world, x, y, z);
             }
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random random) {
+        if (random.nextInt(3) != 0) return;
+
+        for (int i = 0; i < 2; i++) {
+            final FXSparkle fx = new FXSparkle(
+                    world,
+                    x + 0.5D + random.nextGaussian() * 0.1D,
+                    y + 0.5D + random.nextGaussian() * 0.1D,
+                    z + 0.5D + random.nextGaussian() * 0.1D,
+                    1.75F,
+                    6,
+                    3 + random.nextInt(2));
+            fx.slowdown = true;
+            fx.setGravity(-0.5F);
+            ParticleEngine.instance.addEffect(world, fx);
         }
     }
 
@@ -107,10 +124,5 @@ public class BlockLumos extends Block implements ITileEntityProvider {
     @Override
     public Item getItem(final World world, final int x, final int y, final int z) {
         return null;
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(final World world, final int m) {
-        return new TileLumos();
     }
 }

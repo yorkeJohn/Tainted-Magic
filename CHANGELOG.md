@@ -8,6 +8,10 @@
 - Focus upgrade IDs can now be set to any value from 20 upwards.
 - Migrated the build to RetroFuturaGradle and the Gradle Kotlin DSL.
 - Added palantir-java-format via Spotless (`./gradlew spotlessApply`).
+- Warpwood leaves now decay when their tree is cut down. They never drop saplings; Warping Fertilizer is still the only way to get Warpwood Saplings. Player-placed leaves do not decay.
+- Salis Aevum now skips forward to the next night or morning instead of rewinding the world's day counter.
+- Salis Aevum and Salis Tempestas now only work in the overworld. In other dimensions, where they previously had no effect but were still used up, they now stay on the ground like a normal item.
+- Lumos light sources no longer use a ticking tile entity, reducing server load in areas with many lights. Worlds from older versions may log harmless "Skipping BlockEntity with id TileLumos" warnings when loading areas with Lumos lights.
 
 ### Fixed
 
@@ -23,6 +27,17 @@
 - Fixed Lumos night vision being shared between players, which could remove other players' night vision. Lumos also no longer removes night vision from potions.
 - Fixed HUD messages disappearing too quickly, and the Fortress Blade gauge fading at different speeds depending on frame rate. Status messages now show for 2 seconds and the Creation message for 10 seconds, and all messages fade out over 500 ms.
 - Fixed the Creation message and Voidwalker's Sash speed toggle messages not showing on servers. These messages are now shown in the player's own language.
+- Fixed the Primal Blade, Shockwave focus and Vengeful Spirit Inscription hurting players when PvP is disabled. Their damage is now credited to the player who caused it.
+- Fixed the Shadow Metal Hoe, Warping Fertilizer and Lumos focus working in areas where the player is not allowed to build.
+- Fixed the Primal Blade and Shockwave focus damage radii being smaller than intended (2 and 7 blocks).
+- Fixed the Hollow Dagger filling a phial from every stack of empty phials on each hit, filling phials when the hit did no damage, and filling phials from arrow hits.
+- Fixed Fortress Blade inscription cooldowns updating the item every tick.
+- Fixed the Mage's Mace updating every wand and staff in the player's inventory every tick.
+- Fixed Salis Tempestas sometimes enabling thunder when stopping rain instead of starting it.
+- Fixed crashes when rendering Tainted Magic materials, salis, wand caps, wand rods and Fortress Blades with invalid metadata.
+- Fixed a crash when viewing the tooltip of a Celestial Gate Key bound to a dimension that no longer exists.
+- Fixed Diffusion clouds having their damage rounded down and losing their Corrosive upgrade when reloaded.
+- Fixed the Diffusion upgrade's wind sound being throttled across all players instead of per player.
 - Fixed typos and outdated research text in the English, Russian and Chinese localizations.
 
 ## 8.1.1

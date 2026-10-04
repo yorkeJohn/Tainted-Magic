@@ -13,8 +13,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import org.lwjgl.opengl.GL11;
-import taintedmagic.api.IHeldItemHUD;
 import taintedmagic.common.TaintedMagic;
+import taintedmagic.common.items.IHeldItemHUD;
 
 public final class HUDHandler {
 

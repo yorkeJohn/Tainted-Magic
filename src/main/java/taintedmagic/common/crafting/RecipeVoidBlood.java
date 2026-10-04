@@ -1,4 +1,4 @@
-package taintedmagic.api;
+package taintedmagic.common.crafting;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemArmor;

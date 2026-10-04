@@ -29,12 +29,12 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import taintedmagic.api.IHeldItemHUD;
-import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.client.model.ModelKatana;
 import taintedmagic.client.model.ModelSaya;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
+import taintedmagic.common.items.IHeldItemHUD;
+import taintedmagic.common.items.IRenderInventoryItem;
 import taintedmagic.common.items.wand.foci.ItemFocusShockwave;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
@@ -50,7 +50,8 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
     // NBT tags
     public static final String TAG_INSCRIPTION = "inscription";
-    public static final String TAG_COOLDOWN = "cooldown";
+    // World time at which the inscription cooldown ends
+    public static final String TAG_COOLDOWN_END = "cooldownEnd";
 
     // ticks to fully charge (1 second)
     private static final int CHARGE_TICKS = 20;
@@ -195,7 +196,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
     @Override
     public ItemStack onItemRightClick(final ItemStack stack, final World world, final EntityPlayer player) {
-        if (!hasCooldown(stack)) {
+        if (!hasCooldown(stack, world)) {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
         }
         return stack;
@@ -257,7 +258,9 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
                         if (ents != null && ents.size() > 0) {
                             for (final EntityLivingBase entity : ents) {
                                 if (entity != player && entity.isEntityAlive() && !entity.isEntityInvulnerable()) {
-                                    entity.attackEntityFrom(DamageSource.magic, getAttackDamage(stack) * 0.25F);
+                                    entity.attackEntityFrom(
+                                            DamageSource.causeIndirectMagicDamage(player, player),
+                                            getAttackDamage(stack) * 0.25F);
 
                                     final Vector3 movement =
                                             TaintedMagicHelper.getVectorBetweenEntities(entity, player);
@@ -336,16 +339,8 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
                     default:
                         break;
                 }
-                setCooldown(stack, COOLDOWN_TICKS);
+                setCooldown(stack, world);
             }
-        }
-    }
-
-    @Override
-    public void onUpdate(final ItemStack stack, final World world, final Entity entity, final int i, final boolean b) {
-        // update the cooldown every tick
-        if (hasCooldown(stack)) {
-            setCooldown(stack, getCooldown(stack) - 1);
         }
     }
 
@@ -381,21 +376,25 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
         return 0;
     }
 
-    private boolean hasCooldown(final ItemStack stack) {
-        return stack.hasTagCompound() && stack.stackTagCompound.getInteger(TAG_COOLDOWN) > 0;
+    private boolean hasCooldown(final ItemStack stack, final World world) {
+        return getCooldown(stack, world) > 0;
     }
 
-    private void setCooldown(final ItemStack stack, final int cooldown) {
+    private void setCooldown(final ItemStack stack, final World world) {
         if (!stack.hasTagCompound()) {
             stack.stackTagCompound = new NBTTagCompound();
         }
-        stack.stackTagCompound.setInteger(TAG_COOLDOWN, cooldown);
+        stack.stackTagCompound.setLong(TAG_COOLDOWN_END, world.getTotalWorldTime() + COOLDOWN_TICKS);
     }
 
-    private int getCooldown(final ItemStack stack) {
-        if (stack.hasTagCompound() && stack.stackTagCompound.hasKey(TAG_COOLDOWN))
-            return stack.stackTagCompound.getInteger(TAG_COOLDOWN);
-        return 0;
+    /**
+     * Returns the remaining cooldown in ticks.
+     */
+    private long getCooldown(final ItemStack stack, final World world) {
+        if (!stack.hasTagCompound()) return 0;
+        final long remaining = stack.stackTagCompound.getLong(TAG_COOLDOWN_END) - world.getTotalWorldTime();
+        // Clamp in case the item was moved to a world with a different time
+        return Math.max(0, Math.min(COOLDOWN_TICKS, remaining));
     }
 
     private float getAttackDamage(final ItemStack stack) {
@@ -419,7 +418,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
             case 2:
                 return TEXTURE_SHADOWMETAL;
         }
-        return null;
+        return TEXTURE_THAUMIUM;
     }
 
     @Override
@@ -432,8 +431,8 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
         final Tessellator t = Tessellator.instance;
 
         final float overlay = Math.min(
-                hasCooldown(stack)
-                        ? (float) getCooldown(stack) / (float) COOLDOWN_TICKS
+                hasCooldown(stack, player.worldObj)
+                        ? (float) getCooldown(stack, player.worldObj) / (float) COOLDOWN_TICKS
                         : (float) player.getItemInUseDuration() / (float) CHARGE_TICKS,
                 1.0F);
 
@@ -480,7 +479,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
                 // red to green gradient
                 Color color = new Color(Color.HSBtoRGB(rune / 16F * 0.3F, 1.0F, 1.0F));
                 // flip the gradient when cooling down
-                if (hasCooldown(stack)) {
+                if (hasCooldown(stack, player.worldObj)) {
                     color = new Color(Color.HSBtoRGB((16F - rune) / 16F * 0.3F, 1.0F, 1.0F));
                 }
                 // convert to float rgb

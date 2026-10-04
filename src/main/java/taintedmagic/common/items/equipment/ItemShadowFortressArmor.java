@@ -20,8 +20,7 @@ import thaumcraft.api.IWarpingGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.common.items.armor.ItemFortressArmor;
 
-public class ItemShadowFortressArmor extends ItemFortressArmor
-        implements IWarpingGear, IVisDiscountGear, ISpecialArmor {
+public class ItemShadowFortressArmor extends ItemFortressArmor implements IWarpingGear, IVisDiscountGear {
 
     public ItemShadowFortressArmor(final ArmorMaterial material, final int j, final int k) {
         super(material, j, k);

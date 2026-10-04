@@ -7,6 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.RecipeSorter.Category;
+import taintedmagic.common.crafting.RecipeVoidBlood;
 import taintedmagic.common.helper.TaintedMagicHelper;
 import taintedmagic.common.items.tools.ItemKatana;
 import thaumcraft.api.ThaumcraftApi;
@@ -29,6 +32,10 @@ public class RecipeRegistry {
      * Vanilla crafting table recipes
      */
     private static void initCrafting() {
+        // Applying Void-infused Blood to armour
+        GameRegistry.addRecipe(new RecipeVoidBlood());
+        RecipeSorter.register("taintedmagic:ItemVoidBlood", RecipeVoidBlood.class, Category.SHAPELESS, "");
+
         // Shadow Metal Ingot from nuggets
         GameRegistry.addShapedRecipe(
                 new ItemStack(ItemRegistry.ItemMaterial, 1, 0),

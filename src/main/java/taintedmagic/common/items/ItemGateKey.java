@@ -20,6 +20,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
+import net.minecraftforge.common.DimensionManager;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.fx.ParticleEngine;
@@ -75,11 +76,12 @@ public class ItemGateKey extends Item implements IWarpingGear {
 
     @Override
     public int getColorFromItemStack(final ItemStack stack, final int pass) {
+        final EntityPlayer player = TaintedMagic.proxy.getClientPlayer();
         if (pass == 1 && stack.stackTagCompound != null && stack.stackTagCompound.getInteger(TAG_COLOUR) != 0)
             return Color.HSBtoRGB(
                     stack.stackTagCompound.getInteger(TAG_COLOUR) / 360F,
                     1.0F,
-                    0.2F * (float) Math.sin(TaintedMagic.proxy.getClientPlayer().ticksExisted / 10D) + 0.8F);
+                    player != null ? 0.2F * (float) Math.sin(player.ticksExisted / 10D) + 0.8F : 1.0F);
         return 0xFFFFFF;
     }
 
@@ -94,7 +96,11 @@ public class ItemGateKey extends Item implements IWarpingGear {
             list.add(EnumChatFormatting.GREEN + StatCollector.translateToLocal("key.bound"));
 
             final int dim = stack.stackTagCompound.getInteger(TAG_DIM);
-            list.add(WorldProvider.getProviderForDimension(dim).getDimensionName());
+            // The bound dimension may no longer exist, e.g. if the mod adding it was removed
+            list.add(
+                    DimensionManager.isDimensionRegistered(dim)
+                            ? WorldProvider.getProviderForDimension(dim).getDimensionName()
+                            : "DIM" + dim);
 
             final int x = stack.stackTagCompound.getInteger(TAG_X);
             final int y = stack.stackTagCompound.getInteger(TAG_Y);

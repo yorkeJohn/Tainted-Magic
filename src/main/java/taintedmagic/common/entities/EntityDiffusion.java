@@ -2,7 +2,6 @@ package taintedmagic.common.entities;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import io.netty.buffer.ByteBuf;
 import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,6 +17,7 @@ import thaumcraft.common.Thaumcraft;
 public class EntityDiffusion extends EntityThrowable {
 
     public static final String TAG_DAMAGE = "dmg";
+    public static final String TAG_CORROSIVE = "corrosive";
 
     public boolean corrosive = false;
     public float dmg = 0.0F;
@@ -96,14 +96,6 @@ public class EntityDiffusion extends EntityThrowable {
         super.onUpdate();
     }
 
-    public void writeSpawnData(final ByteBuf buf) {
-        buf.writeFloat(dmg);
-    }
-
-    public void readSpawnData(final ByteBuf buf) {
-        dmg = buf.readFloat();
-    }
-
     @Override
     protected void onImpact(final MovingObjectPosition mop) {
         if (!worldObj.isRemote && getThrower() != null) {
@@ -142,12 +134,14 @@ public class EntityDiffusion extends EntityThrowable {
     public void writeEntityToNBT(final NBTTagCompound tag) {
         super.writeEntityToNBT(tag);
         tag.setFloat(TAG_DAMAGE, dmg);
+        tag.setBoolean(TAG_CORROSIVE, corrosive);
     }
 
     @Override
     public void readEntityFromNBT(final NBTTagCompound tag) {
         super.readEntityFromNBT(tag);
-        dmg = tag.getInteger(TAG_DAMAGE);
+        dmg = tag.getFloat(TAG_DAMAGE);
+        corrosive = tag.getBoolean(TAG_CORROSIVE);
     }
 
     @Override

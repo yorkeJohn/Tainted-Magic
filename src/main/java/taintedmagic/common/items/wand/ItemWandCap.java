@@ -9,6 +9,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import taintedmagic.common.TaintedMagic;
 
 public class ItemWandCap extends Item {
@@ -38,7 +39,7 @@ public class ItemWandCap extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(final int i) {
-        return icons[i];
+        return icons[MathHelper.clamp_int(i, 0, icons.length - 1)];
     }
 
     @Override

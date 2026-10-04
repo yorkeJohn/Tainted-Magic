@@ -11,7 +11,9 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.WorldInfo;
 import taintedmagic.common.TaintedMagic;
 import thaumcraft.client.fx.ParticleEngine;
 import thaumcraft.client.fx.particles.FXSparkle;
@@ -43,7 +45,7 @@ public class ItemSalis extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(final int meta) {
-        return icons[meta];
+        return icons[MathHelper.clamp_int(meta, 0, icons.length - 1)];
     }
 
     @Override
@@ -65,21 +67,18 @@ public class ItemSalis extends Item {
         final World world = entity.worldObj;
         final int meta = entity.getEntityItem().getItemDamage();
 
+        // Only works in the overworld, elsewhere it is an ordinary dropped item
+        if (world.provider.dimensionId != 0) return false;
+
         if (entity.ticksExisted == 100) {
-            switch (meta) {
-                // Weather
-                case 0: {
-                    world.getWorldInfo().setRainTime(world.isRaining() ? 24000 : 0);
-                    world.getWorldInfo().setRaining(!world.isRaining());
-                    if (world.isRaining() && world.rand.nextInt(10) == 0) {
-                        world.getWorldInfo().setThundering(true);
-                    }
-                    break;
-                }
-                // Time
-                case 1: {
-                    world.setWorldTime(world.isDaytime() ? 14000 : 24000);
-                    break;
+            if (!world.isRemote) {
+                switch (meta) {
+                    case 0:
+                        toggleWeather(world);
+                        break;
+                    case 1:
+                        skipToDayOrNight(world);
+                        break;
                 }
             }
             world.playSoundAtEntity(entity, "thaumcraft:ice", 0.3F, 1.0F + world.rand.nextFloat() * 0.25F);
@@ -98,6 +97,27 @@ public class ItemSalis extends Item {
             spawnParticles(entity, meta, false);
         }
         return false;
+    }
+
+    private static void toggleWeather(final World world) {
+        final WorldInfo info = world.getWorldInfo();
+        final boolean raining = info.isRaining();
+
+        info.setRainTime(raining ? 24000 : 0);
+        info.setRaining(!raining);
+        info.setThundering(!raining && world.rand.nextInt(10) == 0);
+    }
+
+    /**
+     * Skip forward to the next night if it is day, or to the next morning if it is night.
+     */
+    private static void skipToDayOrNight(final World world) {
+        final long time = world.getWorldTime();
+        long newTime = time - time % 24000 + (world.isDaytime() ? 14000 : 24000);
+        if (newTime <= time) {
+            newTime += 24000;
+        }
+        world.setWorldTime(newTime);
     }
 
     @SideOnly(Side.CLIENT)

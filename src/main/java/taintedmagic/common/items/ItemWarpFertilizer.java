@@ -1,6 +1,5 @@
 package taintedmagic.common.items;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,8 +19,6 @@ public class ItemWarpFertilizer extends Item {
         setCreativeTab(TaintedMagic.tabTM);
         setUnlocalizedName("ItemWarpFertilizer");
         setTextureName("taintedmagic:ItemWarpFertilizer");
-
-        FMLCommonHandler.instance().bus().register(this);
     }
 
     @Override
@@ -45,6 +42,7 @@ public class ItemWarpFertilizer extends Item {
             final float hitY,
             final float hitZ) {
         super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+        if (!player.canPlayerEdit(x, y, z, side, stack)) return false;
         if (!(world.getBlock(x, y, z) instanceof BlockCustomPlant) || world.getBlockMetadata(x, y, z) != 1)
             return false;
         if (world.isRemote) {

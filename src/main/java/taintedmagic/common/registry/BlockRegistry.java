@@ -8,7 +8,6 @@ import taintedmagic.common.blocks.BlockWarpwoodLeaves;
 import taintedmagic.common.blocks.BlockWarpwoodLog;
 import taintedmagic.common.blocks.BlockWarpwoodPlanks;
 import taintedmagic.common.blocks.BlockWarpwoodSapling;
-import taintedmagic.common.blocks.tile.TileLumos;
 
 public class BlockRegistry {
 
@@ -37,9 +36,5 @@ public class BlockRegistry {
 
         BlockLumos = new BlockLumos();
         GameRegistry.registerBlock(BlockLumos, "BlockLumos");
-    }
-
-    public static void initTiles() {
-        GameRegistry.registerTileEntity(TileLumos.class, "TileLumos");
     }
 }

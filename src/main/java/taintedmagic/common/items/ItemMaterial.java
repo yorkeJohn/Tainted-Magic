@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import taintedmagic.common.TaintedMagic;
 
@@ -83,7 +84,7 @@ public class ItemMaterial extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(final int meta) {
-        return icons[meta];
+        return icons[MathHelper.clamp_int(meta, 0, icons.length - 1)];
     }
 
     @Override

@@ -14,9 +14,11 @@ val modId = providers.gradleProperty("mod_id").get()
 val modName = providers.gradleProperty("mod_name").get()
 val archivesBaseName = providers.gradleProperty("archives_name").get()
 val packageGroup = providers.gradleProperty("package_group").get()
-val modVersion = providers.gradleProperty("mod_version").get()
 val minecraftVersion = providers.gradleProperty("mc_version").get()
 val forgeVersion = providers.gradleProperty("forge_version").get()
+
+// Version from GitHub Actions
+val modVersion = System.getenv("GITHUB_REF_NAME") ?: "0.0.0"
 
 group = packageGroup
 version = "$minecraftVersion-$modVersion"
@@ -122,33 +124,6 @@ idea {
           self.add(Gradle("4. Run Obfuscated Server").apply {
             setProperty("taskNames", listOf("runObfServer"))
           })
-          /*
-          These require extra configuration in IntelliJ, so are not enabled by default
-          self.add(Application("Run Client (IJ Native, Deprecated)", project).apply {
-            mainClass = "GradleStart"
-            moduleName = project.name + ".ideVirtualMain"
-            afterEvaluate {
-              val runClient = tasks.runClient.get()
-              workingDirectory = runClient.workingDir.absolutePath
-              programParameters = runClient.calculateArgs(project).map { '"' + it + '"' }.joinToString(" ")
-              jvmArgs = runClient.calculateJvmArgs(project).map { '"' + it + '"' }.joinToString(" ") +
-                ' ' + runClient.systemProperties.map { "\"-D" + it.key + '=' + it.value.toString() + '"' }
-                .joinToString(" ")
-            }
-          })
-          self.add(Application("Run Server (IJ Native, Deprecated)", project).apply {
-            mainClass = "GradleStartServer"
-            moduleName = project.name + ".ideVirtualMain"
-            afterEvaluate {
-              val runServer = tasks.runServer.get()
-              workingDirectory = runServer.workingDir.absolutePath
-              programParameters = runServer.calculateArgs(project).map { '"' + it + '"' }.joinToString(" ")
-              jvmArgs = runServer.calculateJvmArgs(project).map { '"' + it + '"' }.joinToString(" ") +
-                ' ' + runServer.systemProperties.map { "\"-D" + it.key + '=' + it.value.toString() + '"' }
-                .joinToString(" ")
-            }
-          })
-          */
         }
         "compiler" {
           val self = this.delegate as org.jetbrains.gradle.ext.IdeaCompilerConfiguration

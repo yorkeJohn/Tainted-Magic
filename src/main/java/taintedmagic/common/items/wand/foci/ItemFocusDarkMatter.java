@@ -23,7 +23,6 @@ public class ItemFocusDarkMatter extends ItemFocusBasic {
 
     private IIcon depthIcon;
     private IIcon ornIcon;
-    private long soundDelay = 0L;
 
     private static final AspectList COST =
             new AspectList().add(Aspect.ENTROPY, 150).add(Aspect.FIRE, 100);
@@ -151,13 +150,12 @@ public class ItemFocusDarkMatter extends ItemFocusBasic {
             return;
         }
 
-        if (!player.worldObj.isRemote && soundDelay < System.currentTimeMillis()) {
+        if (!player.worldObj.isRemote && player.ticksExisted % 15 == 0) {
             player.worldObj.playSoundAtEntity(
                     player,
                     "thaumcraft:wind",
                     0.3F + 0.2F * (float) Math.random(),
                     0.75F + 0.25F * (float) Math.random());
-            soundDelay = System.currentTimeMillis() + 750L;
         }
 
         if (!player.worldObj.isRemote

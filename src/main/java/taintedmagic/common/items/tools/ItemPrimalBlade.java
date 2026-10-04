@@ -82,7 +82,7 @@ public class ItemPrimalBlade extends ItemSword implements IWarpingGear, IRepaira
                         final double dist =
                                 TaintedMagicHelper.getDistanceTo(player, entity.posX, entity.posY, entity.posZ);
                         if (dist < 2.0D) {
-                            entity.attackEntityFrom(DamageSource.magic, 3.0F);
+                            entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(player, player), 3.0F);
                         }
                     }
 

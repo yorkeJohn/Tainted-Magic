@@ -79,6 +79,6 @@ public class TaintedMagicHelper {
         final double distX = player.posX - x;
         final double distY = player.posY - y;
         final double distZ = player.posZ - z;
-        return distX * distX + distY * distY + distZ * distZ;
+        return Math.sqrt(distX * distX + distY * distY + distZ * distZ);
     }
 }

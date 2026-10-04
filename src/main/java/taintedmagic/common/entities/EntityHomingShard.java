@@ -5,8 +5,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -25,13 +26,13 @@ import thaumcraft.common.lib.utils.EntityUtils;
  */
 public class EntityHomingShard extends EntityThrowable implements IEntityAdditionalSpawnData {
 
-    private Class targetClass;
+    private Class<?> targetClass;
     private boolean persistent;
     private EntityLivingBase target;
 
-    private static final Material[] MATS = {
-        Material.plants, Material.air, Material.leaves, Material.portal, Material.vine, Material.web
-    };
+    // Materials the shard passes through instead of bouncing off
+    private static final Set<Material> PASSABLE = new HashSet<>(Arrays.asList(
+            Material.plants, Material.air, Material.leaves, Material.portal, Material.vine, Material.web));
 
     public EntityHomingShard(final World world) {
         super(world);
@@ -108,7 +109,7 @@ public class EntityHomingShard extends EntityThrowable implements IEntityAdditio
     protected void onImpact(final MovingObjectPosition mop) {
         if (!worldObj.isRemote
                 && mop.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY
-                && (getThrower() == null || getThrower() != null && mop.entityHit != getThrower())) {
+                && mop.entityHit != getThrower()) {
             mop.entityHit.attackEntityFrom(
                     DamageSource.causeIndirectMagicDamage(this, getThrower()), 2.0F + getStrength() * 0.5F);
             worldObj.playSoundAtEntity(
@@ -120,10 +121,7 @@ public class EntityHomingShard extends EntityThrowable implements IEntityAdditio
         if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
             final Block block = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
 
-            final List<Material> whitelisted = new ArrayList<>(MATS.length);
-            Collections.addAll(whitelisted, MATS);
-
-            if (!whitelisted.contains(block.getMaterial())) {
+            if (!PASSABLE.contains(block.getMaterial())) {
                 motionZ *= -0.8D;
                 motionX *= -0.8D;
                 motionY *= -0.8D;

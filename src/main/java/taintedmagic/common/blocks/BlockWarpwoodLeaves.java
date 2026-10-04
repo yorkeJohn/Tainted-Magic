@@ -7,7 +7,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,7 +17,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.util.ForgeDirection;
 import taintedmagic.common.TaintedMagic;
-import taintedmagic.common.registry.BlockRegistry;
 
 public class BlockWarpwoodLeaves extends Block implements IShearable {
 
@@ -33,6 +31,7 @@ public class BlockWarpwoodLeaves extends Block implements IShearable {
         setHardness(0.1F);
         setStepSound(soundTypeGrass);
         setBlockName("BlockWarpwoodLeaves");
+        setTickRandomly(true);
     }
 
     @Override
@@ -86,7 +85,8 @@ public class BlockWarpwoodLeaves extends Block implements IShearable {
         if (!world.isRemote) {
             final int meta = world.getBlockMetadata(x, y, z);
 
-            if ((meta & 0x8) != 0 && (meta & 0x4) == 0) {
+            // Only leaves generated with a tree (meta bit 0x1) decay, player-placed leaves have meta 0
+            if ((meta & 0x8) != 0 && (meta & 0x4) == 0 && (meta & 0x1) != 0) {
                 final byte pos = 4;
                 final int off = pos + 1;
                 final byte dist = 32;
@@ -174,22 +174,6 @@ public class BlockWarpwoodLeaves extends Block implements IShearable {
     }
 
     @Override
-    public void dropBlockAsItemWithChance(
-            final World world, final int x, final int y, final int z, final int m, final float f, final int i) {
-        if (!world.isRemote && (m & 0x8) != 0 && (m & 0x4) == 0) {
-            if ((m & 0x1) == 0 && world.rand.nextInt(50) == 0) {
-                dropBlockAsItem(world, x, y, z, new ItemStack(BlockRegistry.BlockWarpwoodSapling));
-            }
-        }
-    }
-
-    @Override
-    public void harvestBlock(
-            final World world, final EntityPlayer player, final int x, final int y, final int z, final int i) {
-        super.harvestBlock(world, player, x, y, z, i);
-    }
-
-    @Override
     public int damageDropped(final int i) {
         return i & 0x1;
     }
@@ -247,7 +231,7 @@ public class BlockWarpwoodLeaves extends Block implements IShearable {
     @Override
     public ArrayList<ItemStack> onSheared(
             final ItemStack stack, final IBlockAccess world, final int x, final int y, final int z, final int fortune) {
-        final ArrayList drops = new ArrayList();
+        final ArrayList<ItemStack> drops = new ArrayList<>();
         drops.add(new ItemStack(this, 1, world.getBlockMetadata(x, y, z) & 0x3));
         return drops;
     }

@@ -18,7 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
-import taintedmagic.api.IRenderInventoryItem;
+import taintedmagic.common.items.IRenderInventoryItem;
 import taintedmagic.common.network.PacketHandler;
 import taintedmagic.common.network.PacketSyncRenderItems;
 
@@ -27,7 +27,8 @@ public class RenderItemSyncHandler {
     // Server: the items last sent for each player
     private final Map<UUID, List<RenderedItem>> lastSent = new HashMap<>();
 
-    // Client: the items carried by other players, by entity ID. Written from the network thread.
+    // Client: the items carried by other players, by entity ID. Concurrent as it is cleared from the network thread
+    // on disconnect.
     public static final Map<Integer, List<RenderedItem>> CLIENT_RENDERED_ITEMS = new ConcurrentHashMap<>();
 
     /**

@@ -1,5 +1,6 @@
 {
-  "java.configuration.updateBuildConfiguration": "interactive",
   "editor.indentSize": 4,
-  "java.import.gradle.java.home": "/usr/lib/jvm/java-25-openjdk-amd64"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.import.gradle.java.home": "/usr/lib/jvm/java-25-openjdk-amd64",
+  "java.settings.url": ".vscode/compiler.prefs"
 }

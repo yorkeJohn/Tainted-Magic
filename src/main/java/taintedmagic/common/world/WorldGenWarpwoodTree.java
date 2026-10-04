@@ -21,11 +21,9 @@ public class WorldGenWarpwoodTree extends WorldGenAbstractTree {
     private final Block leaves;
     private final int minTreeHeight;
     private final int randomTreeHeight;
-    boolean worldgen = false;
 
     public WorldGenWarpwoodTree(final boolean doBlockNotify, final int minTreeHeight, final int randomTreeHeight) {
         super(doBlockNotify);
-        worldgen = !doBlockNotify;
         this.minTreeHeight = minTreeHeight;
         this.randomTreeHeight = randomTreeHeight;
         trunk = BlockRegistry.BlockWarpwoodLog;

@@ -10,9 +10,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import taintedmagic.api.IRenderInventoryItem;
 import taintedmagic.common.handler.RenderItemSyncHandler;
 import taintedmagic.common.handler.RenderItemSyncHandler.RenderedItem;
+import taintedmagic.common.items.IRenderInventoryItem;
 
 @SideOnly(Side.CLIENT)
 public class ClientHandler {
