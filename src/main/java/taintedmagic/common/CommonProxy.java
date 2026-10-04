@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import taintedmagic.common.handler.ConfigHandler;
+import taintedmagic.common.handler.RenderItemSyncHandler;
 import taintedmagic.common.handler.TMEventHandler;
 import taintedmagic.common.items.wand.foci.TMFocusUpgrades;
 import taintedmagic.common.network.PacketHandler;
@@ -46,6 +47,10 @@ public class CommonProxy {
     public void registerHandlers () {
         MinecraftForge.EVENT_BUS.register(new TMEventHandler());
         FMLCommonHandler.instance().bus().register(new TMEventHandler());
+
+        final RenderItemSyncHandler renderItemSyncHandler = new RenderItemSyncHandler();
+        MinecraftForge.EVENT_BUS.register(renderItemSyncHandler);
+        FMLCommonHandler.instance().bus().register(renderItemSyncHandler);
     }
 
     public void registerRenderers () {

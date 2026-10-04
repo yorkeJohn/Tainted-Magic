@@ -1,13 +1,15 @@
 package taintedmagic.common.items;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -37,8 +39,9 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
     // Magic circle texture
     private static final ResourceLocation MAGIC_CIRCLE = new ResourceLocation("taintedmagic:textures/misc/circle.png");
 
-    // Stores flying players
-    public static final Set<String> FLIGHT_MANAGER = new HashSet<>();
+    // Players the charm has allowed to fly, kept per side as the client and server threads share this class in singleplayer
+    private static final Set<UUID> FLYING_CLIENT = ConcurrentHashMap.newKeySet();
+    private static final Set<UUID> FLYING_SERVER = ConcurrentHashMap.newKeySet();
 
     public ItemFlyteCharm () {
         setCreativeTab(TaintedMagic.tabTM);
@@ -60,9 +63,10 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
     public void updateFlight (final LivingEvent.LivingUpdateEvent event) {
         if (event.entityLiving instanceof EntityPlayer) {
             final EntityPlayer player = (EntityPlayer) event.entityLiving;
-            final String entry = getPlayerEntry(player, player.worldObj.isRemote);
+            final Set<UUID> flyingPlayers = player.worldObj.isRemote ? FLYING_CLIENT : FLYING_SERVER;
+            final UUID entry = player.getUniqueID();
 
-            if (FLIGHT_MANAGER.contains(entry)) {
+            if (flyingPlayers.contains(entry)) {
                 if (canFly(player)) {
                     player.capabilities.allowFlying = true; // Allow flight
 
@@ -86,11 +90,11 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
                         player.capabilities.allowFlying = false;
                         player.capabilities.isFlying = false;
                     }
-                    FLIGHT_MANAGER.remove(entry);
+                    flyingPlayers.remove(entry);
                 }
             }
             else if (canFly(player)) {
-                FLIGHT_MANAGER.add(entry);
+                flyingPlayers.add(entry);
                 player.capabilities.allowFlying = true;
             }
         }
@@ -106,14 +110,14 @@ public class ItemFlyteCharm extends Item implements IWarpingGear, IRenderInvento
         return false;
     }
 
-    private static String getPlayerEntry (final EntityPlayer player, final boolean remote) {
-        return player.getUniqueID().toString() + ":" + remote;
+    @SubscribeEvent
+    public void onLogout (final PlayerEvent.PlayerLoggedOutEvent event) {
+        FLYING_SERVER.remove(event.player.getUniqueID());
     }
 
     @SubscribeEvent
-    private void onLogout (final PlayerEvent.PlayerLoggedOutEvent event) {
-        FLIGHT_MANAGER.remove(getPlayerEntry(event.player, true));
-        FLIGHT_MANAGER.remove(getPlayerEntry(event.player, false));
+    public void onClientDisconnect (final ClientDisconnectionFromServerEvent event) {
+        FLYING_CLIENT.clear();
     }
 
     @Override
