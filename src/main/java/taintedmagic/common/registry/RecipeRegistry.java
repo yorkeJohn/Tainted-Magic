@@ -600,7 +600,7 @@ public class RecipeRegistry {
                             new ItemStack(ItemRegistry.ItemMaterial, 1, 11), new ItemStack(ConfigItems.itemNugget, 1, 5)
                         }));
 
-        // Salis Aevus
+        // Salis Aevum
         ResearchRegistry.recipes.put(
                 "ItemSalis:1",
                 ThaumcraftApi.addInfusionCraftingRecipe(

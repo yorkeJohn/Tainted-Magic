@@ -42,11 +42,9 @@ focus.upgrade.diffusion.text=这个升级可以让核心将暗黑物质分解成
 
 #BLOCKS
 
-tile.BlockShadowOre.name=暗影矿石
 tile.BlockWarpwoodLog.name=扭曲之木
 tile.BlockWarpwoodSapling.name=扭曲树苗
 tile.BlockWarpwoodLeaves.name=扭曲树叶
-tile.BlockShadowmetal.name=暗影方块
 tile.BlockWarpwoodPlanks.name=扭曲木板
 tile.BlockLumos.name=闪烁的荧光
 tile.BlockNightshadeBush.name=颠茄
@@ -265,12 +263,12 @@ tm.text.THAUMICDISASSEMBLER.1=你创造了一种有很高技术含量的魔法�
 #SKYSALT
 tm.name.SKYSALT=风暴轮转之盐
 tm.tag.SKYSALT=须佐之男
-tm.text.SKYSALT.1=将一点创世能量与一些魔法材料融合,你创造出了一种新异的盐.<BR>撒盐空中时(鼠标右键),它会立刻与组成大气的魔力产生相互作用.如果正处于风暴中,天空会立刻放晴,反之亦然.
+tm.text.SKYSALT.1=将一点创世能量与一些魔法材料融合,你创造出了一种新异的盐.<BR>将盐丢出后,它会开始与世界的创世魔力产生相互作用,并在几秒钟后消散.盐消散时,如果正处于风暴中,天空会放晴;如果天空晴朗,则会转为风暴.
 
 #TIMESALT
 tm.name.TIMESALT=恒常日月之盐
 tm.tag.TIMESALT=天照命
-tm.text.TIMESALT.1=将一点创世能量与一些魔法材料融合,你创造出了一种新异的盐.<BR>撒盐空中时(鼠标右键),它会立刻与组成时空的魔力产生相互作用.如果处于晚上,太阳会立刻升起,反之亦然.
+tm.text.TIMESALT.1=将一点创世能量与一些魔法材料融合,你创造出了一种新异的盐.<BR>将盐丢出后,它会开始与世界的创世魔力产生相互作用,并在几秒钟后消散.盐消散时,如果处于晚上,太阳会升起;如果处于白天,则会进入黑夜.
 
 #VOIDSASH
 tm.name.VOIDSASH=虚空旅行者符文腰带
@@ -385,7 +383,7 @@ tm.text.LUMOSRING.1=你用法杖核心:荧光闪烁制作出了一个饰品指�
 #FLYTECHARM
 tm.name.FLYTECHARM=飞天魔符
 tm.tag.FLYTECHARM=金质蜘蛛
-tm.text.FLYTECHARM.1=在你向风之矢灌注了一个创世碎片和一些其他的魔法物品过后,你创造出了一个能让使用者飞行的小饰品<BR>当你把它放在背包里的时候,你就能在花费一些风魔力的情况下飞行.飞行时的花费大约是 0.1 每 tick.<BR>特别的是,当你在飞行的时候 ,每两秒钟你都可以按下冲刺键来冲刺,但那会消耗一些火魔力.当你降落的时候, 按着你的潜行键可以让你慢慢滑翔至地面.
+tm.text.FLYTECHARM.1=在你向风之矢灌注了一个创世碎片和一些其他的魔法物品过后,你创造出了一个能让使用者飞行的小饰品.<BR>当你把它放在背包里的时候,你就能在花费一些风魔力的情况下飞行.连按两次跳跃键即可开始飞行.下落时,按住潜行键可以让你慢慢滑翔至地面.
 
 #GATEKEY
 tm.name.GATEKEY=七彩八方之钥

@@ -28,7 +28,7 @@
 
 ### Changed
 
-- Changed the way Salis Aevus and Salis Tempestas work, and added visual effects.
+- Changed the way Salis Aevum and Salis Tempestas work, and added visual effects.
 - Changed the way Wand Focus: Lumos and Ring of Lumos work - no more laggy dynamic lighting.
 - Improved the effects when completing the Shard of Creation infusion.
 - Refined localization (fixed grammar, wording, typos).
@@ -79,7 +79,7 @@
 - Added Nightshade Berries.
 - Added Warping Fertilizer.
 - Added the Fragment of Creation. Subunit of the Shard of Creation. 1 shard can be broken down into 9 fragments. Used for crafting recipes that require some creation-y goodness but where an entire shard would be too expensive.
-- Added Salis Tempestas and Salis Aevus. When thrown they change the weather or time respectively, the same way that the Meteorology and Time foci did in previous versions. Single use.
+- Added Salis Tempestas and Salis Aevum. When thrown they change the weather or time respectively, the same way that the Meteorology and Time foci did in previous versions. Single use.
 - Added the Shockwave Focus. Works the same as the Tainted Shockwave used to, but attacks them with lightning instead.
 - Added the Taint Swarm focus. The focus summons a tamed Taint Swarm to fight for the player. The player must be looking at a valid target to summon a swarm. The swarm will pathfind to this target and will only attack this target. The swarm dies when the target dies. The focus can be used on cooldown to summon multiple swarms.
 - Added a way to craft Vishrooms.
@@ -102,7 +102,7 @@
 - Replaced the Tainted Storm focus with the Taint Swarm focus. Complete overhaul, see Added.
 - Removed the Glowpet and Lumos Maxima upgrades to the Lumos focus. To replace the functionality of the Glowpet upgrade, the Ring of Lumos has been added. See Added for details.
 - Lumos light sources now have a hitbox.
-- Removed the Meteorology and Time foci, replaced with Salis Tempestas and Salis Aevus respectively. See Added for details.
+- Removed the Meteorology and Time foci, replaced with Salis Tempestas and Salis Aevum respectively. See Added for details.
 - Warpwood Saplings can no longer be crafted via infusion. Warping Fertilizer must be used on a Silverwood Sapling to create a Warpwood Sapling.
 - Changed how Warpwood trees grow, as well as the leaf and log textures. They now are shaped like Silverwood trees.
 - Similar to the node inside of Silverwood trees, there is a chance that a knot will generate inside of Warpwood trees. The knot drops 1-5 void seeds.

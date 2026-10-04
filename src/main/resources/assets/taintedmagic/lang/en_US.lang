@@ -63,7 +63,7 @@ item.ItemMaterial.7.name=Crimson Plating
 item.ItemMaterial.8.name=Shadow Metal Nugget
 item.ItemMaterial.9.name=Primordial Nodule
 item.ItemMaterial.10.name=Primordial Mote
-item.ItemMaterial.11.name=Creation Fragment
+item.ItemMaterial.11.name=Fragment of Creation
 
 item.ItemWarpFertilizer.name=Warping Fertilizer
 item.ItemNightshadeBerries.name=Nightshade Berries
@@ -149,7 +149,7 @@ tc.research_category.TAINTEDMAGIC=Obscura
 tm.name.TAINTEDMAGIC=A disturbing find
 tm.tag.TAINTEDMAGIC=Who wrote this?
 tm.text.TAINTEDMAGIC.1=While you were exploring the world and gathering magical knowledge, you came across something rather disturbing: a blood-stained page that seems to be from a Thaumonomicon. From your understanding, it speaks of dark magic.<IMG>taintedmagic:textures/misc/p_taintedmagic.png:0:255:255:255:.42</IMG>
-tm.text.TAINTEDMAGIC.2=Even though the page is hardly legible, you are filled with a strange feeling as you attempt to read the spidery script. It feels almost like a headache... but not quite.<BR>The darkness intrigues you, even though it ensues a dangerous path. Perhaps you will make it your goal to one day understand this strange magic. After all, the thought of an adventure into the unknown is exciting.
+tm.text.TAINTEDMAGIC.2=Even though the page is hardly legible, you are filled with a strange feeling as you attempt to read the spidery script. It feels almost like a headache... but not quite.<BR>The darkness intrigues you, even though it leads down a dangerous path. Perhaps you will make it your goal to one day understand this strange magic. After all, the thought of an adventure into the unknown is exciting.
 
 #SHADOWMETAL
 tm.name.SHADOWMETAL=Shadow Metal
@@ -169,7 +169,7 @@ tm.text.ROD_warpwood.1=By combining the magical wood from a Warpwood Tree with s
 #ROD_warpwood_staff
 tm.name.ROD_warpwood_staff=Warpwood Staff Core
 tm.tag.ROD_warpwood_staff=...it's not always clear why
-tm.text.ROD_warpwood_staff.1=Usually one is able to fashion a staff core by combining two wand rods with a Primal Charm. This construction method was unsuccessful in creating a Warpwood Staff. Substituting the Primal Charm for a more powerful primal reagent, the Primordial Pearl, seems to have done the trick.<BR>This staff core is capable of storing 500 of each type of vis, furthermore, the Warpwood Rod's vis-replenishing traits are also present in this staff core.
+tm.text.ROD_warpwood_staff.1=Usually one is able to fashion a staff core by combining two wand rods with a Primal Charm. This construction method was unsuccessful in creating a Warpwood Staff. Replacing the Primal Charm with a more powerful primal reagent, the Primordial Pearl, seems to have done the trick.<BR>This staff core is capable of storing 500 of each type of vis; furthermore, the Warpwood Rod's vis-replenishing traits are also present in this staff core.
 
 #UNBALANCEDSHARDS
 tm.name.UNBALANCEDSHARDS=Unbalanced Shards
@@ -199,12 +199,12 @@ tm.text.CRIMSONBLADE.1=By infusing a Void Metal Sword with Crimson Blood, you ha
 #VOIDFORTRESS
 tm.name.VOIDFORTRESS=Void Fortress Armour
 tm.tag.VOIDFORTRESS=Nothing is getting out
-tm.text.VOIDFORTRESS.1=Using the same design principles with which you crafted Thaumium Fortress Armour, you have fashioned a similar set from Void Metal. By using Void Metal instead of Thaumium, not only did you increase the effectiveness of the armour, but also it's durability. Like anything made primarily from Void Metal, this armour will repair itself over time.<BR>Like normal Fortress Armour, this armour can be enhanced by various faceplates and modifications.
+tm.text.VOIDFORTRESS.1=Using the same design principles with which you crafted Thaumium Fortress Armour, you have fashioned a similar set from Void Metal. By using Void Metal instead of Thaumium, not only did you increase the effectiveness of the armour, but also its durability. Like anything made primarily from Void Metal, this armour will repair itself over time.<BR>Like normal Fortress Armour, this armour can be enhanced by various faceplates and modifications.
 
 #WARPEDGOGGLES
-tm.name.WARPEDGOGGLES=Warped Goggles Of Revealing
+tm.name.WARPEDGOGGLES=Warped Goggles of Revealing
 tm.tag.WARPEDGOGGLES=The telltale heart
-tm.text.WARPEDGOGGLES.1=You have improved the protection offered by your Goggles of Revealing by infusing them with some Shadow Metal and a drop of Quicksilver.<BR>§oOne of the goggle's lenses became clouded over during the infusion, causing strange visions while wearing them. Strangely, you don't mind.
+tm.text.WARPEDGOGGLES.1=You have improved the protection offered by your Goggles of Revealing by infusing them with some Shadow Metal and a drop of Quicksilver.<BR>§oOne of the goggles' lenses became clouded over during the infusion, causing strange visions while wearing them. Strangely, you don't mind.
 
 #TAINTFOCUS
 tm.name.TAINTFOCUS=Wand Focus: Taint Swarm
@@ -223,12 +223,12 @@ tm.text.DIFFUSIONUPGRADE.1=You have created a Tier 5 upgrade applicable to the D
 #WARPTREE
 tm.name.WARPTREE=Warpwood Tree
 tm.tag.WARPTREE=It hits back
-tm.text.WARPTREE.1=You have created a peculiar fertilizer which, when applied to a Silverwood Sapling, transfigures the sapling into a warped version of itself. Posessing strong levels of corrupt magic, the Warpwood Tree is, in every way, the opposite of a Silverwood.<BR>It is advisable to take caution when walking near a Warpwood, as poisonous Atropa Belladona often grows at its base.
+tm.text.WARPTREE.1=You have created a peculiar fertilizer which, when applied to a Silverwood Sapling, transfigures the sapling into a warped version of itself. Possessing strong levels of corrupt magic, the Warpwood Tree is, in every way, the opposite of a Silverwood.<BR>It is advisable to take caution when walking near a Warpwood, as poisonous Atropa Belladonna often grows at its base.
 
 #SHADOWCLOTH
-tm.name.SHADOWCLOTH=Shadow-Imbued Cloth
+tm.name.SHADOWCLOTH=Shadow-imbued Cloth
 tm.tag.SHADOWCLOTH=Black Veil Cloth
-tm.text.SHADOWCLOTH.1=By combining Enchanted Fabric with some Shadow Metal, you have created a new magical material: Shadow-Imbued Cloth. You are certain it will be useful in the construction of magical equipment.
+tm.text.SHADOWCLOTH.1=By combining Enchanted Fabric with some Shadow Metal, you have created a new magical material: Shadow-imbued Cloth. You are certain it will be useful in the construction of magical equipment.
 
 #VOIDWALKERBOOTS
 tm.name.VOIDWALKERBOOTS=Boots of the Voidwalker
@@ -238,7 +238,7 @@ tm.text.VOIDWALKERBOOTS.1=You have upgraded your Boots of the Traveller by infus
 #BREAKPEARL
 tm.name.BREAKPEARL=Primordial Pearl Fragmentation
 tm.tag.BREAKPEARL=Close precision
-tm.text.BREAKPEARL.1=While working with Primordial Pearls, you have realized that you do not always require an entire pearl. To solve this problem, you have perfected a method to magically fragmentate the pearl into medium-sized §onodules§r and small-sized §omotes§r.
+tm.text.BREAKPEARL.1=While working with Primordial Pearls, you have realized that you do not always require an entire pearl. To solve this problem, you have perfected a method to magically fragment the pearl into medium-sized §onodules§r and small-sized §omotes§r.
 
 #CREATIONSHARD
 tm.name.CREATIONSHARD=Shard of Creation
@@ -250,9 +250,9 @@ tm.name.CREATION=Creation
 tm.tag.CREATION=That which came before
 tm.text.CREATION.1=The moment you touched the Shard of Creation, forged from power you barely comprehend, you felt something. You felt as if the entire universe had shifted.<BR>Your body went numb, and for the first time since you opened the Thaumonomicon, the voices, they stopped.<BR>You saw through what the voices have always kept hidden. You saw through the lies, through the insanity, through the veil between worlds. You saw §5Creation§0...<LINE>
 tm.text.CREATION.2=Eons ago, when the world you know was yet to exist, the formation of another universe began. The primal energies, in the form of vis, flowing from beyond reality clashed, combined, and given time, created.<BR>A blank universe, exploding from nothing, into existence.<BR>The energies which created this world, however, did not leave. They stayed, they twisted, and became a part of this new place, just as water and air are in your world.
-tm.text.CREATION.3=If enough time is given to any universe, it will eventually develop life, and this universe was no exception. A race of beings, warped by power and twisted by magic, every reference to them you've ever read always names them The Eldritch.<BR>Time passed, and the Eldritch developed magic. They practiced it, refined it, and it became quite similar to the Thaumaturgy you practice, except for one difference.<BR>Warp was in every word they wrote. Twisting, fluxing, and tainting. Their magic couldn't do anything without a far greater than equal reaction.
+tm.text.CREATION.3=If enough time is given to any universe, it will eventually develop life, and this universe was no exception. A race of beings, warped by power and twisted by magic, every reference to them you've ever read always names them the Eldritch.<BR>Time passed, and the Eldritch developed magic. They practiced it, refined it, and it became quite similar to the Thaumaturgy you practice, except for one difference.<BR>Warp was in every word they wrote. Twisting, fluxing, and tainting. Their magic couldn't do anything without a far greater than equal reaction.
 tm.text.CREATION.4=So, they decided they would break the rules. They decided to create a new universe. A universe without their limits, without the warp their universe was burdened with.<BR>They began to manipulate primal energy, clashing it into the forms that would spark and create. However, right before this universe was created, they split the forces in two.<BR>The power of creation was placed into one half, and the matter created was placed into the other.
-tm.text.CREATION.5=They ended up with two worlds... A never ending Voidscape, and the Overworld.<BR>Nonetheless, the veil between these two worlds was weak, and the power contained within the voidscape was too dangerous to let the untrained hold.<BR>So, the Eldritch condensed pieces of the energy of creation into Primordial Pearls and created labyrinths in which they would be sealed... The Outer Lands. To protect the Pearls, they created the Guardians, which ensured only those worthy would be able to obtain this power, as it would be devastating if used incorrectly.
+tm.text.CREATION.5=They ended up with two worlds... A never-ending Voidscape, and the Overworld.<BR>Nonetheless, the veil between these two worlds was weak, and the power contained within the Voidscape was too dangerous to let the untrained hold.<BR>So, the Eldritch condensed pieces of the energy of creation into Primordial Pearls and created labyrinths in which they would be sealed... The Outer Lands. To protect the Pearls, they created the Guardians, which ensured only those worthy would be able to obtain this power, as it would be devastating if used incorrectly.
 tm.text.CREATION.6=Eons later, here you stand; one who has marched into eternity and emerged triumphant.<BR>You hold a piece of the power used to create the universe...<BR>With this piece of Creation, you have forged the final piece of the puzzle, the Shard of Creation.<BR>The limits you once were bound by have been cast aside, just as the Eldritch cast aside theirs. With this, even gods would flee before you.
 
 #THAUMICDISASSEMBLER
@@ -266,19 +266,19 @@ tm.tag.SKYSALT=Susano'o
 tm.text.SKYSALT.1=By combining a Fragment of Creation with some other magical ingredients, you have created a useful new type of salis.<BR>When thrown into the world, the salis will begin to interact with the world's creation magics. After a few seconds, the item will dissipate. When the salis dissipates, if the skies are stormy, they will become clear; if the skies are clear, they will become stormy.
 
 #TIMESALT
-tm.name.TIMESALT=Salis Aevus
+tm.name.TIMESALT=Salis Aevum
 tm.tag.TIMESALT=Amaterasu
 tm.text.TIMESALT.1=By combining a Fragment of Creation with some other magical ingredients, you have created a useful new type of salis.<BR>When thrown into the world, the salis will begin to interact with the world's creation magics. After a few seconds, the item will dissipate. When the salis dissipates, if it is nighttime, it will become day; if it is daytime, it will become night.
 
 #VOIDSASH
 tm.name.VOIDSASH=Voidwalker's Sash of Runic Shielding
 tm.tag.VOIDSASH=Lightspeed
-tm.text.VOIDSASH.1=You have designed a runic accessory imbued with the power of the void. The Voidwalker's Sash of Runic Shielding offers §6Runic Shield +20§0, it can be equipped in the belt slot.<BR>When worn in conjunction with the Boots of the Voidwalker, an additional speed boost is granted. One would press Shift+Right-click with the sash in hand to toggle this additional effect.
+tm.text.VOIDSASH.1=You have designed a runic accessory imbued with the power of the void. The Voidwalker's Sash of Runic Shielding offers §6Runic Shield +20§0. It can be equipped in the belt slot.<BR>When worn in conjunction with the Boots of the Voidwalker, an additional speed boost is granted. One would press Shift+Right-click with the sash in hand to toggle this additional effect.
 
 #VISHROOMCRAFT
 tm.name.VISHROOMCRAFT=Vishroom Transmutation
 tm.tag.VISHROOMCRAFT=Pesky 'shrooms
-tm.text.VISHROOMCRAFT.1=Vishrooms: the bane of every Thaumaturge's existence. Every time you walk through a magical forest you somehow end up stepping on one of these pesky mushrooms, leaving you feeling sick.<BR>After stepping on one-too-many of these mushrooms, you had a (likely mushroom-induced) vision. This short-lived epiphany led to you to discover a method of transmuting Vishrooms from ordinary, mundane mushrooms. Why would one want to create Vishrooms? You have no idea.
+tm.text.VISHROOMCRAFT.1=Vishrooms: the bane of every Thaumaturge's existence. Every time you walk through a magical forest you somehow end up stepping on one of these pesky mushrooms, leaving you feeling sick.<BR>After stepping on one too many of these mushrooms, you had a (likely mushroom-induced) vision. This short-lived epiphany led you to discover a method of transmuting Vishrooms from ordinary, mundane mushrooms. Why would one want to create Vishrooms? You have no idea.
 
 #MAGICFUNGUAR
 tm.name.MAGICFUNGUAR=Magic Funguar
@@ -288,7 +288,7 @@ tm.text.MAGICFUNGUAR.1=You have been experimenting with Vishrooms lately and you
 #HOLLOWDAGGER
 tm.name.HOLLOWDAGGER=Hollow Dagger
 tm.tag.HOLLOWDAGGER=Phlebotomy
-tm.text.HOLLOWDAGGER.1=By fashioning a dagger from a hollow Bone Rod, and some other materials, you now have an efficient way to collect blood from your enemies. If you possess an empty Glass Phial in your inventory, a phial will fill with blood upon stabbing a foe with this blade.<BR>Upon closer inspection, you noticed that blood collected this way posesses some interesting properties; most notibly, its deep crimson colour. Perhaps even more interestingly, this specially collected blood seems to possess similar properties to the artifacts which you have previously retrieved from the Crimson Cult.
+tm.text.HOLLOWDAGGER.1=By fashioning a dagger from a hollow Bone Rod, and some other materials, you now have an efficient way to collect blood from your enemies. If you possess an empty Glass Phial in your inventory, a phial will fill with blood upon stabbing a foe with this blade.<BR>Upon closer inspection, you noticed that blood collected this way possesses some interesting properties; most notably, its deep crimson colour. Perhaps even more interestingly, this specially collected blood seems to possess similar properties to the artifacts which you have previously retrieved from the Crimson Cult.
 
 #MACEFOCUS
 tm.name.MACEFOCUS=Wand Focus: Mage's Mace
@@ -303,7 +303,7 @@ tm.text.SHADOWFORTRESS.1=Following the design used to create Fortress Armour fro
 #CAP_cloth
 tm.name.CAP_cloth=Enchanted Cloth Caps
 tm.tag.CAP_cloth=Tied with a bow
-tm.text.CAP_cloth.1=You have designed inexpensive Wand Caps made from Enchanted Cloth. Though they are simple to make, these Wand Caps provide a 3% vis discount, likely due to the Enchanted properties of the cloth.
+tm.text.CAP_cloth.1=You have designed inexpensive Wand Caps made from Enchanted Cloth. Though they are simple to make, these Wand Caps provide a 3% vis discount, likely due to the enchanted properties of the cloth.
 
 #CAP_crimsoncloth
 tm.name.CAP_crimsoncloth=Crimson-stained Cloth Caps
@@ -318,17 +318,17 @@ tm.text.CAP_shadowcloth.1=Making Wand Caps from Enchanted Cloth proved successfu
 #FOCUSSHOCKWAVE
 tm.name.FOCUSSHOCKWAVE=Wand Focus: Shockwave
 tm.tag.FOCUSSHOCKWAVE=Magical opposition
-tm.text.FOCUSSHOCKWAVE.1=You have designed a defensive, lightning-aspected, area-of-effect wand focus.<BR>When cast, this focus hurls a violent bolt of lightning to each nearby enemy, dealing a hefty blow of damage, picking them up, and knocking them far away from you.
+tm.text.FOCUSSHOCKWAVE.1=You have designed a defensive, lightning-aspected, area-of-effect wand focus.<BR>When cast, this focus hurls a violent bolt of lightning at each nearby enemy, dealing a hefty blow of damage, picking them up, and knocking them far away from you.
 
 #PRIMALBLADE
 tm.name.PRIMALBLADE=Primal Blade
 tm.tag.PRIMALBLADE=Kamui
-tm.text.PRIMALBLADE.1=You have expanded your primal tool set by designing a blade imbued with primal aspects.<BR>The Primal Blade offers excellent attack damage, and will repair iteself over time. While holding right-click, a gravitational field is created which will draw all nearby enemies towards you. The blade also possesses Primal Sapping, which inflicts withering and weakness effects.<BR>One should take care while wielding this blade, as it posesses a strong warping effect.
+tm.text.PRIMALBLADE.1=You have expanded your primal tool set by designing a blade imbued with primal aspects.<BR>The Primal Blade offers excellent attack damage, and will repair itself over time. While holding right-click, a gravitational field is created which will draw all nearby enemies towards you. The blade also possesses Primal Sapping, which inflicts withering and weakness effects.<BR>One should take care while wielding this blade, as it possesses a strong warping effect.
 
 #VOIDBLOOD
 tm.name.VOIDBLOOD=Void-infused Blood
 tm.tag.VOIDBLOOD=Cthulhu juice
-tm.text.VOIDBLOOD.1=Using Crimson Blood, you have created a elixir which harnesses the restorative properties of Void Metal.<BR>Applying this elixir to armour via a crafting grid will allow the armour to repair itself over time.
+tm.text.VOIDBLOOD.1=Using Crimson Blood, you have created an elixir which harnesses the restorative properties of Void Metal.<BR>Applying this elixir to armour via a crafting grid will allow the armour to repair itself over time.
 
 #THAUMIUMKATANA
 tm.name.THAUMIUMKATANA=Thaumium Fortress Blade
@@ -358,7 +358,7 @@ tm.text.INSCRIPTIONTHUNDER.1=You have upgraded your Fortress Blade by inscribing
 #INSCRIPTIONHEAL
 tm.name.INSCRIPTIONHEAL=Benevolent Goddess Inscription
 tm.tag.INSCRIPTIONHEAL=Fortress Blade upgrade
-tm.text.INSCRIPTIONHEAL.1=You have upgraded your Fortress Blade by inscribing runes upon it.<BR>This inscription will cause your blade to deal magic damage, which inflicts a withering effect on enemies.<BR>Furthermore, when releasing a fully charged strike, you will be healed and will recieve a short burst of beneficial potion effects. Healing potency increases the closer you are to death. Additionally, all enemies nearby will be inflicted with a withering effect upon healing yourself. One would hold down shift to cancel this effect and release a normal charged strike.
+tm.text.INSCRIPTIONHEAL.1=You have upgraded your Fortress Blade by inscribing runes upon it.<BR>This inscription will cause your blade to deal magic damage, which inflicts a withering effect on enemies.<BR>Furthermore, when releasing a fully charged strike, you will be healed and will receive a short burst of beneficial potion effects. Healing potency increases the closer you are to death. Additionally, all enemies nearby will be inflicted with a withering effect upon healing yourself. One would hold down shift to cancel this effect and release a normal charged strike.
 
 #VOIDGOGGLES
 tm.name.VOIDGOGGLES=Void Metal Goggles of Revealing
@@ -372,13 +372,13 @@ tm.text.FOCUSSHARD.1=With the study of different types of shards, an incredible 
 
 #FOCUSLUMOS
 tm.name.FOCUSLUMOS=Wand Focus: Lumos
-tm.tag.FOCUSLUMOS=It's LeviOsa not LevioSA
-tm.text.FOCUSLUMOS.1=You have designed a focus which converts vis into light.<BR>Simply cast your wand (or staff) on a block and watch as a pocket of light appears.<BR>Furthermore, while this focus is equipped and your wand or staff is in hand a perpetual Night Vision effect will be applied.
+tm.tag.FOCUSLUMOS=It's LeviOsa, not LevioSA
+tm.text.FOCUSLUMOS.1=You have designed a focus which converts vis into light.<BR>Simply cast your wand (or staff) on a block and watch as a pocket of light appears.<BR>Furthermore, while this focus is equipped and your wand or staff is in hand, a perpetual Night Vision effect will be applied.
 
 #LUMOSRING
 tm.name.LUMOSRING=Ring of Lumos
 tm.tag.LUMOSRING=Lighting the way
-tm.text.LUMOSRING.1=You have created a ring based on the Lumos focus. When the Ring of Lumos is equipped a perpetual Night Vision effect will be applied.
+tm.text.LUMOSRING.1=You have created a ring based on the Lumos focus. When the Ring of Lumos is equipped, a perpetual Night Vision effect will be applied.
 
 #FLYTECHARM
 tm.name.FLYTECHARM=Flyte Charm
