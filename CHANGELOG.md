@@ -17,6 +17,10 @@
 - Fixed the Thaumic Disassembler working at full speed with a negative entropy charge, e.g. after vein mining (#80).
 - Fixed Fortress Blade sayas and the Flyte Charm magic circle not rendering for other players on servers (#35). These effects are now also hidden on invisible players.
 - Fixed Flyte Charm flight state not being cleared when a player logs out.
+- Fixed a crash when releasing a charged Fortress Blade strike while not looking at anything.
+- Fixed charged Fortress Blade strikes being calculated by the client. Strikes are now handled by the server, which uses normal melee reach and respects the server's PvP setting.
+- Fixed Fortress Blade charge being shared between players.
+- Fixed typos and outdated research text in the English, Russian and Chinese localizations.
 
 ## 8.1.1
 

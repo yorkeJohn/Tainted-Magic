@@ -11,7 +11,6 @@ public class PacketHandler {
             NetworkRegistry.INSTANCE.newSimpleChannel(Tags.MOD_ID.toLowerCase());
 
     public static void initPackets() {
-        INSTANCE.registerMessage(PacketKatanaAttack.class, PacketKatanaAttack.class, 0, Side.SERVER);
-        INSTANCE.registerMessage(PacketSyncRenderItems.class, PacketSyncRenderItems.class, 1, Side.CLIENT);
+        INSTANCE.registerMessage(PacketSyncRenderItems.class, PacketSyncRenderItems.class, 0, Side.CLIENT);
     }
 }

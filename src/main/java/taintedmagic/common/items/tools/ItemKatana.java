@@ -5,7 +5,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.awt.Color;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -25,7 +24,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -38,14 +36,13 @@ import taintedmagic.client.model.ModelSaya;
 import taintedmagic.common.TaintedMagic;
 import taintedmagic.common.helper.TaintedMagicHelper;
 import taintedmagic.common.items.wand.foci.ItemFocusShockwave;
-import taintedmagic.common.network.PacketHandler;
-import taintedmagic.common.network.PacketKatanaAttack;
 import thaumcraft.api.IRepairable;
 import thaumcraft.api.IWarpingGear;
 import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.codechicken.lib.vec.Vector3;
 import thaumcraft.common.Thaumcraft;
 import thaumcraft.common.entities.projectile.EntityExplosiveOrb;
+import thaumcraft.common.lib.utils.EntityUtils;
 
 public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRenderInventoryItem, IHeldItemHUD {
 
@@ -69,8 +66,6 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
     public static final ModelKatana KATANA = new ModelKatana();
     public static final ModelSaya SAYA = new ModelSaya();
-
-    private int ticksInUse = 0;
 
     public ItemKatana() {
         setCreativeTab(TaintedMagic.tabTM);
@@ -210,8 +205,6 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
     public void onUsingTick(final ItemStack stack, final EntityPlayer player, final int i) {
         super.onUsingTick(stack, player, i);
 
-        ticksInUse = getMaxItemUseDuration(stack) - i;
-
         final float j = 0.75F + (float) Math.random() * 0.25F;
         if (player.ticksExisted % 5 == 0) {
             player.worldObj.playSoundAtEntity(player, "thaumcraft:wind", j * 0.1F, j);
@@ -222,21 +215,10 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
     public void onPlayerStoppedUsing(final ItemStack stack, final World world, final EntityPlayer player, final int i) {
         super.onPlayerStoppedUsing(stack, world, player, i);
 
-        if (isFullyCharged(player)) {
+        if (isFullyCharged(stack, i)) {
             if (!hasAnyInscription(stack) || player.isSneaking()) {
-                if (world.isRemote) {
-                    final MovingObjectPosition mop = Minecraft.getMinecraft().objectMouseOver;
-
-                    // charged strike damage multiplier
-                    float mul = 1.5F;
-                    if (world.rand.nextInt(10) == 0) {
-                        mul += 1.0F; // crit
-                    }
-
-                    if (mop.entityHit != null) {
-                        PacketHandler.INSTANCE.sendToServer(
-                                new PacketKatanaAttack(mop.entityHit, player, getAttackDamage(stack) * mul));
-                    }
+                if (!world.isRemote) {
+                    chargedStrike(stack, world, player);
                 }
                 player.worldObj.playSoundAtEntity(
                         player, "thaumcraft:swing", 0.5F + (float) Math.random(), 0.5F + (float) Math.random());
@@ -367,9 +349,26 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
         }
     }
 
-    private boolean isFullyCharged(final EntityPlayer player) {
-        final float f = Math.min((float) ticksInUse / (float) CHARGE_TICKS, 1.0F);
-        return f == 1.0F;
+    private boolean isFullyCharged(final ItemStack stack, final int useRemaining) {
+        return getMaxItemUseDuration(stack) - useRemaining >= CHARGE_TICKS;
+    }
+
+    /**
+     * Server side: hit the entity the player is looking at within melee reach.
+     */
+    private void chargedStrike(final ItemStack stack, final World world, final EntityPlayer player) {
+        final double reach = player.capabilities.isCreativeMode ? 6.0D : 3.0D;
+        final Entity target = EntityUtils.getPointedEntity(world, player, 0.0D, reach, 0.0F);
+        if (!(target instanceof EntityLivingBase)) return;
+
+        // charged strike damage multiplier
+        float mul = 1.5F;
+        if (world.rand.nextInt(10) == 0) {
+            mul += 1.0F; // crit
+        }
+
+        target.attackEntityFrom(
+                DamageSource.causePlayerDamage(player).setDamageBypassesArmor(), getAttackDamage(stack) * mul);
     }
 
     public static boolean hasAnyInscription(final ItemStack stack) {
@@ -526,7 +525,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
         GL11.glTranslatef(-0.6F, 2.25F, 1.25F);
 
-        Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(stack));
+        UtilsFX.bindTexture(getTexture(stack));
         SAYA.render(0.0625F);
 
         GL11.glPopMatrix();
@@ -540,7 +539,7 @@ public class ItemKatana extends Item implements IWarpingGear, IRepairable, IRend
 
             GL11.glTranslatef(-0.6F, 2.25F, 1.25F);
 
-            Minecraft.getMinecraft().renderEngine.bindTexture(getTexture(stack));
+            UtilsFX.bindTexture(getTexture(stack));
             KATANA.render(0.0625F);
 
             GL11.glPopMatrix();
