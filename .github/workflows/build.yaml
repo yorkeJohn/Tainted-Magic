@@ -25,6 +25,7 @@ jobs:
       - name: Publish
         uses: Kir-Antipov/mc-publish@v3
         with:
+          loaders: forge
           curseforge-id: 231061
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}

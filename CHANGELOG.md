@@ -1,6 +1,6 @@
 # Tainted Magic Changelog
 
-## Unreleased
+## 8.2.0
 
 ### Changed
 
