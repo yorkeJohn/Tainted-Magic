@@ -38,6 +38,7 @@
 - Fixed a crash when viewing the tooltip of a Celestial Gate Key bound to a dimension that no longer exists.
 - Fixed Diffusion clouds having their damage rounded down and losing their Corrosive upgrade when reloaded.
 - Fixed the Diffusion upgrade's wind sound being throttled across all players instead of per player.
+- Fixed the Warpwood wand and sceptre in the creative tab showing the staff's +6 attack damage.
 - Fixed typos and outdated research text in the English, Russian and Chinese localizations.
 
 ## 8.1.1

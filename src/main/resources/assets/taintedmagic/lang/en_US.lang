@@ -78,7 +78,7 @@ item.ItemGateKey.name=Celestial Gate Key
 key.bound=Bound
 key.unbound=Unbound
 key.error=Destination obstructed
-key.invaliddim=Invalid dimension
+key.invaliddim=Destination is in another world
 
 item.ItemSalis.0.name=Salis Tempestas
 item.ItemSalis.1.name=Salis Aevum
