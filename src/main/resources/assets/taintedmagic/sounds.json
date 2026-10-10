@@ -1,4 +1,20 @@
 {
-	"shockwave": {"category": "master","sounds": [{"name": "shockwave","stream": false}]},
-	"shard": {"category": "master","sounds": [{"name": "shard","stream": false}]}
+  "shockwave": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "shockwave",
+        "stream": false
+      }
+    ]
+  },
+  "shard": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "shard",
+        "stream": false
+      }
+    ]
+  }
 }

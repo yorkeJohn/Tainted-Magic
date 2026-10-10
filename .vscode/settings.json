@@ -1,6 +1,11 @@
 {
   "editor.indentSize": 4,
-  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.configuration.updateBuildConfiguration": "automatic",
   "java.import.gradle.java.home": "/usr/lib/jvm/java-25-openjdk-amd64",
-  "java.settings.url": ".vscode/compiler.prefs"
+  "java.settings.url": ".vscode/compiler.properties",
+  "files.associations": {
+    "*.lang": "java-properties",
+    "*.info": "json",
+    "*.mcmeta": "json"
+  }
 }
