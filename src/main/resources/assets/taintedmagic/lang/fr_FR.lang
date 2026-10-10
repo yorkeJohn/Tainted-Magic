@@ -1,0 +1,391 @@
+#Tainted Magic French (FR) localization
+
+itemGroup.TaintedMagic=Tainted Magic
+
+text.creation=Les voix se taisent... soudain, tout vous apparaît avec une parfaite clarté.
+
+text.voidtouched=Touché par le Vide
+
+text.attackdamageequipped=Dégâts d'attaque (une fois équipé)
+text.attackdamage=Dégâts d'attaque
+text.radius=blocs de rayon
+
+text.sapprimal=Absorption primaire
+
+death.attack.nightshade=%1$s a été empoisonné par des baies de morelle.
+
+#FOCI
+
+item.ItemFocusShockwave.name=Foci de baguette : Onde de choc
+item.ItemFocusMageMace.name=Foci de baguette : Masse du mage
+item.ItemFocusTaintSwarm.name=Foci de baguette : Essaim corrompu
+item.ItemFocusDarkMatter.name=Foci de baguette : Matière noire
+item.ItemFocusVisShard.name=Foci de baguette : Cristal de vis
+item.ItemFocusLumos.name=Foci de baguette : Lumos
+
+item.Focus.cost3=Vis par coup
+
+focus.upgrade.antibody.name=Anticorps
+focus.upgrade.antibody.text=Cette amélioration annule les maux habituellement provoqués par l'utilisation de ce foci.
+
+focus.upgrade.corrosive.name=Corrosif
+focus.upgrade.corrosive.text=Cette amélioration permet au foci d'infliger un effet de flétrissement.
+
+focus.upgrade.sanity.name=Santé mentale
+focus.upgrade.sanity.text=Cette amélioration annule les effets de Warp habituellement provoqués par l'utilisation de ce foci.
+
+focus.upgrade.persistent.name=Persistant
+focus.upgrade.persistent.text=Cette amélioration guide le cristal vers une nouvelle cible proche si la cible actuelle meurt ou disparaît mystérieusement.
+
+focus.upgrade.diffusion.name=Diffusion
+focus.upgrade.diffusion.text=Cette amélioration permet au foci de conjurer un nuage continu de matière noire, plutôt qu'un projectile concentré.
+
+#BLOCKS
+
+tile.BlockWarpwoodLog.name=Bois distordu
+tile.BlockWarpwoodSapling.name=Pousse de bois distordu
+tile.BlockWarpwoodLeaves.name=Feuilles distordues
+tile.BlockWarpwoodPlanks.name=Planches de bois distordu
+tile.BlockLumos.name=Lumos
+tile.BlockNightshadeBush.name=Belladone
+
+#ITEMS
+
+item.ItemMaterial.0.name=Lingot de métal d'ombre
+item.ItemMaterial.1.name=Tissu imprégné d'ombre
+item.ItemMaterial.2.name=Tissu teinté de cramoisi
+item.ItemMaterial.3.name=Cristal déséquilibré distordu
+item.ItemMaterial.4.name=Cristal déséquilibré corrompu
+item.ItemMaterial.5.name=Éclat de Création
+text.shard.1=La clé de l'origine de toute chose...
+item.ItemMaterial.6.name=Plaque d'alliage thaumique
+item.ItemMaterial.7.name=Plaque cramoisie
+item.ItemMaterial.8.name=Pépite de métal d'ombre
+item.ItemMaterial.9.name=Nodule primordial
+item.ItemMaterial.10.name=Particule primordiale
+item.ItemMaterial.11.name=Fragment de Création
+
+item.ItemWarpFertilizer.name=Engrais de distorsion
+item.ItemNightshadeBerries.name=Baies de morelle
+item.ItemVoidBlood.name=Fiole de sang imprégné de Vide
+item.ItemCrimsonBlood.name=Fiole de sang cramoisi
+item.ItemHollowDagger.name=Dague creuse
+item.ItemMagicFunguar.name=Champignon magique
+item.ItemFlyteCharm.name=Charme de vol
+item.ItemLumosRing.name=Anneau de Lumos
+
+item.ItemGateKey.name=Clé de la Porte céleste
+key.bound=Liée
+key.unbound=Non liée
+key.error=Destination obstruée
+key.invaliddim=La destination se trouve dans un autre monde
+
+item.ItemSalis.0.name=Salis Tempestas
+item.ItemSalis.1.name=Salis Aevum
+
+item.ItemVoidwalkerSash.name=Écharpe de blindage runique du Marcheur du Vide
+text.sash.speed.on=Bonus de vitesse activé
+text.sash.speed.off=Bonus de vitesse désactivé
+
+item.ItemVoidwalkerBoots.name=Bottes du Marcheur du Vide
+
+item.ItemWarpedGoggles.name=Lunettes de révélation distordues
+item.ItemVoidmetalGoggles.name=Lunettes de révélation en métal du Vide
+
+item.ItemKatana.0.name=Lame de la forteresse en thaumium
+item.ItemKatana.1.name=Lame de la forteresse en métal du Vide
+item.ItemKatana.2.name=Lame de la forteresse en métal d'ombre
+text.katana.inscription.0=Inscription du Démon enragé
+text.katana.inscription.1=Inscription de l'Esprit vengeur
+text.katana.inscription.2=Inscription de la Déesse bienveillante
+
+item.ItemVoidFortressHelmet.name=Casque de la forteresse du Vide
+item.ItemVoidFortressChestplate.name=Cuirasse de la forteresse du Vide
+item.ItemVoidFortressLeggings.name=Jambières de la forteresse du Vide
+
+item.ItemShadowFortressHelmet.name=Casque de la forteresse d'ombre
+item.ItemShadowFortressChestplate.name=Cuirasse de la forteresse d'ombre
+item.ItemShadowFortressLeggings.name=Jambières de la forteresse d'ombre
+
+item.ItemThaumicDisassembler.name=Désassembleur thaumique
+text.disassembler.charge=Charge d'entropie
+text.disassembler.mode=Mode
+text.disassembler.efficiency=Efficacité
+text.disassembler.normal=Normal
+text.disassembler.fast=Rapide
+text.disassembler.slow=Lent
+text.disassembler.off=Désactivé
+
+item.ItemShadowmetalPick.name=Pioche en métal d'ombre
+item.ItemShadowmetalAxe.name=Hache en métal d'ombre
+item.ItemShadowmetalHoe.name=Houe en métal d'ombre
+item.ItemShadowmetalSpade.name=Pelle en métal d'ombre
+item.ItemShadowmetalSword.name=Lame en métal d'ombre
+
+item.ItemPrimalBlade.name=Lame primaire
+
+#WANDS
+
+item.ItemWandRod.0.name=Manche en bois distordu
+item.ItemWandRod.1.name=Base de bâton en bois distordu
+
+item.ItemWandCap.0.name=Embout en métal d'ombre
+item.ItemWandCap.1.name=Embout en tissu enchanté
+item.ItemWandCap.2.name=Embout en tissu teinté de cramoisi
+item.ItemWandCap.3.name=Embout en tissu imprégné d'ombre
+
+item.Wand.warpwood.rod=en bois distordu à l'aspect primaire
+
+item.Wand.shadowmetal.cap=à embout de métal d'ombre
+item.Wand.cloth.cap=à embout de tissu enchanté
+item.Wand.crimsoncloth.cap=à embout de tissu cramoisi
+item.Wand.shadowcloth.cap=à embout de tissu d'ombre
+
+#------------------- RESEARCH -------------------
+
+tc.research_category.TAINTEDMAGIC=Obscura
+
+#TAINTEDMAGIC
+tm.name.TAINTEDMAGIC=Une découverte troublante
+tm.tag.TAINTEDMAGIC=Qui a écrit ceci ?
+tm.text.TAINTEDMAGIC.1=Alors que vous exploriez le monde en quête de savoir magique, vous êtes tombé sur quelque chose de plutôt troublant : une page tachée de sang qui semble provenir d'un Thaumonomicon. D'après ce que vous en comprenez, elle parle de magie noire.<IMG>taintedmagic:textures/misc/p_taintedmagic.png:0:255:255:255:.42</IMG>
+tm.text.TAINTEDMAGIC.2=Bien que la page soit à peine lisible, un étrange sentiment vous envahit lorsque vous tentez de déchiffrer son écriture en pattes d'araignée. On dirait presque une migraine... mais pas tout à fait.<BR>Les ténèbres vous intriguent, même si elles mènent sur un chemin dangereux. Peut-être vous fixerez-vous pour but de comprendre un jour cette étrange magie. Après tout, l'idée d'une aventure vers l'inconnu est exaltante.
+
+#SHADOWMETAL
+tm.name.SHADOWMETAL=Métal d'ombre
+tm.tag.SHADOWMETAL=Une découverte accidentelle
+tm.text.SHADOWMETAL.1=Un jour, alors que vous transmutiez quelque chose dans votre creuset, vous avez raté une recette et laissé tomber par mégarde un peu de fer dans le mélange bouillonnant ; à votre grande surprise, il en est sorti un mystérieux lingot de métal.<BR>Vous avez décidé de le nommer métal d'ombre. Il est extrêmement lourd et semble très résistant, mais il est hautement instable et difficile à travailler. Vous devrez sans doute l'utiliser avec un autre métal magique.<BR>§oVous collez votre oreille contre cette étrange substance et entendez de faibles murmures. Seriez-vous en train de perdre la raison ? Qui sait.
+
+#CAP_shadowmetal
+tm.name.CAP_shadowmetal=Embouts en métal d'ombre pour baguette
+tm.tag.CAP_shadowmetal=Clair de lune sans ténèbres
+tm.text.CAP_shadowmetal.1=En infusant des embouts en métal du Vide avec du métal d'ombre ainsi qu'avec les énergies primaires d'une Perle primordiale, vous avez réussi à créer des embouts en métal d'ombre. Comme le métal d'ombre canalise la vis avec une efficacité incroyable, ces embouts accordent une généreuse réduction de vis de 35%.
+
+#ROD_warpwood
+tm.name.ROD_warpwood=Manche en bois distordu pour baguette
+tm.tag.ROD_warpwood=C'est la baguette qui choisit le thaumaturge...
+tm.text.ROD_warpwood.1=En combinant le bois magique d'un arbre distordu avec d'autres puissants réactifs, vous avez façonné un manche de baguette capable de stocker 250 unités de chaque type de vis.<BR>Vous avez remarqué que votre psyché déformée entre en résonance avec ce manche, ce qui lui permet de reconstituer peu à peu sa réserve de vis. À mesure que votre esprit se déforme sous l'effet des magies interdites, la résonance du manche se renforce et accélère cette régénération.<BR>§oAujourd'hui, ma baguette s'est mise à me murmurer d'étranges choses.
+
+#ROD_warpwood_staff
+tm.name.ROD_warpwood_staff=Base de bâton en bois distordu
+tm.tag.ROD_warpwood_staff=...on ne sait pas toujours pourquoi
+tm.text.ROD_warpwood_staff.1=D'ordinaire, on façonne une base de bâton en combinant deux manches de baguette avec un Charme primaire. Cette méthode a échoué pour créer un bâton en bois distordu. Remplacer le Charme primaire par un réactif primaire plus puissant, la Perle primordiale, semble avoir fait l'affaire.<BR>Cette base de bâton peut stocker 500 unités de chaque type de vis ; de plus, elle possède elle aussi la capacité du manche en bois distordu à régénérer la vis.
+
+#UNBALANCEDSHARDS
+tm.name.UNBALANCEDSHARDS=Cristaux déséquilibrés
+tm.tag.UNBALANCEDSHARDS=Un battement de cœur sans harmonie
+tm.text.UNBALANCEDSHARDS.1=Appliquer certains aspects à un Cristal équilibré a produit des effets plutôt intéressants. Vous avez décidé d'appeler ce procédé le §odéséquilibrage§r.<BR>Jusqu'à présent, vous avez créé le Cristal déséquilibré corrompu et le Cristal déséquilibré distordu.
+
+#CRIMSONROBES
+tm.name.CRIMSONROBES=Couture cramoisie
+tm.tag.CRIMSONROBES=Rouge comme les roses
+tm.text.CRIMSONROBES.1=En teintant du Tissu enchanté avec du sang cramoisi, vous avez parfaitement reproduit l'étoffe dans laquelle le Culte cramoisi confectionne ses robes.<BR>Grâce au tissu teinté de cramoisi (voir à droite) et à quelques matériaux ordinaires, vous avez pu reproduire chacune des pièces de la robe portée par un Clerc cramoisi. Leurs recettes sont inscrites dans les pages suivantes.
+
+#KNIGHTROBES
+tm.name.KNIGHTROBES=Forge cramoisie
+tm.tag.KNIGHTROBES=Les chevaliers de la Table ronde
+tm.text.KNIGHTROBES.1=En infusant du fer avec du sang cramoisi, vous avez parfaitement reproduit le matériau dont le Culte cramoisi recouvre ses armures.<BR>Grâce à la plaque cramoisie (voir à droite) et à quelques matériaux ordinaires, vous avez pu reproduire chacune des pièces d'armure portées par un Chevalier cramoisi. Leurs recettes sont inscrites dans les pages suivantes.
+
+#PRAETORARMOR
+tm.name.PRAETORARMOR=Forge cramoisie avancée
+tm.tag.PRAETORARMOR=Le rideau final
+tm.text.PRAETORARMOR.1=Peut-être avez-vous déjà rencontré le chef du Culte cramoisi, le Praetor cramoisi. Ou peut-être pas. Quoi qu'il en soit, vous avez au moins lu à son sujet dans un curieux ouvrage intitulé Rites cramoisis.<BR>Vous avez recréé l'armure du Praetor cramoisi en améliorant des pièces d'armure de Chevalier cramoisi.
+
+#CRIMSONBLADE
+tm.name.CRIMSONBLADE=Lame cramoisie
+tm.tag.CRIMSONBLADE=Ce sera là ma miséricorde
+tm.text.CRIMSONBLADE.1=En infusant une épée en métal du Vide avec du sang cramoisi, vous avez recréé la lame maniée par le chef du Culte cramoisi, le Praetor cramoisi.<BR>Cette lame possède la Grande Absorption, qui inflige faiblesse et faim.
+
+#VOIDFORTRESS
+tm.name.VOIDFORTRESS=Armure de la forteresse du Vide
+tm.tag.VOIDFORTRESS=Rien ne s'en échappera
+tm.text.VOIDFORTRESS.1=En suivant les mêmes principes que pour l'Armure de la forteresse en thaumium, vous avez façonné un ensemble similaire en métal du Vide. En utilisant le métal du Vide plutôt que le thaumium, vous avez accru non seulement l'efficacité de l'armure, mais aussi sa durabilité. Comme tout ce qui est fait principalement de métal du Vide, cette armure se répare d'elle-même avec le temps.<BR>Comme l'Armure de la forteresse classique, cette armure peut être améliorée par diverses visières et modifications.
+
+#WARPEDGOGGLES
+tm.name.WARPEDGOGGLES=Lunettes de révélation distordues
+tm.tag.WARPEDGOGGLES=Le cœur révélateur
+tm.text.WARPEDGOGGLES.1=Vous avez amélioré la protection offerte par vos Lunettes de révélation en les infusant avec du métal d'ombre et une goutte de vif-argent.<BR>§oL'un des verres des lunettes s'est voilé pendant l'infusion, provoquant d'étranges visions lorsqu'on les porte. Curieusement, cela ne vous dérange pas.
+
+#TAINTFOCUS
+tm.name.TAINTFOCUS=Foci de baguette : Essaim corrompu
+tm.tag.TAINTFOCUS=Un étrange choix de familier
+tm.text.TAINTFOCUS.1=En combinant votre connaissance des créatures corrompues avec votre étude des focis de baguette, vous avez créé un foci qui invoque un Essaim corrompu amical pour combattre à vos côtés. L'essaim n'attaquera que l'ennemi ciblé au moment de lancer le sort. Si la cible meurt ou disparaît mystérieusement, l'essaim mourra également.<BR>Malheureusement, il semblerait que ce foci ne fonctionne pas dans les mondes « paisibles ».<BR>Il convient d'être prudent en utilisant ce foci, car il n'est pas rare de contracter divers maux liés à la corruption lors de son utilisation.
+
+#ELDRITCHFOCUS
+tm.name.ELDRITCHFOCUS=Foci de baguette : Matière noire
+tm.tag.ELDRITCHFOCUS=Avada Kedavra
+tm.text.ELDRITCHFOCUS.1=Vous avez créé un foci de baguette qui vous permet de manier la magie d'un Gardien surnaturel. Lorsqu'il est lancé, ce foci conjure un orbe destructeur de matière noire concentrée.<BR>Il est conseillé de faire preuve de prudence en utilisant ce foci, car il possède un fort effet de Warp.
+
+tm.name.DIFFUSIONUPGRADE=Amélioration de rang 5 : Diffusion
+tm.tag.DIFFUSIONUPGRADE=Endoloris
+tm.text.DIFFUSIONUPGRADE.1=Vous avez créé une amélioration de rang 5 applicable au foci de matière noire. Avec cette amélioration, le foci projettera un nuage continu de matière noire, drainant la vie de tout ce qui se trouve sur son passage.
+
+#WARPTREE
+tm.name.WARPTREE=Arbre distordu
+tm.tag.WARPTREE=Il rend les coups
+tm.text.WARPTREE.1=Vous avez créé un curieux engrais qui, appliqué à une Pousse de bois d'argent, la transforme en une version distordue d'elle-même. Imprégné d'une puissante magie corrompue, l'arbre distordu est, en tout point, l'opposé d'un arbre de bois d'argent.<BR>Il est conseillé de faire preuve de prudence près d'un arbre distordu, car de la belladone vénéneuse pousse souvent à son pied.
+
+#SHADOWCLOTH
+tm.name.SHADOWCLOTH=Tissu imprégné d'ombre
+tm.tag.SHADOWCLOTH=Étoffe du voile noir
+tm.text.SHADOWCLOTH.1=En combinant du Tissu enchanté avec du métal d'ombre, vous avez créé un nouveau matériau magique : le tissu imprégné d'ombre. Vous êtes certain qu'il sera utile pour fabriquer de l'équipement magique.
+
+#VOIDWALKERBOOTS
+tm.name.VOIDWALKERBOOTS=Bottes du Marcheur du Vide
+tm.tag.VOIDWALKERBOOTS=Nuée de ténèbres
+tm.text.VOIDWALKERBOOTS.1=Vous avez amélioré vos Bottes du voyageur en les infusant avec le pouvoir du Vide.<BR>Les Bottes du Marcheur du Vide offrent une protection remarquable et une immunité aux dégâts de chute, ainsi qu'un généreux bonus de vitesse.
+
+#BREAKPEARL
+tm.name.BREAKPEARL=Fragmentation de Perle primordiale
+tm.tag.BREAKPEARL=Une précision minutieuse
+tm.text.BREAKPEARL.1=En travaillant avec des Perles primordiales, vous vous êtes rendu compte que vous n'aviez pas toujours besoin d'une perle entière. Pour résoudre ce problème, vous avez mis au point une méthode permettant de fragmenter magiquement la perle en §onodules§r de taille moyenne et en petites §oparticules§r.
+
+#CREATIONSHARD
+tm.name.CREATIONSHARD=Éclat de Création
+tm.tag.CREATIONSHARD=J'ai vu la vérité
+tm.text.CREATIONSHARD.1=Tout ce que vous avez étudié jusqu'ici a enfin convergé pour vous révéler la clé fondamentale des secrets de l'univers.<BR>L'Éclat de Création : un éclat de magie primaire condensée, renfermant des énergies immémoriales venues d'une époque où l'univers n'existait pas encore. En utilisant cet éclat comme source de puissance, vous avez accès à une magie capable d'altérer le tissu même de l'existence.<BR>§oDès que l'infusion fut achevée, une sensation de clarté envahit votre esprit tourmenté ; vous avez eu une révélation, tout vous paraît clair à présent. Vous n'êtes pas fou.
+
+#CREATION
+tm.name.CREATION=Création
+tm.tag.CREATION=Ce qui était avant
+tm.text.CREATION.1=À l'instant où vous avez touché l'Éclat de Création, forgé à partir d'une puissance que vous comprenez à peine, vous avez ressenti quelque chose. Comme si l'univers tout entier avait basculé.<BR>Votre corps s'est engourdi et, pour la première fois depuis que vous avez ouvert le Thaumonomicon, les voix... elles se sont tues.<BR>Vous avez vu à travers ce que les voix vous ont toujours caché. À travers les mensonges, à travers la folie, à travers le voile entre les mondes. Vous avez vu la §5Création§0...<LINE>
+tm.text.CREATION.2=Il y a des éons, alors que le monde que vous connaissez n'existait pas encore, la formation d'un autre univers commença. Les énergies primaires, sous forme de vis, jaillissant d'au-delà de la réalité, s'entrechoquèrent, se mêlèrent et, avec le temps, créèrent.<BR>Un univers vierge, surgissant du néant pour exister.<BR>Les énergies qui créèrent ce monde, cependant, ne le quittèrent pas. Elles restèrent, se tordirent et devinrent une part de ce nouveau lieu, tout comme l'eau et l'air dans votre monde.
+tm.text.CREATION.3=Si l'on accorde assez de temps à un univers, la vie finit toujours par y apparaître, et cet univers ne fit pas exception. Une race d'êtres déformés par la puissance et tordus par la magie ; chaque écrit que vous avez lu à leur sujet les nomme les Surnaturels.<BR>Le temps passa, et les Surnaturels développèrent la magie. Ils la pratiquèrent, l'affinèrent, et elle devint très semblable à la thaumaturgie que vous pratiquez, à une différence près.<BR>Le Warp imprégnait chaque mot qu'ils écrivaient. Distorsion, flux et corruption. Leur magie ne pouvait rien accomplir sans une réaction bien plus grande que l'action.
+tm.text.CREATION.4=Alors, ils décidèrent d'enfreindre les règles. Ils décidèrent de créer un nouvel univers. Un univers sans leurs limites, sans le Warp qui accablait le leur.<BR>Ils se mirent à manipuler l'énergie primaire, la faisant s'entrechoquer sous les formes qui feraient jaillir l'étincelle de la création. Cependant, juste avant que cet univers ne soit créé, ils scindèrent les forces en deux.<BR>Le pouvoir de la création fut placé dans une moitié, et la matière créée dans l'autre.
+tm.text.CREATION.5=Ils obtinrent ainsi deux mondes... Un Néant sans fin, et la Surface.<BR>Néanmoins, le voile entre ces deux mondes était fragile, et la puissance contenue dans le Néant était trop dangereuse pour la laisser entre des mains inexpérimentées.<BR>Alors, les Surnaturels condensèrent des fragments de l'énergie de la création en Perles primordiales et bâtirent des labyrinthes où elles seraient scellées... Les Terres extérieures. Pour protéger les Perles, ils créèrent les Gardiens, qui veillaient à ce que seuls les plus dignes puissent obtenir ce pouvoir, car il serait dévastateur s'il était mal employé.
+tm.text.CREATION.6=Des éons plus tard, vous voici ; vous qui avez marché dans l'éternité et en êtes ressorti triomphant.<BR>Vous tenez un fragment du pouvoir qui servit à créer l'univers...<BR>Avec ce fragment de Création, vous avez forgé la dernière pièce du puzzle : l'Éclat de Création.<BR>Les limites qui vous entravaient autrefois ont été balayées, tout comme les Surnaturels ont balayé les leurs. Avec ceci, même les dieux fuiraient devant vous.
+
+#THAUMICDISASSEMBLER
+tm.name.THAUMICDISASSEMBLER=Désassembleur thaumique
+tm.tag.THAUMICDISASSEMBLER=Quand la magie rencontre la technologie
+tm.text.THAUMICDISASSEMBLER.1=Vous avez construit un outil multifonction magique de haute technologie que vous avez nommé le Désassembleur thaumique. Il brise facilement tous les types de blocs, peut labourer la terre et constitue également une arme honorable, évitant à son utilisateur de changer constamment d'outil. Faites Maj+clic droit avec l'outil en main pour passer d'un mode d'efficacité à l'autre.<BR>Le Désassembleur doit être chargé en vis d'entropie pour être utilisable. Il se recharge automatiquement en puisant la vis des baguettes, bâtons ou bibelots présents dans l'inventaire de l'utilisateur.
+
+#SKYSALT
+tm.name.SKYSALT=Salis Tempestas
+tm.tag.SKYSALT=Susano'o
+tm.text.SKYSALT.1=En combinant un Fragment de Création avec d'autres ingrédients magiques, vous avez créé un nouveau type de salis bien utile.<BR>Une fois jeté dans le monde, le salis commence à interagir avec les magies de création du monde. Au bout de quelques secondes, l'objet se dissipe. Lorsqu'il se dissipe, si le ciel est orageux, il s'éclaircit ; si le ciel est dégagé, il devient orageux.
+
+#TIMESALT
+tm.name.TIMESALT=Salis Aevum
+tm.tag.TIMESALT=Amaterasu
+tm.text.TIMESALT.1=En combinant un Fragment de Création avec d'autres ingrédients magiques, vous avez créé un nouveau type de salis bien utile.<BR>Une fois jeté dans le monde, le salis commence à interagir avec les magies de création du monde. Au bout de quelques secondes, l'objet se dissipe. Lorsqu'il se dissipe, s'il fait nuit, le jour se lève ; s'il fait jour, la nuit tombe.
+
+#VOIDSASH
+tm.name.VOIDSASH=Écharpe de blindage runique du Marcheur du Vide
+tm.tag.VOIDSASH=Vitesse lumière
+tm.text.VOIDSASH.1=Vous avez conçu un accessoire runique imprégné du pouvoir du Vide. L'Écharpe de blindage runique du Marcheur du Vide offre §6Bouclier runique +20§0. Elle s'équipe dans l'emplacement de ceinture.<BR>Portée avec les Bottes du Marcheur du Vide, elle accorde un bonus de vitesse supplémentaire. Faites Maj+clic droit avec l'écharpe en main pour activer ou désactiver cet effet.
+
+#VISHROOMCRAFT
+tm.name.VISHROOMCRAFT=Transmutation de chamvisgnons
+tm.tag.VISHROOMCRAFT=Satanés champignons
+tm.text.VISHROOMCRAFT.1=Les chamvisgnons : le fléau de tout thaumaturge. Chaque fois que vous traversez une forêt magique, vous finissez immanquablement par marcher sur l'un de ces satanés champignons, ce qui vous rend malade.<BR>Après avoir marché sur un champignon de trop, vous avez eu une vision (sans doute provoquée par le champignon). Cette brève révélation vous a permis de découvrir une méthode pour transmuter des chamvisgnons à partir de champignons ordinaires. Pourquoi voudrait-on créer des chamvisgnons ? Vous n'en avez aucune idée.
+
+#MAGICFUNGUAR
+tm.name.MAGICFUNGUAR=Champignon magique
+tm.tag.MAGICFUNGUAR=Comestibles
+tm.text.MAGICFUNGUAR.1=Vous avez récemment fait des expériences avec des chamvisgnons et vous en êtes venu à penser que leurs effets ne sont pas si mauvais.<BR>Après avoir combiné un chamvisgnon avec un cristal magique et quelques ingrédients ordinaires, le champignon est devenu §ocomestible.§r Une fois mangé, il vous accorde une brève série d'effets bénéfiques ainsi que des points de recherche aléatoires.
+
+#HOLLOWDAGGER
+tm.name.HOLLOWDAGGER=Dague creuse
+tm.tag.HOLLOWDAGGER=Phlébotomie
+tm.text.HOLLOWDAGGER.1=En façonnant une dague à partir d'un manche en os creux et d'autres matériaux, vous disposez désormais d'un moyen efficace de recueillir le sang de vos ennemis. Si vous avez une Fiole en verre vide dans votre inventaire, une fiole se remplira de sang lorsque vous poignarderez un ennemi avec cette lame.<BR>En y regardant de plus près, vous avez remarqué que le sang recueilli ainsi possède des propriétés intéressantes, notamment sa couleur cramoisie profonde. Plus intéressant encore, ce sang si particulier semble posséder des propriétés similaires à celles des artefacts que vous avez précédemment récupérés auprès du Culte cramoisi.
+
+#MACEFOCUS
+tm.name.MACEFOCUS=Foci de baguette : Masse du mage
+tm.tag.MACEFOCUS=Rééquipement
+tm.text.MACEFOCUS.1=En infusant un bloc de fer avec quelques objets tranchants, vous avez créé un foci de baguette qui agit comme une masse, transformant votre baguette ou votre bâton en arme de mêlée.<BR>Un petit coût en vis est requis à chaque fois qu'un ennemi est frappé. Si la vis nécessaire n'est pas disponible, aucun dégât ne sera infligé.<BR>Améliorer ce foci avec Puissance augmente les dégâts d'attaque de la masse de +1 par niveau.
+
+#SHADOWFORTRESS
+tm.name.SHADOWFORTRESS=Armure de la forteresse d'ombre
+tm.tag.SHADOWFORTRESS=Samouraï de la nuit
+tm.text.SHADOWFORTRESS.1=En suivant le modèle utilisé pour créer l'Armure de la forteresse en thaumium et en métal du Vide, vous avez fabriqué un ensemble similaire en métal d'ombre.<BR>Bien que cette armure n'ait pas hérité de la capacité d'autoréparation du métal du Vide, elle protège mieux que l'Armure de la forteresse du Vide. De plus, porter plusieurs pièces de cet ensemble augmente considérablement sa protection globale.<BR>Comme l'Armure de la forteresse faite d'autres matériaux, cette armure peut être améliorée par diverses visières et modifications.
+
+#CAP_cloth
+tm.name.CAP_cloth=Embouts en tissu enchanté
+tm.tag.CAP_cloth=Noué d'un ruban
+tm.text.CAP_cloth.1=Vous avez conçu des embouts de baguette bon marché en Tissu enchanté. Bien qu'ils soient simples à fabriquer, ces embouts offrent une réduction de vis de 3%, sans doute grâce aux propriétés enchantées du tissu.
+
+#CAP_crimsoncloth
+tm.name.CAP_crimsoncloth=Embouts en tissu teinté de cramoisi
+tm.tag.CAP_crimsoncloth=Teinté de rouge
+tm.text.CAP_crimsoncloth.1=Les embouts de baguette en Tissu enchanté s'étant révélés concluants, vous avez décidé de faire de même avec du tissu teinté de cramoisi. Ces embouts canalisent la vis un peu mieux que ceux en simple Tissu enchanté et offrent une réduction de vis de 7%.
+
+#CAP_shadowcloth
+tm.name.CAP_shadowcloth=Embouts en tissu imprégné d'ombre
+tm.tag.CAP_shadowcloth=Noué d'un ruban (noir)
+tm.text.CAP_shadowcloth.1=Les embouts de baguette en Tissu enchanté s'étant révélés concluants, vous avez décidé de faire de même avec du tissu imprégné d'ombre. Ces embouts canalisent la vis un peu mieux que ceux en simple Tissu enchanté et offrent une réduction de vis de 7%.
+
+#FOCUSSHOCKWAVE
+tm.name.FOCUSSHOCKWAVE=Foci de baguette : Onde de choc
+tm.tag.FOCUSSHOCKWAVE=Opposition magique
+tm.text.FOCUSSHOCKWAVE.1=Vous avez conçu un foci de baguette défensif à zone d'effet, lié à l'aspect de la foudre.<BR>Lorsqu'il est lancé, ce foci projette un violent éclair sur chaque ennemi proche, lui infligeant un coup puissant, le soulevant et le projetant loin de vous.
+
+#PRIMALBLADE
+tm.name.PRIMALBLADE=Lame primaire
+tm.tag.PRIMALBLADE=Kamui
+tm.text.PRIMALBLADE.1=Vous avez élargi votre panoplie d'outils primaires en concevant une lame imprégnée des aspects primaires.<BR>La Lame primaire inflige d'excellents dégâts d'attaque et se répare d'elle-même avec le temps. En maintenant le clic droit, vous créez un champ gravitationnel qui attire vers vous tous les ennemis proches. La lame possède également l'Absorption primaire, qui inflige des effets de flétrissement et de faiblesse.<BR>Il convient d'être prudent en maniant cette lame, car elle possède un fort effet de Warp.
+
+#VOIDBLOOD
+tm.name.VOIDBLOOD=Sang imprégné de Vide
+tm.tag.VOIDBLOOD=Jus de Cthulhu
+tm.text.VOIDBLOOD.1=À l'aide de sang cramoisi, vous avez créé un élixir qui exploite les propriétés régénératrices du métal du Vide.<BR>Appliquer cet élixir à une armure dans une grille d'artisanat lui permettra de se réparer d'elle-même avec le temps.
+
+#THAUMIUMKATANA
+tm.name.THAUMIUMKATANA=Lame de la forteresse en thaumium
+tm.tag.THAUMIUMKATANA=Rien ne survivra
+tm.text.THAUMIUMKATANA.1=Vous avez amélioré une épée en thaumium en employant des techniques similaires à celles utilisées pour l'Armure de la forteresse. Les dégâts d'attaque de la lame ont été augmentés, et sa durabilité accrue pour qu'elle ne se brisera jamais.<BR>Lorsque vous tenez la lame, une jauge runique devient visible. La lame se charge en maintenant le clic droit jusqu'à ce que la jauge soit pleine. En relâchant une frappe chargée, des dégâts supplémentaires sont infligés, avec une chance de porter un coup critique.<BR>La lame reste au fourreau à votre hanche lorsque vous ne l'utilisez pas.
+
+#VOIDMETALKATANA
+tm.name.VOIDMETALKATANA=Lame de la forteresse en métal du Vide
+tm.tag.VOIDMETALKATANA=Le troisième œil
+tm.text.VOIDMETALKATANA.1=En suivant le même procédé que pour la Lame de la forteresse en thaumium, vous avez conçu une Lame de la forteresse en métal du Vide.<BR>La Lame de la forteresse en métal du Vide est non seulement plus puissante que son équivalent en thaumium, mais possède aussi l'effet Faible Absorption, qui affaiblit ceux qu'elle frappe.<BR>Cette lame peut également être améliorée par diverses inscriptions.
+
+#SHADOWMETALKATANA
+tm.name.SHADOWMETALKATANA=Lame de la forteresse en métal d'ombre
+tm.tag.SHADOWMETALKATANA=Midare setsugekka
+tm.text.SHADOWMETALKATANA.1=En suivant le même procédé que pour les Lames de la forteresse en thaumium et en métal du Vide, vous avez conçu une Lame de la forteresse en métal d'ombre.<BR>La Lame de la forteresse en métal d'ombre possède l'effet Grande Absorption, qui inflige faiblesse et faim à ceux qu'elle frappe.<BR>Cette lame peut également être améliorée par diverses inscriptions.
+
+#INSCRIPTIONFIRE
+tm.name.INSCRIPTIONFIRE=Inscription du Démon enragé
+tm.tag.INSCRIPTIONFIRE=Amélioration de Lame de la forteresse
+tm.text.INSCRIPTIONFIRE.1=Vous avez amélioré votre Lame de la forteresse en y gravant des runes.<BR>Cette inscription permet à votre lame d'infliger des dégâts de feu, qui embrasent les ennemis.<BR>De plus, en relâchant une frappe entièrement chargée, votre lame projettera une boule de feu explosive. Maintenez Maj pour annuler cet effet et relâcher une frappe chargée normale.
+
+#INSCRIPTIONTHUNDER
+tm.name.INSCRIPTIONTHUNDER=Inscription de l'Esprit vengeur
+tm.tag.INSCRIPTIONTHUNDER=Amélioration de Lame de la forteresse
+tm.text.INSCRIPTIONTHUNDER.1=Vous avez amélioré votre Lame de la forteresse en y gravant des runes.<BR>Cette inscription permet à votre lame d'infliger des dégâts magiques, qui ralentissent les ennemis.<BR>De plus, en relâchant une frappe entièrement chargée, tous les ennemis proches seront projetés loin de vous et blessés par la magie. Maintenez Maj pour annuler cet effet et relâcher une frappe chargée normale.
+
+#INSCRIPTIONHEAL
+tm.name.INSCRIPTIONHEAL=Inscription de la Déesse bienveillante
+tm.tag.INSCRIPTIONHEAL=Amélioration de Lame de la forteresse
+tm.text.INSCRIPTIONHEAL.1=Vous avez amélioré votre Lame de la forteresse en y gravant des runes.<BR>Cette inscription permet à votre lame d'infliger des dégâts magiques, qui infligent un effet de flétrissement aux ennemis.<BR>De plus, en relâchant une frappe entièrement chargée, vous serez soigné et recevrez une brève série d'effets de potion bénéfiques. Plus vous êtes proche de la mort, plus le soin est puissant. En outre, tous les ennemis proches subiront un effet de flétrissement lorsque vous vous soignez. Maintenez Maj pour annuler cet effet et relâcher une frappe chargée normale.
+
+#VOIDGOGGLES
+tm.name.VOIDGOGGLES=Lunettes de révélation en métal du Vide
+tm.tag.VOIDGOGGLES=Les fous ne savent rien
+tm.text.VOIDGOGGLES.1=En infusant vos Lunettes de révélation distordues avec du métal du Vide, vous avez créé une paire de lunettes qui se répare d'elle-même et offre une réduction de vis extrêmement élevée.<BR>Hélas, elles protègent moins bien que les Lunettes de révélation distordues d'origine.
+
+#FOCUSSHARD
+tm.name.FOCUSSHARD=Foci de baguette : Cristal de vis
+tm.tag.FOCUSSHARD=Missile à tête chercheuse
+tm.text.FOCUSSHARD.1=En étudiant les différents types de cristaux, une idée incroyable vous est venue : et si vous pouviez animer un cristal de vis pour l'utiliser au combat ?<BR>Ce foci ne peut être lancé que si vous regardez un ennemi. Le cristal flottera dans les airs en se dirigeant vers sa cible, et éclatera au contact.<BR>Il semblerait que le cristal rebondisse également sur les blocs solides.
+
+#FOCUSLUMOS
+tm.name.FOCUSLUMOS=Foci de baguette : Lumos
+tm.tag.FOCUSLUMOS=C'est LeviOsa, pas LeviosA
+tm.text.FOCUSLUMOS.1=Vous avez conçu un foci qui convertit la vis en lumière.<BR>Lancez simplement votre baguette (ou votre bâton) sur un bloc et regardez une poche de lumière apparaître.<BR>De plus, tant que ce foci est équipé et que votre baguette ou votre bâton est en main, un effet de Vision nocturne permanent vous est appliqué.
+
+#LUMOSRING
+tm.name.LUMOSRING=Anneau de Lumos
+tm.tag.LUMOSRING=Éclairer le chemin
+tm.text.LUMOSRING.1=Vous avez créé un anneau inspiré du foci Lumos. Lorsque l'Anneau de Lumos est équipé, un effet de Vision nocturne permanent vous est appliqué.
+
+#FLYTECHARM
+tm.name.FLYTECHARM=Charme de vol
+tm.tag.FLYTECHARM=Les araignées d'Aurum
+tm.text.FLYTECHARM.1=En infusant une Flèche d'Air avec un Éclat de Création, vous avez créé un charme qui permet à son utilisateur de voler.<BR>Tant que le charme se trouve dans votre inventaire, vous pourrez voler au prix d'un peu de vis d'Air. Faites un double saut pour commencer à voler. Pendant une chute, maintenez Maj pour planer doucement jusqu'au sol.
+
+#GATEKEY
+tm.name.GATEKEY=Clé de la Porte céleste
+tm.tag.GATEKEY=Urano Metria
+tm.text.GATEKEY.1=Vous avez conçu une clé qui ouvre une porte, agissant comme un « raccourci » entre deux points de votre monde. La Clé de la Porte céleste vous permet de vous téléporter vers un point de retour lié. Les voyages interdimensionnels sont impossibles avec cet objet.<BR>Pour lier le point de retour de la clé, faites un clic droit sur le bloc où vous souhaitez revenir. Une fois liée, l'anneau de la clé prendra une couleur unique et sera lié §odéfinitivement§r à cet emplacement.<BR>Pour revenir à l'emplacement indiqué, il suffit de maintenir le clic droit pendant quelques secondes avec l'objet en main.

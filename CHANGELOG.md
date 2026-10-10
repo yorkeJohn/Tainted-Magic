@@ -1,5 +1,15 @@
 # Tainted Magic Changelog
 
+## Unreleased
+
+### Added
+
+- Added French (fr_FR) and Japanese (ja_JP) localization.
+
+### Fixed
+
+- Fixed outdated, inconsistent and mistranslated text in the Russian and Chinese localizations.
+
 ## 8.2.0
 
 ### Changed
